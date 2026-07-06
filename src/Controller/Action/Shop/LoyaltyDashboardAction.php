@@ -8,8 +8,10 @@ use Setono\SyliusLoyaltyPlugin\Ledger\LotReplayerInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Provider\Shop\TierProgressProviderInterface;
+use Setono\SyliusLoyaltyPlugin\Referral\ReferralCodeGeneratorInterface;
 use Setono\SyliusLoyaltyPlugin\Repository\LoyaltyAccountRepositoryInterface;
 use Setono\SyliusLoyaltyPlugin\Repository\LoyaltyTransactionRepositoryInterface;
+use Setono\SyliusLoyaltyPlugin\Repository\ReferralRepositoryInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
@@ -36,6 +38,9 @@ final class LoyaltyDashboardAction
         private readonly LoyaltyTransactionRepositoryInterface $transactionRepository,
         private readonly LotReplayerInterface $lotReplayer,
         private readonly TierProgressProviderInterface $tierProgressProvider,
+        private readonly ReferralCodeGeneratorInterface $referralCodeGenerator,
+        private readonly ReferralRepositoryInterface $referralRepository,
+        private readonly \Symfony\Component\Routing\Generator\UrlGeneratorInterface $urlGenerator,
         private readonly Environment $twig,
     ) {
     }
@@ -60,6 +65,7 @@ final class LoyaltyDashboardAction
             'pages' => (int) ceil($total / self::PAGE_SIZE),
             'expiringSoon' => $this->expiringSoon($account),
             'tierProgress' => null === $account ? null : $this->tierProgressProvider->getProgress($account),
+            'referral' => null === $account ? null : $this->referralBlock($account),
         ]));
     }
 
@@ -86,6 +92,24 @@ final class LoyaltyDashboardAction
         }
 
         return $rows;
+    }
+
+    /**
+     * @return array{code: string, shareUrl: string, stats: array{rewarded: int, pointsEarned: int}}
+     */
+    private function referralBlock(LoyaltyAccountInterface $account): array
+    {
+        $code = $this->referralCodeGenerator->getCode($account);
+
+        return [
+            'code' => $code,
+            'shareUrl' => $this->urlGenerator->generate(
+                'setono_sylius_loyalty_shop_referral_landing',
+                ['code' => $code],
+                \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL,
+            ),
+            'stats' => $this->referralRepository->getReferrerStats($account),
+        ];
     }
 
     /**

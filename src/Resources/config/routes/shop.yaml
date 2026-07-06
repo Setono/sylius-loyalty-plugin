@@ -1,3 +1,9 @@
+setono_sylius_loyalty_shop_referral_landing:
+    path: /r/{code}
+    methods: [GET]
+    defaults:
+        _controller: Setono\SyliusLoyaltyPlugin\Controller\Action\Shop\ReferralLandingAction
+
 setono_sylius_loyalty_shop_account_loyalty:
     path: /account/loyalty
     methods: [GET]

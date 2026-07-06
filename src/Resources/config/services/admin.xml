@@ -51,6 +51,13 @@
             <argument>%setono_sylius_loyalty.manual_adjustment_reasons%</argument>
         </service>
 
+        <service id="Setono\SyliusLoyaltyPlugin\Controller\Action\Admin\OverrideReferralAction" public="true">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\ReferralRepositoryInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Referral\ReferralQualifierInterface"/>
+            <argument type="service" id="security.csrf.token_manager"/>
+            <argument type="service" id="router"/>
+        </service>
+
         <service id="Setono\SyliusLoyaltyPlugin\Controller\Action\Admin\LintExpressionAction" public="true">
             <argument type="service" id="Setono\SyliusLoyaltyPlugin\Expression\ExpressionValidatorInterface"/>
         </service>

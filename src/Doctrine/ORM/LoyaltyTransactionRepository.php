@@ -4,15 +4,21 @@ declare(strict_types=1);
 
 namespace Setono\SyliusLoyaltyPlugin\Doctrine\ORM;
 
+use Setono\SyliusLoyaltyPlugin\Model\ClawbackLoyaltyTransaction;
+use Setono\SyliusLoyaltyPlugin\Model\ClawbackLoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\CreditLoyaltyTransaction;
+use Setono\SyliusLoyaltyPlugin\Model\CreditLoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\EarnOrderLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\EarnOrderLoyaltyTransactionInterface;
+use Setono\SyliusLoyaltyPlugin\Model\EarnReferralLoyaltyTransaction;
+use Setono\SyliusLoyaltyPlugin\Model\EarnReferralLoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\ExpireLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\RedeemLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\RedeemLoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\RedeemRollbackLoyaltyTransaction;
+use Setono\SyliusLoyaltyPlugin\Model\ReferralInterface;
 use Setono\SyliusLoyaltyPlugin\Repository\LoyaltyTransactionRepositoryInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -156,5 +162,27 @@ class LoyaltyTransactionRepository extends EntityRepository implements LoyaltyTr
             ->getQuery()
             ->getSingleScalarResult()
         ;
+    }
+
+    public function findEarnReferralTransactions(ReferralInterface $referral): array
+    {
+        /** @var list<EarnReferralLoyaltyTransactionInterface> $transactions */
+        $transactions = $this->getEntityManager()
+            ->getRepository(EarnReferralLoyaltyTransaction::class)
+            ->findBy(['referral' => $referral])
+        ;
+
+        return $transactions;
+    }
+
+    public function findClawbackForEarn(CreditLoyaltyTransactionInterface $earn): ?ClawbackLoyaltyTransactionInterface
+    {
+        $clawback = $this->getEntityManager()
+            ->getRepository(ClawbackLoyaltyTransaction::class)
+            ->findOneBy(['earn' => $earn])
+        ;
+        \assert(null === $clawback || $clawback instanceof ClawbackLoyaltyTransactionInterface);
+
+        return $clawback;
     }
 }

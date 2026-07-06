@@ -5,6 +5,7 @@
         <!-- Public: referenced by a winzou state-machine callback, which resolves it from the container at runtime -->
         <service id="Setono\SyliusLoyaltyPlugin\EventListener\ClawbackListener" public="true">
             <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyTransactionRepositoryInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\ReferralRepositoryInterface"/>
             <argument type="service" id="Setono\SyliusLoyaltyPlugin\Ledger\LoyaltyLedgerInterface"/>
             <!-- The winzou callback counterparts are prepended by the extension -->
             <tag name="kernel.event_listener" event="workflow.sylius_order.completed.cancel" method="onWorkflowCompleted"/>

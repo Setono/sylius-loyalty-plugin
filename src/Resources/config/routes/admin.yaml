@@ -96,3 +96,20 @@ setono_sylius_loyalty_admin_expression_lint:
     methods: [POST]
     defaults:
         _controller: Setono\SyliusLoyaltyPlugin\Controller\Action\Admin\LintExpressionAction
+
+setono_sylius_loyalty_admin_referral_index:
+    path: /loyalty/referrals
+    methods: [GET]
+    defaults:
+        _controller: setono_sylius_loyalty.controller.referral::indexAction
+        _sylius:
+            section: admin
+            permission: true
+            grid: setono_sylius_loyalty_admin_referral
+            template: "@SyliusAdmin/Crud/index.html.twig"
+
+setono_sylius_loyalty_admin_referral_override:
+    path: /loyalty/referrals/{id}/override
+    methods: [POST]
+    defaults:
+        _controller: Setono\SyliusLoyaltyPlugin\Controller\Action\Admin\OverrideReferralAction

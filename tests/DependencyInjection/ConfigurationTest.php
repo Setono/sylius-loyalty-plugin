@@ -11,6 +11,7 @@ use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\EarningRuleRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyAccountRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyProgramRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyTransactionRepository;
+use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\ReferralRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\TierRepository;
 use Setono\SyliusLoyaltyPlugin\Form\Type\EarningRuleConditionType;
 use Setono\SyliusLoyaltyPlugin\Form\Type\EarningRuleType;
@@ -28,6 +29,8 @@ use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgram;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgramInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyTransactionInterface;
+use Setono\SyliusLoyaltyPlugin\Model\Referral;
+use Setono\SyliusLoyaltyPlugin\Model\ReferralInterface;
 use Setono\SyliusLoyaltyPlugin\Model\Tier;
 use Setono\SyliusLoyaltyPlugin\Model\TierInterface;
 use Setono\SyliusLoyaltyPlugin\Model\TierTranslation;
@@ -58,6 +61,12 @@ final class ConfigurationTest extends TestCase
             'expression_editor' => [
                 'cdn_base_url' => 'https://esm.sh',
             ],
+            'referral' => [
+                'query_parameter' => 'ref',
+                'registration_ip_check' => false,
+                'ip_hash_salt' => '%kernel.secret%',
+                'reward_cap' => 10,
+            ],
             'retain_anonymized_ledger' => false,
             'resources' => [
                 'account' => self::resource(LoyaltyAccount::class, LoyaltyAccountInterface::class, LoyaltyAccountRepository::class),
@@ -66,6 +75,7 @@ final class ConfigurationTest extends TestCase
                 'earning_rule' => self::resource(EarningRule::class, EarningRuleInterface::class, EarningRuleRepository::class, EarningRuleType::class),
                 'earning_rule_condition' => self::resource(EarningRuleCondition::class, EarningRuleConditionInterface::class, null, EarningRuleConditionType::class),
                 'dry_run_result' => self::resource(DryRunResult::class, DryRunResultInterface::class),
+                'referral' => self::resource(Referral::class, ReferralInterface::class, ReferralRepository::class),
                 'tier' => self::resource(Tier::class, TierInterface::class, TierRepository::class, TierType::class) + [
                     'translation' => [
                         'classes' => [

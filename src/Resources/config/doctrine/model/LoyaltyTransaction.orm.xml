@@ -13,6 +13,7 @@
         <discriminator-map>
             <discriminator-mapping value="earn_order" class="Setono\SyliusLoyaltyPlugin\Model\EarnOrderLoyaltyTransaction"/>
             <discriminator-mapping value="earn_action" class="Setono\SyliusLoyaltyPlugin\Model\EarnActionLoyaltyTransaction"/>
+            <discriminator-mapping value="earn_referral" class="Setono\SyliusLoyaltyPlugin\Model\EarnReferralLoyaltyTransaction"/>
             <discriminator-mapping value="redeem_rollback" class="Setono\SyliusLoyaltyPlugin\Model\RedeemRollbackLoyaltyTransaction"/>
             <discriminator-mapping value="manual_credit" class="Setono\SyliusLoyaltyPlugin\Model\ManualCreditLoyaltyTransaction"/>
             <discriminator-mapping value="redeem" class="Setono\SyliusLoyaltyPlugin\Model\RedeemLoyaltyTransaction"/>
@@ -30,6 +31,8 @@
             <unique-constraint columns="account_id,type,source_identifier" name="setono_sylius_loyalty__transaction_account_type_source"/>
             <!-- Each redemption is rolled back at most once -->
             <unique-constraint columns="type,redeem_id" name="setono_sylius_loyalty__transaction_type_redeem"/>
+            <!-- Each referral rewards each party at most once -->
+            <unique-constraint columns="account_id,type,referral_id" name="setono_sylius_loyalty__transaction_account_type_referral"/>
         </unique-constraints>
 
         <indexes>

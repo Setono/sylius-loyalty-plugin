@@ -14,6 +14,7 @@
             <argument type="service" id="Setono\SyliusLoyaltyPlugin\EarningRule\EarningRuleEvaluatorInterface"/>
             <argument type="service" id="Setono\SyliusLoyaltyPlugin\EarningRule\DryRunLoggerInterface"/>
             <argument type="service" id="Setono\SyliusLoyaltyPlugin\Ledger\LoyaltyLedgerInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Referral\ReferralQualifierInterface"/>
             <argument type="service" id="logger"/>
             <argument>%sylius.model.order.class%</argument>
             <tag name="messenger.message_handler"/>

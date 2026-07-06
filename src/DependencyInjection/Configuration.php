@@ -8,6 +8,7 @@ use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\EarningRuleRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyAccountRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyProgramRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyTransactionRepository;
+use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\ReferralRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\TierRepository;
 use Setono\SyliusLoyaltyPlugin\Form\Type\EarningRuleConditionType;
 use Setono\SyliusLoyaltyPlugin\Form\Type\EarningRuleType;
@@ -25,6 +26,8 @@ use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgram;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgramInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyTransactionInterface;
+use Setono\SyliusLoyaltyPlugin\Model\Referral;
+use Setono\SyliusLoyaltyPlugin\Model\ReferralInterface;
 use Setono\SyliusLoyaltyPlugin\Model\Tier;
 use Setono\SyliusLoyaltyPlugin\Model\TierInterface;
 use Setono\SyliusLoyaltyPlugin\Model\TierTranslation;
@@ -68,6 +71,29 @@ final class Configuration implements ConfigurationInterface
                     ->info('On customer deletion, keep de-identified ledger rows (type, points, dates, channel) linked to an opaque account token for accounting continuity, instead of deleting everything (the default)')
                     ->defaultFalse()
                 ->end()
+                ->arrayNode('referral')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('query_parameter')
+                            ->info('The query parameter recognized as a referral code on any shop URL, e.g. /products/foo?ref=CODE')
+                            ->defaultValue('ref')
+                            ->cannotBeEmpty()
+                        ->end()
+                        ->booleanNode('registration_ip_check')
+                            ->info('Enable the registration-IP fraud check. Opt-in: it stores a salted IP hash on the referral, purged after 90 days')
+                            ->defaultFalse()
+                        ->end()
+                        ->scalarNode('ip_hash_salt')
+                            ->info('Salt for the registration-IP hash; set your own secret when enabling the IP check')
+                            ->defaultValue('%kernel.secret%')
+                            ->cannotBeEmpty()
+                        ->end()
+                        ->integerNode('reward_cap')
+                            ->info('Maximum rewarded referrals per referrer per 30 days before the cap fraud check flags')
+                            ->defaultValue(10)
+                        ->end()
+                    ->end()
+                ->end()
                 ->arrayNode('expression_editor')
                     ->addDefaultsIfNotSet()
                     ->children()
@@ -102,6 +128,7 @@ final class Configuration implements ConfigurationInterface
         $this->addResourceNode($resources, 'earning_rule', EarningRule::class, EarningRuleInterface::class, EarningRuleRepository::class, EarningRuleType::class);
         $this->addResourceNode($resources, 'earning_rule_condition', EarningRuleCondition::class, EarningRuleConditionInterface::class, null, EarningRuleConditionType::class);
         $this->addResourceNode($resources, 'dry_run_result', DryRunResult::class, DryRunResultInterface::class);
+        $this->addResourceNode($resources, 'referral', Referral::class, ReferralInterface::class, ReferralRepository::class);
         $this->addResourceNode($resources, 'tier', Tier::class, TierInterface::class, TierRepository::class, TierType::class, [
             'model' => TierTranslation::class,
             'interface' => TierTranslationInterface::class,

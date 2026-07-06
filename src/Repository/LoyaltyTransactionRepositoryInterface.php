@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace Setono\SyliusLoyaltyPlugin\Repository;
 
+use Setono\SyliusLoyaltyPlugin\Model\ClawbackLoyaltyTransactionInterface;
+use Setono\SyliusLoyaltyPlugin\Model\CreditLoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\EarnOrderLoyaltyTransactionInterface;
+use Setono\SyliusLoyaltyPlugin\Model\EarnReferralLoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\RedeemLoyaltyTransactionInterface;
+use Setono\SyliusLoyaltyPlugin\Model\ReferralInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 
@@ -60,4 +64,16 @@ interface LoyaltyTransactionRepositoryInterface extends RepositoryInterface
      * this sum.
      */
     public function sumPointsNewerThan(LoyaltyAccountInterface $account, LoyaltyTransactionInterface $transaction): int;
+
+    /**
+     * Both parties' reward credits for a referral.
+     *
+     * @return list<EarnReferralLoyaltyTransactionInterface>
+     */
+    public function findEarnReferralTransactions(ReferralInterface $referral): array;
+
+    /**
+     * The clawback that already compensates the given credit, if any.
+     */
+    public function findClawbackForEarn(CreditLoyaltyTransactionInterface $earn): ?ClawbackLoyaltyTransactionInterface;
 }

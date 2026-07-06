@@ -19,7 +19,7 @@ final class ClawingBackPoints
     public function __construct(
         private readonly LoyaltyAccountInterface $account,
         private int $points,
-        private readonly OrderInterface $order,
+        private readonly ?OrderInterface $order,
         private readonly CreditLoyaltyTransactionInterface $earn,
     ) {
     }
@@ -39,7 +39,7 @@ final class ClawingBackPoints
         $this->points = $points;
     }
 
-    public function getOrder(): OrderInterface
+    public function getOrder(): ?OrderInterface
     {
         return $this->order;
     }

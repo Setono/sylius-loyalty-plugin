@@ -7,14 +7,17 @@ namespace Setono\SyliusLoyaltyPlugin\Ledger;
 use Setono\SyliusLoyaltyPlugin\Exception\InsufficientBalanceException;
 use Setono\SyliusLoyaltyPlugin\Exception\LedgerConflictException;
 use Setono\SyliusLoyaltyPlugin\Model\ClawbackLoyaltyTransactionInterface;
+use Setono\SyliusLoyaltyPlugin\Model\CreditLoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\EarnActionLoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\EarnOrderLoyaltyTransactionInterface;
+use Setono\SyliusLoyaltyPlugin\Model\EarnReferralLoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\ExpireLoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface;
 use Setono\SyliusLoyaltyPlugin\Model\ManualCreditLoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\ManualDebitLoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\RedeemLoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\RedeemRollbackLoyaltyTransactionInterface;
+use Setono\SyliusLoyaltyPlugin\Model\ReferralInterface;
 use Sylius\Component\Core\Model\AdminUserInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 
@@ -57,6 +60,16 @@ interface LoyaltyLedgerInterface
      * @throws InsufficientBalanceException if the balance no longer covers the points
      * @throws LedgerConflictException if the account is disabled or a listener cancelled the redemption
      */
+    /**
+     * Credits referral reward points, idempotent per (account, referral).
+     */
+    public function earnReferral(
+        LoyaltyAccountInterface $account,
+        int $points,
+        ReferralInterface $referral,
+        ?\DateTimeImmutable $expiresAt = null,
+    ): ?EarnReferralLoyaltyTransactionInterface;
+
     public function redeem(OrderInterface $order, int $points): ?RedeemLoyaltyTransactionInterface;
 
     /**
@@ -78,6 +91,13 @@ interface LoyaltyLedgerInterface
      * none). Public extension point for project-level (partial) refund integrations.
      */
     public function clawback(OrderInterface $order, int $points): ?ClawbackLoyaltyTransactionInterface;
+
+    /**
+     * Claws back an arbitrary credit (referral rewards, custom credits) — idempotent per
+     * credit via the (type, earn_id) unique constraint. The optional order records what
+     * caused the clawback.
+     */
+    public function clawbackCredit(CreditLoyaltyTransactionInterface $earn, ?OrderInterface $order = null): ?ClawbackLoyaltyTransactionInterface;
 
     public function manualCredit(
         LoyaltyAccountInterface $account,

@@ -177,6 +177,20 @@ setono_sylius_loyalty:
         program: Program
         program_card_description: Per-channel conversion, expiry, and policies
         reason: Reason
+        refer_a_friend: Refer a friend
+        referee: Referee
+        referral_explainer: Share your link — when a friend places their first order, you both earn points.
+        referral_override: Approve anyway
+        referral_stats: 'You have %count% rewarded referral(s), earning %points% points.'
+        referral_status:
+            expired: Expired
+            pending: Pending
+            qualified: Qualified
+            rejected: Rejected
+            rewarded: Rewarded
+        referrals: Referrals
+        referrals_card_description: Referral statuses and fraud overrides
+        referrer: Referrer
         redemption_clamped: 'Your request of %requested% points is only partially applied to this order; it grows back automatically when the order allows it.'
         remaining: Remaining
         remove_redemption: Remove
@@ -184,6 +198,8 @@ setono_sylius_loyalty:
         rule_tester: Rule tester
         rule_tester_card_description: Evaluate rules against a recent order, optionally at a different date
         scope: Scope
+        share: Share
+        copied: Copied!
         stat_accounts: Accounts
         stat_active_accounts_90_days: Active accounts (90 days)
         stat_liability: Outstanding points liability
@@ -212,4 +228,5 @@ setono_sylius_loyalty:
         tiers_card_description: Levels, thresholds, multipliers, and benefits
         trigger: Trigger
         use_max: Use max
+        your_code: Your code
         use_your_points: Use your points

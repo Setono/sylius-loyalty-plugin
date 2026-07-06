@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Setono\SyliusLoyaltyPlugin\EventListener;
 
 use Setono\SyliusLoyaltyPlugin\Ledger\LoyaltyLedgerInterface;
+use Setono\SyliusLoyaltyPlugin\Model\ReferralInterface;
 use Setono\SyliusLoyaltyPlugin\Repository\LoyaltyTransactionRepositoryInterface;
+use Setono\SyliusLoyaltyPlugin\Repository\ReferralRepositoryInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Symfony\Component\Workflow\Event\CompletedEvent;
 
@@ -19,6 +21,7 @@ final class ClawbackListener
 {
     public function __construct(
         private readonly LoyaltyTransactionRepositoryInterface $transactionRepository,
+        private readonly ReferralRepositoryInterface $referralRepository,
         private readonly LoyaltyLedgerInterface $ledger,
     ) {
     }
@@ -29,11 +32,29 @@ final class ClawbackListener
     public function clawback(OrderInterface $order): void
     {
         $earn = $this->transactionRepository->findEarnOrderTransaction($order);
-        if (null === $earn || $earn->getPoints() <= 0) {
+        if (null !== $earn && $earn->getPoints() > 0) {
+            $this->ledger->clawback($order, $earn->getPoints());
+        }
+
+        $this->clawbackReferralRewards($order);
+    }
+
+    /**
+     * Cancelling or refunding a referral's qualifying order claws back both parties' rewards
+     * (idempotent per credit via the (type, earn) unique constraint).
+     */
+    private function clawbackReferralRewards(OrderInterface $order): void
+    {
+        $referral = $this->referralRepository->findOneBy(['refereeFirstOrder' => $order]);
+        if (!$referral instanceof ReferralInterface || ReferralInterface::STATUS_REWARDED !== $referral->getStatus()) {
             return;
         }
 
-        $this->ledger->clawback($order, $earn->getPoints());
+        foreach ($this->transactionRepository->findEarnReferralTransactions($referral) as $credit) {
+            if ($credit->getPoints() > 0) {
+                $this->ledger->clawbackCredit($credit, $order);
+            }
+        }
     }
 
     /**

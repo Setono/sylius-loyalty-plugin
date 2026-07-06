@@ -1,0 +1,10 @@
+{% if data.status == 'rejected' %}
+    <form action="{{ path('setono_sylius_loyalty_admin_referral_override', {'id': data.id}) }}" method="post" data-test-referral-override>
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('setono_sylius_loyalty_admin') }}">
+        <button type="submit" class="ui tiny button" title="{{ data.fraudFlags|map(f => f.check)|join(', ') }}">
+            {{ 'setono_sylius_loyalty.ui.referral_override'|trans }}
+        </button>
+    </form>
+{% elseif data.status == 'rejected' or data.fraudFlags is not empty %}
+    <span class="ui tiny grey text">{{ data.fraudFlags|map(f => f.check)|join(', ') }}</span>
+{% endif %}

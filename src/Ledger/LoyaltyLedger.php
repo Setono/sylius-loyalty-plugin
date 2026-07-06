@@ -27,11 +27,14 @@ use Setono\SyliusLoyaltyPlugin\Exception\LedgerConflictException;
 use Setono\SyliusLoyaltyPlugin\Model\ClawbackLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\ClawbackLoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\CreditLoyaltyTransaction;
+use Setono\SyliusLoyaltyPlugin\Model\CreditLoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\DebitLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\EarnActionLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\EarnActionLoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\EarnOrderLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\EarnOrderLoyaltyTransactionInterface;
+use Setono\SyliusLoyaltyPlugin\Model\EarnReferralLoyaltyTransaction;
+use Setono\SyliusLoyaltyPlugin\Model\EarnReferralLoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\ExpireLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\ExpireLoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface;
@@ -44,6 +47,7 @@ use Setono\SyliusLoyaltyPlugin\Model\RedeemLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\RedeemLoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\RedeemRollbackLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\RedeemRollbackLoyaltyTransactionInterface;
+use Setono\SyliusLoyaltyPlugin\Model\ReferralInterface;
 use Setono\SyliusLoyaltyPlugin\Provider\LoyaltyAccountProviderInterface;
 use Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProviderInterface;
 use Setono\SyliusLoyaltyPlugin\Repository\LoyaltyTransactionRepositoryInterface;
@@ -156,6 +160,40 @@ final class LoyaltyLedger implements LoyaltyLedgerInterface
                 $transaction = new EarnActionLoyaltyTransaction();
                 $transaction->setSourceIdentifier($sourceIdentifier);
                 $transaction->setRulesBreakdown($rulesBreakdown);
+
+                $this->credit($account, $transaction, $awarding->getPoints(), $awarding->getExpiresAt());
+
+                $this->evaluateTier($account);
+
+                $postCommitEvents[] = new PointsEarned($transaction);
+
+                return $transaction;
+            },
+        );
+
+        return $transaction;
+    }
+
+    public function earnReferral(
+        LoyaltyAccountInterface $account,
+        int $points,
+        ReferralInterface $referral,
+        ?\DateTimeImmutable $expiresAt = null,
+    ): ?EarnReferralLoyaltyTransactionInterface {
+        Assert::greaterThan($points, 0);
+
+        /** @var EarnReferralLoyaltyTransactionInterface|null $transaction */
+        $transaction = $this->transactional(
+            $account,
+            function (LoyaltyAccountInterface $account, array &$postCommitEvents) use ($points, $referral, $expiresAt): ?EarnReferralLoyaltyTransactionInterface {
+                $awarding = new AwardingPoints($account, $points, $expiresAt, null, null, []);
+                $this->eventDispatcher->dispatch($awarding);
+                if ($awarding->isCancelled() || $awarding->getPoints() <= 0) {
+                    return null;
+                }
+
+                $transaction = new EarnReferralLoyaltyTransaction();
+                $transaction->setReferral($referral);
 
                 $this->credit($account, $transaction, $awarding->getPoints(), $awarding->getExpiresAt());
 
@@ -318,6 +356,13 @@ final class LoyaltyLedger implements LoyaltyLedgerInterface
             return null;
         }
 
+        // A lookup-first guard keeps idempotent replays from tripping the unique constraint
+        // (which would reset the entity manager mid-request); the constraint remains the
+        // concurrency backstop
+        if (null !== $this->transactionRepository->findClawbackForEarn($earn)) {
+            return null;
+        }
+
         $account = $earn->getAccount();
         Assert::notNull($account);
 
@@ -339,6 +384,54 @@ final class LoyaltyLedger implements LoyaltyLedgerInterface
                 if (LoyaltyProgramInterface::CLAWBACK_POLICY_CLAMP_TO_ZERO === $program->getClawbackPolicy()) {
                     // Reduce the debit at write time so the balance lands at exactly zero; the
                     // ledger entry records what was actually debited
+                    $points = min($points, max(0, $account->getBalance()));
+                }
+
+                $transaction = new ClawbackLoyaltyTransaction();
+                $transaction->setOrder($order);
+                $transaction->setEarn($earn);
+
+                $this->debit($account, $transaction, $points);
+
+                $postCommitEvents[] = new PointsClawedBack($transaction);
+
+                return $transaction;
+            },
+        );
+
+        return $transaction;
+    }
+
+    public function clawbackCredit(CreditLoyaltyTransactionInterface $earn, ?OrderInterface $order = null): ?ClawbackLoyaltyTransactionInterface
+    {
+        $account = $earn->getAccount();
+        Assert::notNull($account);
+
+        $points = $earn->getPoints();
+        if ($points <= 0) {
+            return null;
+        }
+
+        if (null !== $this->transactionRepository->findClawbackForEarn($earn)) {
+            return null;
+        }
+
+        /** @var ClawbackLoyaltyTransactionInterface|null $transaction */
+        $transaction = $this->transactional(
+            $account,
+            function (LoyaltyAccountInterface $account, array &$postCommitEvents) use ($order, $points, $earn): ?ClawbackLoyaltyTransactionInterface {
+                $clawingBack = new ClawingBackPoints($account, $points, $order, $earn);
+                $this->eventDispatcher->dispatch($clawingBack);
+                if ($clawingBack->isCancelled()) {
+                    return null;
+                }
+
+                $points = $clawingBack->getPoints();
+
+                $channel = $account->getChannel();
+                Assert::notNull($channel);
+                $program = $this->programProvider->getByChannel($channel);
+                if (LoyaltyProgramInterface::CLAWBACK_POLICY_CLAMP_TO_ZERO === $program->getClawbackPolicy()) {
                     $points = min($points, max(0, $account->getBalance()));
                 }
 

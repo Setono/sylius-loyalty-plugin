@@ -43,6 +43,9 @@
             <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyTransactionRepositoryInterface"/>
             <argument type="service" id="Setono\SyliusLoyaltyPlugin\Ledger\LotReplayerInterface"/>
             <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\Shop\TierProgressProviderInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Referral\ReferralCodeGeneratorInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\ReferralRepositoryInterface"/>
+            <argument type="service" id="router"/>
             <argument type="service" id="twig"/>
         </service>
 

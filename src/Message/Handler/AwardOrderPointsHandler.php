@@ -16,6 +16,7 @@ use Setono\SyliusLoyaltyPlugin\Model\EarningRuleInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgramInterface;
 use Setono\SyliusLoyaltyPlugin\Provider\LoyaltyAccountProviderInterface;
 use Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProviderInterface;
+use Setono\SyliusLoyaltyPlugin\Referral\ReferralQualifierInterface;
 use Setono\SyliusLoyaltyPlugin\Repository\EarningRuleRepositoryInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -35,6 +36,7 @@ final class AwardOrderPointsHandler
         private readonly EarningRuleEvaluatorInterface $evaluator,
         private readonly DryRunLoggerInterface $dryRunLogger,
         private readonly LoyaltyLedgerInterface $ledger,
+        private readonly ReferralQualifierInterface $referralQualifier,
         private readonly LoggerInterface $logger,
         private readonly string $orderClass,
     ) {
@@ -60,6 +62,10 @@ final class AwardOrderPointsHandler
         if (!$this->awardMomentReached($order, $program)) {
             return;
         }
+
+        // Referral qualification shares the award moment; it decides once per referral and is
+        // independent of whether any earning rules exist
+        $this->referralQualifier->qualify($order);
 
         $rules = $this->ruleRepository->findForEvaluation($channel, EarningRuleInterface::TRIGGER_ORDER_ELIGIBLE);
         if ([] === $rules) {

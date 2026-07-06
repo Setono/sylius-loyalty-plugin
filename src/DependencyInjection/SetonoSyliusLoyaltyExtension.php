@@ -7,6 +7,7 @@ namespace Setono\SyliusLoyaltyPlugin\DependencyInjection;
 use Setono\SyliusLoyaltyPlugin\EarningRule\Amount\AmountCalculatorInterface;
 use Setono\SyliusLoyaltyPlugin\EarningRule\Checker\ConditionCheckerInterface;
 use Setono\SyliusLoyaltyPlugin\Expression\Function\ExpressionFunctionInterface;
+use Setono\SyliusLoyaltyPlugin\Referral\FraudCheck\ReferralFraudCheckInterface;
 use Setono\SyliusLoyaltyPlugin\Tier\QualificationBasis\TierQualificationBasisInterface;
 use Sylius\Bundle\ResourceBundle\DependencyInjection\Extension\AbstractResourceExtension;
 use Sylius\Bundle\ResourceBundle\SyliusResourceBundle;
@@ -220,6 +221,59 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
                         ],
                     ],
                 ],
+                'setono_sylius_loyalty_admin_referral' => [
+                    'driver' => [
+                        'name' => 'doctrine/orm',
+                        'options' => ['class' => '%setono_sylius_loyalty.model.referral.class%'],
+                    ],
+                    'sorting' => ['createdAt' => 'desc'],
+                    'fields' => [
+                        'referrer' => [
+                            'type' => 'string',
+                            'label' => 'setono_sylius_loyalty.ui.referrer',
+                            'path' => 'referrerAccount.customer.email',
+                        ],
+                        'referee' => [
+                            'type' => 'string',
+                            'label' => 'setono_sylius_loyalty.ui.referee',
+                            'path' => 'refereeCustomer.email',
+                        ],
+                        'code' => [
+                            'type' => 'string',
+                            'label' => 'sylius.ui.code',
+                        ],
+                        'status' => [
+                            'type' => 'string',
+                            'label' => 'sylius.ui.status',
+                            'sortable' => 'status',
+                        ],
+                        'createdAt' => [
+                            'type' => 'datetime',
+                            'label' => 'sylius.ui.date',
+                            'sortable' => 'createdAt',
+                        ],
+                        'override' => [
+                            'type' => 'twig',
+                            'label' => 'sylius.ui.actions',
+                            'options' => ['template' => '@SetonoSyliusLoyaltyPlugin/admin/referral/_override.html.twig'],
+                        ],
+                    ],
+                    'filters' => [
+                        'status' => [
+                            'type' => 'select',
+                            'label' => 'sylius.ui.status',
+                            'form_options' => [
+                                'choices' => [
+                                    'setono_sylius_loyalty.ui.referral_status.pending' => 'pending',
+                                    'setono_sylius_loyalty.ui.referral_status.qualified' => 'qualified',
+                                    'setono_sylius_loyalty.ui.referral_status.rewarded' => 'rewarded',
+                                    'setono_sylius_loyalty.ui.referral_status.rejected' => 'rejected',
+                                    'setono_sylius_loyalty.ui.referral_status.expired' => 'expired',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
                 'setono_sylius_loyalty_admin_dry_run_result' => [
                     'driver' => [
                         'name' => 'doctrine/orm',
@@ -316,6 +370,7 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
          *     triggers: list<class-string>,
          *     transaction_types: array<string, class-string>,
          *     expression_editor: array{cdn_base_url: string},
+         *     referral: array{query_parameter: string, registration_ip_check: bool, ip_hash_salt: string, reward_cap: int},
          *     retain_anonymized_ledger: bool,
          * } $config
          */
@@ -327,6 +382,10 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
         $container->setParameter('setono_sylius_loyalty.transaction_types', $config['transaction_types']);
         $container->setParameter('setono_sylius_loyalty.expression_editor.cdn_base_url', $config['expression_editor']['cdn_base_url']);
         $container->setParameter('setono_sylius_loyalty.retain_anonymized_ledger', $config['retain_anonymized_ledger']);
+        $container->setParameter('setono_sylius_loyalty.referral.query_parameter', $config['referral']['query_parameter']);
+        $container->setParameter('setono_sylius_loyalty.referral.registration_ip_check', $config['referral']['registration_ip_check']);
+        $container->setParameter('setono_sylius_loyalty.referral.ip_hash_salt', $config['referral']['ip_hash_salt']);
+        $container->setParameter('setono_sylius_loyalty.referral.reward_cap', $config['referral']['reward_cap']);
 
         $this->registerResources(
             'setono_sylius_loyalty',
@@ -345,6 +404,8 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
             ->addTag('setono_sylius_loyalty.expression_function');
         $container->registerForAutoconfiguration(TierQualificationBasisInterface::class)
             ->addTag('setono_sylius_loyalty.tier_qualification_basis');
+        $container->registerForAutoconfiguration(ReferralFraudCheckInterface::class)
+            ->addTag('setono_sylius_loyalty.referral_fraud_check');
     }
 
     /**
