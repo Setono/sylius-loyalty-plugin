@@ -8,6 +8,9 @@ use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\EarningRuleRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyAccountRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyProgramRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyTransactionRepository;
+use Setono\SyliusLoyaltyPlugin\Form\Type\EarningRuleConditionType;
+use Setono\SyliusLoyaltyPlugin\Form\Type\EarningRuleType;
+use Setono\SyliusLoyaltyPlugin\Form\Type\LoyaltyProgramType;
 use Setono\SyliusLoyaltyPlugin\Model\DryRunResult;
 use Setono\SyliusLoyaltyPlugin\Model\DryRunResultInterface;
 use Setono\SyliusLoyaltyPlugin\Model\EarningRule;
@@ -88,10 +91,10 @@ final class Configuration implements ConfigurationInterface
         ;
 
         $this->addResourceNode($resources, 'account', LoyaltyAccount::class, LoyaltyAccountInterface::class, LoyaltyAccountRepository::class);
-        $this->addResourceNode($resources, 'program', LoyaltyProgram::class, LoyaltyProgramInterface::class, LoyaltyProgramRepository::class);
+        $this->addResourceNode($resources, 'program', LoyaltyProgram::class, LoyaltyProgramInterface::class, LoyaltyProgramRepository::class, LoyaltyProgramType::class);
         $this->addResourceNode($resources, 'transaction', LoyaltyTransaction::class, LoyaltyTransactionInterface::class, LoyaltyTransactionRepository::class);
-        $this->addResourceNode($resources, 'earning_rule', EarningRule::class, EarningRuleInterface::class, EarningRuleRepository::class);
-        $this->addResourceNode($resources, 'earning_rule_condition', EarningRuleCondition::class, EarningRuleConditionInterface::class);
+        $this->addResourceNode($resources, 'earning_rule', EarningRule::class, EarningRuleInterface::class, EarningRuleRepository::class, EarningRuleType::class);
+        $this->addResourceNode($resources, 'earning_rule_condition', EarningRuleCondition::class, EarningRuleConditionInterface::class, null, EarningRuleConditionType::class);
         $this->addResourceNode($resources, 'dry_run_result', DryRunResult::class, DryRunResultInterface::class);
     }
 
@@ -99,9 +102,16 @@ final class Configuration implements ConfigurationInterface
      * @param class-string $model
      * @param class-string $interface
      * @param class-string|null $repository
+     * @param class-string|null $form
      */
-    private function addResourceNode(NodeBuilder $resources, string $name, string $model, string $interface, ?string $repository = null): void
-    {
+    private function addResourceNode(
+        NodeBuilder $resources,
+        string $name,
+        string $model,
+        string $interface,
+        ?string $repository = null,
+        ?string $form = null,
+    ): void {
         $classes = $resources
             ->arrayNode($name)
                 ->addDefaultsIfNotSet()
@@ -116,7 +126,11 @@ final class Configuration implements ConfigurationInterface
         $classes->scalarNode('interface')->defaultValue($interface)->cannotBeEmpty();
         $classes->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty();
         $classes->scalarNode('factory')->defaultValue(Factory::class)->cannotBeEmpty();
-        $classes->scalarNode('form')->cannotBeEmpty();
+
+        $formNode = $classes->scalarNode('form')->cannotBeEmpty();
+        if (null !== $form) {
+            $formNode->defaultValue($form);
+        }
 
         $repositoryNode = $classes->scalarNode('repository')->cannotBeEmpty();
         if (null !== $repository) {

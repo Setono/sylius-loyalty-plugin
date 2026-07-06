@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://symfony.com/schema/dic/services"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="Setono\SyliusLoyaltyPlugin\Form\Type\JsonType">
+            <tag name="form.type"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Form\Type\EarningRuleConditionType">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\EarningRule\Checker\ConditionCheckerRegistryInterface"/>
+            <argument>%setono_sylius_loyalty.model.earning_rule_condition.class%</argument>
+            <tag name="form.type"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Form\Type\EarningRuleType">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\EarningRule\Amount\AmountCalculatorRegistryInterface"/>
+            <argument>%setono_sylius_loyalty.trigger_catalog%</argument>
+            <argument>%setono_sylius_loyalty.model.earning_rule.class%</argument>
+            <tag name="form.type"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Form\Type\LoyaltyProgramType">
+            <argument>%setono_sylius_loyalty.model.program.class%</argument>
+            <tag name="form.type"/>
+        </service>
+    </services>
+</container>

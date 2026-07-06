@@ -51,6 +51,7 @@ final class DryRunLogger implements DryRunLoggerInterface
                 'failedConditions' => $evaluation->failedConditions,
             ]);
 
+            // todo use ORMTrait: https://github.com/Setono/doctrine-orm-trait/
             $manager ??= $this->managerRegistry->getManagerForClass($dryRunResult::class);
             Assert::notNull($manager);
             $manager->persist($dryRunResult);

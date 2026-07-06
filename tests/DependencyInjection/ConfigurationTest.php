@@ -11,6 +11,9 @@ use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\EarningRuleRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyAccountRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyProgramRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyTransactionRepository;
+use Setono\SyliusLoyaltyPlugin\Form\Type\EarningRuleConditionType;
+use Setono\SyliusLoyaltyPlugin\Form\Type\EarningRuleType;
+use Setono\SyliusLoyaltyPlugin\Form\Type\LoyaltyProgramType;
 use Setono\SyliusLoyaltyPlugin\Model\DryRunResult;
 use Setono\SyliusLoyaltyPlugin\Model\DryRunResultInterface;
 use Setono\SyliusLoyaltyPlugin\Model\EarningRule;
@@ -52,10 +55,10 @@ final class ConfigurationTest extends TestCase
             'retain_anonymized_ledger' => false,
             'resources' => [
                 'account' => self::resource(LoyaltyAccount::class, LoyaltyAccountInterface::class, LoyaltyAccountRepository::class),
-                'program' => self::resource(LoyaltyProgram::class, LoyaltyProgramInterface::class, LoyaltyProgramRepository::class),
+                'program' => self::resource(LoyaltyProgram::class, LoyaltyProgramInterface::class, LoyaltyProgramRepository::class, LoyaltyProgramType::class),
                 'transaction' => self::resource(LoyaltyTransaction::class, LoyaltyTransactionInterface::class, LoyaltyTransactionRepository::class),
-                'earning_rule' => self::resource(EarningRule::class, EarningRuleInterface::class, EarningRuleRepository::class),
-                'earning_rule_condition' => self::resource(EarningRuleCondition::class, EarningRuleConditionInterface::class),
+                'earning_rule' => self::resource(EarningRule::class, EarningRuleInterface::class, EarningRuleRepository::class, EarningRuleType::class),
+                'earning_rule_condition' => self::resource(EarningRuleCondition::class, EarningRuleConditionInterface::class, null, EarningRuleConditionType::class),
                 'dry_run_result' => self::resource(DryRunResult::class, DryRunResultInterface::class),
             ],
         ]);
@@ -65,10 +68,11 @@ final class ConfigurationTest extends TestCase
      * @param class-string $model
      * @param class-string $interface
      * @param class-string|null $repository
+     * @param class-string|null $form
      *
      * @return array{classes: array<string, class-string>}
      */
-    private static function resource(string $model, string $interface, ?string $repository = null): array
+    private static function resource(string $model, string $interface, ?string $repository = null, ?string $form = null): array
     {
         $classes = [
             'model' => $model,
@@ -76,6 +80,10 @@ final class ConfigurationTest extends TestCase
             'controller' => ResourceController::class,
             'factory' => Factory::class,
         ];
+
+        if (null !== $form) {
+            $classes['form'] = $form;
+        }
 
         if (null !== $repository) {
             $classes['repository'] = $repository;

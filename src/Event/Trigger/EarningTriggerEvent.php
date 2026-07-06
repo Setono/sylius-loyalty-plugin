@@ -32,6 +32,7 @@ abstract class EarningTriggerEvent
     ) {
     }
 
+    // todo: Should this be renamed to getCode()?
     abstract public static function getTriggerCode(): string;
 
     /**

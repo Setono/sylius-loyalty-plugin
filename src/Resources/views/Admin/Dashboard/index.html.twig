@@ -1,0 +1,61 @@
+{% extends '@SyliusAdmin/layout.html.twig' %}
+
+{% block title %}{{ 'setono_sylius_loyalty.ui.loyalty'|trans }} {{ parent() }}{% endblock %}
+
+{% block content %}
+    <h1 class="ui header">
+        <i class="circular star icon"></i>
+        <div class="content">
+            {{ 'setono_sylius_loyalty.ui.loyalty'|trans }}
+            <div class="sub header">{{ 'setono_sylius_loyalty.ui.dashboard_subtitle'|trans }}</div>
+        </div>
+    </h1>
+
+    <div class="ui three statistics" style="margin: 2em 0;">
+        <div class="ui statistic" data-test-stat-accounts>
+            <div class="value">{{ stats.accounts }}</div>
+            <div class="label">{{ 'setono_sylius_loyalty.ui.stat_accounts'|trans }}</div>
+        </div>
+        <div class="ui statistic" data-test-stat-earned>
+            <div class="value">{{ stats.earnedLast30Days }}</div>
+            <div class="label">{{ 'setono_sylius_loyalty.ui.stat_earned_30_days'|trans }}</div>
+        </div>
+        <div class="ui statistic" data-test-stat-redeemed>
+            <div class="value">{{ stats.redeemedLast30Days }}</div>
+            <div class="label">{{ 'setono_sylius_loyalty.ui.stat_redeemed_30_days'|trans }}</div>
+        </div>
+    </div>
+
+    <div class="ui three stackable cards">
+        <a class="ui card" href="{{ path('setono_sylius_loyalty_admin_account_index') }}" data-test-card-accounts>
+            <div class="content">
+                <div class="header"><i class="users icon"></i> {{ 'setono_sylius_loyalty.ui.accounts'|trans }}</div>
+                <div class="description">{{ 'setono_sylius_loyalty.ui.accounts_card_description'|trans }}</div>
+            </div>
+        </a>
+        <a class="ui card" href="{{ path('setono_sylius_loyalty_admin_earning_rule_index') }}" data-test-card-rules>
+            <div class="content">
+                <div class="header"><i class="percent icon"></i> {{ 'setono_sylius_loyalty.ui.earning_rules'|trans }}</div>
+                <div class="description">{{ 'setono_sylius_loyalty.ui.earning_rules_card_description'|trans }}</div>
+            </div>
+        </a>
+        <a class="ui card" href="{{ path('setono_sylius_loyalty_admin_program_index') }}" data-test-card-program>
+            <div class="content">
+                <div class="header"><i class="setting icon"></i> {{ 'setono_sylius_loyalty.ui.program'|trans }}</div>
+                <div class="description">{{ 'setono_sylius_loyalty.ui.program_card_description'|trans }}</div>
+            </div>
+        </a>
+        <a class="ui card" href="{{ path('setono_sylius_loyalty_admin_rule_tester') }}" data-test-card-tester>
+            <div class="content">
+                <div class="header"><i class="lab icon"></i> {{ 'setono_sylius_loyalty.ui.rule_tester'|trans }}</div>
+                <div class="description">{{ 'setono_sylius_loyalty.ui.rule_tester_card_description'|trans }}</div>
+            </div>
+        </a>
+        <a class="ui card" href="{{ path('setono_sylius_loyalty_admin_dry_run_result_index') }}" data-test-card-dry-run>
+            <div class="content">
+                <div class="header"><i class="eye icon"></i> {{ 'setono_sylius_loyalty.ui.dry_run_results'|trans }}</div>
+                <div class="description">{{ 'setono_sylius_loyalty.ui.dry_run_results_card_description'|trans }}</div>
+            </div>
+        </a>
+    </div>
+{% endblock %}

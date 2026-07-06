@@ -1,4 +1,8 @@
 setono_sylius_loyalty:
+    account_disabled: The loyalty account has been disabled.
+    account_enabled: The loyalty account has been enabled.
+    adjustment_applied: The manual adjustment has been written to the ledger.
+    adjustment_invalid: The adjustment is invalid — points must be non-zero, the note is mandatory, and the reason must be one of the configured codes.
     redemption_applied: Your points have been applied to the order.
     redemption_invalid_points: That number of points cannot be applied to this order.
     redemption_invalid_request: The request could not be processed. Please try again.

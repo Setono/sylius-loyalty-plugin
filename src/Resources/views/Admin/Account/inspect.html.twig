@@ -1,0 +1,138 @@
+{# todo: Make all template files and folders snake_case #}
+{% extends '@SyliusAdmin/layout.html.twig' %}
+
+{% block title %}{{ 'setono_sylius_loyalty.ui.account'|trans }} #{{ account.id }} {{ parent() }}{% endblock %}
+
+{% block content %}
+    <h1 class="ui header">
+        <i class="circular user icon"></i>
+        <div class="content">
+            {{ account.customer ? account.customer.email : 'setono_sylius_loyalty.ui.anonymized'|trans }}
+            <div class="sub header">
+                {{ 'sylius.ui.channel'|trans }}: {{ account.channel ? account.channel.code : '—' }}
+                {% if not account.enabled %}
+                    <span class="ui red horizontal label" data-test-account-disabled>{{ 'sylius.ui.disabled'|trans }}</span>
+                {% endif %}
+            </div>
+        </div>
+    </h1>
+
+    <div class="ui three statistics" style="margin: 1em 0 2em;">
+        <div class="ui statistic" data-test-account-balance>
+            <div class="value">{{ account.balance }}</div>
+            <div class="label">{{ 'setono_sylius_loyalty.ui.balance_label'|trans }}</div>
+        </div>
+        <div class="ui statistic" data-test-account-lifetime>
+            <div class="value">{{ account.lifetimeEarned }}</div>
+            <div class="label">{{ 'setono_sylius_loyalty.ui.lifetime_earned'|trans }}</div>
+        </div>
+        <div class="ui statistic" data-test-account-derived>
+            <div class="value">{{ inspection.replay.balance }}</div>
+            <div class="label">{{ 'setono_sylius_loyalty.ui.derived_balance'|trans }}</div>
+        </div>
+    </div>
+
+    {% if inspection.healthy %}
+        <div class="ui positive message" data-test-invariants-ok>{{ 'setono_sylius_loyalty.ui.invariants_hold'|trans }}</div>
+    {% else %}
+        <div class="ui negative message" data-test-invariants-failed>
+            <div class="header">{{ 'setono_sylius_loyalty.ui.invariants_violated'|trans }}</div>
+            <ul class="list">
+                {% for error in inspection.errors %}<li>{{ error }}</li>{% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+    {% for warning in inspection.warnings %}
+        <div class="ui warning message">{{ warning }}</div>
+    {% endfor %}
+
+    <div class="ui two column stackable grid" style="margin-bottom: 1em;">
+        <div class="column">
+            <h4 class="ui header">{{ 'setono_sylius_loyalty.ui.manual_adjustment'|trans }}</h4>
+            <form action="{{ path('setono_sylius_loyalty_admin_account_adjust', {'id': account.id}) }}" method="post" class="ui form" data-test-adjustment-form>
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('setono_sylius_loyalty_admin') }}">
+                <div class="three fields">
+                    <div class="field">
+                        <label>{{ 'setono_sylius_loyalty.ui.points'|trans }}</label>
+                        <input type="number" name="points" required placeholder="±100">
+                    </div>
+                    <div class="field">
+                        <label>{{ 'setono_sylius_loyalty.ui.reason'|trans }}</label>
+                        <select name="reason" class="ui dropdown">
+                            {% for reason in reasons %}
+                                <option value="{{ reason }}">{{ ('setono_sylius_loyalty.ui.manual_reason.' ~ reason)|trans }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>{{ 'setono_sylius_loyalty.ui.note'|trans }}</label>
+                        <input type="text" name="note" required>
+                    </div>
+                </div>
+                <button type="submit" class="ui primary button">{{ 'setono_sylius_loyalty.ui.adjust'|trans }}</button>
+            </form>
+        </div>
+        <div class="column">
+            <h4 class="ui header">{{ 'sylius.ui.actions'|trans }}</h4>
+            <form action="{{ path('setono_sylius_loyalty_admin_account_toggle', {'id': account.id}) }}" method="post">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('setono_sylius_loyalty_admin') }}">
+                <button type="submit" class="ui {{ account.enabled ? 'red' : 'green' }} button" data-test-account-toggle>
+                    {{ (account.enabled ? 'sylius.ui.disable' : 'sylius.ui.enable')|trans }}
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <h3 class="ui dividing header">{{ 'setono_sylius_loyalty.ui.lots'|trans }}</h3>
+    <table class="ui celled table" data-test-lots>
+        <thead>
+            <tr>
+                <th>{{ 'setono_sylius_loyalty.ui.lot'|trans }}</th>
+                <th>{{ 'setono_sylius_loyalty.ui.points'|trans }}</th>
+                <th>{{ 'setono_sylius_loyalty.ui.expires_at'|trans }}</th>
+                <th>{{ 'setono_sylius_loyalty.ui.remaining'|trans }}</th>
+                <th>{{ 'setono_sylius_loyalty.ui.consumptions'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for lotState in inspection.replay.lots %}
+                <tr>
+                    <td>#{{ lotState.lot.id }}</td>
+                    <td>{{ lotState.lot.points }}</td>
+                    <td>
+                        {{ lotState.lot.expiresAt ? lotState.lot.expiresAt|date('Y-m-d') : 'setono_sylius_loyalty.ui.never'|trans }}
+                        {% if lotState.closedByExpiration %}<span class="ui grey horizontal label">{{ 'setono_sylius_loyalty.ui.expired'|trans }}</span>{% endif %}
+                    </td>
+                    <td>{{ lotState.remaining }}</td>
+                    <td>
+                        {% for consumption in lotState.consumptions %}
+                            <span class="ui basic label">#{{ consumption.debit.id }}: −{{ consumption.points }}</span>
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3 class="ui dividing header">{{ 'setono_sylius_loyalty.ui.ledger'|trans }}</h3>
+    <table class="ui celled table" data-test-ledger>
+        <thead>
+            <tr>
+                <th>{{ 'sylius.ui.id'|trans }}</th>
+                <th>{{ 'sylius.ui.type'|trans }}</th>
+                <th>{{ 'setono_sylius_loyalty.ui.points'|trans }}</th>
+                <th>{{ 'sylius.ui.date'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in transactions %}
+                <tr>
+                    <td>#{{ transaction.id }}</td>
+                    <td>{{ setono_sylius_loyalty_transaction_type(transaction) }}</td>
+                    <td>{{ transaction.points }}</td>
+                    <td>{{ transaction.occurredAt|date('Y-m-d H:i:s') }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

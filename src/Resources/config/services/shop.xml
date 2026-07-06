@@ -12,6 +12,7 @@
 
         <service id="Setono\SyliusLoyaltyPlugin\Twig\LoyaltyExtension">
             <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\Shop\CartRedemptionViewProviderInterface"/>
+            <argument type="service" id="doctrine.orm.entity_manager"/>
             <tag name="twig.extension"/>
         </service>
 

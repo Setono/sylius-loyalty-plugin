@@ -1,11 +1,150 @@
 setono_sylius_loyalty:
+    form:
+        earning_rule:
+            add_condition: Add condition
+            amount_configuration: Amount configuration
+            amount_configuration_help: 'JSON, e.g. {"points": 1, "per_amount": 100} for per-amount, {"points": 50} for fixed, {"factor": 2} for multiplier, {"expression": "floor(basis / 100)"} for expression'
+            amount_type: Amount type
+            condition_configuration: Condition configuration
+            condition_configuration_help: 'JSON, e.g. {"amount": 5000} or {"taxons": ["t_shirts"]}'
+            condition_type: Condition type
+            conditions: Conditions
+            conditions_match: Conditions match
+            conditions_match_all: All conditions must pass
+            conditions_match_any: At least one condition must pass
+            dry_run: Dry run
+            dry_run_help: Evaluate against live traffic and log what would be awarded to the audit list, without writing any points
+            ends_at: Ends at
+            scope: Scope
+            scope_configuration: Scope configuration
+            scope_configuration_help: 'JSON, e.g. {"taxons": ["t_shirts"]} or {"products": ["MUG"]}; leave empty for order scope'
+            scope_help: Product- or taxon-scoped rules claim their matching items exclusively; order-scoped rules earn on the remainder
+            scope_order: Whole order
+            scope_product: Specific products
+            scope_taxon: Specific taxons
+            stackable: Stackable
+            stackable_help: Stackable rules competing for the same basis all apply and sum; a non-stackable rule applies alone (highest priority wins)
+            starts_at: Starts at
+            trigger: Trigger
+            window_timezone_help: Entered and evaluated in the application's configured timezone
+        earning_rule.amount:
+            expression: Expression
+            fixed: Fixed points
+            multiplier: Multiplier
+            per_amount: Points per amount
+        earning_rule.condition:
+            cart_contains_taxon: Cart contains taxon
+            customer_group: Customer group
+            date_window: Date window
+            day_of_week: Day of week
+            expression: Expression
+            nth_order: Nth order
+            order_total_at_least: Order total at least
+        invalid_json: This value is not valid JSON.
+        program:
+            award_moment_order_fulfilled: When the order is fulfilled
+            award_moment_payment_paid: When the payment is fully paid
+            award_order_points_at: Award order points at
+            award_order_points_at_help: The single order-lifecycle moment points are awarded — one per program, never per rule
+            base_currency_help: Amounts are in minor units of the channel's base currency
+            clawback_policy: Clawback policy
+            clawback_policy_allow_negative: Allow negative balance (recovered from future earnings)
+            clawback_policy_clamp_to_zero: Clamp the balance to zero
+            earning_basis: Earning basis
+            earning_basis_help: What counts toward earning; the earning rate itself is defined by earning rules
+            earning_basis_items_total: Items total (excl. shipping)
+            earning_basis_order_total: Order total (incl. shipping)
+            include_taxes: Include taxes in the basis
+            max_redeem_percent_of_order: Max. redeemable percent of order
+            max_redeem_percent_of_order_help: The share of the order items total coverable by points (100 allows fully free orders)
+            min_redeem_points: Minimum points per redemption
+            points_expiry_days: Points expire after (days)
+            points_expiry_days_help: Leave empty so points never expire. Note that expiring stored value is subject to consumer-law constraints in some jurisdictions
+            redemption_conversion_amount: '... are worth this amount (minor units)'
+            redemption_conversion_help: 'The redemption conversion: this many points...'
+            redemption_conversion_points: Points unit
+            retroactive_guest_points: Retroactive guest points
+            retroactive_guest_points_help: Award points for pre-registration guest orders when the guest registers (no backfill for earlier registrations)
+            rounding: Rounding
+            rounding_ceil: Ceiling
+            rounding_floor: Floor
+            rounding_round: Round
+    trigger:
+        customer_birthday: Customer birthday
+        customer_registered: Customer registered
+        order_eligible: Order (built-in)
+        product_review_approved: Product review approved
     ui:
+        account: Loyalty account
+        accounts: Loyalty accounts
+        accounts_card_description: Browse accounts, inspect ledgers, adjust points
+        adjust: Adjust
+        anonymized: Anonymized
         balance: Your points balance
+        balance_label: Balance
         change_on_cart: Change on cart
+        consumptions: Consumed by
+        dashboard_subtitle: Points, earning rules, and program settings
+        derived_balance: Ledger sum
+        dry_run: Dry run
+        dry_run_results: Dry-run results
+        dry_run_results_card_description: What dry-run rules would have awarded
+        earning_rate_hint: 'The earning rate is defined by earning rules: a base order-scoped rule with the per-amount type is the shop''s default rate.'
+        earning_rules: Earning rules
+        earning_rules_card_description: Triggers, conditions, and amounts
+        edit_earning_rule: Edit earning rule
+        edit_program: Edit program
+        new_earning_rule: New earning rule
+        expired: Expired
+        expires_at: Expires at
+        inspect: Inspect
+        invariants_hold: All ledger invariants hold.
+        invariants_violated: Ledger invariants are violated — investigate before making manual corrections.
+        ledger: Ledger
+        lifetime_earned: Lifetime earned
+        lot: Lot
+        lots: Lots (replay-derived)
+        loyalty: Loyalty
+        manual_adjustment: Manual adjustment
+        manual_reason:
+            correction: Correction
+            goodwill: Goodwill
+            other: Other
+            promotion: Promotion
+        never: never
+        note: Note
+        points: Points
         points_amount: '%points% points'
         points_applied: '%points% points applied'
         points_redemption: Points redemption
+        program: Program
+        program_card_description: Per-channel conversion, expiry, and policies
+        reason: Reason
         redemption_clamped: 'Your request of %requested% points is only partially applied to this order; it grows back automatically when the order allows it.'
+        remaining: Remaining
         remove_redemption: Remove
+        rule: Rule
+        rule_tester: Rule tester
+        rule_tester_card_description: Evaluate rules against a recent order, optionally at a different date
+        scope: Scope
+        stat_accounts: Accounts
+        stat_earned_30_days: Points earned (30 days)
+        stat_redeemed_30_days: Points redeemed (30 days)
+        tester_applied: Applied
+        tester_claimed_basis: Claimed basis
+        tester_claimed_by: Claimed by
+        tester_evaluate: Evaluate
+        tester_evaluate_at: Evaluate as if it were
+        tester_evaluate_at_help: Preview scheduled rules before their window opens
+        tester_failed_conditions: Failed conditions
+        tester_final_award: 'Final award: %points% points'
+        tester_invalid_date: The evaluation date is invalid.
+        tester_item_claims: Per-item claims
+        tester_matched: Matched
+        tester_order_has_no_customer: The order has no customer, so no rules can be evaluated.
+        tester_order_not_found: No order with that number was found.
+        tester_order_number: Order number
+        tester_rules: Rule evaluations
+        trigger: Trigger
         use_max: Use max
         use_your_points: Use your points

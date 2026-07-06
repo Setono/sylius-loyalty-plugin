@@ -20,6 +20,172 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
     {
         $this->prependWinzouStateMachineConfig($container);
         $this->prependSyliusUiConfig($container);
+        $this->prependSyliusGridConfig($container);
+    }
+
+    /**
+     * Registers the plugin's admin grids.
+     */
+    private function prependSyliusGridConfig(ContainerBuilder $container): void
+    {
+        if (!$container->hasExtension('sylius_grid')) {
+            return;
+        }
+
+        $container->prependExtensionConfig('sylius_grid', [
+            'grids' => [
+                'setono_sylius_loyalty_admin_account' => [
+                    'driver' => [
+                        'name' => 'doctrine/orm',
+                        'options' => ['class' => '%setono_sylius_loyalty.model.account.class%'],
+                    ],
+                    'sorting' => ['balance' => 'desc'],
+                    'fields' => [
+                        'customer' => [
+                            'type' => 'string',
+                            'label' => 'sylius.ui.customer',
+                            'path' => 'customer.email',
+                            'sortable' => 'customer.email',
+                        ],
+                        'channel' => [
+                            'type' => 'string',
+                            'label' => 'sylius.ui.channel',
+                            'path' => 'channel.code',
+                        ],
+                        'balance' => [
+                            'type' => 'string',
+                            'label' => 'setono_sylius_loyalty.ui.balance_label',
+                            'sortable' => 'balance',
+                        ],
+                        'lifetimeEarned' => [
+                            'type' => 'string',
+                            'label' => 'setono_sylius_loyalty.ui.lifetime_earned',
+                            'sortable' => 'lifetimeEarned',
+                        ],
+                        'enabled' => [
+                            'type' => 'twig',
+                            'label' => 'sylius.ui.enabled',
+                            'sortable' => 'enabled',
+                            'options' => ['template' => '@SyliusUi/Grid/Field/yesNo.html.twig'],
+                        ],
+                    ],
+                    'filters' => [
+                        'customer' => [
+                            'type' => 'string',
+                            'label' => 'sylius.ui.customer',
+                            'options' => ['fields' => ['customer.email']],
+                        ],
+                        'enabled' => [
+                            'type' => 'boolean',
+                            'label' => 'sylius.ui.enabled',
+                        ],
+                    ],
+                    'actions' => [
+                        'item' => [
+                            'inspect' => [
+                                'type' => 'show',
+                                'label' => 'setono_sylius_loyalty.ui.inspect',
+                                'options' => [
+                                    'link' => [
+                                        'route' => 'setono_sylius_loyalty_admin_account_inspect',
+                                        'parameters' => ['id' => 'resource.id'],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'setono_sylius_loyalty_admin_earning_rule' => [
+                    'driver' => [
+                        'name' => 'doctrine/orm',
+                        'options' => ['class' => '%setono_sylius_loyalty.model.earning_rule.class%'],
+                    ],
+                    'sorting' => ['priority' => 'desc'],
+                    'fields' => [
+                        'name' => [
+                            'type' => 'string',
+                            'label' => 'sylius.ui.name',
+                            'sortable' => 'name',
+                        ],
+                        'trigger' => [
+                            'type' => 'string',
+                            'label' => 'setono_sylius_loyalty.ui.trigger',
+                            'sortable' => 'trigger',
+                        ],
+                        'scope' => [
+                            'type' => 'string',
+                            'label' => 'setono_sylius_loyalty.ui.scope',
+                        ],
+                        'priority' => [
+                            'type' => 'string',
+                            'label' => 'sylius.ui.priority',
+                            'sortable' => 'priority',
+                        ],
+                        'enabled' => [
+                            'type' => 'twig',
+                            'label' => 'sylius.ui.enabled',
+                            'sortable' => 'enabled',
+                            'options' => ['template' => '@SyliusUi/Grid/Field/yesNo.html.twig'],
+                        ],
+                        'dryRun' => [
+                            'type' => 'twig',
+                            'label' => 'setono_sylius_loyalty.ui.dry_run',
+                            'sortable' => 'dryRun',
+                            'options' => ['template' => '@SyliusUi/Grid/Field/yesNo.html.twig'],
+                        ],
+                    ],
+                    'filters' => [
+                        'name' => [
+                            'type' => 'string',
+                            'label' => 'sylius.ui.name',
+                            'options' => ['fields' => ['name']],
+                        ],
+                        'enabled' => [
+                            'type' => 'boolean',
+                            'label' => 'sylius.ui.enabled',
+                        ],
+                    ],
+                    'actions' => [
+                        'main' => [
+                            'create' => ['type' => 'create'],
+                        ],
+                        'item' => [
+                            'update' => ['type' => 'update'],
+                            'delete' => ['type' => 'delete'],
+                        ],
+                    ],
+                ],
+                'setono_sylius_loyalty_admin_dry_run_result' => [
+                    'driver' => [
+                        'name' => 'doctrine/orm',
+                        'options' => ['class' => '%setono_sylius_loyalty.model.dry_run_result.class%'],
+                    ],
+                    'sorting' => ['createdAt' => 'desc'],
+                    'fields' => [
+                        'rule' => [
+                            'type' => 'string',
+                            'label' => 'setono_sylius_loyalty.ui.rule',
+                            'path' => 'rule.name',
+                        ],
+                        'account' => [
+                            'type' => 'string',
+                            'label' => 'sylius.ui.customer',
+                            'path' => 'account.customer.email',
+                        ],
+                        'points' => [
+                            'type' => 'string',
+                            'label' => 'setono_sylius_loyalty.ui.points',
+                            'sortable' => 'points',
+                        ],
+                        'createdAt' => [
+                            'type' => 'datetime',
+                            'label' => 'sylius.ui.date',
+                            'sortable' => 'createdAt',
+                        ],
+                    ],
+                ],
+            ],
+        ]);
     }
 
     /**

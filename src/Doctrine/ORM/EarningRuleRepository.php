@@ -9,6 +9,7 @@ use Setono\SyliusLoyaltyPlugin\Repository\EarningRuleRepositoryInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Channel\Model\ChannelInterface;
 
+// todo all repositories should be moved to src/Repository
 class EarningRuleRepository extends EntityRepository implements EarningRuleRepositoryInterface
 {
     public function findForEvaluation(ChannelInterface $channel, string $trigger): array
