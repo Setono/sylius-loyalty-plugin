@@ -47,7 +47,9 @@ final class ReferralLifecycleTest extends AwardOrderPointsTestCase
         // A duplicate call (redelivery) must not double-reward
         $qualifier->qualify($order);
 
-        $program = $container->get(LoyaltyProgramProviderInterface::class)->getByChannel($channel);
+        $programProvider = $container->get(LoyaltyProgramProviderInterface::class);
+        \assert($programProvider instanceof LoyaltyProgramProviderInterface);
+        $program = $programProvider->getByChannel($channel);
 
         self::assertSame(ReferralInterface::STATUS_REWARDED, $referral->getStatus());
         self::assertSame($program->getReferralReferrerPoints(), $referrerAccount->getBalance());

@@ -92,6 +92,7 @@ final class LoyaltyLedgerTest extends TestCase
         $this->transactionRepository = $this->prophesize(LoyaltyTransactionRepositoryInterface::class);
         $this->transactionRepository->findRedeemTransaction(Argument::any())->willReturn(null);
         $this->transactionRepository->findForReplay(Argument::any())->willReturn([]);
+        $this->transactionRepository->findClawbackForEarn(Argument::any())->willReturn(null);
 
         $this->tierEvaluator = $this->prophesize(TierEvaluatorInterface::class);
     }

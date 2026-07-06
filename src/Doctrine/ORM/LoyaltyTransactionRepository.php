@@ -11,7 +11,6 @@ use Setono\SyliusLoyaltyPlugin\Model\CreditLoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\EarnOrderLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\EarnOrderLoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\EarnReferralLoyaltyTransaction;
-use Setono\SyliusLoyaltyPlugin\Model\EarnReferralLoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\ExpireLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyTransactionInterface;
@@ -166,7 +165,7 @@ class LoyaltyTransactionRepository extends EntityRepository implements LoyaltyTr
 
     public function findEarnReferralTransactions(ReferralInterface $referral): array
     {
-        /** @var list<EarnReferralLoyaltyTransactionInterface> $transactions */
+        /** @var list<EarnReferralLoyaltyTransaction> $transactions */
         $transactions = $this->getEntityManager()
             ->getRepository(EarnReferralLoyaltyTransaction::class)
             ->findBy(['referral' => $referral])
