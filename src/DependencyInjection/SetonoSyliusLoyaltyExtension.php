@@ -99,6 +99,23 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
                             'do' => ['@Setono\SyliusLoyaltyPlugin\EventListener\AwardOrderPointsListener', 'onOrderFulfilled'],
                             'args' => ['object'],
                         ],
+                        'setono_sylius_loyalty_rollback_redemption' => [
+                            'on' => ['cancel'],
+                            'do' => ['@Setono\SyliusLoyaltyPlugin\EventListener\RollbackRedemptionListener', 'rollback'],
+                            'args' => ['object'],
+                        ],
+                    ],
+                ],
+            ],
+            'sylius_order_checkout' => [
+                'callbacks' => [
+                    // A "before" callback so a failed debit aborts the completion
+                    'before' => [
+                        'setono_sylius_loyalty_redeem_points' => [
+                            'on' => ['complete'],
+                            'do' => ['@Setono\SyliusLoyaltyPlugin\EventListener\RedeemPointsListener', 'redeem'],
+                            'args' => ['object'],
+                        ],
                     ],
                 ],
             ],

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://symfony.com/schema/dic/services"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="Setono\SyliusLoyaltyPlugin\Redemption\PointsConverter"/>
+        <service id="Setono\SyliusLoyaltyPlugin\Redemption\PointsConverterInterface" alias="Setono\SyliusLoyaltyPlugin\Redemption\PointsConverter"/>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Redemption\AppliedPointsProvider">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProviderInterface"/>
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\Redemption\AppliedPointsProviderInterface" alias="Setono\SyliusLoyaltyPlugin\Redemption\AppliedPointsProvider"/>
+
+        <!-- Positioned after the promotion processors (20) and before the tax processor (10),
+             so the cap is computed on the final promoted total and taxes compute on the
+             reduced base -->
+        <service id="Setono\SyliusLoyaltyPlugin\OrderProcessing\LoyaltyRedemptionProcessor">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyAccountRepositoryInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProviderInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Redemption\PointsConverterInterface"/>
+            <argument type="service" id="sylius.factory.adjustment"/>
+            <argument type="service" id="sylius.proportional_integer_distributor"/>
+            <argument type="service" id="sylius.integer_distributor"/>
+            <argument type="service" id="translator"/>
+            <tag name="sylius.order_processor" priority="15"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Validator\Constraints\LoyaltyRedemptionValidValidator">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Redemption\AppliedPointsProviderInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyAccountRepositoryInterface"/>
+            <tag name="validator.constraint_validator"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\EventListener\RedeemPointsListener">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Redemption\AppliedPointsProviderInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Ledger\LoyaltyLedgerInterface"/>
+            <!-- The winzou "before" callback counterpart is prepended by the extension -->
+            <tag name="kernel.event_listener" event="workflow.sylius_order_checkout.transition.complete" method="onWorkflowTransition"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\EventListener\RollbackRedemptionListener">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Ledger\LoyaltyLedgerInterface"/>
+            <!-- The winzou "after" callback counterpart is prepended by the extension -->
+            <tag name="kernel.event_listener" event="workflow.sylius_order.completed.cancel" method="onWorkflowCompleted"/>
+        </service>
+    </services>
+</container>
