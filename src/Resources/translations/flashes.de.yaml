@@ -1,0 +1,11 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    account_disabled: Das Treuekonto wurde deaktiviert.
+    account_enabled: Das Treuekonto wurde aktiviert.
+    adjustment_applied: Die manuelle Anpassung wurde in den Ledger geschrieben.
+    adjustment_invalid: Die Anpassung ist ungültig — die Punkte müssen ungleich null sein, die Notiz ist Pflicht, und der Grund muss einer der konfigurierten Codes sein.
+    redemption_applied: Ihre Punkte wurden auf die Bestellung angewendet.
+    redemption_invalid_points: Diese Punktzahl kann auf diese Bestellung nicht angewendet werden.
+    redemption_invalid_request: Die Anfrage konnte nicht verarbeitet werden. Bitte versuchen Sie es erneut.
+    redemption_not_available: Das Einlösen von Punkten ist derzeit nicht möglich.
+    redemption_removed: Die Punkte wurden von der Bestellung entfernt.

@@ -1,0 +1,5 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    checkout:
+        account_disabled: Hűségfiókja inaktív, ezért a felhasznált pontok nem válthatók be. Kérjük, távolítsa el őket a rendelésből.
+        insufficient_balance: Pontegyenlege már nem fedezi a felhasznált beváltást. Kérjük, módosítsa a kosárban.

@@ -1,0 +1,5 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    checkout:
+        account_disabled: Je loyaliteitsaccount is inactief, dus de toegepaste punten kunnen niet worden ingewisseld. Verwijder ze van de bestelling.
+        insufficient_balance: Je puntensaldo dekt de toegepaste inwisseling niet meer. Pas dit aan in de winkelwagen.

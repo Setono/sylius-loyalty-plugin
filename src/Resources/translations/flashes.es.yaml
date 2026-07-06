@@ -1,0 +1,11 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    account_disabled: La cuenta de fidelidad ha sido desactivada.
+    account_enabled: La cuenta de fidelidad ha sido activada.
+    adjustment_applied: El ajuste manual se ha escrito en el libro mayor.
+    adjustment_invalid: El ajuste no es válido — los puntos deben ser distintos de cero, la nota es obligatoria y el motivo debe ser uno de los códigos configurados.
+    redemption_applied: Tus puntos se han aplicado al pedido.
+    redemption_invalid_points: Esa cantidad de puntos no se puede aplicar a este pedido.
+    redemption_invalid_request: La solicitud no se pudo procesar. Inténtalo de nuevo.
+    redemption_not_available: El canje de puntos no está disponible en este momento.
+    redemption_removed: Los puntos se han quitado del pedido.

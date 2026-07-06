@@ -1,0 +1,5 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    checkout:
+        account_disabled: Votre compte de fidélité est inactif, les points appliqués ne peuvent donc pas être utilisés. Veuillez les retirer de la commande.
+        insufficient_balance: 'Votre solde de points ne couvre plus l''utilisation appliquée. Veuillez l''ajuster sur le panier.'

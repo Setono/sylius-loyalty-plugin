@@ -1,0 +1,177 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    form:
+        earning_rule:
+            add_condition: Adicionar condição
+            amount_configuration: Configuração do montante
+            amount_configuration_help: 'JSON, p. ex. {"points": 1, "per_amount": 100} para pontos por montante, {"points": 50} para fixo, {"factor": 2} para multiplicador, {"expression": "floor(basis / 100)"} para expressão'
+            amount_expression: Expressão do montante
+            amount_expression_help: Usada quando o tipo de montante é "Expressão"; a variável "basis" contém a base reivindicada pela regra em unidades menores
+            amount_requires_order_trigger: Os tipos por montante e multiplicador precisam de uma base de encomenda e só estão disponíveis para o gatilho de encomenda incorporado.
+            amount_type: Tipo de montante
+            condition_configuration: Configuração da condição
+            condition_configuration_help: 'JSON, p. ex. {"amount": 5000} ou {"taxons": ["t_shirts"]}'
+            condition_expression: Expressão da condição
+            condition_expression_help: Usada quando o tipo de condição é "Expressão"; a condição passa quando a expressão é verdadeira
+            condition_type: Tipo de condição
+            expression_required: O modo de expressão precisa de uma expressão.
+            multiplier_is_order_scoped: As regras de multiplicador aplicam-se apenas ao âmbito da encomenda; use o modo de expressão para lógica ao nível do item.
+            scope_requires_order_trigger: Os âmbitos de taxon e de produto precisam de itens de encomenda e só estão disponíveis para o gatilho de encomenda incorporado.
+            conditions: Condições
+            conditions_match: Correspondência das condições
+            conditions_match_all: Todas as condições devem passar
+            conditions_match_any: Pelo menos uma condição deve passar
+            dry_run: Simulação
+            dry_run_help: Avaliar com o tráfego real e registar na lista de auditoria o que seria atribuído, sem escrever quaisquer pontos
+            ends_at: Termina em
+            scope: Âmbito
+            scope_configuration: Configuração do âmbito
+            scope_configuration_help: 'JSON, p. ex. {"taxons": ["t_shirts"]} ou {"products": ["MUG"]}; deixe vazio para o âmbito da encomenda'
+            scope_help: As regras com âmbito de produto ou taxon reivindicam exclusivamente os itens correspondentes; as regras com âmbito de encomenda ganham sobre o restante
+            scope_order: Encomenda completa
+            scope_product: Produtos específicos
+            scope_taxon: Taxons específicos
+            stackable: Acumulável
+            stackable_help: As regras acumuláveis que competem pela mesma base aplicam-se todas e somam-se; uma regra não acumulável aplica-se sozinha (ganha a de maior prioridade)
+            starts_at: Começa em
+            trigger: Gatilho
+            window_timezone_help: Introduzido e avaliado no fuso horário configurado da aplicação
+        earning_rule.amount:
+            expression: Expressão
+            fixed: Pontos fixos
+            multiplier: Multiplicador
+            per_amount: Pontos por montante
+        earning_rule.condition:
+            cart_contains_taxon: O carrinho contém o taxon
+            customer_group: Grupo de clientes
+            date_window: Janela de datas
+            day_of_week: Dia da semana
+            expression: Expressão
+            nth_order: Enésima encomenda
+            order_total_at_least: Total da encomenda no mínimo
+        invalid_json: Este valor não é JSON válido.
+        program:
+            award_moment_order_fulfilled: Quando a encomenda é concluída
+            award_moment_payment_paid: Quando o pagamento é totalmente pago
+            award_order_points_at: Atribuir os pontos da encomenda em
+            award_order_points_at_help: O único momento do ciclo de vida da encomenda em que os pontos são atribuídos — um por programa, nunca por regra
+            base_currency_help: Os montantes estão em unidades menores da moeda base do canal
+            clawback_policy: Política de recuperação
+            clawback_policy_allow_negative: Permitir saldo negativo (recuperado de ganhos futuros)
+            clawback_policy_clamp_to_zero: Limitar o saldo a zero
+            earning_basis: Base de ganho
+            earning_basis_help: O que conta para o ganho; a taxa de ganho em si é definida pelas regras de ganho
+            earning_basis_items_total: Total dos itens (excl. envio)
+            earning_basis_order_total: Total da encomenda (incl. envio)
+            include_taxes: Incluir impostos na base
+            max_redeem_percent_of_order: Percentagem máx. resgatável da encomenda
+            max_redeem_percent_of_order_help: A parte do total dos itens da encomenda que pode ser coberta por pontos (100 permite encomendas totalmente gratuitas)
+            min_redeem_points: Pontos mínimos por resgate
+            points_expiry_days: Os pontos expiram após (dias)
+            points_expiry_days_help: Deixe vazio para que os pontos nunca expirem. Note que a expiração de valor armazenado está sujeita a restrições da legislação do consumidor em algumas jurisdições
+            redemption_conversion_amount: '... valem este montante (unidades menores)'
+            redemption_conversion_help: 'A conversão de resgate: este número de pontos...'
+            redemption_conversion_points: Unidade de pontos
+            retroactive_guest_points: Pontos retroativos de convidado
+            retroactive_guest_points_help: Atribuir pontos por encomendas de convidado anteriores ao registo quando o convidado se regista (sem retroatividade para registos anteriores)
+            rounding: Arredondamento
+            rounding_ceil: Por excesso
+            rounding_floor: Por defeito
+            rounding_round: Arredondar
+    trigger:
+        customer_birthday: Aniversário do cliente
+        customer_registered: Cliente registado
+        order_eligible: Encomenda (incorporado)
+        product_review_approved: Avaliação de produto aprovada
+    ui:
+        account: Conta de fidelidade
+        account_inactive: A sua conta de fidelidade está atualmente inativa — o seu saldo está preservado, mas o ganho e o resgate estão em pausa.
+        accounts: Contas de fidelidade
+        accounts_card_description: Consultar contas, inspecionar livros-razão, ajustar pontos
+        adjust: Ajustar
+        anonymized: Anonimizado
+        balance: O seu saldo de pontos
+        balance_label: Saldo
+        change_on_cart: Alterar no carrinho
+        consumptions: Consumido por
+        dashboard_subtitle: Pontos, regras de ganho e definições do programa
+        derived_balance: Soma do livro-razão
+        dry_run: Simulação
+        dry_run_results: Resultados de simulação
+        dry_run_results_card_description: O que as regras em simulação teriam atribuído
+        earning_rate_hint: 'A taxa de ganho é definida pelas regras de ganho: uma regra base com âmbito de encomenda e o tipo por montante é a taxa padrão da loja.'
+        earning_rules: Regras de ganho
+        earning_rules_card_description: Gatilhos, condições e montantes
+        edit_earning_rule: Editar regra de ganho
+        edit_program: Editar programa
+        new_earning_rule: Nova regra de ganho
+        description: Descrição
+        expired: Expirado
+        expires: 'expira %date%'
+        expires_at: Expira em
+        expiring_soon: '%points% pontos expiram antes de %date%.'
+        history: Histórico de transações
+        history_description:
+            clawback: 'Pontos recuperados por uma encomenda cancelada ou reembolsada'
+            earn_action: 'Pontos ganhos'
+            earn_order: 'Ganhos na encomenda %order%'
+            earn_referral: 'Recompensa de indicação'
+            expire: 'Pontos expirados'
+            manual_credit: 'Ajuste: %reason%'
+            manual_debit: 'Ajuste: %reason%'
+            redeem: 'Resgatados na encomenda %order%'
+            redeem_rollback: 'Pontos restaurados de uma encomenda cancelada'
+        history_empty: Ainda sem transações — os pontos que ganhar e gastar aparecerão aqui.
+        my_loyalty: A minha fidelidade
+        running_balance: Saldo
+        inspect: Inspecionar
+        invariants_hold: Todos os invariantes do livro-razão são cumpridos.
+        invariants_violated: Os invariantes do livro-razão foram violados — investigue antes de fazer correções manuais.
+        ledger: Livro-razão
+        lifetime_earned: Total ganho acumulado
+        lot: Lote
+        lots: Lotes (derivados por reprodução)
+        loyalty: Fidelidade
+        manual_adjustment: Ajuste manual
+        manual_reason:
+            correction: Correção
+            goodwill: Cortesia
+            other: Outro
+            promotion: Promoção
+        never: nunca
+        note: Nota
+        points: Pontos
+        points_amount: '%points% pontos'
+        points_applied: '%points% pontos aplicados'
+        points_redemption: Resgate de pontos
+        program: Programa
+        program_card_description: Conversão, expiração e políticas por canal
+        reason: Motivo
+        redemption_clamped: 'O seu pedido de %requested% pontos é aplicado apenas parcialmente a esta encomenda; volta a aumentar automaticamente quando a encomenda o permitir.'
+        remaining: Restante
+        remove_redemption: Remover
+        rule: Regra
+        rule_tester: Testador de regras
+        rule_tester_card_description: Avaliar regras com uma encomenda recente, opcionalmente noutra data
+        scope: Âmbito
+        stat_accounts: Contas
+        stat_earned_30_days: Pontos ganhos (30 dias)
+        stat_redeemed_30_days: Pontos resgatados (30 dias)
+        tester_applied: Aplicada
+        tester_claimed_basis: Base reivindicada
+        tester_claimed_by: Reivindicada por
+        tester_evaluate: Avaliar
+        tester_evaluate_at: Avaliar como se fosse
+        tester_evaluate_at_help: Pré-visualizar regras agendadas antes de a sua janela abrir
+        tester_failed_conditions: Condições falhadas
+        tester_final_award: 'Atribuição final: %points% pontos'
+        tester_invalid_date: A data de avaliação é inválida.
+        tester_item_claims: Reivindicações por item
+        tester_matched: Correspondeu
+        tester_order_has_no_customer: A encomenda não tem cliente, pelo que nenhuma regra pode ser avaliada.
+        tester_order_not_found: Não foi encontrada nenhuma encomenda com esse número.
+        tester_order_number: Número da encomenda
+        tester_rules: Avaliações de regras
+        trigger: Gatilho
+        use_max: Usar o máximo
+        use_your_points: Use os seus pontos

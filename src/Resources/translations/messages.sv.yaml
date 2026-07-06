@@ -1,0 +1,177 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    form:
+        earning_rule:
+            add_condition: Lägg till villkor
+            amount_configuration: Beloppskonfiguration
+            amount_configuration_help: 'JSON, t.ex. {"points": 1, "per_amount": 100} för per belopp, {"points": 50} för fast, {"factor": 2} för multiplikator, {"expression": "floor(basis / 100)"} för uttryck'
+            amount_expression: Beloppsuttryck
+            amount_expression_help: Används när beloppstypen är "Uttryck"; variabeln "basis" innehåller den bas som regeln gör anspråk på, i minsta enheter
+            amount_requires_order_trigger: Typerna per belopp och multiplikator kräver en orderbas och är endast tillgängliga för den inbyggda ordertriggern.
+            amount_type: Beloppstyp
+            condition_configuration: Villkorskonfiguration
+            condition_configuration_help: 'JSON, t.ex. {"amount": 5000} eller {"taxons": ["t_shirts"]}'
+            condition_expression: Villkorsuttryck
+            condition_expression_help: Används när villkorstypen är "Uttryck"; villkoret uppfylls när uttrycket utvärderas som sant
+            condition_type: Villkorstyp
+            expression_required: Uttrycksläget kräver ett uttryck.
+            multiplier_is_order_scoped: Multiplikatorregler gäller endast hela ordern; använd uttrycksläget för logik på radnivå.
+            scope_requires_order_trigger: Taxon- och produktavgränsningar kräver orderrader och är endast tillgängliga för den inbyggda ordertriggern.
+            conditions: Villkor
+            conditions_match: Matchning av villkor
+            conditions_match_all: Alla villkor måste uppfyllas
+            conditions_match_any: Minst ett villkor måste uppfyllas
+            dry_run: Testkörning
+            dry_run_help: Utvärdera mot verklig trafik och logga till granskningslistan vad som skulle ha tilldelats, utan att skriva några poäng
+            ends_at: Slutar
+            scope: Avgränsning
+            scope_configuration: Avgränsningskonfiguration
+            scope_configuration_help: 'JSON, t.ex. {"taxons": ["t_shirts"]} eller {"products": ["MUG"]}; lämna tomt för hela ordern'
+            scope_help: Produkt- eller taxonavgränsade regler gör exklusivt anspråk på sina matchande artiklar; orderavgränsade regler tjänar in på resten
+            scope_order: Hela ordern
+            scope_product: Specifika produkter
+            scope_taxon: Specifika taxoner
+            stackable: Kombinerbar
+            stackable_help: Kombinerbara regler som konkurrerar om samma bas gäller alla och summeras; en icke-kombinerbar regel gäller ensam (högsta prioritet vinner)
+            starts_at: Börjar
+            trigger: Trigger
+            window_timezone_help: Anges och utvärderas i applikationens konfigurerade tidszon
+        earning_rule.amount:
+            expression: Uttryck
+            fixed: Fasta poäng
+            multiplier: Multiplikator
+            per_amount: Poäng per belopp
+        earning_rule.condition:
+            cart_contains_taxon: Varukorgen innehåller taxon
+            customer_group: Kundgrupp
+            date_window: Datumintervall
+            day_of_week: Veckodag
+            expression: Uttryck
+            nth_order: 'N:te ordern'
+            order_total_at_least: Ordersumma minst
+        invalid_json: Detta värde är inte giltig JSON.
+        program:
+            award_moment_order_fulfilled: När ordern är slutförd
+            award_moment_payment_paid: När betalningen är helt betald
+            award_order_points_at: Tidpunkt för tilldelning av orderpoäng
+            award_order_points_at_help: Det enda tillfället i orderns livscykel då poäng tilldelas — ett per program, aldrig per regel
+            base_currency_help: Belopp anges i minsta enheter av kanalens basvaluta
+            clawback_policy: Återtagspolicy
+            clawback_policy_allow_negative: Tillåt negativt saldo (återvinns från framtida intjäning)
+            clawback_policy_clamp_to_zero: Begränsa saldot till noll
+            earning_basis: Intjäningsbas
+            earning_basis_help: Vad som räknas in i intjäningen; själva intjäningstakten definieras av intjäningsregler
+            earning_basis_items_total: Artikelsumma (exkl. frakt)
+            earning_basis_order_total: Ordersumma (inkl. frakt)
+            include_taxes: Inkludera moms i basen
+            max_redeem_percent_of_order: Max. inlösbar procent av ordern
+            max_redeem_percent_of_order_help: Den andel av orderns artikelsumma som kan täckas av poäng (100 tillåter helt gratis ordrar)
+            min_redeem_points: Minsta antal poäng per inlösen
+            points_expiry_days: Poäng förfaller efter (dagar)
+            points_expiry_days_help: Lämna tomt så förfaller poängen aldrig. Observera att förfall av lagrat värde kan omfattas av konsumenträttsliga begränsningar i vissa jurisdiktioner
+            redemption_conversion_amount: '... är värda detta belopp (minsta enheter)'
+            redemption_conversion_help: 'Inlösenkursen: så här många poäng...'
+            redemption_conversion_points: Poängenhet
+            retroactive_guest_points: Retroaktiva gästpoäng
+            retroactive_guest_points_help: Tilldela poäng för gästordrar lagda före registreringen när gästen registrerar sig (ingen retroaktiv tilldelning för tidigare registreringar)
+            rounding: Avrundning
+            rounding_ceil: Uppåt
+            rounding_floor: Nedåt
+            rounding_round: Avrunda
+    trigger:
+        customer_birthday: Kundens födelsedag
+        customer_registered: Kund registrerad
+        order_eligible: Order (inbyggd)
+        product_review_approved: Produktrecension godkänd
+    ui:
+        account: Lojalitetskonto
+        account_inactive: Ditt lojalitetskonto är för närvarande inaktivt — ditt saldo är bevarat, men intjäning och inlösen är pausade.
+        accounts: Lojalitetskonton
+        accounts_card_description: Bläddra bland konton, granska huvudböcker, justera poäng
+        adjust: Justera
+        anonymized: Anonymiserad
+        balance: Ditt poängsaldo
+        balance_label: Saldo
+        change_on_cart: Ändra i varukorgen
+        consumptions: Förbrukad av
+        dashboard_subtitle: Poäng, intjäningsregler och programinställningar
+        derived_balance: Summa i huvudboken
+        dry_run: Testkörning
+        dry_run_results: Testkörningsresultat
+        dry_run_results_card_description: Vad testkörningsregler skulle ha tilldelat
+        earning_rate_hint: 'Intjäningstakten definieras av intjäningsregler: en basregel för hela ordern med typen per belopp är butikens standardtakt.'
+        earning_rules: Intjäningsregler
+        earning_rules_card_description: Triggrar, villkor och belopp
+        edit_earning_rule: Redigera intjäningsregel
+        edit_program: Redigera program
+        new_earning_rule: Ny intjäningsregel
+        description: Beskrivning
+        expired: Förfallen
+        expires: 'förfaller %date%'
+        expires_at: Förfaller
+        expiring_soon: '%points% poäng förfaller före %date%.'
+        history: Transaktionshistorik
+        history_description:
+            clawback: 'Poäng återtagna för en annullerad eller återbetald order'
+            earn_action: 'Poäng intjänade'
+            earn_order: 'Intjänade på order %order%'
+            earn_referral: 'Värvningsbelöning'
+            expire: 'Poäng förfallna'
+            manual_credit: 'Justering: %reason%'
+            manual_debit: 'Justering: %reason%'
+            redeem: 'Inlösta på order %order%'
+            redeem_rollback: 'Poäng återställda från en annullerad order'
+        history_empty: Inga transaktioner ännu — poäng du tjänar in och använder visas här.
+        my_loyalty: Mitt lojalitetsprogram
+        running_balance: Saldo
+        inspect: Granska
+        invariants_hold: Alla huvudbokens invarianter håller.
+        invariants_violated: Huvudbokens invarianter är brutna — utred innan manuella korrigeringar görs.
+        ledger: Huvudbok
+        lifetime_earned: Intjänat totalt
+        lot: Lot
+        lots: Lotter (härledda via återuppspelning)
+        loyalty: Lojalitet
+        manual_adjustment: Manuell justering
+        manual_reason:
+            correction: Korrigering
+            goodwill: Goodwill
+            other: Övrigt
+            promotion: Kampanj
+        never: aldrig
+        note: Anteckning
+        points: Poäng
+        points_amount: '%points% poäng'
+        points_applied: '%points% poäng tillämpade'
+        points_redemption: Poänginlösen
+        program: Program
+        program_card_description: Konvertering, förfall och policyer per kanal
+        reason: Orsak
+        redemption_clamped: 'Din begäran om %requested% poäng tillämpas endast delvis på denna order; den ökar automatiskt igen när ordern tillåter det.'
+        remaining: Återstående
+        remove_redemption: Ta bort
+        rule: Regel
+        rule_tester: Regeltestare
+        rule_tester_card_description: Utvärdera regler mot en nyligen lagd order, eventuellt vid ett annat datum
+        scope: Avgränsning
+        stat_accounts: Konton
+        stat_earned_30_days: Poäng intjänade (30 dagar)
+        stat_redeemed_30_days: Poäng inlösta (30 dagar)
+        tester_applied: Tillämpad
+        tester_claimed_basis: Bas i anspråk
+        tester_claimed_by: I anspråk av
+        tester_evaluate: Utvärdera
+        tester_evaluate_at: Utvärdera som om det vore
+        tester_evaluate_at_help: Förhandsgranska schemalagda regler innan deras fönster öppnas
+        tester_failed_conditions: Ej uppfyllda villkor
+        tester_final_award: 'Slutlig tilldelning: %points% poäng'
+        tester_invalid_date: Utvärderingsdatumet är ogiltigt.
+        tester_item_claims: Anspråk per artikel
+        tester_matched: Matchad
+        tester_order_has_no_customer: Ordern har ingen kund, så inga regler kan utvärderas.
+        tester_order_not_found: Ingen order med det numret hittades.
+        tester_order_number: Ordernummer
+        tester_rules: Regelutvärderingar
+        trigger: Trigger
+        use_max: Använd max
+        use_your_points: Använd dina poäng

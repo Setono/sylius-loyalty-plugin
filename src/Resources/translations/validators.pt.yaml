@@ -1,0 +1,5 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    checkout:
+        account_disabled: A sua conta de fidelidade está inativa, pelo que os pontos aplicados não podem ser resgatados. Remova-os da encomenda.
+        insufficient_balance: O seu saldo de pontos já não cobre o resgate aplicado. Ajuste-o no carrinho.

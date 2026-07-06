@@ -1,0 +1,5 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    checkout:
+        account_disabled: Din loyalitetskonto er inaktiv, så de anvendte point kan ikke indløses. Fjern dem venligst fra ordren.
+        insufficient_balance: Din pointsaldo dækker ikke længere den anvendte indløsning. Justér den venligst i kurven.

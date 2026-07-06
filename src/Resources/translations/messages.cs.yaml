@@ -1,0 +1,177 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    form:
+        earning_rule:
+            add_condition: Přidat podmínku
+            amount_configuration: Konfigurace částky
+            amount_configuration_help: 'JSON, např. {"points": 1, "per_amount": 100} pro body za částku, {"points": 50} pro pevný počet, {"factor": 2} pro násobitel, {"expression": "floor(basis / 100)"} pro výraz'
+            amount_expression: Výraz částky
+            amount_expression_help: Použije se, když je typ částky „Výraz“; proměnná "basis" obsahuje základ nárokovaný pravidlem v nejmenších měnových jednotkách
+            amount_requires_order_trigger: Typy za částku a násobitel potřebují základ objednávky a jsou dostupné pouze pro vestavěný spouštěč objednávky.
+            amount_type: Typ částky
+            condition_configuration: Konfigurace podmínky
+            condition_configuration_help: 'JSON, např. {"amount": 5000} nebo {"taxons": ["t_shirts"]}'
+            condition_expression: Výraz podmínky
+            condition_expression_help: Použije se, když je typ podmínky „Výraz“; podmínka projde, když je výraz pravdivý
+            condition_type: Typ podmínky
+            expression_required: Režim výrazu vyžaduje výraz.
+            multiplier_is_order_scoped: Pravidla s násobitelem platí pouze pro celou objednávku; pro logiku na úrovni položek použijte režim výrazu.
+            scope_requires_order_trigger: Rozsahy podle taxonu a produktu potřebují položky objednávky a jsou dostupné pouze pro vestavěný spouštěč objednávky.
+            conditions: Podmínky
+            conditions_match: Splnění podmínek
+            conditions_match_all: Všechny podmínky musí projít
+            conditions_match_any: Alespoň jedna podmínka musí projít
+            dry_run: Zkušební režim
+            dry_run_help: Vyhodnocovat na živém provozu a zapisovat do auditního seznamu, co by bylo přiděleno, aniž by se připsaly jakékoli body
+            ends_at: Končí
+            scope: Rozsah
+            scope_configuration: Konfigurace rozsahu
+            scope_configuration_help: 'JSON, např. {"taxons": ["t_shirts"]} nebo {"products": ["MUG"]}; pro rozsah celé objednávky ponechte prázdné'
+            scope_help: Pravidla s rozsahem produktu nebo taxonu si výhradně nárokují odpovídající položky; pravidla s rozsahem objednávky získávají body ze zbytku
+            scope_order: Celá objednávka
+            scope_product: Konkrétní produkty
+            scope_taxon: Konkrétní taxony
+            stackable: Kombinovatelné
+            stackable_help: Kombinovatelná pravidla soutěžící o stejný základ se uplatní všechna a sečtou se; nekombinovatelné pravidlo se uplatní samo (vyhrává nejvyšší priorita)
+            starts_at: Začíná
+            trigger: Spouštěč
+            window_timezone_help: Zadává a vyhodnocuje se v časovém pásmu nastaveném v aplikaci
+        earning_rule.amount:
+            expression: Výraz
+            fixed: Pevný počet bodů
+            multiplier: Násobitel
+            per_amount: Body za částku
+        earning_rule.condition:
+            cart_contains_taxon: Košík obsahuje taxon
+            customer_group: Skupina zákazníků
+            date_window: Časové okno
+            day_of_week: Den v týdnu
+            expression: Výraz
+            nth_order: N-tá objednávka
+            order_total_at_least: Celková hodnota objednávky alespoň
+        invalid_json: Tato hodnota není platný JSON.
+        program:
+            award_moment_order_fulfilled: Když je objednávka vyřízena
+            award_moment_payment_paid: Když je platba plně uhrazena
+            award_order_points_at: Body za objednávku přidělit při
+            award_order_points_at_help: Jediný okamžik životního cyklu objednávky, kdy se body přidělují — jeden na program, nikdy na pravidlo
+            base_currency_help: Částky jsou v nejmenších jednotkách základní měny kanálu
+            clawback_policy: Politika zpětného odebrání
+            clawback_policy_allow_negative: Povolit záporný zůstatek (vyrovná se z budoucích zisků)
+            clawback_policy_clamp_to_zero: Omezit zůstatek na nulu
+            earning_basis: Základ pro získávání
+            earning_basis_help: Co se počítá do získávání; samotnou sazbu získávání definují pravidla získávání
+            earning_basis_items_total: Součet položek (bez dopravy)
+            earning_basis_order_total: Celková hodnota objednávky (vč. dopravy)
+            include_taxes: Zahrnout daně do základu
+            max_redeem_percent_of_order: Max. uplatnitelné procento objednávky
+            max_redeem_percent_of_order_help: Podíl součtu položek objednávky, který lze pokrýt body (100 umožňuje zcela bezplatné objednávky)
+            min_redeem_points: Minimální počet bodů na uplatnění
+            points_expiry_days: Body vyprší po (dnech)
+            points_expiry_days_help: Ponechte prázdné, aby body nikdy nevypršely. Upozorňujeme, že vypršení uložené hodnoty podléhá v některých jurisdikcích omezením spotřebitelského práva
+            redemption_conversion_amount: '... mají hodnotu této částky (nejmenší jednotky)'
+            redemption_conversion_help: 'Převod při uplatnění: tento počet bodů...'
+            redemption_conversion_points: Jednotka bodů
+            retroactive_guest_points: Zpětné body hostů
+            retroactive_guest_points_help: Přidělit body za objednávky hosta před registrací, když se host zaregistruje (bez zpětného doplnění pro dřívější registrace)
+            rounding: Zaokrouhlování
+            rounding_ceil: Nahoru
+            rounding_floor: Dolů
+            rounding_round: Matematicky
+    trigger:
+        customer_birthday: Narozeniny zákazníka
+        customer_registered: Zákazník se zaregistroval
+        order_eligible: Objednávka (vestavěné)
+        product_review_approved: Recenze produktu schválena
+    ui:
+        account: Věrnostní účet
+        account_inactive: Váš věrnostní účet je momentálně neaktivní — váš zůstatek je zachován, ale získávání a uplatňování bodů je pozastaveno.
+        accounts: Věrnostní účty
+        accounts_card_description: Procházení účtů, kontrola knih transakcí, úpravy bodů
+        adjust: Upravit
+        anonymized: Anonymizováno
+        balance: Váš zůstatek bodů
+        balance_label: Zůstatek
+        change_on_cart: Změnit v košíku
+        consumptions: Spotřebováno
+        dashboard_subtitle: Body, pravidla získávání a nastavení programu
+        derived_balance: Součet knihy transakcí
+        dry_run: Zkušební režim
+        dry_run_results: Výsledky zkušebního režimu
+        dry_run_results_card_description: Co by pravidla ve zkušebním režimu přidělila
+        earning_rate_hint: 'Sazbu získávání definují pravidla získávání: základní pravidlo s rozsahem objednávky a typem za částku je výchozí sazbou obchodu.'
+        earning_rules: Pravidla získávání
+        earning_rules_card_description: Spouštěče, podmínky a částky
+        edit_earning_rule: Upravit pravidlo získávání
+        edit_program: Upravit program
+        new_earning_rule: Nové pravidlo získávání
+        description: Popis
+        expired: Vypršelo
+        expires: 'vyprší %date%'
+        expires_at: Vyprší
+        expiring_soon: '%points% bodů vyprší před %date%.'
+        history: Historie transakcí
+        history_description:
+            clawback: 'Body odebrané za zrušenou nebo refundovanou objednávku'
+            earn_action: 'Získané body'
+            earn_order: 'Získáno za objednávku %order%'
+            earn_referral: 'Odměna za doporučení'
+            expire: 'Body vypršely'
+            manual_credit: 'Úprava: %reason%'
+            manual_debit: 'Úprava: %reason%'
+            redeem: 'Uplatněno na objednávku %order%'
+            redeem_rollback: 'Body vrácené ze zrušené objednávky'
+        history_empty: Zatím žádné transakce — body, které získáte a utratíte, se zobrazí zde.
+        my_loyalty: Můj věrnostní program
+        running_balance: Zůstatek
+        inspect: Prozkoumat
+        invariants_hold: Všechny invarianty knihy transakcí platí.
+        invariants_violated: Invarianty knihy transakcí jsou porušeny — před ručními opravami proveďte šetření.
+        ledger: Kniha transakcí
+        lifetime_earned: Celkem získáno
+        lot: Dávka
+        lots: Dávky (odvozené přehráním)
+        loyalty: Věrnostní program
+        manual_adjustment: Ruční úprava
+        manual_reason:
+            correction: Oprava
+            goodwill: Vstřícnost
+            other: Jiné
+            promotion: Promoakce
+        never: nikdy
+        note: Poznámka
+        points: Body
+        points_amount: '%points% bodů'
+        points_applied: 'Uplatněno %points% bodů'
+        points_redemption: Uplatnění bodů
+        program: Program
+        program_card_description: Převod, vypršení a zásady pro jednotlivé kanály
+        reason: Důvod
+        redemption_clamped: 'Váš požadavek na %requested% bodů je na tuto objednávku uplatněn jen částečně; automaticky se opět navýší, jakmile to objednávka umožní.'
+        remaining: Zbývá
+        remove_redemption: Odebrat
+        rule: Pravidlo
+        rule_tester: Tester pravidel
+        rule_tester_card_description: Vyhodnotit pravidla na nedávné objednávce, volitelně k jinému datu
+        scope: Rozsah
+        stat_accounts: Účty
+        stat_earned_30_days: Získané body (30 dní)
+        stat_redeemed_30_days: Uplatněné body (30 dní)
+        tester_applied: Uplatněno
+        tester_claimed_basis: Nárokovaný základ
+        tester_claimed_by: Nárokováno
+        tester_evaluate: Vyhodnotit
+        tester_evaluate_at: Vyhodnotit, jako by bylo
+        tester_evaluate_at_help: Náhled naplánovaných pravidel před otevřením jejich okna
+        tester_failed_conditions: Nesplněné podmínky
+        tester_final_award: 'Konečné přidělení: %points% bodů'
+        tester_invalid_date: Datum vyhodnocení je neplatné.
+        tester_item_claims: Nároky podle položek
+        tester_matched: Odpovídá
+        tester_order_has_no_customer: Objednávka nemá zákazníka, takže nelze vyhodnotit žádná pravidla.
+        tester_order_not_found: Objednávka s tímto číslem nebyla nalezena.
+        tester_order_number: Číslo objednávky
+        tester_rules: Vyhodnocení pravidel
+        trigger: Spouštěč
+        use_max: Použít maximum
+        use_your_points: Využijte své body

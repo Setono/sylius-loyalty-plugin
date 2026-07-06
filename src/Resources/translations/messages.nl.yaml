@@ -1,0 +1,177 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    form:
+        earning_rule:
+            add_condition: Voorwaarde toevoegen
+            amount_configuration: Bedragconfiguratie
+            amount_configuration_help: 'JSON, bijv. {"points": 1, "per_amount": 100} voor per bedrag, {"points": 50} voor vast, {"factor": 2} voor vermenigvuldiger, {"expression": "floor(basis / 100)"} voor expressie'
+            amount_expression: Bedragexpressie
+            amount_expression_help: Wordt gebruikt wanneer het bedragtype "Expressie" is; de variabele "basis" bevat de door de regel geclaimde basis in de kleinste munteenheid
+            amount_requires_order_trigger: De typen per bedrag en vermenigvuldiger hebben een bestelbasis nodig en zijn alleen beschikbaar voor de ingebouwde besteltrigger.
+            amount_type: Bedragtype
+            condition_configuration: Voorwaardeconfiguratie
+            condition_configuration_help: 'JSON, bijv. {"amount": 5000} of {"taxons": ["t_shirts"]}'
+            condition_expression: Voorwaarde-expressie
+            condition_expression_help: Wordt gebruikt wanneer het voorwaardetype "Expressie" is; de voorwaarde slaagt wanneer de expressie waar is
+            condition_type: Voorwaardetype
+            expression_required: De expressiemodus vereist een expressie.
+            multiplier_is_order_scoped: Vermenigvuldigingsregels gelden alleen op bestelniveau; gebruik de expressiemodus voor logica op artikelniveau.
+            scope_requires_order_trigger: De taxon- en productbereiken hebben bestelartikelen nodig en zijn alleen beschikbaar voor de ingebouwde besteltrigger.
+            conditions: Voorwaarden
+            conditions_match: Voorwaarden matchen
+            conditions_match_all: Aan alle voorwaarden moet worden voldaan
+            conditions_match_any: Aan ten minste één voorwaarde moet worden voldaan
+            dry_run: Proefdraaien
+            dry_run_help: Evalueer op live verkeer en log wat zou zijn toegekend in de auditlijst, zonder punten weg te schrijven
+            ends_at: Eindigt op
+            scope: Bereik
+            scope_configuration: Bereikconfiguratie
+            scope_configuration_help: 'JSON, bijv. {"taxons": ["t_shirts"]} of {"products": ["MUG"]}; leeg laten voor bestelbereik'
+            scope_help: Product- of taxongebonden regels claimen hun overeenkomende artikelen exclusief; regels op bestelniveau sparen over de rest
+            scope_order: Hele bestelling
+            scope_product: Specifieke producten
+            scope_taxon: Specifieke taxons
+            stackable: Stapelbaar
+            stackable_help: Stapelbare regels die om dezelfde basis strijden, gelden allemaal en worden opgeteld; een niet-stapelbare regel geldt alleen (hoogste prioriteit wint)
+            starts_at: Begint op
+            trigger: Trigger
+            window_timezone_help: Ingevoerd en geëvalueerd in de geconfigureerde tijdzone van de applicatie
+        earning_rule.amount:
+            expression: Expressie
+            fixed: Vaste punten
+            multiplier: Vermenigvuldiger
+            per_amount: Punten per bedrag
+        earning_rule.condition:
+            cart_contains_taxon: Winkelwagen bevat taxon
+            customer_group: Klantengroep
+            date_window: Datumperiode
+            day_of_week: Dag van de week
+            expression: Expressie
+            nth_order: N-de bestelling
+            order_total_at_least: Besteltotaal minimaal
+        invalid_json: Deze waarde is geen geldige JSON.
+        program:
+            award_moment_order_fulfilled: Wanneer de bestelling is afgehandeld
+            award_moment_payment_paid: Wanneer de betaling volledig is voldaan
+            award_order_points_at: Bestelpunten toekennen bij
+            award_order_points_at_help: Het enige moment in de levenscyclus van de bestelling waarop punten worden toegekend — één per programma, nooit per regel
+            base_currency_help: Bedragen zijn in de kleinste munteenheid van de basisvaluta van het kanaal
+            clawback_policy: Terugvorderingsbeleid
+            clawback_policy_allow_negative: Negatief saldo toestaan (verrekend met toekomstige punten)
+            clawback_policy_clamp_to_zero: Saldo begrenzen op nul
+            earning_basis: Spaarbasis
+            earning_basis_help: Wat meetelt voor het sparen; het spaartarief zelf wordt bepaald door spaarregels
+            earning_basis_items_total: Artikeltotaal (excl. verzending)
+            earning_basis_order_total: Besteltotaal (incl. verzending)
+            include_taxes: Belastingen meenemen in de basis
+            max_redeem_percent_of_order: Max. inwisselbaar percentage van de bestelling
+            max_redeem_percent_of_order_help: Het deel van het artikeltotaal van de bestelling dat met punten gedekt kan worden (100 staat volledig gratis bestellingen toe)
+            min_redeem_points: Minimaal aantal punten per inwisseling
+            points_expiry_days: Punten verlopen na (dagen)
+            points_expiry_days_help: Laat leeg zodat punten nooit verlopen. Let op dat het laten verlopen van opgebouwd tegoed in sommige rechtsgebieden onderworpen is aan consumentenwetgeving
+            redemption_conversion_amount: '... zijn dit bedrag waard (kleinste munteenheid)'
+            redemption_conversion_help: 'De inwisselconversie: dit aantal punten...'
+            redemption_conversion_points: Punteneenheid
+            retroactive_guest_points: Gastpunten met terugwerkende kracht
+            retroactive_guest_points_help: Ken punten toe voor gastbestellingen van vóór de registratie wanneer de gast zich registreert (geen toekenning achteraf voor eerdere registraties)
+            rounding: Afronding
+            rounding_ceil: Naar boven
+            rounding_floor: Naar beneden
+            rounding_round: Afronden
+    trigger:
+        customer_birthday: Verjaardag van de klant
+        customer_registered: Klant geregistreerd
+        order_eligible: Bestelling (ingebouwd)
+        product_review_approved: Productreview goedgekeurd
+    ui:
+        account: Loyaliteitsaccount
+        account_inactive: Je loyaliteitsaccount is momenteel inactief — je saldo blijft behouden, maar sparen en inwisselen zijn gepauzeerd.
+        accounts: Loyaliteitsaccounts
+        accounts_card_description: Accounts doorbladeren, grootboeken inspecteren, punten aanpassen
+        adjust: Aanpassen
+        anonymized: Geanonimiseerd
+        balance: Je puntensaldo
+        balance_label: Saldo
+        change_on_cart: Wijzigen in de winkelwagen
+        consumptions: Verbruikt door
+        dashboard_subtitle: Punten, spaarregels en programma-instellingen
+        derived_balance: Grootboeksom
+        dry_run: Proefdraaien
+        dry_run_results: Proefdraairesultaten
+        dry_run_results_card_description: Wat proefdraairegels zouden hebben toegekend
+        earning_rate_hint: 'Het spaartarief wordt bepaald door spaarregels: een basisregel op bestelniveau met het type "punten per bedrag" is het standaardtarief van de winkel.'
+        earning_rules: Spaarregels
+        earning_rules_card_description: Triggers, voorwaarden en bedragen
+        edit_earning_rule: Spaarregel bewerken
+        edit_program: Programma bewerken
+        new_earning_rule: Nieuwe spaarregel
+        description: Beschrijving
+        expired: Verlopen
+        expires: 'verloopt op %date%'
+        expires_at: Verloopt op
+        expiring_soon: '%points% punten verlopen vóór %date%.'
+        history: Transactiegeschiedenis
+        history_description:
+            clawback: 'Punten teruggevorderd voor een geannuleerde of terugbetaalde bestelling'
+            earn_action: 'Punten gespaard'
+            earn_order: 'Gespaard op bestelling %order%'
+            earn_referral: 'Doorverwijzingsbeloning'
+            expire: 'Punten verlopen'
+            manual_credit: 'Correctie: %reason%'
+            manual_debit: 'Correctie: %reason%'
+            redeem: 'Ingewisseld op bestelling %order%'
+            redeem_rollback: 'Punten teruggezet van een geannuleerde bestelling'
+        history_empty: Nog geen transacties — punten die je spaart en uitgeeft, verschijnen hier.
+        my_loyalty: Mijn loyaliteit
+        running_balance: Saldo
+        inspect: Inspecteren
+        invariants_hold: Alle grootboekinvarianten kloppen.
+        invariants_violated: De grootboekinvarianten zijn geschonden — onderzoek dit voordat je handmatige correcties doorvoert.
+        ledger: Grootboek
+        lifetime_earned: Totaal gespaard
+        lot: Partij
+        lots: Partijen (afgeleid via replay)
+        loyalty: Loyaliteit
+        manual_adjustment: Handmatige correctie
+        manual_reason:
+            correction: Correctie
+            goodwill: Coulance
+            other: Overig
+            promotion: Promotie
+        never: nooit
+        note: Notitie
+        points: Punten
+        points_amount: '%points% punten'
+        points_applied: '%points% punten toegepast'
+        points_redemption: Punten inwisselen
+        program: Programma
+        program_card_description: Conversie, vervaldatum en beleid per kanaal
+        reason: Reden
+        redemption_clamped: 'Je verzoek van %requested% punten wordt slechts gedeeltelijk op deze bestelling toegepast; het groeit automatisch weer aan zodra de bestelling dat toelaat.'
+        remaining: Resterend
+        remove_redemption: Verwijderen
+        rule: Regel
+        rule_tester: Regeltester
+        rule_tester_card_description: Regels evalueren op een recente bestelling, eventueel op een andere datum
+        scope: Bereik
+        stat_accounts: Accounts
+        stat_earned_30_days: Punten gespaard (30 dagen)
+        stat_redeemed_30_days: Punten ingewisseld (30 dagen)
+        tester_applied: Toegepast
+        tester_claimed_basis: Geclaimde basis
+        tester_claimed_by: Geclaimd door
+        tester_evaluate: Evalueren
+        tester_evaluate_at: Evalueren alsof het is
+        tester_evaluate_at_help: Bekijk geplande regels voordat hun periode opent
+        tester_failed_conditions: Niet-vervulde voorwaarden
+        tester_final_award: 'Uiteindelijke toekenning: %points% punten'
+        tester_invalid_date: De evaluatiedatum is ongeldig.
+        tester_item_claims: Claims per artikel
+        tester_matched: Match
+        tester_order_has_no_customer: De bestelling heeft geen klant, dus er kunnen geen regels worden geëvalueerd.
+        tester_order_not_found: Er is geen bestelling met dat nummer gevonden.
+        tester_order_number: Bestelnummer
+        tester_rules: Regelevaluaties
+        trigger: Trigger
+        use_max: Maximum gebruiken
+        use_your_points: Gebruik je punten

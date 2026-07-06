@@ -1,0 +1,177 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    form:
+        earning_rule:
+            add_condition: Adaugă condiție
+            amount_configuration: Configurarea sumei
+            amount_configuration_help: 'JSON, de ex. {"points": 1, "per_amount": 100} pentru puncte per sumă, {"points": 50} pentru fix, {"factor": 2} pentru multiplicator, {"expression": "floor(basis / 100)"} pentru expresie'
+            amount_expression: Expresia sumei
+            amount_expression_help: Folosită când tipul sumei este „Expresie”; variabila "basis" conține baza revendicată de regulă, în subunități monetare
+            amount_requires_order_trigger: Tipurile per sumă și multiplicator au nevoie de o bază de comandă și sunt disponibile doar pentru declanșatorul de comandă încorporat.
+            amount_type: Tipul sumei
+            condition_configuration: Configurarea condiției
+            condition_configuration_help: 'JSON, de ex. {"amount": 5000} sau {"taxons": ["t_shirts"]}'
+            condition_expression: Expresia condiției
+            condition_expression_help: Folosită când tipul condiției este „Expresie”; condiția trece când expresia este adevărată
+            condition_type: Tipul condiției
+            expression_required: Modul expresie are nevoie de o expresie.
+            multiplier_is_order_scoped: Regulile cu multiplicator se aplică doar la nivelul comenzii; folosiți modul expresie pentru logică la nivel de articol.
+            scope_requires_order_trigger: Domeniile pe taxon și pe produs au nevoie de articolele comenzii și sunt disponibile doar pentru declanșatorul de comandă încorporat.
+            conditions: Condiții
+            conditions_match: Potrivirea condițiilor
+            conditions_match_all: Toate condițiile trebuie să treacă
+            conditions_match_any: Cel puțin o condiție trebuie să treacă
+            dry_run: Simulare
+            dry_run_help: Evaluează pe traficul real și înregistrează în lista de audit ce ar fi fost acordat, fără a scrie niciun punct
+            ends_at: Se încheie la
+            scope: Domeniu
+            scope_configuration: Configurarea domeniului
+            scope_configuration_help: 'JSON, de ex. {"taxons": ["t_shirts"]} sau {"products": ["MUG"]}; lăsați gol pentru domeniul comenzii'
+            scope_help: Regulile cu domeniu pe produs sau taxon își revendică exclusiv articolele potrivite; regulile cu domeniu pe comandă acumulează pe restul
+            scope_order: Întreaga comandă
+            scope_product: Produse specifice
+            scope_taxon: Taxoni specifici
+            stackable: Cumulabilă
+            stackable_help: Regulile cumulabile care concurează pentru aceeași bază se aplică toate și se însumează; o regulă necumulabilă se aplică singură (câștigă prioritatea cea mai mare)
+            starts_at: Începe la
+            trigger: Declanșator
+            window_timezone_help: Se introduce și se evaluează în fusul orar configurat al aplicației
+        earning_rule.amount:
+            expression: Expresie
+            fixed: Puncte fixe
+            multiplier: Multiplicator
+            per_amount: Puncte per sumă
+        earning_rule.condition:
+            cart_contains_taxon: Coșul conține taxonul
+            customer_group: Grup de clienți
+            date_window: Interval de date
+            day_of_week: Ziua săptămânii
+            expression: Expresie
+            nth_order: A n-a comandă
+            order_total_at_least: Totalul comenzii de cel puțin
+        invalid_json: Această valoare nu este un JSON valid.
+        program:
+            award_moment_order_fulfilled: Când comanda este finalizată
+            award_moment_payment_paid: Când plata este achitată integral
+            award_order_points_at: Acordă punctele comenzii la
+            award_order_points_at_help: Singurul moment din ciclul de viață al comenzii în care se acordă punctele — unul per program, niciodată per regulă
+            base_currency_help: Sumele sunt în subunități ale monedei de bază a canalului
+            clawback_policy: Politica de recuperare
+            clawback_policy_allow_negative: Permite sold negativ (recuperat din acumulările viitoare)
+            clawback_policy_clamp_to_zero: Limitează soldul la zero
+            earning_basis: Baza de acumulare
+            earning_basis_help: Ce se ia în calcul la acumulare; rata de acumulare propriu-zisă este definită de regulile de acumulare
+            earning_basis_items_total: Totalul articolelor (fără livrare)
+            earning_basis_order_total: Totalul comenzii (cu livrare)
+            include_taxes: Include taxele în bază
+            max_redeem_percent_of_order: Procent max. din comandă utilizabil
+            max_redeem_percent_of_order_help: Partea din totalul articolelor comenzii care poate fi acoperită cu puncte (100 permite comenzi complet gratuite)
+            min_redeem_points: Puncte minime per utilizare
+            points_expiry_days: Punctele expiră după (zile)
+            points_expiry_days_help: Lăsați gol pentru ca punctele să nu expire niciodată. Rețineți că expirarea valorii stocate este supusă, în unele jurisdicții, restricțiilor legislației privind protecția consumatorului
+            redemption_conversion_amount: '... valorează această sumă (subunități)'
+            redemption_conversion_help: 'Conversia la utilizare: acest număr de puncte...'
+            redemption_conversion_points: Unitatea de puncte
+            retroactive_guest_points: Puncte retroactive pentru vizitatori
+            retroactive_guest_points_help: Acordă puncte pentru comenzile plasate ca vizitator înainte de înregistrare, atunci când vizitatorul se înregistrează (fără acordare retroactivă pentru înregistrările anterioare)
+            rounding: Rotunjire
+            rounding_ceil: În sus
+            rounding_floor: În jos
+            rounding_round: Matematică
+    trigger:
+        customer_birthday: Ziua de naștere a clientului
+        customer_registered: Client înregistrat
+        order_eligible: Comandă (încorporat)
+        product_review_approved: Recenzie de produs aprobată
+    ui:
+        account: Cont de fidelitate
+        account_inactive: Contul dumneavoastră de fidelitate este momentan inactiv — soldul este păstrat, dar acumularea și utilizarea punctelor sunt suspendate.
+        accounts: Conturi de fidelitate
+        accounts_card_description: Răsfoiți conturile, inspectați registrele, ajustați punctele
+        adjust: Ajustează
+        anonymized: Anonimizat
+        balance: Soldul dumneavoastră de puncte
+        balance_label: Sold
+        change_on_cart: Modifică în coș
+        consumptions: Consumat de
+        dashboard_subtitle: Puncte, reguli de acumulare și setările programului
+        derived_balance: Suma din registru
+        dry_run: Simulare
+        dry_run_results: Rezultatele simulării
+        dry_run_results_card_description: Ce ar fi acordat regulile în simulare
+        earning_rate_hint: 'Rata de acumulare este definită de regulile de acumulare: o regulă de bază la nivel de comandă, de tip per sumă, este rata implicită a magazinului.'
+        earning_rules: Reguli de acumulare
+        earning_rules_card_description: Declanșatoare, condiții și sume
+        edit_earning_rule: Editează regula de acumulare
+        edit_program: Editează programul
+        new_earning_rule: Regulă de acumulare nouă
+        description: Descriere
+        expired: Expirat
+        expires: 'expiră %date%'
+        expires_at: Expiră la
+        expiring_soon: '%points% puncte expiră înainte de %date%.'
+        history: Istoricul tranzacțiilor
+        history_description:
+            clawback: 'Puncte recuperate pentru o comandă anulată sau rambursată'
+            earn_action: 'Puncte acumulate'
+            earn_order: 'Acumulate la comanda %order%'
+            earn_referral: 'Recompensă pentru recomandare'
+            expire: 'Puncte expirate'
+            manual_credit: 'Ajustare: %reason%'
+            manual_debit: 'Ajustare: %reason%'
+            redeem: 'Utilizate la comanda %order%'
+            redeem_rollback: 'Puncte restituite dintr-o comandă anulată'
+        history_empty: Nicio tranzacție încă — punctele pe care le acumulați și le cheltuiți vor apărea aici.
+        my_loyalty: Fidelitatea mea
+        running_balance: Sold
+        inspect: Inspectează
+        invariants_hold: Toți invarianții registrului sunt respectați.
+        invariants_violated: Invarianții registrului sunt încălcați — investigați înainte de a face corecții manuale.
+        ledger: Registru
+        lifetime_earned: Total acumulat
+        lot: Lot
+        lots: Loturi (derivate prin reluare)
+        loyalty: Fidelitate
+        manual_adjustment: Ajustare manuală
+        manual_reason:
+            correction: Corecție
+            goodwill: Bunăvoință
+            other: Altul
+            promotion: Promoție
+        never: niciodată
+        note: Notă
+        points: Puncte
+        points_amount: '%points% puncte'
+        points_applied: '%points% puncte aplicate'
+        points_redemption: Utilizarea punctelor
+        program: Program
+        program_card_description: Conversie, expirare și politici per canal
+        reason: Motiv
+        redemption_clamped: 'Cererea dumneavoastră de %requested% puncte este aplicată doar parțial acestei comenzi; ea crește la loc automat când comanda o permite.'
+        remaining: Rămas
+        remove_redemption: Elimină
+        rule: Regulă
+        rule_tester: Tester de reguli
+        rule_tester_card_description: Evaluați regulile pe o comandă recentă, opțional la o altă dată
+        scope: Domeniu
+        stat_accounts: Conturi
+        stat_earned_30_days: Puncte acumulate (30 de zile)
+        stat_redeemed_30_days: Puncte utilizate (30 de zile)
+        tester_applied: Aplicată
+        tester_claimed_basis: Baza revendicată
+        tester_claimed_by: Revendicată de
+        tester_evaluate: Evaluează
+        tester_evaluate_at: Evaluează ca și cum ar fi
+        tester_evaluate_at_help: Previzualizați regulile programate înainte de deschiderea intervalului lor
+        tester_failed_conditions: Condiții neîndeplinite
+        tester_final_award: 'Acordare finală: %points% puncte'
+        tester_invalid_date: Data evaluării este invalidă.
+        tester_item_claims: Revendicări per articol
+        tester_matched: S-a potrivit
+        tester_order_has_no_customer: Comanda nu are client, așa că nu se pot evalua reguli.
+        tester_order_not_found: Nu a fost găsită nicio comandă cu acest număr.
+        tester_order_number: Numărul comenzii
+        tester_rules: Evaluările regulilor
+        trigger: Declanșator
+        use_max: Folosește maximul
+        use_your_points: Folosiți-vă punctele

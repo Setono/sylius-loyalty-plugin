@@ -1,0 +1,11 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    account_disabled: Lojalitetskontoen er deaktivert.
+    account_enabled: Lojalitetskontoen er aktivert.
+    adjustment_applied: Den manuelle justeringen er skrevet til hovedboken.
+    adjustment_invalid: Justeringen er ugyldig — point må være forskjellig fra null, notatet er obligatorisk, og årsaken må være en av de konfigurerte kodene.
+    redemption_applied: Pointene dine er brukt på ordren.
+    redemption_invalid_points: Det antallet point kan ikke brukes på denne ordren.
+    redemption_invalid_request: Forespørselen kunne ikke behandles. Prøv igjen.
+    redemption_not_available: Innløsning av point er ikke tilgjengelig akkurat nå.
+    redemption_removed: Pointene er fjernet fra ordren.

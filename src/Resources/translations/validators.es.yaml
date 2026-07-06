@@ -1,0 +1,5 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    checkout:
+        account_disabled: Tu cuenta de fidelidad está inactiva, por lo que los puntos aplicados no se pueden canjear. Quítalos del pedido.
+        insufficient_balance: Tu saldo de puntos ya no cubre el canje aplicado. Ajústalo en el carrito.

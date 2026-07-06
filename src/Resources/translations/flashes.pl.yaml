@@ -1,0 +1,11 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    account_disabled: Konto lojalnościowe zostało wyłączone.
+    account_enabled: Konto lojalnościowe zostało włączone.
+    adjustment_applied: Korekta ręczna została zapisana w księdze.
+    adjustment_invalid: Korekta jest nieprawidłowa — liczba punktów musi być różna od zera, notatka jest obowiązkowa, a powód musi być jednym ze skonfigurowanych kodów.
+    redemption_applied: Twoje punkty zostały zastosowane do zamówienia.
+    redemption_invalid_points: Takiej liczby punktów nie można zastosować do tego zamówienia.
+    redemption_invalid_request: Nie udało się przetworzyć żądania. Spróbuj ponownie.
+    redemption_not_available: Wymiana punktów jest obecnie niedostępna.
+    redemption_removed: Punkty zostały usunięte z zamówienia.

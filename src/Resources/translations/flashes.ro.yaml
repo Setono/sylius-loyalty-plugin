@@ -1,0 +1,11 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    account_disabled: Contul de fidelitate a fost dezactivat.
+    account_enabled: Contul de fidelitate a fost activat.
+    adjustment_applied: Ajustarea manuală a fost înregistrată în registru.
+    adjustment_invalid: Ajustarea este invalidă — punctele trebuie să fie diferite de zero, nota este obligatorie, iar motivul trebuie să fie unul dintre codurile configurate.
+    redemption_applied: Punctele dumneavoastră au fost aplicate comenzii.
+    redemption_invalid_points: Acest număr de puncte nu poate fi aplicat acestei comenzi.
+    redemption_invalid_request: Cererea nu a putut fi procesată. Vă rugăm să încercați din nou.
+    redemption_not_available: Utilizarea punctelor nu este disponibilă momentan.
+    redemption_removed: Punctele au fost eliminate din comandă.

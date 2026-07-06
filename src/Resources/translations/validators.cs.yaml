@@ -1,0 +1,5 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    checkout:
+        account_disabled: Váš věrnostní účet je neaktivní, takže uplatněné body nelze využít. Odeberte je prosím z objednávky.
+        insufficient_balance: Váš zůstatek bodů již nepokrývá uplatněné body. Upravte je prosím v košíku.

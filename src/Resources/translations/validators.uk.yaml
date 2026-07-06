@@ -1,0 +1,5 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    checkout:
+        account_disabled: Ваш рахунок лояльності неактивний, тому застосовані бали неможливо списати. Будь ласка, приберіть їх із замовлення.
+        insufficient_balance: Вашого балансу балів більше не вистачає на застосоване списання. Будь ласка, скоригуйте його в кошику.

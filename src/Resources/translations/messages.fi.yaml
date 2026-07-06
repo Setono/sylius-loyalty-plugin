@@ -1,0 +1,177 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    form:
+        earning_rule:
+            add_condition: Lisää ehto
+            amount_configuration: Määrän asetukset
+            amount_configuration_help: 'JSON, esim. {"points": 1, "per_amount": 100} summaperusteiselle, {"points": 50} kiinteälle, {"factor": 2} kertoimelle, {"expression": "floor(basis / 100)"} lausekkeelle'
+            amount_expression: Määrälauseke
+            amount_expression_help: Käytetään, kun määrätyyppi on "Lauseke"; muuttuja "basis" sisältää säännön varaaman perusteen pienimmissä yksiköissä
+            amount_requires_order_trigger: Summaperusteinen ja kerroin-tyypit tarvitsevat tilausperusteen ja ovat käytettävissä vain sisäänrakennetulle tilauslaukaisimelle.
+            amount_type: Määrätyyppi
+            condition_configuration: Ehdon asetukset
+            condition_configuration_help: 'JSON, esim. {"amount": 5000} tai {"taxons": ["t_shirts"]}'
+            condition_expression: Ehtolauseke
+            condition_expression_help: Käytetään, kun ehtotyyppi on "Lauseke"; ehto täyttyy, kun lauseke on tosi
+            condition_type: Ehtotyyppi
+            expression_required: Lauseketila vaatii lausekkeen.
+            multiplier_is_order_scoped: Kerroinsäännöt koskevat vain koko tilausta; käytä lauseketilaa rivikohtaiseen logiikkaan.
+            scope_requires_order_trigger: Taksoni- ja tuoterajaukset tarvitsevat tilausrivejä ja ovat käytettävissä vain sisäänrakennetulle tilauslaukaisimelle.
+            conditions: Ehdot
+            conditions_match: Ehtojen täsmäys
+            conditions_match_all: Kaikkien ehtojen on täytyttävä
+            conditions_match_any: Vähintään yhden ehdon on täytyttävä
+            dry_run: Koeajo
+            dry_run_help: Arvioi todellista liikennettä vastaan ja kirjaa tarkastuslistalle, mitä olisi myönnetty, kirjoittamatta yhtään pistettä
+            ends_at: Päättyy
+            scope: Rajaus
+            scope_configuration: Rajauksen asetukset
+            scope_configuration_help: 'JSON, esim. {"taxons": ["t_shirts"]} tai {"products": ["MUG"]}; jätä tyhjäksi koko tilauksen rajaukselle'
+            scope_help: Tuote- tai taksonirajatut säännöt varaavat täsmäävät rivinsä yksinoikeudella; koko tilaukseen rajatut säännöt kerryttävät pisteitä jäljelle jäävästä osasta
+            scope_order: Koko tilaus
+            scope_product: Tietyt tuotteet
+            scope_taxon: Tietyt taksonit
+            stackable: Yhdisteltävä
+            stackable_help: Samasta perusteesta kilpailevat yhdisteltävät säännöt pätevät kaikki ja lasketaan yhteen; ei-yhdisteltävä sääntö pätee yksin (korkein prioriteetti voittaa)
+            starts_at: Alkaa
+            trigger: Laukaisin
+            window_timezone_help: Syötetään ja arvioidaan sovelluksen määritetyllä aikavyöhykkeellä
+        earning_rule.amount:
+            expression: Lauseke
+            fixed: Kiinteät pisteet
+            multiplier: Kerroin
+            per_amount: Pisteitä summaa kohden
+        earning_rule.condition:
+            cart_contains_taxon: Ostoskori sisältää taksonin
+            customer_group: Asiakasryhmä
+            date_window: Aikaväli
+            day_of_week: Viikonpäivä
+            expression: Lauseke
+            nth_order: Monesko tilaus
+            order_total_at_least: Tilauksen summa vähintään
+        invalid_json: Tämä arvo ei ole kelvollista JSONia.
+        program:
+            award_moment_order_fulfilled: Kun tilaus on toimitettu
+            award_moment_payment_paid: Kun maksu on kokonaan maksettu
+            award_order_points_at: Tilauspisteiden myöntöhetki
+            award_order_points_at_help: Tilauksen elinkaaren ainoa hetki, jolloin pisteet myönnetään — yksi ohjelmaa kohden, ei koskaan sääntöä kohden
+            base_currency_help: Summat ovat kanavan perusvaluutan pienimmissä yksiköissä
+            clawback_policy: Takaisinperintäkäytäntö
+            clawback_policy_allow_negative: Salli negatiivinen saldo (peritään tulevista kertymistä)
+            clawback_policy_clamp_to_zero: Rajaa saldo nollaan
+            earning_basis: Kertymisperuste
+            earning_basis_help: Mikä lasketaan mukaan kertymään; itse kertymistahti määritellään kertymissäännöillä
+            earning_basis_items_total: Tuotteiden summa (ilman toimitusta)
+            earning_basis_order_total: Tilauksen summa (sis. toimituksen)
+            include_taxes: Sisällytä verot perusteeseen
+            max_redeem_percent_of_order: Tilauksen enimmäislunastusprosentti
+            max_redeem_percent_of_order_help: Osuus tilauksen tuotteiden summasta, joka voidaan kattaa pisteillä (100 sallii täysin ilmaiset tilaukset)
+            min_redeem_points: Pisteiden vähimmäismäärä lunastusta kohden
+            points_expiry_days: Pisteet vanhenevat (päivää)
+            points_expiry_days_help: Jätä tyhjäksi, jolloin pisteet eivät koskaan vanhene. Huomaa, että talletetun arvon vanheneminen voi olla kuluttajansuojalainsäädännön rajoitusten alaista joillakin lainkäyttöalueilla
+            redemption_conversion_amount: '... ovat tämän summan arvoisia (pienimmissä yksiköissä)'
+            redemption_conversion_help: 'Lunastuskurssi: näin monta pistettä...'
+            redemption_conversion_points: Pisteyksikkö
+            retroactive_guest_points: Takautuvat vieraspisteet
+            retroactive_guest_points_help: Myönnä pisteet ennen rekisteröitymistä tehdyistä vierastilauksista, kun vieras rekisteröityy (ei takautuvaa hyvitystä aiemmille rekisteröitymisille)
+            rounding: Pyöristys
+            rounding_ceil: Ylöspäin
+            rounding_floor: Alaspäin
+            rounding_round: Lähimpään
+    trigger:
+        customer_birthday: Asiakkaan syntymäpäivä
+        customer_registered: Asiakas rekisteröitynyt
+        order_eligible: Tilaus (sisäänrakennettu)
+        product_review_approved: Tuotearvostelu hyväksytty
+    ui:
+        account: Kanta-asiakastili
+        account_inactive: Kanta-asiakastilisi ei ole tällä hetkellä käytössä — saldosi säilyy, mutta pisteiden kerryttäminen ja lunastaminen on keskeytetty.
+        accounts: Kanta-asiakastilit
+        accounts_card_description: Selaa tilejä, tarkastele kirjanpitoa, muokkaa pisteitä
+        adjust: Muokkaa
+        anonymized: Anonymisoitu
+        balance: Pistesaldosi
+        balance_label: Saldo
+        change_on_cart: Muuta ostoskorissa
+        consumptions: Kulutettu
+        dashboard_subtitle: Pisteet, kertymissäännöt ja ohjelman asetukset
+        derived_balance: Kirjanpidon summa
+        dry_run: Koeajo
+        dry_run_results: Koeajon tulokset
+        dry_run_results_card_description: Mitä koeajosäännöt olisivat myöntäneet
+        earning_rate_hint: 'Kertymistahti määritellään kertymissäännöillä: koko tilaukseen rajattu perussääntö summaperusteisella tyypillä on kaupan oletustahti.'
+        earning_rules: Kertymissäännöt
+        earning_rules_card_description: Laukaisimet, ehdot ja määrät
+        edit_earning_rule: Muokkaa kertymissääntöä
+        edit_program: Muokkaa ohjelmaa
+        new_earning_rule: Uusi kertymissääntö
+        description: Kuvaus
+        expired: Vanhentunut
+        expires: 'vanhenee %date%'
+        expires_at: Vanhenee
+        expiring_soon: '%points% pistettä vanhenee ennen %date%.'
+        history: Tapahtumahistoria
+        history_description:
+            clawback: 'Pisteet peritty takaisin peruutetusta tai hyvitetystä tilauksesta'
+            earn_action: 'Pisteitä ansaittu'
+            earn_order: 'Ansaittu tilauksesta %order%'
+            earn_referral: 'Suosittelupalkkio'
+            expire: 'Pisteet vanhentuneet'
+            manual_credit: 'Oikaisu: %reason%'
+            manual_debit: 'Oikaisu: %reason%'
+            redeem: 'Lunastettu tilaukseen %order%'
+            redeem_rollback: 'Pisteet palautettu peruutetusta tilauksesta'
+        history_empty: Ei vielä tapahtumia — ansaitsemasi ja käyttämäsi pisteet näkyvät täällä.
+        my_loyalty: Kanta-asiakkuuteni
+        running_balance: Saldo
+        inspect: Tarkastele
+        invariants_hold: Kaikki kirjanpidon invariantit pitävät.
+        invariants_violated: Kirjanpidon invariantteja on rikottu — selvitä asia ennen manuaalisia korjauksia.
+        ledger: Kirjanpito
+        lifetime_earned: Ansaittu yhteensä
+        lot: Erä
+        lots: Erät (johdettu toistamalla)
+        loyalty: Kanta-asiakkuus
+        manual_adjustment: Manuaalinen oikaisu
+        manual_reason:
+            correction: Korjaus
+            goodwill: Hyvitys
+            other: Muu
+            promotion: Kampanja
+        never: ei koskaan
+        note: Huomautus
+        points: Pisteet
+        points_amount: '%points% pistettä'
+        points_applied: '%points% pistettä käytetty'
+        points_redemption: Pisteiden lunastus
+        program: Ohjelma
+        program_card_description: Kanavakohtainen muuntokurssi, vanheneminen ja käytännöt
+        reason: Syy
+        redemption_clamped: 'Pyytämästäsi %requested% pisteestä vain osa on käytetty tähän tilaukseen; määrä palautuu automaattisesti, kun tilaus sen sallii.'
+        remaining: Jäljellä
+        remove_redemption: Poista
+        rule: Sääntö
+        rule_tester: Sääntötestaaja
+        rule_tester_card_description: Arvioi sääntöjä äskettäistä tilausta vastaan, halutessasi eri päivämäärällä
+        scope: Rajaus
+        stat_accounts: Tilit
+        stat_earned_30_days: Ansaitut pisteet (30 päivää)
+        stat_redeemed_30_days: Lunastetut pisteet (30 päivää)
+        tester_applied: Sovellettu
+        tester_claimed_basis: Varattu peruste
+        tester_claimed_by: Varannut
+        tester_evaluate: Arvioi
+        tester_evaluate_at: Arvioi ikään kuin olisi
+        tester_evaluate_at_help: Esikatsele ajastettuja sääntöjä ennen niiden aikaikkunan avautumista
+        tester_failed_conditions: Täyttymättömät ehdot
+        tester_final_award: 'Lopullinen myöntö: %points% pistettä'
+        tester_invalid_date: Arviointipäivämäärä on virheellinen.
+        tester_item_claims: Rivikohtaiset varaukset
+        tester_matched: Täsmäsi
+        tester_order_has_no_customer: Tilauksella ei ole asiakasta, joten sääntöjä ei voida arvioida.
+        tester_order_not_found: Tilausta tällä numerolla ei löytynyt.
+        tester_order_number: Tilausnumero
+        tester_rules: Sääntöjen arvioinnit
+        trigger: Laukaisin
+        use_max: Käytä enimmäismäärä
+        use_your_points: Käytä pisteesi

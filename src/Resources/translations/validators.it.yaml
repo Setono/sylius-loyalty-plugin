@@ -1,0 +1,5 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    checkout:
+        account_disabled: 'Il tuo account fedeltà è inattivo, quindi i punti applicati non possono essere riscattati. Rimuovili dall''ordine.'
+        insufficient_balance: Il tuo saldo punti non copre più il riscatto applicato. Modificalo nel carrello.

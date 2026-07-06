@@ -1,0 +1,177 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    form:
+        earning_rule:
+            add_condition: Додати умову
+            amount_configuration: Налаштування суми
+            amount_configuration_help: 'JSON, напр. {"points": 1, "per_amount": 100} для балів за суму, {"points": 50} для фіксованої кількості, {"factor": 2} для множника, {"expression": "floor(basis / 100)"} для виразу'
+            amount_expression: Вираз суми
+            amount_expression_help: Використовується, коли тип суми — «Вираз»; змінна "basis" містить базу, заявлену правилом, у мінімальних грошових одиницях
+            amount_requires_order_trigger: Типи «бали за суму» та «множник» потребують бази замовлення й доступні лише для вбудованого тригера замовлення.
+            amount_type: Тип суми
+            condition_configuration: Налаштування умови
+            condition_configuration_help: 'JSON, напр. {"amount": 5000} або {"taxons": ["t_shirts"]}'
+            condition_expression: Вираз умови
+            condition_expression_help: Використовується, коли тип умови — «Вираз»; умова виконується, коли вираз істинний
+            condition_type: Тип умови
+            expression_required: Режим виразу потребує виразу.
+            multiplier_is_order_scoped: Правила з множником діють лише на рівні замовлення; для логіки на рівні позицій використовуйте режим виразу.
+            scope_requires_order_trigger: Області дії за таксоном і товаром потребують позицій замовлення й доступні лише для вбудованого тригера замовлення.
+            conditions: Умови
+            conditions_match: Відповідність умов
+            conditions_match_all: Мають виконуватися всі умови
+            conditions_match_any: Має виконуватися принаймні одна умова
+            dry_run: Тестовий запуск
+            dry_run_help: Оцінювати на реальному трафіку та записувати до списку аудиту, що було б нараховано, без запису жодних балів
+            ends_at: Завершується
+            scope: Область дії
+            scope_configuration: Налаштування області дії
+            scope_configuration_help: 'JSON, напр. {"taxons": ["t_shirts"]} або {"products": ["MUG"]}; залиште порожнім для області замовлення'
+            scope_help: Правила з областю дії за товаром або таксоном ексклюзивно забирають відповідні позиції; правила на рівні замовлення нараховують бали на решту
+            scope_order: Усе замовлення
+            scope_product: Певні товари
+            scope_taxon: Певні таксони
+            stackable: Сумісне з іншими
+            stackable_help: Сумісні правила, що претендують на ту саму базу, застосовуються всі разом і сумуються; несумісне правило застосовується самостійно (перемагає найвищий пріоритет)
+            starts_at: Починається
+            trigger: Тригер
+            window_timezone_help: Вводиться та оцінюється в часовому поясі, налаштованому в застосунку
+        earning_rule.amount:
+            expression: Вираз
+            fixed: Фіксовані бали
+            multiplier: Множник
+            per_amount: Бали за суму
+        earning_rule.condition:
+            cart_contains_taxon: Кошик містить таксон
+            customer_group: Група клієнтів
+            date_window: Проміжок дат
+            day_of_week: День тижня
+            expression: Вираз
+            nth_order: N-не замовлення
+            order_total_at_least: Сума замовлення щонайменше
+        invalid_json: Це значення не є коректним JSON.
+        program:
+            award_moment_order_fulfilled: Коли замовлення виконано
+            award_moment_payment_paid: Коли оплату здійснено повністю
+            award_order_points_at: Нараховувати бали за замовлення в момент
+            award_order_points_at_help: Єдиний момент життєвого циклу замовлення, коли нараховуються бали — один на програму, ніколи не на правило
+            base_currency_help: Суми вказуються в мінімальних одиницях базової валюти каналу
+            clawback_policy: Політика повернення балів
+            clawback_policy_allow_negative: Дозволити відʼємний баланс (компенсується з майбутніх нарахувань)
+            clawback_policy_clamp_to_zero: Обмежити баланс нулем
+            earning_basis: База нарахування
+            earning_basis_help: Що враховується під час нарахування; саму ставку нарахування визначають правила нарахування
+            earning_basis_items_total: Сума позицій (без доставки)
+            earning_basis_order_total: Сума замовлення (з доставкою)
+            include_taxes: Включати податки до бази
+            max_redeem_percent_of_order: Макс. відсоток замовлення для списання
+            max_redeem_percent_of_order_help: Частка суми позицій замовлення, яку можна покрити балами (100 дозволяє повністю безкоштовні замовлення)
+            min_redeem_points: Мінімум балів на одне списання
+            points_expiry_days: Бали спливають через (днів)
+            points_expiry_days_help: Залиште порожнім, щоб бали ніколи не спливали. Зауважте, що в деяких юрисдикціях сплив накопиченої вартості підпадає під обмеження законодавства про захист споживачів
+            redemption_conversion_amount: '... варті цієї суми (мінімальні одиниці)'
+            redemption_conversion_help: 'Конвертація при списанні: така кількість балів...'
+            redemption_conversion_points: Одиниця балів
+            retroactive_guest_points: Ретроактивні бали гостей
+            retroactive_guest_points_help: Нараховувати бали за гостьові замовлення, зроблені до реєстрації, коли гість реєструється (без донарахування для раніших реєстрацій)
+            rounding: Округлення
+            rounding_ceil: Догори
+            rounding_floor: Донизу
+            rounding_round: Математичне
+    trigger:
+        customer_birthday: День народження клієнта
+        customer_registered: Клієнт зареєструвався
+        order_eligible: Замовлення (вбудований)
+        product_review_approved: Відгук про товар схвалено
+    ui:
+        account: Рахунок лояльності
+        account_inactive: Ваш рахунок лояльності наразі неактивний — баланс збережено, але нарахування та списання балів призупинені.
+        accounts: Рахунки лояльності
+        accounts_card_description: Перегляд рахунків, аналіз журналів, коригування балів
+        adjust: Коригувати
+        anonymized: Анонімізовано
+        balance: Ваш баланс балів
+        balance_label: Баланс
+        change_on_cart: Змінити в кошику
+        consumptions: Використано
+        dashboard_subtitle: Бали, правила нарахування та налаштування програми
+        derived_balance: Сума за журналом
+        dry_run: Тестовий запуск
+        dry_run_results: Результати тестового запуску
+        dry_run_results_card_description: Що нарахували б правила в тестовому режимі
+        earning_rate_hint: 'Ставку нарахування визначають правила нарахування: базове правило на рівні замовлення з типом «бали за суму» — це стандартна ставка магазину.'
+        earning_rules: Правила нарахування
+        earning_rules_card_description: Тригери, умови та суми
+        edit_earning_rule: Редагувати правило нарахування
+        edit_program: Редагувати програму
+        new_earning_rule: Нове правило нарахування
+        description: Опис
+        expired: Сплив
+        expires: 'спливає %date%'
+        expires_at: Спливає
+        expiring_soon: '%points% балів спливає до %date%.'
+        history: Історія транзакцій
+        history_description:
+            clawback: 'Бали, повернуті за скасоване або відшкодоване замовлення'
+            earn_action: 'Нараховані бали'
+            earn_order: 'Нараховано за замовлення %order%'
+            earn_referral: 'Винагорода за рекомендацію'
+            expire: 'Бали спливли'
+            manual_credit: 'Коригування: %reason%'
+            manual_debit: 'Коригування: %reason%'
+            redeem: 'Списано за замовлення %order%'
+            redeem_rollback: 'Бали відновлено зі скасованого замовлення'
+        history_empty: Транзакцій поки немає — бали, які ви заробите й витратите, зʼявляться тут.
+        my_loyalty: Моя лояльність
+        running_balance: Баланс
+        inspect: Переглянути
+        invariants_hold: Усі інваріанти журналу виконуються.
+        invariants_violated: Інваріанти журналу порушено — розберіться, перш ніж робити ручні виправлення.
+        ledger: Журнал
+        lifetime_earned: Зароблено за весь час
+        lot: Партія
+        lots: Партії (відтворені з журналу)
+        loyalty: Лояльність
+        manual_adjustment: Ручне коригування
+        manual_reason:
+            correction: Виправлення
+            goodwill: Жест доброї волі
+            other: Інше
+            promotion: Акція
+        never: ніколи
+        note: Примітка
+        points: Бали
+        points_amount: '%points% балів'
+        points_applied: 'Застосовано %points% балів'
+        points_redemption: Списання балів
+        program: Програма
+        program_card_description: Конвертація, сплив і політики для кожного каналу
+        reason: Причина
+        redemption_clamped: 'Ваш запит на %requested% балів застосовано до цього замовлення лише частково; він автоматично збільшиться, щойно замовлення це дозволить.'
+        remaining: Залишок
+        remove_redemption: Прибрати
+        rule: Правило
+        rule_tester: Тестування правил
+        rule_tester_card_description: Оцініть правила на нещодавньому замовленні, за бажанням на іншу дату
+        scope: Область дії
+        stat_accounts: Рахунки
+        stat_earned_30_days: Нараховано балів (30 днів)
+        stat_redeemed_30_days: Списано балів (30 днів)
+        tester_applied: Застосовано
+        tester_claimed_basis: Заявлена база
+        tester_claimed_by: Заявлено правилом
+        tester_evaluate: Оцінити
+        tester_evaluate_at: Оцінити так, ніби зараз
+        tester_evaluate_at_help: Попередній перегляд запланованих правил до відкриття їхнього вікна
+        tester_failed_conditions: Невиконані умови
+        tester_final_award: 'Підсумкове нарахування: %points% балів'
+        tester_invalid_date: Дата оцінювання некоректна.
+        tester_item_claims: Заявки за позиціями
+        tester_matched: Збіглося
+        tester_order_has_no_customer: У замовлення немає клієнта, тому жодне правило не можна оцінити.
+        tester_order_not_found: Замовлення з таким номером не знайдено.
+        tester_order_number: Номер замовлення
+        tester_rules: Оцінювання правил
+        trigger: Тригер
+        use_max: Використати максимум
+        use_your_points: Використайте свої бали

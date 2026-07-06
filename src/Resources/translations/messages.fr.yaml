@@ -1,0 +1,177 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    form:
+        earning_rule:
+            add_condition: Ajouter une condition
+            amount_configuration: Configuration du montant
+            amount_configuration_help: 'JSON, p. ex. {"points": 1, "per_amount": 100} pour un montant proportionnel, {"points": 50} pour un montant fixe, {"factor": 2} pour un multiplicateur, {"expression": "floor(basis / 100)"} pour une expression'
+            amount_expression: Expression du montant
+            amount_expression_help: Utilisée lorsque le type de montant est « Expression » ; la variable « basis » contient la base revendiquée par la règle, en unités mineures
+            amount_requires_order_trigger: Les types proportionnel et multiplicateur nécessitent une base de commande et ne sont disponibles que pour le déclencheur de commande intégré.
+            amount_type: Type de montant
+            condition_configuration: Configuration de la condition
+            condition_configuration_help: 'JSON, p. ex. {"amount": 5000} ou {"taxons": ["t_shirts"]}'
+            condition_expression: Expression de la condition
+            condition_expression_help: 'Utilisée lorsque le type de condition est « Expression » ; la condition est remplie lorsque l''expression est vraie'
+            condition_type: Type de condition
+            expression_required: Le mode expression nécessite une expression.
+            multiplier_is_order_scoped: 'Les règles multiplicatrices s''appliquent uniquement à la commande entière ; utilisez le mode expression pour une logique au niveau des articles.'
+            scope_requires_order_trigger: Les portées taxon et produit nécessitent des articles de commande et ne sont disponibles que pour le déclencheur de commande intégré.
+            conditions: Conditions
+            conditions_match: Correspondance des conditions
+            conditions_match_all: Toutes les conditions doivent être remplies
+            conditions_match_any: Au moins une condition doit être remplie
+            dry_run: Mode simulation
+            dry_run_help: 'Évaluer sur le trafic réel et consigner ce qui aurait été attribué dans la liste d''audit, sans créditer aucun point'
+            ends_at: Se termine le
+            scope: Portée
+            scope_configuration: Configuration de la portée
+            scope_configuration_help: 'JSON, p. ex. {"taxons": ["t_shirts"]} ou {"products": ["MUG"]} ; laisser vide pour la portée commande'
+            scope_help: Les règles limitées à un produit ou à un taxon revendiquent exclusivement leurs articles correspondants ; les règles au niveau de la commande gagnent sur le reste
+            scope_order: Commande entière
+            scope_product: Produits spécifiques
+            scope_taxon: Taxons spécifiques
+            stackable: Cumulable
+            stackable_help: 'Les règles cumulables en concurrence pour la même base s''appliquent toutes et s''additionnent ; une règle non cumulable s''applique seule (la priorité la plus élevée l''emporte)'
+            starts_at: Commence le
+            trigger: Déclencheur
+            window_timezone_help: 'Saisi et évalué dans le fuseau horaire configuré de l''application'
+        earning_rule.amount:
+            expression: Expression
+            fixed: Points fixes
+            multiplier: Multiplicateur
+            per_amount: Points par montant
+        earning_rule.condition:
+            cart_contains_taxon: Le panier contient un taxon
+            customer_group: Groupe de clients
+            date_window: Période de dates
+            day_of_week: Jour de la semaine
+            expression: Expression
+            nth_order: Nième commande
+            order_total_at_least: Total de commande minimum
+        invalid_json: 'Cette valeur n''est pas un JSON valide.'
+        program:
+            award_moment_order_fulfilled: Lorsque la commande est traitée
+            award_moment_payment_paid: Lorsque le paiement est entièrement réglé
+            award_order_points_at: Attribuer les points de commande au moment
+            award_order_points_at_help: Le moment unique du cycle de vie de la commande où les points sont attribués — un par programme, jamais par règle
+            base_currency_help: Les montants sont exprimés en unités mineures de la devise de base du canal
+            clawback_policy: Politique de récupération
+            clawback_policy_allow_negative: Autoriser un solde négatif (récupéré sur les gains futurs)
+            clawback_policy_clamp_to_zero: Limiter le solde à zéro
+            earning_basis: Base de gain
+            earning_basis_help: Ce qui compte pour le gain ; le taux de gain lui-même est défini par les règles de gain
+            earning_basis_items_total: Total des articles (hors livraison)
+            earning_basis_order_total: Total de la commande (livraison incluse)
+            include_taxes: Inclure les taxes dans la base
+            max_redeem_percent_of_order: Pourcentage max. de la commande utilisable
+            max_redeem_percent_of_order_help: La part du total des articles de la commande pouvant être couverte par des points (100 permet des commandes entièrement gratuites)
+            min_redeem_points: Points minimum par utilisation
+            points_expiry_days: Les points expirent après (jours)
+            points_expiry_days_help: 'Laisser vide pour que les points n''expirent jamais. Notez que l''expiration de valeur stockée est soumise à des contraintes de droit de la consommation dans certaines juridictions'
+            redemption_conversion_amount: '... valent ce montant (unités mineures)'
+            redemption_conversion_help: 'La conversion d''utilisation : ce nombre de points...'
+            redemption_conversion_points: Unité de points
+            retroactive_guest_points: Points invités rétroactifs
+            retroactive_guest_points_help: 'Attribuer des points pour les commandes passées en tant qu''invité avant l''inscription, lorsque l''invité s''inscrit (pas de rattrapage pour les inscriptions antérieures)'
+            rounding: Arrondi
+            rounding_ceil: Arrondi supérieur
+            rounding_floor: Arrondi inférieur
+            rounding_round: Arrondi au plus proche
+    trigger:
+        customer_birthday: Anniversaire du client
+        customer_registered: Client inscrit
+        order_eligible: Commande (intégré)
+        product_review_approved: Avis produit approuvé
+    ui:
+        account: Compte de fidélité
+        account_inactive: 'Votre compte de fidélité est actuellement inactif — votre solde est conservé, mais le gain et l''utilisation de points sont suspendus.'
+        accounts: Comptes de fidélité
+        accounts_card_description: Parcourir les comptes, inspecter les registres, ajuster les points
+        adjust: Ajuster
+        anonymized: Anonymisé
+        balance: Votre solde de points
+        balance_label: Solde
+        change_on_cart: Modifier sur le panier
+        consumptions: Consommé par
+        dashboard_subtitle: Points, règles de gain et paramètres du programme
+        derived_balance: Somme du registre
+        dry_run: Mode simulation
+        dry_run_results: Résultats de simulation
+        dry_run_results_card_description: Ce que les règles en mode simulation auraient attribué
+        earning_rate_hint: 'Le taux de gain est défini par les règles de gain : une règle de base au niveau de la commande avec le type « points par montant » constitue le taux par défaut de la boutique.'
+        earning_rules: Règles de gain
+        earning_rules_card_description: Déclencheurs, conditions et montants
+        edit_earning_rule: Modifier la règle de gain
+        edit_program: Modifier le programme
+        new_earning_rule: Nouvelle règle de gain
+        description: Description
+        expired: Expiré
+        expires: 'expire le %date%'
+        expires_at: Expire le
+        expiring_soon: '%points% points expirent avant le %date%.'
+        history: Historique des transactions
+        history_description:
+            clawback: 'Points récupérés pour une commande annulée ou remboursée'
+            earn_action: 'Points gagnés'
+            earn_order: 'Gagnés sur la commande %order%'
+            earn_referral: 'Récompense de parrainage'
+            expire: 'Points expirés'
+            manual_credit: 'Ajustement : %reason%'
+            manual_debit: 'Ajustement : %reason%'
+            redeem: 'Utilisés sur la commande %order%'
+            redeem_rollback: 'Points restitués suite à une commande annulée'
+        history_empty: 'Aucune transaction pour l''instant — les points que vous gagnez et dépensez apparaîtront ici.'
+        my_loyalty: Ma fidélité
+        running_balance: Solde
+        inspect: Inspecter
+        invariants_hold: Tous les invariants du registre sont respectés.
+        invariants_violated: Les invariants du registre sont violés — enquêtez avant toute correction manuelle.
+        ledger: Registre
+        lifetime_earned: Gagné au total
+        lot: Lot
+        lots: Lots (dérivés par rejeu)
+        loyalty: Fidélité
+        manual_adjustment: Ajustement manuel
+        manual_reason:
+            correction: Correction
+            goodwill: Geste commercial
+            other: Autre
+            promotion: Promotion
+        never: jamais
+        note: Note
+        points: Points
+        points_amount: '%points% points'
+        points_applied: '%points% points appliqués'
+        points_redemption: Utilisation de points
+        program: Programme
+        program_card_description: Conversion, expiration et politiques par canal
+        reason: Raison
+        redemption_clamped: 'Votre demande de %requested% points n''est appliquée que partiellement à cette commande ; elle augmentera automatiquement dès que la commande le permettra.'
+        remaining: Restant
+        remove_redemption: Retirer
+        rule: Règle
+        rule_tester: Testeur de règles
+        rule_tester_card_description: Évaluer les règles sur une commande récente, éventuellement à une autre date
+        scope: Portée
+        stat_accounts: Comptes
+        stat_earned_30_days: Points gagnés (30 jours)
+        stat_redeemed_30_days: Points utilisés (30 jours)
+        tester_applied: Appliqué
+        tester_claimed_basis: Base revendiquée
+        tester_claimed_by: Revendiqué par
+        tester_evaluate: Évaluer
+        tester_evaluate_at: 'Évaluer comme si c''était'
+        tester_evaluate_at_help: 'Prévisualiser les règles planifiées avant l''ouverture de leur période'
+        tester_failed_conditions: Conditions non remplies
+        tester_final_award: 'Attribution finale : %points% points'
+        tester_invalid_date: 'La date d''évaluation est invalide.'
+        tester_item_claims: Revendications par article
+        tester_matched: Correspond
+        tester_order_has_no_customer: 'La commande n''a pas de client, aucune règle ne peut donc être évaluée.'
+        tester_order_not_found: 'Aucune commande avec ce numéro n''a été trouvée.'
+        tester_order_number: Numéro de commande
+        tester_rules: Évaluations des règles
+        trigger: Déclencheur
+        use_max: Utiliser le maximum
+        use_your_points: Utilisez vos points

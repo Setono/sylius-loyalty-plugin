@@ -1,0 +1,11 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    account_disabled: Het loyaliteitsaccount is uitgeschakeld.
+    account_enabled: Het loyaliteitsaccount is ingeschakeld.
+    adjustment_applied: De handmatige correctie is in het grootboek weggeschreven.
+    adjustment_invalid: De correctie is ongeldig — de punten mogen niet nul zijn, de notitie is verplicht en de reden moet een van de geconfigureerde codes zijn.
+    redemption_applied: Je punten zijn op de bestelling toegepast.
+    redemption_invalid_points: Dat aantal punten kan niet op deze bestelling worden toegepast.
+    redemption_invalid_request: Het verzoek kon niet worden verwerkt. Probeer het opnieuw.
+    redemption_not_available: Punten inwisselen is momenteel niet beschikbaar.
+    redemption_removed: De punten zijn van de bestelling verwijderd.
