@@ -12,6 +12,27 @@ sylius_fixtures:
                                 max_redeem_percent_of_order: 50
                                 points_expiry_days: 365
 
+                setono_sylius_loyalty_tier:
+                    options:
+                        custom:
+                            -   code: silver
+                                name: Silver
+                                channel: FASHION_WEB
+                                position: 1
+                                threshold: 1000
+                                earning_multiplier: 1.25
+                                color: '#c0c0c0'
+                                benefits_description: 'A 25% points bonus on everything you buy.'
+
+                            -   code: gold
+                                name: Gold
+                                channel: FASHION_WEB
+                                position: 2
+                                threshold: 5000
+                                earning_multiplier: 1.5
+                                color: '#d4af37'
+                                benefits_description: 'A 50% points bonus and access to member events.'
+
                 setono_sylius_loyalty_earning_rule:
                     options:
                         custom:

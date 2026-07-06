@@ -54,7 +54,7 @@ final class PointsEarnedBasis implements TierQualificationBasisInterface
 
         if (null !== $window) {
             $qb->andWhere('t.occurredAt >= :start')->setParameter('start', $window->start);
-            $qb->andWhere('t.occurredAt < :end')->setParameter('end', $window->end);
+            $qb->andWhere('t.occurredAt <= :end')->setParameter('end', $window->end);
         }
 
         return (int) $qb->getQuery()->getSingleScalarResult();

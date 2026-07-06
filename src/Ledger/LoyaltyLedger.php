@@ -113,7 +113,7 @@ final class LoyaltyLedger implements LoyaltyLedgerInterface
 
                 $this->credit($account, $transaction, $awarding->getPoints(), $awarding->getExpiresAt());
 
-                $this->tierEvaluator->evaluate($account);
+                $this->evaluateTier($account);
 
                 $postCommitEvents[] = new PointsEarned($transaction);
 
@@ -159,7 +159,7 @@ final class LoyaltyLedger implements LoyaltyLedgerInterface
 
                 $this->credit($account, $transaction, $awarding->getPoints(), $awarding->getExpiresAt());
 
-                $this->tierEvaluator->evaluate($account);
+                $this->evaluateTier($account);
 
                 $postCommitEvents[] = new PointsEarned($transaction);
 
@@ -378,7 +378,7 @@ final class LoyaltyLedger implements LoyaltyLedgerInterface
 
                 $this->credit($account, $transaction, $points, null);
 
-                $this->tierEvaluator->evaluate($account);
+                $this->evaluateTier($account);
 
                 $postCommitEvents[] = new ManualAdjustment($transaction);
 
@@ -470,6 +470,18 @@ final class LoyaltyLedger implements LoyaltyLedgerInterface
         }
 
         return $result;
+    }
+
+    /**
+     * The qualification bases derive their metrics from ledger queries, so the pending credit
+     * must be flushed (still inside the surrounding transaction) before the tier evaluator
+     * runs — otherwise the earn that crosses a threshold would not upgrade until the nightly
+     * reconciliation.
+     */
+    private function evaluateTier(LoyaltyAccountInterface $account): void
+    {
+        $this->entityManager->flush();
+        $this->tierEvaluator->evaluate($account);
     }
 
     private function credit(

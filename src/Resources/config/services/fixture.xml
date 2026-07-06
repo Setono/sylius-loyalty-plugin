@@ -24,6 +24,17 @@
             <argument type="service" id="doctrine.orm.entity_manager"/>
         </service>
 
+        <service id="Setono\SyliusLoyaltyPlugin\Fixture\Factory\TierExampleFactory" public="true">
+            <argument type="service" id="setono_sylius_loyalty.factory.tier"/>
+            <argument type="service" id="sylius.repository.channel"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Fixture\TierFixture">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Fixture\Factory\TierExampleFactory"/>
+            <tag name="sylius_fixtures.fixture"/>
+        </service>
+
         <service id="Setono\SyliusLoyaltyPlugin\Fixture\LoyaltyProgramFixture">
             <argument type="service" id="doctrine.orm.entity_manager"/>
             <argument type="service" id="Setono\SyliusLoyaltyPlugin\Fixture\Factory\LoyaltyProgramExampleFactory"/>

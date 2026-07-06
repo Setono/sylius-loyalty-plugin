@@ -54,7 +54,7 @@ final class OrdersCountBasis implements TierQualificationBasisInterface
 
         if (null !== $window) {
             $qb->andWhere('o.checkoutCompletedAt >= :start')->setParameter('start', $window->start);
-            $qb->andWhere('o.checkoutCompletedAt < :end')->setParameter('end', $window->end);
+            $qb->andWhere('o.checkoutCompletedAt <= :end')->setParameter('end', $window->end);
         }
 
         return (int) $qb->getQuery()->getSingleScalarResult();

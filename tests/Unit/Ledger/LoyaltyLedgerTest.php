@@ -86,6 +86,8 @@ final class LoyaltyLedgerTest extends TestCase
                 $persisted[] = $args[0];
             },
         );
+        // Credits flush before the tier evaluator so the bases see the new row
+        $this->entityManager->flush()->willReturn(null);
 
         $this->transactionRepository = $this->prophesize(LoyaltyTransactionRepositoryInterface::class);
         $this->transactionRepository->findRedeemTransaction(Argument::any())->willReturn(null);
