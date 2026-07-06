@@ -11,9 +11,15 @@
         <service id="Setono\SyliusLoyaltyPlugin\Provider\Shop\CartRedemptionViewProviderInterface" alias="Setono\SyliusLoyaltyPlugin\Provider\Shop\CartRedemptionViewProvider"/>
 
         <service id="Setono\SyliusLoyaltyPlugin\Twig\LoyaltyExtension">
-            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\Shop\CartRedemptionViewProviderInterface"/>
-            <argument type="service" id="doctrine.orm.entity_manager"/>
             <tag name="twig.extension"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Twig\LoyaltyRuntime">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\Shop\CartRedemptionViewProviderInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyTransactionRepositoryInterface"/>
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>%setono_sylius_loyalty.model.account.class%</argument>
+            <tag name="twig.runtime"/>
         </service>
 
         <service id="Setono\SyliusLoyaltyPlugin\Controller\Action\Shop\ApplyRedemptionAction" public="true">

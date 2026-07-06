@@ -215,6 +215,14 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
                         ],
                     ],
                 ],
+                'sylius.admin.customer.show.content' => [
+                    'blocks' => [
+                        'setono_sylius_loyalty_customer_loyalty' => [
+                            'template' => '@SetonoSyliusLoyaltyPlugin/Admin/Customer/_loyalty.html.twig',
+                            'priority' => -10,
+                        ],
+                    ],
+                ],
             ],
         ]);
     }
