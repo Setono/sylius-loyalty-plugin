@@ -4,6 +4,7 @@
             "src"
         ]
     },
+    "testFrameworkOptions": "--testsuite=unit",
     "logs": {
         "text": "php://stderr",
         "github": true,
