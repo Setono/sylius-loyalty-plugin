@@ -1,0 +1,75 @@
+# The deterministic loyalty seed for functional and e2e tests. Loaded on top of the default
+# suite (no purge listeners): sylius:fixtures:load default && sylius:fixtures:load loyalty
+sylius_fixtures:
+    suites:
+        loyalty:
+            fixtures:
+                setono_sylius_loyalty_program:
+                    options:
+                        custom:
+                            -   channel: FASHION_WEB
+                                min_redeem_points: 500
+                                max_redeem_percent_of_order: 50
+                                points_expiry_days: 365
+
+                setono_sylius_loyalty_earning_rule:
+                    options:
+                        custom:
+                            -   name: 'Base rate: 1 point per 1.00'
+                                channel: FASHION_WEB
+                                amount_type: per_amount
+                                amount_configuration:
+                                    points: 1
+                                    per_amount: 100
+
+                            -   name: 'Weekend double points (dry run)'
+                                channel: FASHION_WEB
+                                amount_type: multiplier
+                                amount_configuration:
+                                    factor: 2
+                                conditions:
+                                    -   type: day_of_week
+                                        configuration:
+                                            days: [6, 7]
+                                dry_run: true
+
+                            -   name: 'Registration bonus'
+                                channel: FASHION_WEB
+                                trigger: customer_registered
+                                amount_type: fixed
+                                amount_configuration:
+                                    points: 100
+
+                            -   name: 'Big-cart expression bonus (dry run)'
+                                channel: FASHION_WEB
+                                amount_type: expression
+                                amount_configuration:
+                                    expression: 'basis > 50000 ? floor(basis / 50) : floor(basis / 100)'
+                                dry_run: true
+
+                setono_sylius_loyalty_account:
+                    options:
+                        custom:
+                            -   email: loyalty@example.com
+                                channel: FASHION_WEB
+                                history:
+                                    -   type: manual_credit
+                                        points: 2000
+                                        reason: goodwill
+                                        note: 'Fixture seed'
+                                    -   type: earn_action
+                                        points: 300
+                                        source_identifier: 'fixture:expiring'
+                                        expires_at: '+10 days'
+                                    -   type: manual_debit
+                                        points: 150
+                                        reason: correction
+                                        note: 'Fixture debit'
+
+                            -   email: fresh@example.com
+                                channel: FASHION_WEB
+                                history:
+                                    -   type: manual_credit
+                                        points: 100
+                                        reason: goodwill
+                                        note: 'Below the redemption minimum'
