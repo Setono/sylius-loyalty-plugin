@@ -1,15 +1,21 @@
 {
     "name": "setono/sylius-loyalty-plugin",
-    "description": "Setono example plugin for Sylius.",
+    "description": "Loyalty plugin for Sylius: points earning and redemption backed by an append-only ledger, tiers, and referrals.",
     "license": "MIT",
     "type": "sylius-plugin",
     "keywords": [
         "sylius",
-        "sylius-plugin"
+        "sylius-plugin",
+        "loyalty",
+        "loyalty-program",
+        "points",
+        "tiers",
+        "referrals",
+        "setono"
     ],
     "require": {
         "php": ">=8.1",
-        "sylius/core-bundle": "^1.0",
+        "sylius/core-bundle": "^1.14",
         "symfony/config": "^6.4",
         "symfony/dependency-injection": "^6.4",
         "symfony/http-kernel": "^6.4"
