@@ -266,6 +266,10 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
             'events' => [
                 'sylius.shop.cart.summary' => [
                     'blocks' => [
+                        'setono_sylius_loyalty_cart_earn_hint' => [
+                            'template' => '@SetonoSyliusLoyaltyPlugin/shop/cart/_earn_hint.html.twig',
+                            'priority' => 3,
+                        ],
                         'setono_sylius_loyalty_redemption' => [
                             'template' => '@SetonoSyliusLoyaltyPlugin/shop/cart/_redemption.html.twig',
                             'priority' => 5,
@@ -277,6 +281,17 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
                         'setono_sylius_loyalty_redemption_summary' => [
                             'template' => '@SetonoSyliusLoyaltyPlugin/shop/checkout/_redemption_summary.html.twig',
                             'priority' => 5,
+                        ],
+                    ],
+                ],
+                'sylius.shop.product.show.add_to_cart_form' => [
+                    'blocks' => [
+                        // Deviation from the spec's "directly below the add-to-cart button":
+                        // Sylius 1.14 has no template event there, so the hint renders just
+                        // above the button instead
+                        'setono_sylius_loyalty_earn_hint' => [
+                            'template' => '@SetonoSyliusLoyaltyPlugin/shop/product/_earn_hint.html.twig',
+                            'priority' => -5,
                         ],
                     ],
                 ],

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://symfony.com/schema/dic/services"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="Setono\SyliusLoyaltyPlugin\Hint\SyntheticCartFactory">
+            <argument type="service" id="sylius.factory.order"/>
+            <argument type="service" id="sylius.factory.order_item"/>
+            <argument type="service" id="sylius.order_item_quantity_modifier"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Hint\SyntheticCartFactoryInterface"
+                 alias="Setono\SyliusLoyaltyPlugin\Hint\SyntheticCartFactory"/>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Hint\EarnHintCalculator">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\EarningRuleRepositoryInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\EarningRule\Checker\ConditionCheckerRegistryInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\EarningRule\Basis\EligibleBasisCalculatorInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\EarningRule\EarningRuleEvaluatorInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProviderInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyAccountRepositoryInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Hint\SyntheticCartFactoryInterface"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Hint\EarnHintCalculatorInterface"
+                 alias="Setono\SyliusLoyaltyPlugin\Hint\EarnHintCalculator"/>
+    </services>
+</container>

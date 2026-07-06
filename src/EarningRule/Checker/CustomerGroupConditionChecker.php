@@ -37,4 +37,14 @@ final class CustomerGroupConditionChecker implements ConditionCheckerInterface
 
         return in_array($group->getCode(), $groups, true);
     }
+
+    public function requiresCustomer(): bool
+    {
+        return true;
+    }
+
+    public function requiresCart(): bool
+    {
+        return false;
+    }
 }

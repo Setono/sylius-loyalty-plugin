@@ -16,6 +16,34 @@
             <div class="value">{{ account ? account.balance : 0 }}</div>
             <div class="label">{{ 'setono_sylius_loyalty.ui.points'|trans }}</div>
         </div>
+        {% if tierProgress is not null %}
+            <div style="margin-top: .5em;" data-test-loyalty-tier>
+                {% if tierProgress.current %}
+                    <span class="ui large horizontal label" data-test-tier-badge {% if tierProgress.current.color %}style="background-color: {{ tierProgress.current.color }}; color: #fff;"{% endif %}>
+                        <i class="trophy icon"></i> {{ tierProgress.current.name }}
+                    </span>
+                    {% if tierProgress.current.benefitsDescription %}
+                        <p class="ui small grey text">{{ tierProgress.current.benefitsDescription }}</p>
+                    {% endif %}
+                {% endif %}
+
+                {% if tierProgress.topTier %}
+                    <div class="ui positive message" data-test-tier-celebration>
+                        <i class="star icon"></i>
+                        {{ 'setono_sylius_loyalty.ui.tier_top'|trans }}
+                    </div>
+                {% elseif tierProgress.next %}
+                    <div style="max-width: 24em; margin: 1em auto 0;" data-test-tier-progress>
+                        <div class="ui small progress" data-percent="{{ tierProgress.percent }}">
+                            <div class="bar" style="width: {{ tierProgress.percent }}%; min-width: 0; background-color: {{ tierProgress.next.color ?: '#767676' }}; height: .5em; border-radius: .3em;"></div>
+                        </div>
+                        <span class="ui small text">
+                            {{ 'setono_sylius_loyalty.ui.tier_progress'|trans({'%metric%': tierProgress.metric, '%threshold%': tierProgress.threshold, '%tier%': tierProgress.next.name}) }}
+                        </span>
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
         {% if account is not null and not account.enabled %}
             <div class="ui orange message" data-test-loyalty-inactive>
                 {{ 'setono_sylius_loyalty.ui.account_inactive'|trans }}

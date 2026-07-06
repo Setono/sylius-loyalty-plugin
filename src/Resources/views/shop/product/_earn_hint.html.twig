@@ -1,0 +1,24 @@
+{% set hint = setono_sylius_loyalty_product_earn_hint(product) %}
+
+{% if hint is not null %}
+    <div id="setono-sylius-loyalty-earn-hint" class="ui basic segment" style="padding: .5em 0;" data-test-earn-hint
+         data-template="{{ 'setono_sylius_loyalty.ui.earn_hint_product'|trans({'%points%': '%points%'}) }}">
+        <i class="star yellow icon"></i>
+        <span id="setono-sylius-loyalty-earn-hint-text">{{ 'setono_sylius_loyalty.ui.earn_hint_product'|trans({'%points%': hint.default}) }}</span>
+
+        {# One entry per variant, keyed both by variant code and by option-value data
+           attributes so the map works for choice- and option-based selection alike #}
+        <span id="setono-sylius-loyalty-earn-hint-map" style="display: none;">
+            {% for variantCode, points in hint.variants %}
+                {% set variant = null %}
+                {% for candidate in product.enabledVariants %}
+                    {% if candidate.code == variantCode %}{% set variant = candidate %}{% endif %}
+                {% endfor %}
+                <span data-variant-code="{{ variantCode }}"
+                      {% if variant %}{% for optionValue in variant.optionValues %}data-{{ optionValue.option.code }}="{{ optionValue.code }}" {% endfor %}{% endif %}
+                      data-points="{{ points ?? '' }}"></span>
+            {% endfor %}
+        </span>
+    </div>
+    <script src="{{ asset('bundles/setonosyliusloyaltyplugin/shop/earn-hint.js') }}" defer></script>
+{% endif %}

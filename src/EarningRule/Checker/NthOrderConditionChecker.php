@@ -90,4 +90,14 @@ final class NthOrderConditionChecker implements ConditionCheckerInterface
 
         return $paidOrders;
     }
+
+    public function requiresCustomer(): bool
+    {
+        return true;
+    }
+
+    public function requiresCart(): bool
+    {
+        return false;
+    }
 }

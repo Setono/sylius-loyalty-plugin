@@ -16,6 +16,8 @@ final class LoyaltyExtension extends AbstractExtension
             new TwigFunction('setono_sylius_loyalty_transaction_type', [LoyaltyRuntime::class, 'transactionType']),
             new TwigFunction('setono_sylius_loyalty_accounts', [LoyaltyRuntime::class, 'accountsOf']),
             new TwigFunction('setono_sylius_loyalty_latest_transactions', [LoyaltyRuntime::class, 'latestTransactions']),
+            new TwigFunction('setono_sylius_loyalty_product_earn_hint', [LoyaltyRuntime::class, 'productEarnHint']),
+            new TwigFunction('setono_sylius_loyalty_cart_earn_hint', [LoyaltyRuntime::class, 'cartEarnHint']),
         ];
     }
 }

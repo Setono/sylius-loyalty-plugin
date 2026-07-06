@@ -38,4 +38,14 @@ final class OrderTotalAtLeastConditionChecker implements ConditionCheckerInterfa
 
         return $context->order->getTotal() >= $amount;
     }
+
+    public function requiresCustomer(): bool
+    {
+        return false;
+    }
+
+    public function requiresCart(): bool
+    {
+        return true;
+    }
 }

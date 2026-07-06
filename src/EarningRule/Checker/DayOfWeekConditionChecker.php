@@ -38,4 +38,14 @@ final class DayOfWeekConditionChecker implements ConditionCheckerInterface
 
         return in_array((int) $context->getNow()->format('N'), $days, true);
     }
+
+    public function requiresCustomer(): bool
+    {
+        return false;
+    }
+
+    public function requiresCart(): bool
+    {
+        return false;
+    }
 }

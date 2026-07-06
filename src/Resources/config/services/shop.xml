@@ -18,6 +18,10 @@
             <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\Shop\CartRedemptionViewProviderInterface"/>
             <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyTransactionRepositoryInterface"/>
             <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Hint\EarnHintCalculatorInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProviderInterface"/>
+            <argument type="service" id="sylius.context.channel"/>
+            <argument type="service" id="sylius.context.customer"/>
             <argument>%setono_sylius_loyalty.model.account.class%</argument>
             <tag name="twig.runtime"/>
         </service>
@@ -38,8 +42,19 @@
             <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyAccountRepositoryInterface"/>
             <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyTransactionRepositoryInterface"/>
             <argument type="service" id="Setono\SyliusLoyaltyPlugin\Ledger\LotReplayerInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\Shop\TierProgressProviderInterface"/>
             <argument type="service" id="twig"/>
         </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Provider\Shop\TierProgressProvider">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\TierRepositoryInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Tier\QualificationBasis\TierQualificationBasisRegistryInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProviderInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Tier\EvaluationWindowResolverInterface"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Provider\Shop\TierProgressProviderInterface"
+                 alias="Setono\SyliusLoyaltyPlugin\Provider\Shop\TierProgressProvider"/>
 
         <service id="Setono\SyliusLoyaltyPlugin\Menu\ShopAccountMenuListener">
             <tag name="kernel.event_listener" event="sylius.menu.shop.account" method="__invoke"/>

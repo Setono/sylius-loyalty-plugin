@@ -58,4 +58,14 @@ final class CartContainsTaxonConditionChecker implements ConditionCheckerInterfa
 
         return false;
     }
+
+    public function requiresCustomer(): bool
+    {
+        return false;
+    }
+
+    public function requiresCart(): bool
+    {
+        return true;
+    }
 }

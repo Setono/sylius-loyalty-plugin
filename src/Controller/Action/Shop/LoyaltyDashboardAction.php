@@ -7,6 +7,7 @@ namespace Setono\SyliusLoyaltyPlugin\Controller\Action\Shop;
 use Setono\SyliusLoyaltyPlugin\Ledger\LotReplayerInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyTransactionInterface;
+use Setono\SyliusLoyaltyPlugin\Provider\Shop\TierProgressProviderInterface;
 use Setono\SyliusLoyaltyPlugin\Repository\LoyaltyAccountRepositoryInterface;
 use Setono\SyliusLoyaltyPlugin\Repository\LoyaltyTransactionRepositoryInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
@@ -34,6 +35,7 @@ final class LoyaltyDashboardAction
         private readonly LoyaltyAccountRepositoryInterface $accountRepository,
         private readonly LoyaltyTransactionRepositoryInterface $transactionRepository,
         private readonly LotReplayerInterface $lotReplayer,
+        private readonly TierProgressProviderInterface $tierProgressProvider,
         private readonly Environment $twig,
     ) {
     }
@@ -57,6 +59,7 @@ final class LoyaltyDashboardAction
             'page' => $page,
             'pages' => (int) ceil($total / self::PAGE_SIZE),
             'expiringSoon' => $this->expiringSoon($account),
+            'tierProgress' => null === $account ? null : $this->tierProgressProvider->getProgress($account),
         ]));
     }
 

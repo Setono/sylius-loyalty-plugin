@@ -58,4 +58,14 @@ final class DateWindowConditionChecker implements ConditionCheckerInterface
             return null;
         }
     }
+
+    public function requiresCustomer(): bool
+    {
+        return false;
+    }
+
+    public function requiresCart(): bool
+    {
+        return false;
+    }
 }

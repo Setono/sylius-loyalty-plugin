@@ -10,6 +10,7 @@
         <import resource="services/expression.xml"/>
         <import resource="services/fixture.xml"/>
         <import resource="services/promotion.xml"/>
+        <import resource="services/hint.xml"/>
         <import resource="services/inspector.xml"/>
         <import resource="services/listener.xml"/>
         <import resource="services/ledger.xml"/>

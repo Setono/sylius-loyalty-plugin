@@ -43,4 +43,14 @@ final class ExpressionConditionChecker implements ConditionCheckerInterface
 
         return (bool) $this->expressionEvaluator->evaluate($expression, $context);
     }
+
+    public function requiresCustomer(): bool
+    {
+        return true;
+    }
+
+    public function requiresCart(): bool
+    {
+        return true;
+    }
 }

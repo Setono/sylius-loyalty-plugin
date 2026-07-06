@@ -127,6 +127,8 @@ setono_sylius_loyalty:
         dry_run: Dry run
         dry_run_results: Dry-run results
         dry_run_results_card_description: What dry-run rules would have awarded
+        earn_hint_cart: 'This order earns ~%points% points.'
+        earn_hint_product: 'You will earn %points% points buying this product.'
         earning_rate_hint: 'The earning rate is defined by earning rules: a base order-scoped rule with the per-amount type is the shop''s default rate.'
         earning_rules: Earning rules
         earning_rules_card_description: Triggers, conditions, and amounts
@@ -204,6 +206,8 @@ setono_sylius_loyalty:
         tester_order_number: Order number
         tester_rules: Rule evaluations
         tier: Tier
+        tier_progress: '%metric% / %threshold% to %tier%'
+        tier_top: You have reached the top tier — thank you for being one of our very best customers!
         tiers: Tiers
         tiers_card_description: Levels, thresholds, multipliers, and benefits
         trigger: Trigger
