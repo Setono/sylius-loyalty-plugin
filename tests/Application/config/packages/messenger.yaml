@@ -1,0 +1,6 @@
+# The loyalty_async transport exists for the async awarding functional test: nothing routes
+# to it by default (awarding stays sync), the test targets it with a TransportNamesStamp.
+framework:
+    messenger:
+        transports:
+            loyalty_async: 'doctrine://default?queue_name=loyalty_test'
