@@ -11,5 +11,7 @@
         "stryker": {
             "badge": "master"
         }
-    }
+    },
+    "minMsi": 20,
+    "minCoveredMsi": 95
 }

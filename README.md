@@ -177,6 +177,7 @@ Implementing the interface is the entire integration — every extension interfa
 - [Rendering the balance anywhere](docs/cookbook/rendering-the-balance.md)
 - [Clawback on partial refunds](docs/cookbook/partial-refund-clawback.md)
 - [Custom tier qualification basis](docs/cookbook/custom-tier-qualification-basis.md)
+- [Custom referral fraud check](docs/cookbook/custom-referral-fraud-check.md)
 
 ## Notes for specific setups
 
