@@ -54,7 +54,7 @@ final class LoyaltyProgramExampleFactory implements ExampleFactoryInterface
     }
 
     /**
-     * @param array<string, mixed> $options
+     * @param array<array-key, mixed> $options
      */
     public function create(array $options = []): LoyaltyProgramInterface
     {
