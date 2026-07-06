@@ -7,6 +7,12 @@ namespace Setono\SyliusLoyaltyPlugin\Tests\DependencyInjection;
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
 use PHPUnit\Framework\TestCase;
 use Setono\SyliusLoyaltyPlugin\DependencyInjection\Configuration;
+use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccount;
+use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface;
+use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgram;
+use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgramInterface;
+use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
+use Sylius\Component\Resource\Factory\Factory;
 
 final class ConfigurationTest extends TestCase
 {
@@ -31,7 +37,24 @@ final class ConfigurationTest extends TestCase
             'expression_editor' => [
                 'cdn_base_url' => 'https://esm.sh',
             ],
-            'resources' => [],
+            'resources' => [
+                'account' => [
+                    'classes' => [
+                        'model' => LoyaltyAccount::class,
+                        'interface' => LoyaltyAccountInterface::class,
+                        'controller' => ResourceController::class,
+                        'factory' => Factory::class,
+                    ],
+                ],
+                'program' => [
+                    'classes' => [
+                        'model' => LoyaltyProgram::class,
+                        'interface' => LoyaltyProgramInterface::class,
+                        'controller' => ResourceController::class,
+                        'factory' => Factory::class,
+                    ],
+                ],
+            ],
         ]);
     }
 

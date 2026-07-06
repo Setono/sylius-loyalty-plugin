@@ -20,5 +20,13 @@ parameters:
         repositoryClass: Doctrine\ORM\EntityRepository
         objectManagerLoader: tests/PHPStan/object_manager.php
 
+    ignoreErrors:
+        # Plugin models deliberately type associations by Sylius interfaces so host projects can
+        # swap implementations; the object-manager loader resolves those interfaces to the test
+        # app's concrete classes, which phpstan-doctrine then reports as a type mismatch.
+        -
+            identifier: doctrine.associationType
+            path: src/Model/*
+
     reportUnmatchedIgnoredErrors: false
     treatPhpDocTypesAsCertain: false

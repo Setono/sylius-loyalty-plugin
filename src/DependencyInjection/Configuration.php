@@ -4,7 +4,14 @@ declare(strict_types=1);
 
 namespace Setono\SyliusLoyaltyPlugin\DependencyInjection;
 
+use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccount;
+use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface;
+use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgram;
+use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgramInterface;
+use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
+use Sylius\Component\Resource\Factory\Factory;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -56,12 +63,39 @@ final class Configuration implements ConfigurationInterface
 
     private function addResourcesSection(ArrayNodeDefinition $rootNode): void
     {
-        $rootNode
+        /** @var NodeBuilder $resources */
+        $resources = $rootNode
             ->children()
                 ->arrayNode('resources')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        // Resource nodes are added here as the corresponding models are implemented
+        ;
+
+        $this->addResourceNode($resources, 'account', LoyaltyAccount::class, LoyaltyAccountInterface::class);
+        $this->addResourceNode($resources, 'program', LoyaltyProgram::class, LoyaltyProgramInterface::class);
+    }
+
+    /**
+     * @param class-string $model
+     * @param class-string $interface
+     */
+    private function addResourceNode(NodeBuilder $resources, string $name, string $model, string $interface): void
+    {
+        $resources
+            ->arrayNode($name)
+                ->addDefaultsIfNotSet()
+                ->children()
+                    ->variableNode('options')->end()
+                    ->arrayNode('classes')
+                        ->addDefaultsIfNotSet()
+                        ->children()
+                            ->scalarNode('model')->defaultValue($model)->cannotBeEmpty()->end()
+                            ->scalarNode('interface')->defaultValue($interface)->cannotBeEmpty()->end()
+                            ->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
+                            ->scalarNode('repository')->cannotBeEmpty()->end()
+                            ->scalarNode('factory')->defaultValue(Factory::class)->cannotBeEmpty()->end()
+                            ->scalarNode('form')->cannotBeEmpty()->end()
+                        ->end()
                     ->end()
                 ->end()
             ->end()
