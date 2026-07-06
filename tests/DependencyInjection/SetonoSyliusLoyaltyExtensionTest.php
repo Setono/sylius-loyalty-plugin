@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace Setono\SyliusLoyaltyPlugin\Tests\DependencyInjection;
 
-use Setono\SyliusLoyaltyPlugin\DependencyInjection\SetonoSyliusLoyaltyExtension;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
+use Setono\SyliusLoyaltyPlugin\DependencyInjection\SetonoSyliusLoyaltyExtension;
 
-/**
- * See examples of tests and configuration options here: https://github.com/SymfonyTest/SymfonyDependencyInjectionTest
- */
 final class SetonoSyliusLoyaltyExtensionTest extends AbstractExtensionTestCase
 {
     protected function getContainerExtensions(): array
@@ -20,22 +17,22 @@ final class SetonoSyliusLoyaltyExtensionTest extends AbstractExtensionTestCase
     }
 
     /**
-     * @return array<string, mixed>
-     */
-    protected function getMinimalConfiguration(): array
-    {
-        return [
-            'option' => 'option_value',
-        ];
-    }
-
-    /**
      * @test
      */
-    public function after_loading_the_correct_parameter_has_been_set(): void
+    public function after_loading_the_correct_parameters_have_been_set(): void
     {
         $this->load();
 
-        $this->assertContainerBuilderHasParameter('setono_sylius_loyalty.option', 'option_value');
+        $this->assertContainerBuilderHasParameter(
+            'setono_sylius_loyalty.manual_adjustment_reasons',
+            ['goodwill', 'correction', 'promotion', 'other'],
+        );
+        $this->assertContainerBuilderHasParameter('setono_sylius_loyalty.triggers', []);
+        $this->assertContainerBuilderHasParameter('setono_sylius_loyalty.transaction_types', []);
+        $this->assertContainerBuilderHasParameter(
+            'setono_sylius_loyalty.expression_editor.cdn_base_url',
+            'https://esm.sh',
+        );
+        $this->assertContainerBuilderHasParameter('setono_sylius_loyalty.driver', 'doctrine/orm');
     }
 }

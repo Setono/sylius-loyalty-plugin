@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace Setono\SyliusLoyaltyPlugin\Tests\DependencyInjection;
 
-use Setono\SyliusLoyaltyPlugin\DependencyInjection\Configuration;
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
 use PHPUnit\Framework\TestCase;
+use Setono\SyliusLoyaltyPlugin\DependencyInjection\Configuration;
 
-/**
- * See examples of tests and configuration options here: https://github.com/SymfonyTest/SymfonyConfigTest
- */
 final class ConfigurationTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
@@ -23,27 +20,54 @@ final class ConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function values_are_invalid_if_required_value_is_not_provided(): void
+    public function it_has_sensible_defaults(): void
     {
-        $this->assertConfigurationIsInvalid(
-            [
-                [], // no values at all
+        $this->assertProcessedConfigurationEquals([
+            [],
+        ], [
+            'manual_adjustment_reasons' => ['goodwill', 'correction', 'promotion', 'other'],
+            'triggers' => [],
+            'transaction_types' => [],
+            'expression_editor' => [
+                'cdn_base_url' => 'https://esm.sh',
             ],
-            '/The child (config|node) "option" (under|at path) "setono_sylius_loyalty" must be configured/',
-            true,
-        );
+            'resources' => [],
+        ]);
     }
 
     /**
      * @test
      */
-    public function processed_value_contains_required_value(): void
+    public function it_allows_overriding_manual_adjustment_reasons(): void
     {
         $this->assertProcessedConfigurationEquals([
-            ['option' => 'first value'],
-            ['option' => 'last value'],
+            ['manual_adjustment_reasons' => ['goodwill', 'vip']],
         ], [
-            'option' => 'last value',
-        ]);
+            'manual_adjustment_reasons' => ['goodwill', 'vip'],
+        ], 'manual_adjustment_reasons');
+    }
+
+    /**
+     * @test
+     */
+    public function it_allows_registering_triggers(): void
+    {
+        $this->assertProcessedConfigurationEquals([
+            ['triggers' => ['App\Event\NewsletterSubscribedTriggerEvent']],
+        ], [
+            'triggers' => ['App\Event\NewsletterSubscribedTriggerEvent'],
+        ], 'triggers');
+    }
+
+    /**
+     * @test
+     */
+    public function it_allows_registering_custom_transaction_types(): void
+    {
+        $this->assertProcessedConfigurationEquals([
+            ['transaction_types' => ['earn_badge' => 'App\Model\EarnBadgeLoyaltyTransaction']],
+        ], [
+            'transaction_types' => ['earn_badge' => 'App\Model\EarnBadgeLoyaltyTransaction'],
+        ], 'transaction_types');
     }
 }
