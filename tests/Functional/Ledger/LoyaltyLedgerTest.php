@@ -58,6 +58,34 @@ final class LoyaltyLedgerTest extends FunctionalTestCase
         self::assertCount(2, $transactionRepository->findForReplay($account));
     }
 
+    /**
+     * @test
+     */
+    public function it_expires_lots_past_their_expiry_and_replays_are_noops(): void
+    {
+        $account = $this->account();
+        $ledger = $this->ledger();
+
+        // One lot expired yesterday, one never expires
+        $expired = $ledger->earnAction($account, 100, 'expiry-test:expired', [], new \DateTimeImmutable('-1 day'));
+        $ledger->earnAction($this->reloadAccount($account), 50, 'expiry-test:open');
+
+        self::assertNotNull($expired);
+        self::assertSame(150, $this->reloadAccount($account)->getBalance());
+
+        $entries = $ledger->expire($this->reloadAccount($account));
+
+        self::assertCount(1, $entries);
+        self::assertSame(-100, $entries[0]->getPoints());
+        self::assertSame($expired->getId(), $entries[0]->getLot()?->getId());
+        self::assertSame(50, $this->reloadAccount($account)->getBalance());
+        // Expiring never touches lifetime earned
+        self::assertSame(150, $this->reloadAccount($account)->getLifetimeEarned());
+
+        // The lot is closed - a second run writes nothing
+        self::assertCount(0, $ledger->expire($this->reloadAccount($account)));
+    }
+
     private function account(): LoyaltyAccountInterface
     {
         $container = self::getContainer();

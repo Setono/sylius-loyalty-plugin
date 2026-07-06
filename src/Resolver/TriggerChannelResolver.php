@@ -42,6 +42,7 @@ final class TriggerChannelResolver implements TriggerChannelResolverInterface
         try {
             return $this->channelContext->getChannel();
         } catch (ChannelNotFoundException) {
+            // todo: This is wrong. The channel context will eventually use the hostname to find a channel, so it would be able to do that in an admin context also
             // not in a shop request
         }
 

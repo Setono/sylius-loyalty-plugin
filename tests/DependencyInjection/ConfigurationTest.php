@@ -49,6 +49,7 @@ final class ConfigurationTest extends TestCase
             'expression_editor' => [
                 'cdn_base_url' => 'https://esm.sh',
             ],
+            'retain_anonymized_ledger' => false,
             'resources' => [
                 'account' => self::resource(LoyaltyAccount::class, LoyaltyAccountInterface::class, LoyaltyAccountRepository::class),
                 'program' => self::resource(LoyaltyProgram::class, LoyaltyProgramInterface::class, LoyaltyProgramRepository::class),

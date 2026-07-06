@@ -79,7 +79,12 @@ The plugin includes a Sylius test application in `tests/Application/`:
 ### Console Commands (shipped by the plugin)
 - `setono:sylius-loyalty:trigger-birthdays` - fires the customer_birthday earning trigger for customers whose birthday is today (cron, daily; source identifier `birthday:<year>` makes re-runs no-ops)
 - `setono:sylius-loyalty:prune-dry-run-results [--days=30]` - prunes dry-run audit rows (cron, daily)
-- (Phase 1 will further add `setono:sylius-loyalty:expire-points`, `verify-ledger`, `recalculate-balances`, `inspect-account`, `export-customer-data`)
+- `setono:sylius-loyalty:expire-points [--batch-size=100]` - writes expiration entries for lots past expiry, incl. zero-point closers (cron, daily)
+- `setono:sylius-loyalty:verify-ledger [--batch-size=100]` - checks the ledger invariants; non-zero exit on violations, never fixes (cron-able)
+- `setono:sylius-loyalty:recalculate-balances [--batch-size=100] [--force]` - reports balance drift vs the ledger sum; `--force` corrects it
+- `setono:sylius-loyalty:inspect-account <email> <channel> [--format=txt|json]` - ledger + replay-derived lot states + invariant check for one account
+- `setono:sylius-loyalty:export-customer-data <email>` - GDPR JSON export of a customer's loyalty data
+- Also document in host crons: Sylius core's `sylius:cancel-unpaid-orders` (cancellation triggers redemption rollback + clawback)
 
 ## Extension Points
 

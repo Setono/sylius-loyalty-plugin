@@ -26,6 +26,8 @@ class LoyaltyAccount implements LoyaltyAccountInterface
 
     protected ?string $referralCode = null;
 
+    protected ?string $anonymizedToken = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -84,5 +86,15 @@ class LoyaltyAccount implements LoyaltyAccountInterface
     public function setReferralCode(?string $referralCode): void
     {
         $this->referralCode = $referralCode;
+    }
+
+    public function getAnonymizedToken(): ?string
+    {
+        return $this->anonymizedToken;
+    }
+
+    public function setAnonymizedToken(?string $anonymizedToken): void
+    {
+        $this->anonymizedToken = $anonymizedToken;
     }
 }

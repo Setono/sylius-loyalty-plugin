@@ -14,5 +14,43 @@
             <argument>%setono_sylius_loyalty.model.dry_run_result.class%</argument>
             <tag name="console.command"/>
         </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Command\ExpirePointsCommand">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyTransactionRepositoryInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Ledger\LoyaltyLedgerInterface"/>
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>%setono_sylius_loyalty.model.account.class%</argument>
+            <tag name="console.command"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Command\VerifyLedgerCommand">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Inspector\AccountInspectorInterface"/>
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>%setono_sylius_loyalty.model.account.class%</argument>
+            <tag name="console.command"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Command\RecalculateBalancesCommand">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyTransactionRepositoryInterface"/>
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>%setono_sylius_loyalty.model.account.class%</argument>
+            <tag name="console.command"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Command\InspectAccountCommand">
+            <argument type="service" id="sylius.repository.customer"/>
+            <argument type="service" id="sylius.repository.channel"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyAccountRepositoryInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Inspector\AccountInspectorInterface"/>
+            <tag name="console.command"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Command\ExportCustomerDataCommand">
+            <argument type="service" id="sylius.repository.customer"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyTransactionRepositoryInterface"/>
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>%setono_sylius_loyalty.model.account.class%</argument>
+            <tag name="console.command"/>
+        </service>
     </services>
 </container>

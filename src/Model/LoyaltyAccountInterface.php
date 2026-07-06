@@ -38,4 +38,12 @@ interface LoyaltyAccountInterface extends
     public function getReferralCode(): ?string;
 
     public function setReferralCode(?string $referralCode): void;
+
+    /**
+     * Set when the customer was deleted under anonymized ledger retention: the account keeps
+     * this opaque token instead of the customer link.
+     */
+    public function getAnonymizedToken(): ?string;
+
+    public function setAnonymizedToken(?string $anonymizedToken): void;
 }

@@ -62,6 +62,7 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
          *     triggers: list<class-string>,
          *     transaction_types: array<string, class-string>,
          *     expression_editor: array{cdn_base_url: string},
+         *     retain_anonymized_ledger: bool,
          * } $config
          */
         $config = $this->processConfiguration($this->getConfiguration([], $container), $configs);
@@ -71,6 +72,7 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
         $container->setParameter('setono_sylius_loyalty.triggers', $config['triggers']);
         $container->setParameter('setono_sylius_loyalty.transaction_types', $config['transaction_types']);
         $container->setParameter('setono_sylius_loyalty.expression_editor.cdn_base_url', $config['expression_editor']['cdn_base_url']);
+        $container->setParameter('setono_sylius_loyalty.retain_anonymized_ledger', $config['retain_anonymized_ledger']);
 
         $this->registerResources(
             'setono_sylius_loyalty',
@@ -120,6 +122,11 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
                             'do' => ['@Setono\SyliusLoyaltyPlugin\EventListener\AwardOrderPointsListener', 'onOrderPaid'],
                             'args' => ['object'],
                         ],
+                        'setono_sylius_loyalty_clawback_on_refund' => [
+                            'on' => ['refund'],
+                            'do' => ['@Setono\SyliusLoyaltyPlugin\EventListener\ClawbackListener', 'clawback'],
+                            'args' => ['object'],
+                        ],
                     ],
                 ],
             ],
@@ -134,6 +141,11 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
                         'setono_sylius_loyalty_rollback_redemption' => [
                             'on' => ['cancel'],
                             'do' => ['@Setono\SyliusLoyaltyPlugin\EventListener\RollbackRedemptionListener', 'rollback'],
+                            'args' => ['object'],
+                        ],
+                        'setono_sylius_loyalty_clawback_on_cancel' => [
+                            'on' => ['cancel'],
+                            'do' => ['@Setono\SyliusLoyaltyPlugin\EventListener\ClawbackListener', 'clawback'],
                             'args' => ['object'],
                         ],
                     ],

@@ -22,6 +22,7 @@
         <field name="balance" type="integer"/>
         <field name="lifetimeEarned" column="lifetime_earned" type="integer"/>
         <field name="referralCode" column="referral_code" type="string" length="16" unique="true" nullable="true"/>
+        <field name="anonymizedToken" column="anonymized_token" type="string" length="64" unique="true" nullable="true"/>
         <field name="createdAt" column="created_at" type="datetime">
             <gedmo:timestampable on="create"/>
         </field>
