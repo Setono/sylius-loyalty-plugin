@@ -6,8 +6,8 @@ namespace Setono\SyliusLoyaltyPlugin\Model;
 
 use Sylius\Component\Channel\Model\ChannelInterface;
 use Sylius\Component\Resource\Model\ToggleableTrait;
-use Sylius\Component\Resource\Model\TranslatableTrait;
 use Sylius\Component\Resource\Model\TranslationInterface;
+use Sylius\Resource\Model\TranslatableTrait;
 
 class Tier implements TierInterface
 {
