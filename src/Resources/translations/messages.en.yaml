@@ -4,10 +4,18 @@ setono_sylius_loyalty:
             add_condition: Add condition
             amount_configuration: Amount configuration
             amount_configuration_help: 'JSON, e.g. {"points": 1, "per_amount": 100} for per-amount, {"points": 50} for fixed, {"factor": 2} for multiplier, {"expression": "floor(basis / 100)"} for expression'
+            amount_expression: Amount expression
+            amount_expression_help: Used when the amount type is "Expression"; the "basis" variable holds the rule's claimed basis in minor units
+            amount_requires_order_trigger: The per-amount and multiplier types need an order basis and are only available for the built-in order trigger.
             amount_type: Amount type
             condition_configuration: Condition configuration
             condition_configuration_help: 'JSON, e.g. {"amount": 5000} or {"taxons": ["t_shirts"]}'
+            condition_expression: Condition expression
+            condition_expression_help: Used when the condition type is "Expression"; the condition passes when the expression is truthy
             condition_type: Condition type
+            expression_required: Expression mode needs an expression.
+            multiplier_is_order_scoped: Multiplier rules are order-scoped only; use expression mode for item-level logic.
+            scope_requires_order_trigger: Taxon and product scopes need order items and are only available for the built-in order trigger.
             conditions: Conditions
             conditions_match: Conditions match
             conditions_match_all: All conditions must pass

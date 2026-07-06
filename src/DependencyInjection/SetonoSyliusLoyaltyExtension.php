@@ -24,7 +24,7 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
 
         if ($container->hasExtension('twig')) {
             $container->prependExtensionConfig('twig', [
-                'form_themes' => ['@SetonoSyliusLoyaltyPlugin/Form/theme.html.twig'],
+                'form_themes' => ['@SetonoSyliusLoyaltyPlugin/form/theme.html.twig'],
             ]);
         }
     }
@@ -208,7 +208,7 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
                 'sylius.shop.cart.summary' => [
                     'blocks' => [
                         'setono_sylius_loyalty_redemption' => [
-                            'template' => '@SetonoSyliusLoyaltyPlugin/Shop/Cart/_redemption.html.twig',
+                            'template' => '@SetonoSyliusLoyaltyPlugin/shop/cart/_redemption.html.twig',
                             'priority' => 5,
                         ],
                     ],
@@ -216,7 +216,7 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
                 'sylius.shop.checkout.complete.summary' => [
                     'blocks' => [
                         'setono_sylius_loyalty_redemption_summary' => [
-                            'template' => '@SetonoSyliusLoyaltyPlugin/Shop/Checkout/_redemptionSummary.html.twig',
+                            'template' => '@SetonoSyliusLoyaltyPlugin/shop/checkout/_redemption_summary.html.twig',
                             'priority' => 5,
                         ],
                     ],
@@ -224,7 +224,7 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
                 'sylius.admin.customer.show.content' => [
                     'blocks' => [
                         'setono_sylius_loyalty_customer_loyalty' => [
-                            'template' => '@SetonoSyliusLoyaltyPlugin/Admin/Customer/_loyalty.html.twig',
+                            'template' => '@SetonoSyliusLoyaltyPlugin/admin/customer/_loyalty.html.twig',
                             'priority' => -10,
                         ],
                     ],

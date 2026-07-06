@@ -54,7 +54,7 @@ final class RuleTesterAction
             [$order, $result, $error] = $this->evaluate($orderNumber, $evaluateAt);
         }
 
-        return new Response($this->twig->render('@SetonoSyliusLoyaltyPlugin/Admin/RuleTester/index.html.twig', [
+        return new Response($this->twig->render('@SetonoSyliusLoyaltyPlugin/admin/rule_tester/index.html.twig', [
             'orderNumber' => $orderNumber,
             'evaluateAt' => $evaluateAt,
             'order' => $order,

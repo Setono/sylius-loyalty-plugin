@@ -8,12 +8,14 @@
 
         <service id="Setono\SyliusLoyaltyPlugin\Form\Type\EarningRuleConditionType">
             <argument type="service" id="Setono\SyliusLoyaltyPlugin\EarningRule\Checker\ConditionCheckerRegistryInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Expression\ExpressionValidatorInterface"/>
             <argument>%setono_sylius_loyalty.model.earning_rule_condition.class%</argument>
             <tag name="form.type"/>
         </service>
 
         <service id="Setono\SyliusLoyaltyPlugin\Form\Type\EarningRuleType">
             <argument type="service" id="Setono\SyliusLoyaltyPlugin\EarningRule\Amount\AmountCalculatorRegistryInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Expression\ExpressionValidatorInterface"/>
             <argument>%setono_sylius_loyalty.trigger_catalog%</argument>
             <argument>%setono_sylius_loyalty.model.earning_rule.class%</argument>
             <tag name="form.type"/>

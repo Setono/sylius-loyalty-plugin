@@ -40,7 +40,7 @@ final class InspectAccountAction
             throw new NotFoundHttpException('Loyalty account not found');
         }
 
-        return new Response($this->twig->render('@SetonoSyliusLoyaltyPlugin/Admin/Account/inspect.html.twig', [
+        return new Response($this->twig->render('@SetonoSyliusLoyaltyPlugin/admin/account/inspect.html.twig', [
             'account' => $account,
             'inspection' => $this->accountInspector->inspect($account),
             'transactions' => array_reverse($this->transactionRepository->findForReplay($account)),

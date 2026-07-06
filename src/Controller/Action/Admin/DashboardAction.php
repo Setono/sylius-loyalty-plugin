@@ -18,7 +18,7 @@ final class DashboardAction
 
     public function __invoke(): Response
     {
-        return new Response($this->twig->render('@SetonoSyliusLoyaltyPlugin/Admin/Dashboard/index.html.twig', [
+        return new Response($this->twig->render('@SetonoSyliusLoyaltyPlugin/admin/dashboard/index.html.twig', [
             'stats' => $this->statsProvider->getStats(),
         ]));
     }

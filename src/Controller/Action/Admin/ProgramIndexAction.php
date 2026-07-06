@@ -40,7 +40,7 @@ final class ProgramIndexAction
             }
         }
 
-        return new Response($this->twig->render('@SetonoSyliusLoyaltyPlugin/Admin/Program/index.html.twig', [
+        return new Response($this->twig->render('@SetonoSyliusLoyaltyPlugin/admin/program/index.html.twig', [
             'programs' => $programs,
         ]));
     }
