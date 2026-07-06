@@ -84,6 +84,7 @@ setono_sylius_loyalty:
         product_review_approved: Product review approved
     ui:
         account: Loyalty account
+        account_inactive: Your loyalty account is currently inactive — your balance is preserved, but earning and redeeming are paused.
         accounts: Loyalty accounts
         accounts_card_description: Browse accounts, inspect ledgers, adjust points
         adjust: Adjust
@@ -103,8 +104,25 @@ setono_sylius_loyalty:
         edit_earning_rule: Edit earning rule
         edit_program: Edit program
         new_earning_rule: New earning rule
+        description: Description
         expired: Expired
+        expires: 'expires %date%'
         expires_at: Expires at
+        expiring_soon: '%points% points expire before %date%.'
+        history: Transaction history
+        history_description:
+            clawback: 'Points reclaimed for a cancelled or refunded order'
+            earn_action: 'Points earned'
+            earn_order: 'Earned on order %order%'
+            earn_referral: 'Referral reward'
+            expire: 'Points expired'
+            manual_credit: 'Adjustment: %reason%'
+            manual_debit: 'Adjustment: %reason%'
+            redeem: 'Redeemed on order %order%'
+            redeem_rollback: 'Points restored from a cancelled order'
+        history_empty: No transactions yet — points you earn and spend will show up here.
+        my_loyalty: My loyalty
+        running_balance: Balance
         inspect: Inspect
         invariants_hold: All ledger invariants hold.
         invariants_violated: Ledger invariants are violated — investigate before making manual corrections.

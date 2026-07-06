@@ -1,3 +1,9 @@
+setono_sylius_loyalty_shop_account_loyalty:
+    path: /account/loyalty
+    methods: [GET]
+    defaults:
+        _controller: Setono\SyliusLoyaltyPlugin\Controller\Action\Shop\LoyaltyDashboardAction
+
 setono_sylius_loyalty_shop_redemption_apply:
     path: /cart/loyalty-redemption
     methods: [POST]

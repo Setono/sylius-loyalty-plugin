@@ -43,4 +43,21 @@ interface LoyaltyTransactionRepositoryInterface extends RepositoryInterface
      * cached balance (ledger invariant 1).
      */
     public function sumPoints(LoyaltyAccountInterface $account): int;
+
+    /**
+     * One page of the customer-facing transaction history: reverse-chronological, excluding
+     * zero-point entries (lot closers).
+     *
+     * @return list<LoyaltyTransactionInterface>
+     */
+    public function findHistoryPage(LoyaltyAccountInterface $account, int $page, int $limit): array;
+
+    public function countHistory(LoyaltyAccountInterface $account): int;
+
+    /**
+     * The signed sum of every transaction newer than the given one (in replay order) — the
+     * bank-statement running balance of the given transaction is the cached balance minus
+     * this sum.
+     */
+    public function sumPointsNewerThan(LoyaltyAccountInterface $account, LoyaltyTransactionInterface $transaction): int;
 }

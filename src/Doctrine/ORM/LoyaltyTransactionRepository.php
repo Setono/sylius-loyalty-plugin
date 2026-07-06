@@ -113,4 +113,48 @@ class LoyaltyTransactionRepository extends EntityRepository implements LoyaltyTr
             ->getSingleScalarResult()
         ;
     }
+
+    public function findHistoryPage(LoyaltyAccountInterface $account, int $page, int $limit): array
+    {
+        /** @var list<LoyaltyTransactionInterface> $transactions */
+        $transactions = $this->createQueryBuilder('t')
+            ->andWhere('t.account = :account')
+            ->andWhere('t.points != 0')
+            ->setParameter('account', $account)
+            ->orderBy('t.occurredAt', 'DESC')
+            ->addOrderBy('t.id', 'DESC')
+            ->setFirstResult(max(0, $page - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return $transactions;
+    }
+
+    public function countHistory(LoyaltyAccountInterface $account): int
+    {
+        return (int) $this->createQueryBuilder('t')
+            ->select('COUNT(t.id)')
+            ->andWhere('t.account = :account')
+            ->andWhere('t.points != 0')
+            ->setParameter('account', $account)
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+    }
+
+    public function sumPointsNewerThan(LoyaltyAccountInterface $account, LoyaltyTransactionInterface $transaction): int
+    {
+        return (int) $this->createQueryBuilder('t')
+            ->select('COALESCE(SUM(t.points), 0)')
+            ->andWhere('t.account = :account')
+            ->andWhere('t.occurredAt > :occurredAt OR (t.occurredAt = :occurredAt AND t.id > :id)')
+            ->setParameter('account', $account)
+            ->setParameter('occurredAt', $transaction->getOccurredAt())
+            ->setParameter('id', $transaction->getId())
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+    }
 }

@@ -32,6 +32,19 @@
             <argument type="service" id="router"/>
         </service>
 
+        <service id="Setono\SyliusLoyaltyPlugin\Controller\Action\Shop\LoyaltyDashboardAction" public="true">
+            <argument type="service" id="sylius.context.customer"/>
+            <argument type="service" id="sylius.context.channel"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyAccountRepositoryInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyTransactionRepositoryInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Ledger\LotReplayerInterface"/>
+            <argument type="service" id="twig"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Menu\ShopAccountMenuListener">
+            <tag name="kernel.event_listener" event="sylius.menu.shop.account" method="__invoke"/>
+        </service>
+
         <service id="Setono\SyliusLoyaltyPlugin\Controller\Action\Shop\RemoveRedemptionAction" public="true">
             <argument type="service" id="sylius.context.cart"/>
             <argument type="service" id="sylius.order_processing.order_processor"/>
