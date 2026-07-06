@@ -25,6 +25,7 @@ final class ToggleAccountAction
      * @param class-string<LoyaltyAccountInterface> $accountClass
      */
     public function __construct(
+        // todo: Don't inject the entity manager. Either use the ORMTrait or inject the repository
         private readonly EntityManagerInterface $entityManager,
         private readonly CsrfTokenManagerInterface $csrfTokenManager,
         private readonly UrlGeneratorInterface $urlGenerator,

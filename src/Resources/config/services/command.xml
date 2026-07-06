@@ -30,6 +30,13 @@
             <tag name="console.command"/>
         </service>
 
+        <service id="Setono\SyliusLoyaltyPlugin\Command\EvaluateTiersCommand">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Tier\TierEvaluatorInterface"/>
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>%setono_sylius_loyalty.model.account.class%</argument>
+            <tag name="console.command"/>
+        </service>
+
         <service id="Setono\SyliusLoyaltyPlugin\Command\RecalculateBalancesCommand">
             <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyTransactionRepositoryInterface"/>
             <argument type="service" id="doctrine.orm.entity_manager"/>

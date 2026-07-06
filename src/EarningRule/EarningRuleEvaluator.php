@@ -69,8 +69,11 @@ final class EarningRuleEvaluator implements EarningRuleEvaluatorInterface
             }
         }
 
+        // The tier's earning multiplier applies after all rules, immediately before rounding
+        $tierMultiplier = $context->account?->getTier()?->getEarningMultiplier() ?? 1.0;
+
         return new EvaluationResult(
-            $this->round($total, $program),
+            $this->round($total * $tierMultiplier, $program),
             $this->buildBreakdown($evaluations),
             $evaluations,
             $dryRunEvaluations,

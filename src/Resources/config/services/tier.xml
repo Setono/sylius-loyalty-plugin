@@ -2,8 +2,46 @@
 <container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://symfony.com/schema/dic/services"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-        <service id="Setono\SyliusLoyaltyPlugin\Tier\NullTierEvaluator"/>
-        <!-- Phase 2 replaces this alias with the real tier evaluator -->
-        <service id="Setono\SyliusLoyaltyPlugin\Tier\TierEvaluatorInterface" alias="Setono\SyliusLoyaltyPlugin\Tier\NullTierEvaluator"/>
+        <service id="Setono\SyliusLoyaltyPlugin\Tier\QualificationBasis\PointsEarnedBasis">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>%setono_sylius_loyalty.model.transaction.class%</argument>
+            <tag name="setono_sylius_loyalty.tier_qualification_basis"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Tier\QualificationBasis\AmountSpentBasis">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>%sylius.model.order.class%</argument>
+            <tag name="setono_sylius_loyalty.tier_qualification_basis"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Tier\QualificationBasis\OrdersCountBasis">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>%sylius.model.order.class%</argument>
+            <tag name="setono_sylius_loyalty.tier_qualification_basis"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Tier\QualificationBasis\TierQualificationBasisRegistry">
+            <!-- Populated by the CompositeCompilerPass from the tier_qualification_basis tag -->
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Tier\QualificationBasis\TierQualificationBasisRegistryInterface"
+                 alias="Setono\SyliusLoyaltyPlugin\Tier\QualificationBasis\TierQualificationBasisRegistry"/>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Tier\EvaluationWindowResolver"/>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Tier\EvaluationWindowResolverInterface"
+                 alias="Setono\SyliusLoyaltyPlugin\Tier\EvaluationWindowResolver"/>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Tier\TierEvaluator">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\TierRepositoryInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Tier\QualificationBasis\TierQualificationBasisRegistryInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProviderInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Tier\EvaluationWindowResolverInterface"/>
+            <argument type="service" id="event_dispatcher"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Tier\TierEvaluatorInterface" alias="Setono\SyliusLoyaltyPlugin\Tier\TierEvaluator"/>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Repository\TierRepositoryInterface" alias="setono_sylius_loyalty.repository.tier"/>
     </services>
 </container>

@@ -12,5 +12,14 @@ use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface;
  */
 interface TierEvaluatorInterface
 {
+    /**
+     * Upgrade-only: called inline after qualifying earns.
+     */
     public function evaluate(LoyaltyAccountInterface $account): void;
+
+    /**
+     * Full evaluation including downgrades with the program's grace period — the nightly
+     * evaluate-tiers pass.
+     */
+    public function reconcile(LoyaltyAccountInterface $account, \DateTimeImmutable $now): void;
 }

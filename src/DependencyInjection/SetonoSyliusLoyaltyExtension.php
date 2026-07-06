@@ -7,6 +7,7 @@ namespace Setono\SyliusLoyaltyPlugin\DependencyInjection;
 use Setono\SyliusLoyaltyPlugin\EarningRule\Amount\AmountCalculatorInterface;
 use Setono\SyliusLoyaltyPlugin\EarningRule\Checker\ConditionCheckerInterface;
 use Setono\SyliusLoyaltyPlugin\Expression\Function\ExpressionFunctionInterface;
+use Setono\SyliusLoyaltyPlugin\Tier\QualificationBasis\TierQualificationBasisInterface;
 use Sylius\Bundle\ResourceBundle\DependencyInjection\Extension\AbstractResourceExtension;
 use Sylius\Bundle\ResourceBundle\SyliusResourceBundle;
 use Symfony\Component\Config\FileLocator;
@@ -269,6 +270,8 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
             ->addTag('setono_sylius_loyalty.earning_amount');
         $container->registerForAutoconfiguration(ExpressionFunctionInterface::class)
             ->addTag('setono_sylius_loyalty.expression_function');
+        $container->registerForAutoconfiguration(TierQualificationBasisInterface::class)
+            ->addTag('setono_sylius_loyalty.tier_qualification_basis');
     }
 
     /**

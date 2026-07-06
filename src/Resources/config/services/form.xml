@@ -26,6 +26,17 @@
             <tag name="form.type"/>
         </service>
 
+        <service id="Setono\SyliusLoyaltyPlugin\Form\Type\TierType">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Tier\QualificationBasis\TierQualificationBasisRegistryInterface"/>
+            <argument>%setono_sylius_loyalty.model.tier.class%</argument>
+            <tag name="form.type"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Form\Type\TierTranslationType">
+            <argument>%setono_sylius_loyalty.model.tier_translation.class%</argument>
+            <tag name="form.type"/>
+        </service>
+
         <service id="Setono\SyliusLoyaltyPlugin\Form\Type\ExpressionType">
             <argument type="service" id="Setono\SyliusLoyaltyPlugin\Expression\ExpressionCatalogInterface"/>
             <argument type="service" id="router"/>

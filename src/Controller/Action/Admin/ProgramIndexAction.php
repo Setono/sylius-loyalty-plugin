@@ -11,6 +11,7 @@ use Sylius\Component\Core\Model\ChannelInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
+// todo: We should use the ResourceController index action. Fix it or push back
 /**
  * Lists each channel's loyalty program (creating missing ones with defaults on first access)
  * with links to the per-channel settings form.

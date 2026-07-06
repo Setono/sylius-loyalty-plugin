@@ -23,6 +23,7 @@
         <field name="lifetimeEarned" column="lifetime_earned" type="integer"/>
         <field name="referralCode" column="referral_code" type="string" length="16" unique="true" nullable="true"/>
         <field name="anonymizedToken" column="anonymized_token" type="string" length="64" unique="true" nullable="true"/>
+        <field name="tierBelowThresholdSince" column="tier_below_threshold_since" type="datetime_immutable" nullable="true"/>
         <field name="createdAt" column="created_at" type="datetime">
             <gedmo:timestampable on="create"/>
         </field>
@@ -36,6 +37,10 @@
 
         <many-to-one field="channel" target-entity="Sylius\Component\Channel\Model\ChannelInterface">
             <join-column name="channel_id" referenced-column-name="id" nullable="false" on-delete="CASCADE"/>
+        </many-to-one>
+
+        <many-to-one field="tier" target-entity="Setono\SyliusLoyaltyPlugin\Model\TierInterface">
+            <join-column name="tier_id" referenced-column-name="id" nullable="true" on-delete="SET NULL"/>
         </many-to-one>
     </mapped-superclass>
 

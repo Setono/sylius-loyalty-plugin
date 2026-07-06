@@ -9,6 +9,7 @@ use Setono\SyliusLoyaltyPlugin\DependencyInjection\Compiler\RegisterEarningTrigg
 use Setono\SyliusLoyaltyPlugin\EarningRule\Amount\AmountCalculatorRegistry;
 use Setono\SyliusLoyaltyPlugin\EarningRule\Checker\ConditionCheckerRegistry;
 use Setono\SyliusLoyaltyPlugin\Expression\Function\ExpressionFunctionRegistry;
+use Setono\SyliusLoyaltyPlugin\Tier\QualificationBasis\TierQualificationBasisRegistry;
 use Sylius\Bundle\CoreBundle\Application\SyliusPluginTrait;
 use Sylius\Bundle\ResourceBundle\AbstractResourceBundle;
 use Sylius\Bundle\ResourceBundle\SyliusResourceBundle;
@@ -34,6 +35,10 @@ final class SetonoSyliusLoyaltyPlugin extends AbstractResourceBundle
         $container->addCompilerPass(new CompositeCompilerPass(
             ExpressionFunctionRegistry::class,
             'setono_sylius_loyalty.expression_function',
+        ));
+        $container->addCompilerPass(new CompositeCompilerPass(
+            TierQualificationBasisRegistry::class,
+            'setono_sylius_loyalty.tier_qualification_basis',
         ));
 
         // Must run before Symfony's RegisterListenersPass (same phase, priority 0) so the

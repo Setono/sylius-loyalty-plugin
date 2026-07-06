@@ -24,6 +24,14 @@ class LoyaltyAccount implements LoyaltyAccountInterface
 
     protected int $lifetimeEarned = 0;
 
+    protected ?TierInterface $tier = null;
+
+    /**
+     * When the account first evaluated below its current tier's threshold — drives the
+     * downgrade grace period. Cleared whenever the account re-qualifies.
+     */
+    protected ?\DateTimeImmutable $tierBelowThresholdSince = null;
+
     protected ?string $referralCode = null;
 
     protected ?string $anonymizedToken = null;
@@ -56,6 +64,26 @@ class LoyaltyAccount implements LoyaltyAccountInterface
     public function setChannel(?ChannelInterface $channel): void
     {
         $this->channel = $channel;
+    }
+
+    public function getTier(): ?TierInterface
+    {
+        return $this->tier;
+    }
+
+    public function setTier(?TierInterface $tier): void
+    {
+        $this->tier = $tier;
+    }
+
+    public function getTierBelowThresholdSince(): ?\DateTimeImmutable
+    {
+        return $this->tierBelowThresholdSince;
+    }
+
+    public function setTierBelowThresholdSince(?\DateTimeImmutable $tierBelowThresholdSince): void
+    {
+        $this->tierBelowThresholdSince = $tierBelowThresholdSince;
     }
 
     public function getBalance(): int

@@ -11,9 +11,11 @@ use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\EarningRuleRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyAccountRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyProgramRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyTransactionRepository;
+use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\TierRepository;
 use Setono\SyliusLoyaltyPlugin\Form\Type\EarningRuleConditionType;
 use Setono\SyliusLoyaltyPlugin\Form\Type\EarningRuleType;
 use Setono\SyliusLoyaltyPlugin\Form\Type\LoyaltyProgramType;
+use Setono\SyliusLoyaltyPlugin\Form\Type\TierType;
 use Setono\SyliusLoyaltyPlugin\Model\DryRunResult;
 use Setono\SyliusLoyaltyPlugin\Model\DryRunResultInterface;
 use Setono\SyliusLoyaltyPlugin\Model\EarningRule;
@@ -26,6 +28,10 @@ use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgram;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgramInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyTransactionInterface;
+use Setono\SyliusLoyaltyPlugin\Model\Tier;
+use Setono\SyliusLoyaltyPlugin\Model\TierInterface;
+use Setono\SyliusLoyaltyPlugin\Model\TierTranslation;
+use Setono\SyliusLoyaltyPlugin\Model\TierTranslationInterface;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
 use Sylius\Component\Resource\Factory\Factory;
 
@@ -60,6 +66,16 @@ final class ConfigurationTest extends TestCase
                 'earning_rule' => self::resource(EarningRule::class, EarningRuleInterface::class, EarningRuleRepository::class, EarningRuleType::class),
                 'earning_rule_condition' => self::resource(EarningRuleCondition::class, EarningRuleConditionInterface::class, null, EarningRuleConditionType::class),
                 'dry_run_result' => self::resource(DryRunResult::class, DryRunResultInterface::class),
+                'tier' => self::resource(Tier::class, TierInterface::class, TierRepository::class, TierType::class) + [
+                    'translation' => [
+                        'classes' => [
+                            'model' => TierTranslation::class,
+                            'interface' => TierTranslationInterface::class,
+                            'controller' => ResourceController::class,
+                            'factory' => Factory::class,
+                        ],
+                    ],
+                ],
             ],
         ]);
     }

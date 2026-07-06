@@ -35,6 +35,18 @@ interface LoyaltyAccountInterface extends
 
     public function setLifetimeEarned(int $lifetimeEarned): void;
 
+    public function getTier(): ?TierInterface;
+
+    public function setTier(?TierInterface $tier): void;
+
+    /**
+     * When the account first evaluated below its current tier's threshold — drives the
+     * downgrade grace period. Cleared whenever the account re-qualifies.
+     */
+    public function getTierBelowThresholdSince(): ?\DateTimeImmutable;
+
+    public function setTierBelowThresholdSince(?\DateTimeImmutable $tierBelowThresholdSince): void;
+
     public function getReferralCode(): ?string;
 
     public function setReferralCode(?string $referralCode): void;

@@ -8,9 +8,11 @@ use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\EarningRuleRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyAccountRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyProgramRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyTransactionRepository;
+use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\TierRepository;
 use Setono\SyliusLoyaltyPlugin\Form\Type\EarningRuleConditionType;
 use Setono\SyliusLoyaltyPlugin\Form\Type\EarningRuleType;
 use Setono\SyliusLoyaltyPlugin\Form\Type\LoyaltyProgramType;
+use Setono\SyliusLoyaltyPlugin\Form\Type\TierType;
 use Setono\SyliusLoyaltyPlugin\Model\DryRunResult;
 use Setono\SyliusLoyaltyPlugin\Model\DryRunResultInterface;
 use Setono\SyliusLoyaltyPlugin\Model\EarningRule;
@@ -23,6 +25,10 @@ use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgram;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgramInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyTransactionInterface;
+use Setono\SyliusLoyaltyPlugin\Model\Tier;
+use Setono\SyliusLoyaltyPlugin\Model\TierInterface;
+use Setono\SyliusLoyaltyPlugin\Model\TierTranslation;
+use Setono\SyliusLoyaltyPlugin\Model\TierTranslationInterface;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
 use Sylius\Component\Resource\Factory\Factory;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
@@ -96,6 +102,10 @@ final class Configuration implements ConfigurationInterface
         $this->addResourceNode($resources, 'earning_rule', EarningRule::class, EarningRuleInterface::class, EarningRuleRepository::class, EarningRuleType::class);
         $this->addResourceNode($resources, 'earning_rule_condition', EarningRuleCondition::class, EarningRuleConditionInterface::class, null, EarningRuleConditionType::class);
         $this->addResourceNode($resources, 'dry_run_result', DryRunResult::class, DryRunResultInterface::class);
+        $this->addResourceNode($resources, 'tier', Tier::class, TierInterface::class, TierRepository::class, TierType::class, [
+            'model' => TierTranslation::class,
+            'interface' => TierTranslationInterface::class,
+        ]);
     }
 
     /**
@@ -103,6 +113,7 @@ final class Configuration implements ConfigurationInterface
      * @param class-string $interface
      * @param class-string|null $repository
      * @param class-string|null $form
+     * @param array{model: class-string, interface: class-string}|null $translation
      */
     private function addResourceNode(
         NodeBuilder $resources,
@@ -111,15 +122,16 @@ final class Configuration implements ConfigurationInterface
         string $interface,
         ?string $repository = null,
         ?string $form = null,
+        ?array $translation = null,
     ): void {
-        $classes = $resources
-            ->arrayNode($name)
+        $resourceNode = $resources->arrayNode($name)->addDefaultsIfNotSet();
+        $resourceChildren = $resourceNode->children();
+        $resourceChildren->variableNode('options');
+
+        $classes = $resourceChildren
+            ->arrayNode('classes')
                 ->addDefaultsIfNotSet()
                 ->children()
-                    ->variableNode('options')->end()
-                    ->arrayNode('classes')
-                        ->addDefaultsIfNotSet()
-                        ->children()
         ;
 
         $classes->scalarNode('model')->defaultValue($model)->cannotBeEmpty();
@@ -135,6 +147,25 @@ final class Configuration implements ConfigurationInterface
         $repositoryNode = $classes->scalarNode('repository')->cannotBeEmpty();
         if (null !== $repository) {
             $repositoryNode->defaultValue($repository);
+        }
+
+        if (null !== $translation) {
+            $translationClasses = $resourceChildren
+                ->arrayNode('translation')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->variableNode('options')->end()
+                        ->arrayNode('classes')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+            ;
+
+            $translationClasses->scalarNode('model')->defaultValue($translation['model'])->cannotBeEmpty();
+            $translationClasses->scalarNode('interface')->defaultValue($translation['interface'])->cannotBeEmpty();
+            $translationClasses->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty();
+            $translationClasses->scalarNode('factory')->defaultValue(Factory::class)->cannotBeEmpty();
+            $translationClasses->scalarNode('repository')->cannotBeEmpty();
+            $translationClasses->scalarNode('form')->cannotBeEmpty();
         }
     }
 }

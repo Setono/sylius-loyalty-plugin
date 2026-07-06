@@ -13,6 +13,8 @@ use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
  */
 final class DiscriminatorMapListener
 {
+    // todo: The %sylius.resources% should be injected here and the setono_sylius_loyalty.transaction_types should be removed
+    // todo: the discriminator could be a static method on the entity
     /**
      * @param class-string $transactionClass
      * @param array<string, class-string> $transactionTypes
