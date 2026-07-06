@@ -9,3 +9,6 @@ setono_sylius_loyalty:
     redemption_invalid_request: 'La demande n''a pas pu être traitée. Veuillez réessayer.'
     redemption_not_available: 'L''utilisation des points n''est pas disponible pour le moment.'
     redemption_removed: Les points ont été retirés de la commande.
+    referral_overridden: Le parrainage a été approuvé et récompensé.
+    referral_override_invalid: 'La demande n''a pas pu être traitée. Veuillez réessayer.'
+    referral_override_not_rejected: 'Seuls les parrainages rejetés peuvent faire l''objet d''une dérogation.'

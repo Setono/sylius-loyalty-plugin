@@ -9,3 +9,6 @@ setono_sylius_loyalty:
     redemption_invalid_request: Pyyntöä ei voitu käsitellä. Yritä uudelleen.
     redemption_not_available: Pisteiden lunastus ei ole juuri nyt käytettävissä.
     redemption_removed: Pisteet on poistettu tilauksesta.
+    referral_overridden: Suosittelu on hyväksytty ja palkittu.
+    referral_override_invalid: Pyyntöä ei voitu käsitellä. Yritä uudelleen.
+    referral_override_not_rejected: Vain hylätyt suosittelut voidaan ohittaa.

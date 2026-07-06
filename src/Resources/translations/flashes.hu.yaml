@@ -9,3 +9,6 @@ setono_sylius_loyalty:
     redemption_invalid_request: A kérést nem sikerült feldolgozni. Kérjük, próbálja újra.
     redemption_not_available: A pontbeváltás jelenleg nem érhető el.
     redemption_removed: A pontok eltávolításra kerültek a rendelésről.
+    referral_overridden: Az ajánlás jóvá lett hagyva és jutalmazva lett.
+    referral_override_invalid: A kérést nem sikerült feldolgozni. Kérjük, próbálja újra.
+    referral_override_not_rejected: Csak elutasított ajánlások bírálhatók felül.

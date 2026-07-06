@@ -9,3 +9,6 @@ setono_sylius_loyalty:
     redemption_invalid_request: La richiesta non è stata elaborata. Riprova.
     redemption_not_available: Il riscatto dei punti non è al momento disponibile.
     redemption_removed: 'I punti sono stati rimossi dall''ordine.'
+    referral_overridden: Il referral è stato approvato e premiato.
+    referral_override_invalid: La richiesta non è stata elaborata. Riprova.
+    referral_override_not_rejected: Solo i referral rifiutati possono essere forzati.

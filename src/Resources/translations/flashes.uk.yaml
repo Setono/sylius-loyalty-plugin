@@ -9,3 +9,6 @@ setono_sylius_loyalty:
     redemption_invalid_request: Не вдалося обробити запит. Спробуйте ще раз.
     redemption_not_available: Списання балів наразі недоступне.
     redemption_removed: Бали прибрано із замовлення.
+    referral_overridden: Рекомендацію схвалено та винагороджено.
+    referral_override_invalid: Не вдалося обробити запит. Спробуйте ще раз.
+    referral_override_not_rejected: Вручну схвалити можна лише відхилені рекомендації.

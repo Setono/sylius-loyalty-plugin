@@ -75,9 +75,38 @@ setono_sylius_loyalty:
             retroactive_guest_points: Zpětné body hostů
             retroactive_guest_points_help: Přidělit body za objednávky hosta před registrací, když se host zaregistruje (bez zpětného doplnění pro dřívější registrace)
             rounding: Zaokrouhlování
+            show_earnable_in_cart: Zobrazit nápovědu k bodům v košíku
+            show_earnable_on_product: Zobrazit nápovědu k bodům na stránkách produktů
+            tier_downgrade_grace_days: Ochranná lhůta před snížením úrovně (dny)
+            tier_downgrade_grace_days_help: Jak dlouho si účet ponechá svou úroveň po poklesu pod prahovou hodnotu; 0 snižuje úroveň při příštím nočním vyhodnocení
+            tier_evaluation_window: Vyhodnocovací období úrovní
+            tier_window_calendar_year: Kalendářní rok
+            tier_window_lifetime: Za celou dobu
+            tier_window_rolling_12_months: Klouzavých 12 měsíců
             rounding_ceil: Nahoru
             rounding_floor: Dolů
             rounding_round: Matematicky
+        promotion_rule:
+            customer_loyalty_tier: Věrnostní úroveň zákazníka je alespoň
+            minimum_tier: Minimální úroveň
+        tier:
+            benefits: Výhody
+            benefits_description: Popis výhod
+            color: Barva odznaku
+            earning_multiplier: Násobitel získávání
+            earning_multiplier_help: Použije se na každé získání bodů, dokud je účet na této úrovni (1 = beze změny)
+            position_help: Vyšší pozice jsou vyšší úrovně; nejvyšší pozice je nejvyšší úroveň
+            qualification_basis: Základ kvalifikace
+            threshold: Prahová hodnota
+            threshold_help: Jednotka závisí na základu (body, nejmenší jednotky měny nebo objednávky)
+    tier_basis:
+        amount_spent: Utracená částka
+        orders_count: Provedené objednávky
+        points_earned: Získané body
+        unit:
+            currency: nejmenší jednotky měny
+            orders: objednávky
+            points: body
     trigger:
         customer_birthday: Narozeniny zákazníka
         customer_registered: Zákazník se zaregistroval
@@ -99,6 +128,8 @@ setono_sylius_loyalty:
         dry_run: Zkušební režim
         dry_run_results: Výsledky zkušebního režimu
         dry_run_results_card_description: Co by pravidla ve zkušebním režimu přidělila
+        earn_hint_cart: 'Za tuto objednávku získáte ~%points% bodů.'
+        earn_hint_product: 'Nákupem tohoto produktu získáte %points% bodů.'
         earning_rate_hint: 'Sazbu získávání definují pravidla získávání: základní pravidlo s rozsahem objednávky a typem za částku je výchozí sazbou obchodu.'
         earning_rules: Pravidla získávání
         earning_rules_card_description: Spouštěče, podmínky a částky
@@ -147,6 +178,20 @@ setono_sylius_loyalty:
         program: Program
         program_card_description: Převod, vypršení a zásady pro jednotlivé kanály
         reason: Důvod
+        refer_a_friend: Doporučte přítele
+        referee: Doporučený
+        referral_explainer: Sdílejte svůj odkaz — když přítel provede svou první objednávku, body získáte oba.
+        referral_override: Přesto schválit
+        referral_stats: 'Máte %count% odměněných doporučení, která vynesla %points% bodů.'
+        referral_status:
+            expired: Vypršelo
+            pending: Čeká
+            qualified: Kvalifikované
+            rejected: Zamítnuté
+            rewarded: Odměněné
+        referrals: Doporučení
+        referrals_card_description: Stavy doporučení a ruční schválení při podezření na podvod
+        referrer: Doporučitel
         redemption_clamped: 'Váš požadavek na %requested% bodů je na tuto objednávku uplatněn jen částečně; automaticky se opět navýší, jakmile to objednávka umožní.'
         remaining: Zbývá
         remove_redemption: Odebrat
@@ -154,7 +199,12 @@ setono_sylius_loyalty:
         rule_tester: Tester pravidel
         rule_tester_card_description: Vyhodnotit pravidla na nedávné objednávce, volitelně k jinému datu
         scope: Rozsah
+        share: Sdílet
+        copied: Zkopírováno!
         stat_accounts: Účty
+        stat_active_accounts_90_days: Aktivní účty (90 dní)
+        stat_liability: Nesplacený závazek z bodů
+        stat_redemption_rate_90_days: Míra uplatnění (90 dní)
         stat_earned_30_days: Získané body (30 dní)
         stat_redeemed_30_days: Uplatněné body (30 dní)
         tester_applied: Uplatněno
@@ -172,6 +222,12 @@ setono_sylius_loyalty:
         tester_order_not_found: Objednávka s tímto číslem nebyla nalezena.
         tester_order_number: Číslo objednávky
         tester_rules: Vyhodnocení pravidel
+        tier: Úroveň
+        tier_progress: '%metric% / %threshold% do %tier%'
+        tier_top: Dosáhli jste nejvyšší úrovně — děkujeme, že patříte mezi naše úplně nejlepší zákazníky!
+        tiers: Úrovně
+        tiers_card_description: Úrovně, prahové hodnoty, násobitele a výhody
         trigger: Spouštěč
         use_max: Použít maximum
+        your_code: Váš kód
         use_your_points: Využijte své body

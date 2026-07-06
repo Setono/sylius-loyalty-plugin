@@ -75,9 +75,38 @@ setono_sylius_loyalty:
             retroactive_guest_points: Ретроактивні бали гостей
             retroactive_guest_points_help: Нараховувати бали за гостьові замовлення, зроблені до реєстрації, коли гість реєструється (без донарахування для раніших реєстрацій)
             rounding: Округлення
+            show_earnable_in_cart: Показувати підказку про бали в кошику
+            show_earnable_on_product: Показувати підказку про бали на сторінках товарів
+            tier_downgrade_grace_days: Пільговий період перед пониженням рівня (днів)
+            tier_downgrade_grace_days_help: Як довго рахунок зберігає свій рівень після падіння нижче порога; 0 — пониження під час наступної нічної переоцінки
+            tier_evaluation_window: Вікно оцінювання рівнів
+            tier_window_calendar_year: Календарний рік
+            tier_window_lifetime: За весь час
+            tier_window_rolling_12_months: Ковзні 12 місяців
             rounding_ceil: Догори
             rounding_floor: Донизу
             rounding_round: Математичне
+        promotion_rule:
+            customer_loyalty_tier: Рівень лояльності клієнта не нижчий за
+            minimum_tier: Мінімальний рівень
+        tier:
+            benefits: Переваги
+            benefits_description: Опис переваг
+            color: Колір значка
+            earning_multiplier: Множник нарахування
+            earning_multiplier_help: Застосовується до кожного нарахування балів, поки рахунок перебуває на цьому рівні (1 = без змін)
+            position_help: Вищі позиції — це вищі рівні; найвища позиція є найвищим рівнем
+            qualification_basis: База кваліфікації
+            threshold: Поріг
+            threshold_help: Одиниця залежить від бази (бали, мінімальні одиниці валюти або замовлення)
+    tier_basis:
+        amount_spent: Витрачена сума
+        orders_count: Розміщені замовлення
+        points_earned: Нараховані бали
+        unit:
+            currency: мінімальні одиниці валюти
+            orders: замовлення
+            points: бали
     trigger:
         customer_birthday: День народження клієнта
         customer_registered: Клієнт зареєструвався
@@ -99,6 +128,8 @@ setono_sylius_loyalty:
         dry_run: Тестовий запуск
         dry_run_results: Результати тестового запуску
         dry_run_results_card_description: Що нарахували б правила в тестовому режимі
+        earn_hint_cart: 'За це замовлення нараховується ~%points% балів.'
+        earn_hint_product: 'Купуючи цей товар, ви отримаєте %points% балів.'
         earning_rate_hint: 'Ставку нарахування визначають правила нарахування: базове правило на рівні замовлення з типом «бали за суму» — це стандартна ставка магазину.'
         earning_rules: Правила нарахування
         earning_rules_card_description: Тригери, умови та суми
@@ -147,6 +178,20 @@ setono_sylius_loyalty:
         program: Програма
         program_card_description: Конвертація, сплив і політики для кожного каналу
         reason: Причина
+        refer_a_friend: Порекомендуйте другові
+        referee: Запрошений
+        referral_explainer: Поділіться своїм посиланням — коли друг зробить своє перше замовлення, ви обидва отримаєте бали.
+        referral_override: Схвалити попри все
+        referral_stats: 'У вас %count% винагороджених рекомендацій, за які нараховано %points% балів.'
+        referral_status:
+            expired: Прострочена
+            pending: Очікує
+            qualified: Кваліфікована
+            rejected: Відхилена
+            rewarded: Винагороджена
+        referrals: Рекомендації
+        referrals_card_description: Статуси рекомендацій і ручні схвалення після перевірок на шахрайство
+        referrer: Рекомендувач
         redemption_clamped: 'Ваш запит на %requested% балів застосовано до цього замовлення лише частково; він автоматично збільшиться, щойно замовлення це дозволить.'
         remaining: Залишок
         remove_redemption: Прибрати
@@ -154,7 +199,12 @@ setono_sylius_loyalty:
         rule_tester: Тестування правил
         rule_tester_card_description: Оцініть правила на нещодавньому замовленні, за бажанням на іншу дату
         scope: Область дії
+        share: Поділитися
+        copied: Скопійовано!
         stat_accounts: Рахунки
+        stat_active_accounts_90_days: Активні рахунки (90 днів)
+        stat_liability: 'Непогашене зобов''язання за балами'
+        stat_redemption_rate_90_days: Частка списання (90 днів)
         stat_earned_30_days: Нараховано балів (30 днів)
         stat_redeemed_30_days: Списано балів (30 днів)
         tester_applied: Застосовано
@@ -172,6 +222,12 @@ setono_sylius_loyalty:
         tester_order_not_found: Замовлення з таким номером не знайдено.
         tester_order_number: Номер замовлення
         tester_rules: Оцінювання правил
+        tier: Рівень
+        tier_progress: '%metric% / %threshold% до %tier%'
+        tier_top: Ви досягли найвищого рівня — дякуємо, що ви один із наших найкращих клієнтів!
+        tiers: Рівні
+        tiers_card_description: Рівні, пороги, множники та переваги
         trigger: Тригер
         use_max: Використати максимум
+        your_code: Ваш код
         use_your_points: Використайте свої бали

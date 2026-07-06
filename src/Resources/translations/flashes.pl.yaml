@@ -9,3 +9,6 @@ setono_sylius_loyalty:
     redemption_invalid_request: Nie udało się przetworzyć żądania. Spróbuj ponownie.
     redemption_not_available: Wymiana punktów jest obecnie niedostępna.
     redemption_removed: Punkty zostały usunięte z zamówienia.
+    referral_overridden: Polecenie zostało zatwierdzone i nagrodzone.
+    referral_override_invalid: Nie udało się przetworzyć żądania. Spróbuj ponownie.
+    referral_override_not_rejected: Tylko odrzucone polecenia można zatwierdzić mimo to.

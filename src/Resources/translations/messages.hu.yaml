@@ -75,9 +75,38 @@ setono_sylius_loyalty:
             retroactive_guest_points: Visszamenőleges vendégpontok
             retroactive_guest_points_help: Pontok jóváírása a regisztráció előtti vendégrendelésekért, amikor a vendég regisztrál (korábbi regisztrációkra nincs visszamenőleges jóváírás)
             rounding: Kerekítés
+            show_earnable_in_cart: Pontszerzési tipp megjelenítése a kosárban
+            show_earnable_on_product: Pontszerzési tipp megjelenítése a termékoldalakon
+            tier_downgrade_grace_days: Türelmi idő a szint visszaminősítése előtt (nap)
+            tier_downgrade_grace_days_help: Meddig tartja meg a fiók a szintjét, miután a küszöb alá esett; 0 esetén a következő éjszakai kiértékeléskor visszaminősül
+            tier_evaluation_window: Szintkiértékelési időszak
+            tier_window_calendar_year: Naptári év
+            tier_window_lifetime: Teljes élettartam
+            tier_window_rolling_12_months: Gördülő 12 hónap
             rounding_ceil: Felfelé
             rounding_floor: Lefelé
             rounding_round: Matematikai
+        promotion_rule:
+            customer_loyalty_tier: A vásárló hűségszintje legalább
+            minimum_tier: Minimális szint
+        tier:
+            benefits: Előnyök
+            benefits_description: Előnyök leírása
+            color: Jelvény színe
+            earning_multiplier: Pontszerzési szorzó
+            earning_multiplier_help: Minden pontszerzésre alkalmazva, amíg a fiók ezen a szinten van (1 = nincs változás)
+            position_help: A magasabb pozíciók magasabb szintek; a legmagasabb pozíció a legfelső szint
+            qualification_basis: Minősítési alap
+            threshold: Küszöbérték
+            threshold_help: A mértékegység az alaptól függ (pontok, a pénznem legkisebb egységei vagy rendelések)
+    tier_basis:
+        amount_spent: Elköltött összeg
+        orders_count: Leadott rendelések
+        points_earned: Szerzett pontok
+        unit:
+            currency: a pénznem legkisebb egységei
+            orders: rendelés
+            points: pont
     trigger:
         customer_birthday: Vásárló születésnapja
         customer_registered: Vásárló regisztrált
@@ -99,6 +128,8 @@ setono_sylius_loyalty:
         dry_run: Próbaüzem
         dry_run_results: Próbaüzem eredményei
         dry_run_results_card_description: Amit a próbaüzemben lévő szabályok jóváírtak volna
+        earn_hint_cart: 'Ezzel a rendeléssel ~%points% pontot szerez.'
+        earn_hint_product: 'E termék megvásárlásával %points% pontot szerez.'
         earning_rate_hint: 'A pontszerzési arányt a pontszerzési szabályok határozzák meg: egy rendeléshatókörű alapszabály az összeg utáni típussal a bolt alapértelmezett aránya.'
         earning_rules: Pontszerzési szabályok
         earning_rules_card_description: Eseményindítók, feltételek és összegek
@@ -147,6 +178,20 @@ setono_sylius_loyalty:
         program: Program
         program_card_description: Csatornánkénti átváltás, lejárat és szabályzatok
         reason: Indok
+        refer_a_friend: Ajánljon egy barátjának
+        referee: Ajánlott
+        referral_explainer: Ossza meg a linkjét — amikor egy barátja leadja első rendelését, mindketten pontokat kapnak.
+        referral_override: Jóváhagyás mindenképp
+        referral_stats: 'Önnek %count% jutalmazott ajánlása van, amelyek %points% pontot hoztak.'
+        referral_status:
+            expired: Lejárt
+            pending: Függőben
+            qualified: Megfelelt
+            rejected: Elutasítva
+            rewarded: Jutalmazva
+        referrals: Ajánlások
+        referrals_card_description: Ajánlási állapotok és csalásellenőrzési felülbírálások
+        referrer: Ajánló
         redemption_clamped: 'Az Ön %requested% pontos kérése csak részben kerül felhasználásra ezen a rendelésen; automatikusan visszanő, amint a rendelés lehetővé teszi.'
         remaining: Fennmaradó
         remove_redemption: Eltávolítás
@@ -154,7 +199,12 @@ setono_sylius_loyalty:
         rule_tester: Szabálytesztelő
         rule_tester_card_description: Szabályok kiértékelése egy friss rendelésen, akár más dátummal
         scope: Hatókör
+        share: Megosztás
+        copied: Másolva!
         stat_accounts: Fiókok
+        stat_active_accounts_90_days: Aktív fiókok (90 nap)
+        stat_liability: Fennálló pontkötelezettség
+        stat_redemption_rate_90_days: Beváltási arány (90 nap)
         stat_earned_30_days: Szerzett pontok (30 nap)
         stat_redeemed_30_days: Beváltott pontok (30 nap)
         tester_applied: Alkalmazva
@@ -172,6 +222,12 @@ setono_sylius_loyalty:
         tester_order_not_found: Nem található rendelés ezzel a számmal.
         tester_order_number: Rendelésszám
         tester_rules: Szabálykiértékelések
+        tier: Szint
+        tier_progress: '%metric% / %threshold% a(z) %tier% szintig'
+        tier_top: Elérte a legfelső szintet — köszönjük, hogy legjobb vásárlóink egyike!
+        tiers: Szintek
+        tiers_card_description: Szintek, küszöbértékek, szorzók és előnyök
         trigger: Eseményindító
         use_max: Maximum használata
+        your_code: Az Ön kódja
         use_your_points: Használja fel pontjait

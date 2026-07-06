@@ -9,3 +9,6 @@ setono_sylius_loyalty:
     redemption_invalid_request: Het verzoek kon niet worden verwerkt. Probeer het opnieuw.
     redemption_not_available: Punten inwisselen is momenteel niet beschikbaar.
     redemption_removed: De punten zijn van de bestelling verwijderd.
+    referral_overridden: De doorverwijzing is goedgekeurd en beloond.
+    referral_override_invalid: Het verzoek kon niet worden verwerkt. Probeer het opnieuw.
+    referral_override_not_rejected: Alleen afgewezen doorverwijzingen kunnen worden overruled.

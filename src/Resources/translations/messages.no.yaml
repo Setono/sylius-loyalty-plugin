@@ -75,9 +75,38 @@ setono_sylius_loyalty:
             retroactive_guest_points: Point for tidligere gjesteordrer
             retroactive_guest_points_help: Tildel point for gjesteordrer lagt inn før registrering når gjesten registrerer seg (ingen etterbetaling for tidligere registreringer)
             rounding: Avrunding
+            show_earnable_in_cart: Vis opptjeningshintet i handlekurven
+            show_earnable_on_product: Vis opptjeningshintet på produktsider
+            tier_downgrade_grace_days: Frist ved nivånedrykk (dager)
+            tier_downgrade_grace_days_help: Hvor lenge en konto beholder nivået sitt etter å ha falt under terskelen; 0 nedgraderer ved neste nattlige evaluering
+            tier_evaluation_window: Evalueringsvindu for nivåer
+            tier_window_calendar_year: Kalenderår
+            tier_window_lifetime: Levetid
+            tier_window_rolling_12_months: Rullerende 12 måneder
             rounding_ceil: Rund opp
             rounding_floor: Rund ned
             rounding_round: Avrund
+        promotion_rule:
+            customer_loyalty_tier: Kundens lojalitetsnivå er minst
+            minimum_tier: Minimumsnivå
+        tier:
+            benefits: Fordeler
+            benefits_description: Beskrivelse av fordelene
+            color: Badgefarge
+            earning_multiplier: Opptjeningsmultiplikator
+            earning_multiplier_help: Brukes på all pointopptjening mens kontoen er på dette nivået (1 = ingen endring)
+            position_help: Høyere posisjoner er høyere nivåer; den høyeste posisjonen er toppnivået
+            qualification_basis: Kvalifiseringsgrunnlag
+            threshold: Terskel
+            threshold_help: Enheten avhenger av grunnlaget (point, minste valutaenheter eller ordrer)
+    tier_basis:
+        amount_spent: Beløp brukt
+        orders_count: Ordrer lagt inn
+        points_earned: Opptjente point
+        unit:
+            currency: minste valutaenheter
+            orders: ordrer
+            points: point
     trigger:
         customer_birthday: Kundens fødselsdag
         customer_registered: Kunde registrert
@@ -99,6 +128,8 @@ setono_sylius_loyalty:
         dry_run: Testkjøring
         dry_run_results: Testkjøringsresultater
         dry_run_results_card_description: Hva testkjøringsregler ville ha tildelt
+        earn_hint_cart: 'Denne ordren gir ~%points% point.'
+        earn_hint_product: 'Du tjener %points% point ved kjøp av dette produktet.'
         earning_rate_hint: 'Opptjeningssatsen defineres av opptjeningsregler: en basisregel for hele ordren med typen per beløp er butikkens standardsats.'
         earning_rules: Opptjeningsregler
         earning_rules_card_description: Triggere, betingelser og beløp
@@ -147,6 +178,20 @@ setono_sylius_loyalty:
         program: Program
         program_card_description: Konvertering, utløp og policyer per kanal
         reason: Årsak
+        refer_a_friend: Verv en venn
+        referee: Vervet
+        referral_explainer: Del lenken din — når en venn legger inn sin første ordre, tjener dere begge point.
+        referral_override: Godkjenn likevel
+        referral_stats: 'Du har %count% belønnede verving(er) som har gitt %points% point.'
+        referral_status:
+            expired: Utløpt
+            pending: Venter
+            qualified: Kvalifisert
+            rejected: Avvist
+            rewarded: Belønnet
+        referrals: Vervinger
+        referrals_card_description: Vervingsstatuser og overstyring av svindelsjekker
+        referrer: Verver
         redemption_clamped: 'Forespørselen din om %requested% point er bare delvis brukt på denne ordren; den økes automatisk igjen når ordren tillater det.'
         remaining: Gjenstående
         remove_redemption: Fjern
@@ -154,7 +199,12 @@ setono_sylius_loyalty:
         rule_tester: Regeltester
         rule_tester_card_description: Evaluer regler mot en nylig ordre, eventuelt på en annen dato
         scope: Avgrensning
+        share: Del
+        copied: Kopiert!
         stat_accounts: Kontoer
+        stat_active_accounts_90_days: Aktive kontoer (90 dager)
+        stat_liability: Utestående pointforpliktelse
+        stat_redemption_rate_90_days: Innløsningsgrad (90 dager)
         stat_earned_30_days: Point opptjent (30 dager)
         stat_redeemed_30_days: Point innløst (30 dager)
         tester_applied: Brukt
@@ -172,6 +222,12 @@ setono_sylius_loyalty:
         tester_order_not_found: Ingen ordre med det nummeret ble funnet.
         tester_order_number: Ordrenummer
         tester_rules: Regelevalueringer
+        tier: Nivå
+        tier_progress: '%metric% / %threshold% til %tier%'
+        tier_top: Du har nådd det høyeste nivået — takk for at du er en av våre aller beste kunder!
+        tiers: Nivåer
+        tiers_card_description: Nivåer, terskler, multiplikatorer og fordeler
         trigger: Trigger
         use_max: Bruk maks.
+        your_code: Din kode
         use_your_points: Bruk pointene dine

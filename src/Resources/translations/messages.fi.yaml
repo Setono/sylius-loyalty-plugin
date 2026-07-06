@@ -75,9 +75,38 @@ setono_sylius_loyalty:
             retroactive_guest_points: Takautuvat vieraspisteet
             retroactive_guest_points_help: Myönnä pisteet ennen rekisteröitymistä tehdyistä vierastilauksista, kun vieras rekisteröityy (ei takautuvaa hyvitystä aiemmille rekisteröitymisille)
             rounding: Pyöristys
+            show_earnable_in_cart: Näytä pistevihje ostoskorissa
+            show_earnable_on_product: Näytä pistevihje tuotesivuilla
+            tier_downgrade_grace_days: Tason pudotuksen lykkäys (päivää)
+            tier_downgrade_grace_days_help: Kuinka kauan tili säilyttää tasonsa pudottuaan kynnyksen alle; 0 pudottaa tason seuraavassa öisessä arvioinnissa
+            tier_evaluation_window: Tasojen arviointijakso
+            tier_window_calendar_year: Kalenterivuosi
+            tier_window_lifetime: Koko asiakkuuden ajalta
+            tier_window_rolling_12_months: Liukuva 12 kuukautta
             rounding_ceil: Ylöspäin
             rounding_floor: Alaspäin
             rounding_round: Lähimpään
+        promotion_rule:
+            customer_loyalty_tier: Asiakkaan kanta-asiakastaso on vähintään
+            minimum_tier: Vähimmäistaso
+        tier:
+            benefits: Edut
+            benefits_description: Etujen kuvaus
+            color: Merkin väri
+            earning_multiplier: Kertymiskerroin
+            earning_multiplier_help: Sovelletaan kaikkeen pisteiden kertymiseen, kun tili on tällä tasolla (1 = ei muutosta)
+            position_help: Suuremmat sijainnit ovat korkeampia tasoja; suurin sijainti on ylin taso
+            qualification_basis: Kelpoisuusperuste
+            threshold: Kynnys
+            threshold_help: Yksikkö riippuu perusteesta (pisteet, valuutan pienimmät yksiköt tai tilaukset)
+    tier_basis:
+        amount_spent: Käytetty rahamäärä
+        orders_count: Tehdyt tilaukset
+        points_earned: Kertyneet pisteet
+        unit:
+            currency: valuutan pienimmät yksiköt
+            orders: tilausta
+            points: pistettä
     trigger:
         customer_birthday: Asiakkaan syntymäpäivä
         customer_registered: Asiakas rekisteröitynyt
@@ -99,6 +128,8 @@ setono_sylius_loyalty:
         dry_run: Koeajo
         dry_run_results: Koeajon tulokset
         dry_run_results_card_description: Mitä koeajosäännöt olisivat myöntäneet
+        earn_hint_cart: 'Tästä tilauksesta kertyy ~%points% pistettä.'
+        earn_hint_product: 'Ansaitset %points% pistettä ostamalla tämän tuotteen.'
         earning_rate_hint: 'Kertymistahti määritellään kertymissäännöillä: koko tilaukseen rajattu perussääntö summaperusteisella tyypillä on kaupan oletustahti.'
         earning_rules: Kertymissäännöt
         earning_rules_card_description: Laukaisimet, ehdot ja määrät
@@ -147,6 +178,20 @@ setono_sylius_loyalty:
         program: Ohjelma
         program_card_description: Kanavakohtainen muuntokurssi, vanheneminen ja käytännöt
         reason: Syy
+        refer_a_friend: Suosittele ystävälle
+        referee: Suositeltu
+        referral_explainer: Jaa linkkisi — kun ystäväsi tekee ensimmäisen tilauksensa, ansaitsette molemmat pisteitä.
+        referral_override: Hyväksy silti
+        referral_stats: 'Sinulla on %count% palkittua suosittelua, joista on kertynyt %points% pistettä.'
+        referral_status:
+            expired: Vanhentunut
+            pending: Odottaa
+            qualified: Kelpuutettu
+            rejected: Hylätty
+            rewarded: Palkittu
+        referrals: Suosittelut
+        referrals_card_description: Suosittelujen tilat ja petostarkistusten ohitukset
+        referrer: Suosittelija
         redemption_clamped: 'Pyytämästäsi %requested% pisteestä vain osa on käytetty tähän tilaukseen; määrä palautuu automaattisesti, kun tilaus sen sallii.'
         remaining: Jäljellä
         remove_redemption: Poista
@@ -154,7 +199,12 @@ setono_sylius_loyalty:
         rule_tester: Sääntötestaaja
         rule_tester_card_description: Arvioi sääntöjä äskettäistä tilausta vastaan, halutessasi eri päivämäärällä
         scope: Rajaus
+        share: Jaa
+        copied: Kopioitu!
         stat_accounts: Tilit
+        stat_active_accounts_90_days: Aktiiviset tilit (90 päivää)
+        stat_liability: Avoin pistevastuu
+        stat_redemption_rate_90_days: Lunastusaste (90 päivää)
         stat_earned_30_days: Ansaitut pisteet (30 päivää)
         stat_redeemed_30_days: Lunastetut pisteet (30 päivää)
         tester_applied: Sovellettu
@@ -172,6 +222,12 @@ setono_sylius_loyalty:
         tester_order_not_found: Tilausta tällä numerolla ei löytynyt.
         tester_order_number: Tilausnumero
         tester_rules: Sääntöjen arvioinnit
+        tier: Taso
+        tier_progress: '%metric% / %threshold% tasoon %tier%'
+        tier_top: Olet saavuttanut ylimmän tason — kiitos, että olet yksi parhaista asiakkaistamme!
+        tiers: Tasot
+        tiers_card_description: Tasot, kynnykset, kertoimet ja edut
         trigger: Laukaisin
         use_max: Käytä enimmäismäärä
+        your_code: Koodisi
         use_your_points: Käytä pisteesi

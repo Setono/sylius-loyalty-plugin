@@ -75,9 +75,38 @@ setono_sylius_loyalty:
             retroactive_guest_points: Puncte retroactive pentru vizitatori
             retroactive_guest_points_help: Acordă puncte pentru comenzile plasate ca vizitator înainte de înregistrare, atunci când vizitatorul se înregistrează (fără acordare retroactivă pentru înregistrările anterioare)
             rounding: Rotunjire
+            show_earnable_in_cart: Afișează indiciul de puncte în coș
+            show_earnable_on_product: Afișează indiciul de puncte pe paginile de produs
+            tier_downgrade_grace_days: Perioadă de grație la retrogradarea nivelului (zile)
+            tier_downgrade_grace_days_help: Cât timp un cont își păstrează nivelul după ce a scăzut sub prag; 0 retrogradează la următoarea evaluare nocturnă
+            tier_evaluation_window: Fereastra de evaluare a nivelurilor
+            tier_window_calendar_year: An calendaristic
+            tier_window_lifetime: Pe viață
+            tier_window_rolling_12_months: 12 luni glisante
             rounding_ceil: În sus
             rounding_floor: În jos
             rounding_round: Matematică
+        promotion_rule:
+            customer_loyalty_tier: Nivelul de fidelitate al clientului este cel puțin
+            minimum_tier: Nivel minim
+        tier:
+            benefits: Beneficii
+            benefits_description: Descrierea beneficiilor
+            color: Culoarea insignei
+            earning_multiplier: Multiplicator de acumulare
+            earning_multiplier_help: Se aplică fiecărei acumulări de puncte cât timp contul este la acest nivel (1 = nicio schimbare)
+            position_help: Pozițiile mai mari sunt niveluri mai înalte; poziția cea mai mare este nivelul de top
+            qualification_basis: Baza de calificare
+            threshold: Prag
+            threshold_help: Unitatea depinde de bază (puncte, subunități ale monedei sau comenzi)
+    tier_basis:
+        amount_spent: Suma cheltuită
+        orders_count: Comenzi plasate
+        points_earned: Puncte acumulate
+        unit:
+            currency: subunități ale monedei
+            orders: comenzi
+            points: puncte
     trigger:
         customer_birthday: Ziua de naștere a clientului
         customer_registered: Client înregistrat
@@ -99,6 +128,8 @@ setono_sylius_loyalty:
         dry_run: Simulare
         dry_run_results: Rezultatele simulării
         dry_run_results_card_description: Ce ar fi acordat regulile în simulare
+        earn_hint_cart: 'Această comandă acumulează ~%points% puncte.'
+        earn_hint_product: 'Veți acumula %points% puncte cumpărând acest produs.'
         earning_rate_hint: 'Rata de acumulare este definită de regulile de acumulare: o regulă de bază la nivel de comandă, de tip per sumă, este rata implicită a magazinului.'
         earning_rules: Reguli de acumulare
         earning_rules_card_description: Declanșatoare, condiții și sume
@@ -147,6 +178,20 @@ setono_sylius_loyalty:
         program: Program
         program_card_description: Conversie, expirare și politici per canal
         reason: Motiv
+        refer_a_friend: Recomandați unui prieten
+        referee: Persoana recomandată
+        referral_explainer: Distribuiți linkul dumneavoastră — când un prieten plasează prima sa comandă, amândoi acumulați puncte.
+        referral_override: Aprobă oricum
+        referral_stats: 'Aveți %count% recomandări recompensate, care au adus %points% puncte.'
+        referral_status:
+            expired: Expirată
+            pending: În așteptare
+            qualified: Calificată
+            rejected: Respinsă
+            rewarded: Recompensată
+        referrals: Recomandări
+        referrals_card_description: Stările recomandărilor și anularea respingerilor pentru fraudă
+        referrer: Persoana care recomandă
         redemption_clamped: 'Cererea dumneavoastră de %requested% puncte este aplicată doar parțial acestei comenzi; ea crește la loc automat când comanda o permite.'
         remaining: Rămas
         remove_redemption: Elimină
@@ -154,7 +199,12 @@ setono_sylius_loyalty:
         rule_tester: Tester de reguli
         rule_tester_card_description: Evaluați regulile pe o comandă recentă, opțional la o altă dată
         scope: Domeniu
+        share: Distribuie
+        copied: Copiat!
         stat_accounts: Conturi
+        stat_active_accounts_90_days: Conturi active (90 de zile)
+        stat_liability: Datorie de puncte în circulație
+        stat_redemption_rate_90_days: Rata de utilizare (90 de zile)
         stat_earned_30_days: Puncte acumulate (30 de zile)
         stat_redeemed_30_days: Puncte utilizate (30 de zile)
         tester_applied: Aplicată
@@ -172,6 +222,12 @@ setono_sylius_loyalty:
         tester_order_not_found: Nu a fost găsită nicio comandă cu acest număr.
         tester_order_number: Numărul comenzii
         tester_rules: Evaluările regulilor
+        tier: Nivel
+        tier_progress: '%metric% / %threshold% până la %tier%'
+        tier_top: Ați atins nivelul cel mai înalt — vă mulțumim că sunteți unul dintre cei mai buni clienți ai noștri!
+        tiers: Niveluri
+        tiers_card_description: Niveluri, praguri, multiplicatori și beneficii
         trigger: Declanșator
         use_max: Folosește maximul
+        your_code: Codul dumneavoastră
         use_your_points: Folosiți-vă punctele

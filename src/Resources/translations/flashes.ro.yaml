@@ -9,3 +9,6 @@ setono_sylius_loyalty:
     redemption_invalid_request: Cererea nu a putut fi procesată. Vă rugăm să încercați din nou.
     redemption_not_available: Utilizarea punctelor nu este disponibilă momentan.
     redemption_removed: Punctele au fost eliminate din comandă.
+    referral_overridden: Recomandarea a fost aprobată și recompensată.
+    referral_override_invalid: Cererea nu a putut fi procesată. Vă rugăm să încercați din nou.
+    referral_override_not_rejected: Doar recomandările respinse pot fi aprobate manual.

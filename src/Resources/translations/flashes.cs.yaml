@@ -9,3 +9,6 @@ setono_sylius_loyalty:
     redemption_invalid_request: Požadavek se nepodařilo zpracovat. Zkuste to prosím znovu.
     redemption_not_available: Uplatnění bodů není momentálně k dispozici.
     redemption_removed: Body byly z objednávky odebrány.
+    referral_overridden: Doporučení bylo schváleno a odměněno.
+    referral_override_invalid: Požadavek se nepodařilo zpracovat. Zkuste to prosím znovu.
+    referral_override_not_rejected: Ručně schválit lze pouze zamítnutá doporučení.

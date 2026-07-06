@@ -75,9 +75,38 @@ setono_sylius_loyalty:
             retroactive_guest_points: Puntos retroactivos de invitado
             retroactive_guest_points_help: Otorgar puntos por los pedidos realizados como invitado antes del registro cuando el invitado se registra (sin efecto retroactivo para registros anteriores)
             rounding: Redondeo
+            show_earnable_in_cart: Mostrar el aviso de puntos en el carrito
+            show_earnable_on_product: Mostrar el aviso de puntos en las páginas de producto
+            tier_downgrade_grace_days: Gracia antes de bajar de nivel (días)
+            tier_downgrade_grace_days_help: Cuánto tiempo conserva una cuenta su nivel tras caer por debajo del umbral; 0 baja de nivel en la siguiente evaluación nocturna
+            tier_evaluation_window: Ventana de evaluación de niveles
+            tier_window_calendar_year: Año natural
+            tier_window_lifetime: De por vida
+            tier_window_rolling_12_months: 12 meses móviles
             rounding_ceil: Hacia arriba
             rounding_floor: Hacia abajo
             rounding_round: Al más cercano
+        promotion_rule:
+            customer_loyalty_tier: El nivel de fidelidad del cliente es al menos
+            minimum_tier: Nivel mínimo
+        tier:
+            benefits: Beneficios
+            benefits_description: Descripción de los beneficios
+            color: Color de la insignia
+            earning_multiplier: Multiplicador de acumulación
+            earning_multiplier_help: Se aplica a cada acumulación de puntos mientras la cuenta está en este nivel (1 = sin cambios)
+            position_help: Las posiciones más altas son niveles más altos; la posición más alta es el nivel superior
+            qualification_basis: Base de cualificación
+            threshold: Umbral
+            threshold_help: La unidad depende de la base (puntos, unidades menores de moneda o pedidos)
+    tier_basis:
+        amount_spent: Importe gastado
+        orders_count: Pedidos realizados
+        points_earned: Puntos ganados
+        unit:
+            currency: unidades menores de moneda
+            orders: pedidos
+            points: puntos
     trigger:
         customer_birthday: Cumpleaños del cliente
         customer_registered: Cliente registrado
@@ -99,6 +128,8 @@ setono_sylius_loyalty:
         dry_run: Simulación
         dry_run_results: Resultados de simulación
         dry_run_results_card_description: Lo que las reglas en simulación habrían otorgado
+        earn_hint_cart: 'Este pedido acumula ~%points% puntos.'
+        earn_hint_product: 'Ganarás %points% puntos al comprar este producto.'
         earning_rate_hint: 'La tasa de acumulación se define mediante reglas de acumulación: una regla base a nivel de pedido con el tipo «puntos por importe» es la tasa predeterminada de la tienda.'
         earning_rules: Reglas de acumulación
         earning_rules_card_description: Disparadores, condiciones e importes
@@ -147,6 +178,20 @@ setono_sylius_loyalty:
         program: Programa
         program_card_description: Conversión, caducidad y políticas por canal
         reason: Motivo
+        refer_a_friend: Recomienda a un amigo
+        referee: Recomendado
+        referral_explainer: Comparte tu enlace — cuando un amigo haga su primer pedido, los dos ganáis puntos.
+        referral_override: Aprobar de todos modos
+        referral_stats: 'Tienes %count% recomendación(es) recompensada(s), que han generado %points% puntos.'
+        referral_status:
+            expired: Caducada
+            pending: Pendiente
+            qualified: Cualificada
+            rejected: Rechazada
+            rewarded: Recompensada
+        referrals: Recomendaciones
+        referrals_card_description: Estados de las recomendaciones y anulación de rechazos por fraude
+        referrer: Recomendante
         redemption_clamped: 'Tu solicitud de %requested% puntos solo se aplica parcialmente a este pedido; volverá a aumentar automáticamente cuando el pedido lo permita.'
         remaining: Restante
         remove_redemption: Quitar
@@ -154,7 +199,12 @@ setono_sylius_loyalty:
         rule_tester: Probador de reglas
         rule_tester_card_description: Evaluar reglas sobre un pedido reciente, opcionalmente en otra fecha
         scope: Ámbito
+        share: Compartir
+        copied: ¡Copiado!
         stat_accounts: Cuentas
+        stat_active_accounts_90_days: Cuentas activas (90 días)
+        stat_liability: Pasivo de puntos pendiente
+        stat_redemption_rate_90_days: Tasa de canje (90 días)
         stat_earned_30_days: Puntos ganados (30 días)
         stat_redeemed_30_days: Puntos canjeados (30 días)
         tester_applied: Aplicado
@@ -172,6 +222,12 @@ setono_sylius_loyalty:
         tester_order_not_found: No se encontró ningún pedido con ese número.
         tester_order_number: Número de pedido
         tester_rules: Evaluaciones de reglas
+        tier: Nivel
+        tier_progress: '%metric% / %threshold% para %tier%'
+        tier_top: Has alcanzado el nivel más alto — ¡gracias por ser uno de nuestros mejores clientes!
+        tiers: Niveles
+        tiers_card_description: Niveles, umbrales, multiplicadores y beneficios
         trigger: Disparador
         use_max: Usar el máximo
+        your_code: Tu código
         use_your_points: Usa tus puntos

@@ -9,3 +9,6 @@ setono_sylius_loyalty:
     redemption_invalid_request: Begäran kunde inte behandlas. Försök igen.
     redemption_not_available: Inlösen av poäng är inte tillgänglig just nu.
     redemption_removed: Poängen har tagits bort från ordern.
+    referral_overridden: Värvningen har godkänts och belönats.
+    referral_override_invalid: Begäran kunde inte behandlas. Försök igen.
+    referral_override_not_rejected: Endast avvisade värvningar kan åsidosättas.

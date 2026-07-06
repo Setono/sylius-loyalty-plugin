@@ -75,9 +75,38 @@ setono_sylius_loyalty:
             retroactive_guest_points: Gastpunten met terugwerkende kracht
             retroactive_guest_points_help: Ken punten toe voor gastbestellingen van vóór de registratie wanneer de gast zich registreert (geen toekenning achteraf voor eerdere registraties)
             rounding: Afronding
+            show_earnable_in_cart: Toon de spaarhint in de winkelwagen
+            show_earnable_on_product: 'Toon de spaarhint op productpagina''s'
+            tier_downgrade_grace_days: Respijt bij niveauverlaging (dagen)
+            tier_downgrade_grace_days_help: Hoe lang een account zijn niveau behoudt na onder de drempel te zijn gezakt; 0 verlaagt bij de eerstvolgende nachtelijke evaluatie
+            tier_evaluation_window: Evaluatievenster voor niveaus
+            tier_window_calendar_year: Kalenderjaar
+            tier_window_lifetime: Levenslang
+            tier_window_rolling_12_months: Voortschrijdende 12 maanden
             rounding_ceil: Naar boven
             rounding_floor: Naar beneden
             rounding_round: Afronden
+        promotion_rule:
+            customer_loyalty_tier: Loyaliteitsniveau van de klant is minimaal
+            minimum_tier: Minimumniveau
+        tier:
+            benefits: Voordelen
+            benefits_description: Beschrijving van de voordelen
+            color: Badgekleur
+            earning_multiplier: Spaarvermenigvuldiger
+            earning_multiplier_help: Toegepast op elke puntenbijschrijving zolang het account in dit niveau zit (1 = geen wijziging)
+            position_help: Hogere posities zijn hogere niveaus; de hoogste positie is het topniveau
+            qualification_basis: Kwalificatiegrondslag
+            threshold: Drempel
+            threshold_help: De eenheid hangt af van de grondslag (punten, kleinste munteenheden of bestellingen)
+    tier_basis:
+        amount_spent: Besteed bedrag
+        orders_count: Geplaatste bestellingen
+        points_earned: Gespaarde punten
+        unit:
+            currency: kleinste munteenheden
+            orders: bestellingen
+            points: punten
     trigger:
         customer_birthday: Verjaardag van de klant
         customer_registered: Klant geregistreerd
@@ -99,6 +128,8 @@ setono_sylius_loyalty:
         dry_run: Proefdraaien
         dry_run_results: Proefdraairesultaten
         dry_run_results_card_description: Wat proefdraairegels zouden hebben toegekend
+        earn_hint_cart: 'Met deze bestelling spaar je ~%points% punten.'
+        earn_hint_product: 'Je spaart %points% punten bij aankoop van dit product.'
         earning_rate_hint: 'Het spaartarief wordt bepaald door spaarregels: een basisregel op bestelniveau met het type "punten per bedrag" is het standaardtarief van de winkel.'
         earning_rules: Spaarregels
         earning_rules_card_description: Triggers, voorwaarden en bedragen
@@ -147,6 +178,20 @@ setono_sylius_loyalty:
         program: Programma
         program_card_description: Conversie, vervaldatum en beleid per kanaal
         reason: Reden
+        refer_a_friend: Verwijs een vriend door
+        referee: Doorverwezen persoon
+        referral_explainer: Deel je link — wanneer een vriend zijn eerste bestelling plaatst, sparen jullie allebei punten.
+        referral_override: Toch goedkeuren
+        referral_stats: 'Je hebt %count% beloonde doorverwijzing(en), goed voor %points% punten.'
+        referral_status:
+            expired: Verlopen
+            pending: In afwachting
+            qualified: Gekwalificeerd
+            rejected: Afgewezen
+            rewarded: Beloond
+        referrals: Doorverwijzingen
+        referrals_card_description: Doorverwijzingsstatussen en het overrulen van fraudecontroles
+        referrer: Doorverwijzer
         redemption_clamped: 'Je verzoek van %requested% punten wordt slechts gedeeltelijk op deze bestelling toegepast; het groeit automatisch weer aan zodra de bestelling dat toelaat.'
         remaining: Resterend
         remove_redemption: Verwijderen
@@ -154,7 +199,12 @@ setono_sylius_loyalty:
         rule_tester: Regeltester
         rule_tester_card_description: Regels evalueren op een recente bestelling, eventueel op een andere datum
         scope: Bereik
+        share: Delen
+        copied: Gekopieerd!
         stat_accounts: Accounts
+        stat_active_accounts_90_days: Actieve accounts (90 dagen)
+        stat_liability: Uitstaande puntenverplichting
+        stat_redemption_rate_90_days: Inwisselpercentage (90 dagen)
         stat_earned_30_days: Punten gespaard (30 dagen)
         stat_redeemed_30_days: Punten ingewisseld (30 dagen)
         tester_applied: Toegepast
@@ -172,6 +222,12 @@ setono_sylius_loyalty:
         tester_order_not_found: Er is geen bestelling met dat nummer gevonden.
         tester_order_number: Bestelnummer
         tester_rules: Regelevaluaties
+        tier: Niveau
+        tier_progress: '%metric% / %threshold% tot %tier%'
+        tier_top: Je hebt het hoogste niveau bereikt — bedankt dat je een van onze allerbeste klanten bent!
+        tiers: Niveaus
+        tiers_card_description: Niveaus, drempels, vermenigvuldigers en voordelen
         trigger: Trigger
         use_max: Maximum gebruiken
+        your_code: Jouw code
         use_your_points: Gebruik je punten

@@ -9,3 +9,6 @@ setono_sylius_loyalty:
     redemption_invalid_request: La solicitud no se pudo procesar. Inténtalo de nuevo.
     redemption_not_available: El canje de puntos no está disponible en este momento.
     redemption_removed: Los puntos se han quitado del pedido.
+    referral_overridden: La recomendación ha sido aprobada y recompensada.
+    referral_override_invalid: La solicitud no se pudo procesar. Inténtalo de nuevo.
+    referral_override_not_rejected: Solo las recomendaciones rechazadas se pueden aprobar manualmente.

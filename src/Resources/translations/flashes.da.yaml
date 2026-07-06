@@ -9,3 +9,6 @@ setono_sylius_loyalty:
     redemption_invalid_request: Anmodningen kunne ikke behandles. Prøv venligst igen.
     redemption_not_available: Indløsning af point er ikke tilgængelig lige nu.
     redemption_removed: Pointene er blevet fjernet fra ordren.
+    referral_overridden: Henvisningen er blevet godkendt og belønnet.
+    referral_override_invalid: Anmodningen kunne ikke behandles. Prøv venligst igen.
+    referral_override_not_rejected: Kun afviste henvisninger kan tilsidesættes.
