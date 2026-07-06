@@ -7,6 +7,12 @@ namespace Setono\SyliusLoyaltyPlugin\Tests\DependencyInjection;
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
 use PHPUnit\Framework\TestCase;
 use Setono\SyliusLoyaltyPlugin\DependencyInjection\Configuration;
+use Setono\SyliusLoyaltyPlugin\Model\DryRunResult;
+use Setono\SyliusLoyaltyPlugin\Model\DryRunResultInterface;
+use Setono\SyliusLoyaltyPlugin\Model\EarningRule;
+use Setono\SyliusLoyaltyPlugin\Model\EarningRuleCondition;
+use Setono\SyliusLoyaltyPlugin\Model\EarningRuleConditionInterface;
+use Setono\SyliusLoyaltyPlugin\Model\EarningRuleInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccount;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgram;
@@ -40,32 +46,32 @@ final class ConfigurationTest extends TestCase
                 'cdn_base_url' => 'https://esm.sh',
             ],
             'resources' => [
-                'account' => [
-                    'classes' => [
-                        'model' => LoyaltyAccount::class,
-                        'interface' => LoyaltyAccountInterface::class,
-                        'controller' => ResourceController::class,
-                        'factory' => Factory::class,
-                    ],
-                ],
-                'program' => [
-                    'classes' => [
-                        'model' => LoyaltyProgram::class,
-                        'interface' => LoyaltyProgramInterface::class,
-                        'controller' => ResourceController::class,
-                        'factory' => Factory::class,
-                    ],
-                ],
-                'transaction' => [
-                    'classes' => [
-                        'model' => LoyaltyTransaction::class,
-                        'interface' => LoyaltyTransactionInterface::class,
-                        'controller' => ResourceController::class,
-                        'factory' => Factory::class,
-                    ],
-                ],
+                'account' => self::resource(LoyaltyAccount::class, LoyaltyAccountInterface::class),
+                'program' => self::resource(LoyaltyProgram::class, LoyaltyProgramInterface::class),
+                'transaction' => self::resource(LoyaltyTransaction::class, LoyaltyTransactionInterface::class),
+                'earning_rule' => self::resource(EarningRule::class, EarningRuleInterface::class),
+                'earning_rule_condition' => self::resource(EarningRuleCondition::class, EarningRuleConditionInterface::class),
+                'dry_run_result' => self::resource(DryRunResult::class, DryRunResultInterface::class),
             ],
         ]);
+    }
+
+    /**
+     * @param class-string $model
+     * @param class-string $interface
+     *
+     * @return array{classes: array{model: class-string, interface: class-string, controller: class-string, factory: class-string}}
+     */
+    private static function resource(string $model, string $interface): array
+    {
+        return [
+            'classes' => [
+                'model' => $model,
+                'interface' => $interface,
+                'controller' => ResourceController::class,
+                'factory' => Factory::class,
+            ],
+        ];
     }
 
     /**

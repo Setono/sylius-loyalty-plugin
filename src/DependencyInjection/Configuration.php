@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace Setono\SyliusLoyaltyPlugin\DependencyInjection;
 
+use Setono\SyliusLoyaltyPlugin\Model\DryRunResult;
+use Setono\SyliusLoyaltyPlugin\Model\DryRunResultInterface;
+use Setono\SyliusLoyaltyPlugin\Model\EarningRule;
+use Setono\SyliusLoyaltyPlugin\Model\EarningRuleCondition;
+use Setono\SyliusLoyaltyPlugin\Model\EarningRuleConditionInterface;
+use Setono\SyliusLoyaltyPlugin\Model\EarningRuleInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccount;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgram;
@@ -76,6 +82,9 @@ final class Configuration implements ConfigurationInterface
         $this->addResourceNode($resources, 'account', LoyaltyAccount::class, LoyaltyAccountInterface::class);
         $this->addResourceNode($resources, 'program', LoyaltyProgram::class, LoyaltyProgramInterface::class);
         $this->addResourceNode($resources, 'transaction', LoyaltyTransaction::class, LoyaltyTransactionInterface::class);
+        $this->addResourceNode($resources, 'earning_rule', EarningRule::class, EarningRuleInterface::class);
+        $this->addResourceNode($resources, 'earning_rule_condition', EarningRuleCondition::class, EarningRuleConditionInterface::class);
+        $this->addResourceNode($resources, 'dry_run_result', DryRunResult::class, DryRunResultInterface::class);
     }
 
     /**
