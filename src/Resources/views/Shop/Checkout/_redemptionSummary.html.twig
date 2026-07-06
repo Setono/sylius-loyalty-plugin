@@ -1,0 +1,12 @@
+{% import '@SyliusShop/Common/Macro/money.html.twig' as money %}
+
+{% set redemption = order is defined ? setono_sylius_loyalty_cart_redemption(order) : null %}
+
+{% if redemption is not null and redemption.appliedPoints > 0 %}
+    <div class="ui segment" data-test-loyalty-checkout-summary>
+        {{ 'setono_sylius_loyalty.ui.points_applied'|trans({'%points%': redemption.appliedPoints}) }}
+        ({{ '−' }}{{ money.convertAndFormat(redemption.appliedAmount) }})
+        —
+        <a href="{{ path('sylius_shop_cart_summary') }}">{{ 'setono_sylius_loyalty.ui.change_on_cart'|trans }}</a>
+    </div>
+{% endif %}

@@ -1,0 +1,6 @@
+setono_sylius_loyalty:
+    redemption_applied: Your points have been applied to the order.
+    redemption_invalid_points: That number of points cannot be applied to this order.
+    redemption_invalid_request: The request could not be processed. Please try again.
+    redemption_not_available: Redeeming points is not available right now.
+    redemption_removed: The points have been removed from the order.

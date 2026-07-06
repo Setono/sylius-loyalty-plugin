@@ -1,0 +1,4 @@
+setono_sylius_loyalty:
+    checkout:
+        account_disabled: Your loyalty account is inactive, so the applied points cannot be redeemed. Please remove them from the order.
+        insufficient_balance: Your points balance no longer covers the applied redemption. Please adjust it on the cart.

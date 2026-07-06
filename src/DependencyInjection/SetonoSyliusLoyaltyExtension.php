@@ -19,6 +19,38 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
     public function prepend(ContainerBuilder $container): void
     {
         $this->prependWinzouStateMachineConfig($container);
+        $this->prependSyliusUiConfig($container);
+    }
+
+    /**
+     * Registers the plugin's template-event blocks.
+     */
+    private function prependSyliusUiConfig(ContainerBuilder $container): void
+    {
+        if (!$container->hasExtension('sylius_ui')) {
+            return;
+        }
+
+        $container->prependExtensionConfig('sylius_ui', [
+            'events' => [
+                'sylius.shop.cart.summary' => [
+                    'blocks' => [
+                        'setono_sylius_loyalty_redemption' => [
+                            'template' => '@SetonoSyliusLoyaltyPlugin/Shop/Cart/_redemption.html.twig',
+                            'priority' => 5,
+                        ],
+                    ],
+                ],
+                'sylius.shop.checkout.complete.summary' => [
+                    'blocks' => [
+                        'setono_sylius_loyalty_redemption_summary' => [
+                            'template' => '@SetonoSyliusLoyaltyPlugin/Shop/Checkout/_redemptionSummary.html.twig',
+                            'priority' => 5,
+                        ],
+                    ],
+                ],
+            ],
+        ]);
     }
 
     public function load(array $configs, ContainerBuilder $container): void

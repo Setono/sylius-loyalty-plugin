@@ -1,0 +1,55 @@
+{% import '@SyliusShop/Common/Macro/money.html.twig' as money %}
+
+{% set redemption = cart is defined ? setono_sylius_loyalty_cart_redemption(cart) : null %}
+
+{% if redemption is not null %}
+    <div class="ui segment" id="setono-sylius-loyalty-redemption" {{ sylius_test_html_attribute('loyalty-redemption') }}>
+        <h4 class="ui header">{{ 'setono_sylius_loyalty.ui.use_your_points'|trans }}</h4>
+
+        <p>
+            {{ 'setono_sylius_loyalty.ui.balance'|trans }}:
+            <strong data-test-loyalty-balance>{{ redemption.balance }}</strong>
+        </p>
+
+        {% if redemption.appliedPoints > 0 %}
+            <div class="ui positive small message" data-test-loyalty-applied>
+                {{ 'setono_sylius_loyalty.ui.points_applied'|trans({'%points%': redemption.appliedPoints}) }}
+                ({{ '−' }}{{ money.convertAndFormat(redemption.appliedAmount) }})
+            </div>
+
+            {% if redemption.clamped %}
+                <div class="ui warning small message" data-test-loyalty-clamped>
+                    {{ 'setono_sylius_loyalty.ui.redemption_clamped'|trans({'%requested%': redemption.requestedPoints}) }}
+                </div>
+            {% endif %}
+
+            <form action="{{ path('setono_sylius_loyalty_shop_redemption_remove') }}" method="post">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('setono_sylius_loyalty_redemption') }}">
+                <button type="submit" class="ui tiny button" data-test-loyalty-remove>
+                    {{ 'setono_sylius_loyalty.ui.remove_redemption'|trans }}
+                </button>
+            </form>
+        {% endif %}
+
+        {% if redemption.canRedeem %}
+            <form action="{{ path('setono_sylius_loyalty_shop_redemption_apply') }}" method="post" class="ui form" style="margin-top: 1em;">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('setono_sylius_loyalty_redemption') }}">
+
+                {% if redemption.presets is not empty %}
+                    <div class="ui small buttons" data-test-loyalty-presets>
+                        {% for preset in redemption.presets %}
+                            <button type="submit" name="points" value="{{ preset.points }}" class="ui button">
+                                {{ 'setono_sylius_loyalty.ui.points_amount'|trans({'%points%': preset.points}) }}
+                                ({{ '−' }}{{ money.convertAndFormat(preset.amount) }})
+                            </button>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <button type="submit" name="use_max" value="1" class="ui primary button" data-test-loyalty-use-max>
+                    {{ 'setono_sylius_loyalty.ui.use_max'|trans }}
+                </button>
+            </form>
+        {% endif %}
+    </div>
+{% endif %}

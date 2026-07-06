@@ -11,6 +11,7 @@
         <import resource="services/provider.xml"/>
         <import resource="services/redemption.xml"/>
         <import resource="services/repository.xml"/>
+        <import resource="services/shop.xml"/>
         <import resource="services/tier.xml"/>
         <import resource="services/trigger.xml"/>
     </imports>

@@ -1,0 +1,11 @@
+setono_sylius_loyalty:
+    ui:
+        balance: Your points balance
+        change_on_cart: Change on cart
+        points_amount: '%points% points'
+        points_applied: '%points% points applied'
+        points_redemption: Points redemption
+        redemption_clamped: 'Your request of %requested% points is only partially applied to this order; it grows back automatically when the order allows it.'
+        remove_redemption: Remove
+        use_max: Use max
+        use_your_points: Use your points
