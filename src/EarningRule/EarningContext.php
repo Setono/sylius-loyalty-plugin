@@ -20,6 +20,8 @@ final class EarningContext
      *        the channel base currency (discounted, redemption excluded, per the program's
      *        earning basis)
      * @param array<string, mixed> $context typed context variables of the trigger event
+     * @param int $extraAmount non-item basis (e.g. shipping under the order_total earning
+     *        basis); only ever feeds order-scoped rules
      */
     public function __construct(
         public readonly ChannelInterface $channel,
@@ -29,6 +31,7 @@ final class EarningContext
         public readonly array $itemAmounts = [],
         public readonly array $context = [],
         private readonly ?\DateTimeImmutable $now = null,
+        public readonly int $extraAmount = 0,
     ) {
     }
 
@@ -45,6 +48,6 @@ final class EarningContext
      */
     public function getBasis(): int
     {
-        return (int) array_sum($this->itemAmounts);
+        return (int) array_sum($this->itemAmounts) + $this->extraAmount;
     }
 }

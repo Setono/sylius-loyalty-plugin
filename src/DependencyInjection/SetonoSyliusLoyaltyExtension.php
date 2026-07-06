@@ -80,6 +80,28 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
                     ],
                 ],
             ],
+            'sylius_order_payment' => [
+                'callbacks' => [
+                    'after' => [
+                        'setono_sylius_loyalty_award_order_points' => [
+                            'on' => ['pay'],
+                            'do' => ['@Setono\SyliusLoyaltyPlugin\EventListener\AwardOrderPointsListener', 'onOrderPaid'],
+                            'args' => ['object'],
+                        ],
+                    ],
+                ],
+            ],
+            'sylius_order' => [
+                'callbacks' => [
+                    'after' => [
+                        'setono_sylius_loyalty_award_order_points_fulfilled' => [
+                            'on' => ['fulfill'],
+                            'do' => ['@Setono\SyliusLoyaltyPlugin\EventListener\AwardOrderPointsListener', 'onOrderFulfilled'],
+                            'args' => ['object'],
+                        ],
+                    ],
+                ],
+            ],
         ]);
     }
 }

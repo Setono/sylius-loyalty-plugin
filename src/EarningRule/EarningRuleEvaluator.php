@@ -113,7 +113,7 @@ final class EarningRuleEvaluator implements EarningRuleEvaluatorInterface
         /** @var array<int, int> $claimedUnits rule key => units */
         $claimedUnits = [];
 
-        $remainderBasis = 0;
+        $remainderBasis = $context->extraAmount;
 
         $items = $this->itemsById($context);
         foreach ($context->itemAmounts as $itemId => $amount) {

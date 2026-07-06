@@ -7,6 +7,7 @@
         <import resource="services/earning_rule.xml"/>
         <import resource="services/expression.xml"/>
         <import resource="services/ledger.xml"/>
+        <import resource="services/order_earning.xml"/>
         <import resource="services/provider.xml"/>
         <import resource="services/repository.xml"/>
         <import resource="services/tier.xml"/>
