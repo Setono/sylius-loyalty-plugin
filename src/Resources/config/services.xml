@@ -3,5 +3,7 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <imports>
         <import resource="services/doctrine.xml"/>
+        <import resource="services/provider.xml"/>
+        <import resource="services/repository.xml"/>
     </imports>
 </container>

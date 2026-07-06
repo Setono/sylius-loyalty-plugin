@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Setono\SyliusLoyaltyPlugin\DependencyInjection;
 
+use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyAccountRepository;
+use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyProgramRepository;
+use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyTransactionRepository;
 use Setono\SyliusLoyaltyPlugin\Model\DryRunResult;
 use Setono\SyliusLoyaltyPlugin\Model\DryRunResultInterface;
 use Setono\SyliusLoyaltyPlugin\Model\EarningRule;
@@ -79,9 +82,9 @@ final class Configuration implements ConfigurationInterface
                     ->children()
         ;
 
-        $this->addResourceNode($resources, 'account', LoyaltyAccount::class, LoyaltyAccountInterface::class);
-        $this->addResourceNode($resources, 'program', LoyaltyProgram::class, LoyaltyProgramInterface::class);
-        $this->addResourceNode($resources, 'transaction', LoyaltyTransaction::class, LoyaltyTransactionInterface::class);
+        $this->addResourceNode($resources, 'account', LoyaltyAccount::class, LoyaltyAccountInterface::class, LoyaltyAccountRepository::class);
+        $this->addResourceNode($resources, 'program', LoyaltyProgram::class, LoyaltyProgramInterface::class, LoyaltyProgramRepository::class);
+        $this->addResourceNode($resources, 'transaction', LoyaltyTransaction::class, LoyaltyTransactionInterface::class, LoyaltyTransactionRepository::class);
         $this->addResourceNode($resources, 'earning_rule', EarningRule::class, EarningRuleInterface::class);
         $this->addResourceNode($resources, 'earning_rule_condition', EarningRuleCondition::class, EarningRuleConditionInterface::class);
         $this->addResourceNode($resources, 'dry_run_result', DryRunResult::class, DryRunResultInterface::class);
@@ -90,10 +93,11 @@ final class Configuration implements ConfigurationInterface
     /**
      * @param class-string $model
      * @param class-string $interface
+     * @param class-string|null $repository
      */
-    private function addResourceNode(NodeBuilder $resources, string $name, string $model, string $interface): void
+    private function addResourceNode(NodeBuilder $resources, string $name, string $model, string $interface, ?string $repository = null): void
     {
-        $resources
+        $classes = $resources
             ->arrayNode($name)
                 ->addDefaultsIfNotSet()
                 ->children()
@@ -101,16 +105,17 @@ final class Configuration implements ConfigurationInterface
                     ->arrayNode('classes')
                         ->addDefaultsIfNotSet()
                         ->children()
-                            ->scalarNode('model')->defaultValue($model)->cannotBeEmpty()->end()
-                            ->scalarNode('interface')->defaultValue($interface)->cannotBeEmpty()->end()
-                            ->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
-                            ->scalarNode('repository')->cannotBeEmpty()->end()
-                            ->scalarNode('factory')->defaultValue(Factory::class)->cannotBeEmpty()->end()
-                            ->scalarNode('form')->cannotBeEmpty()->end()
-                        ->end()
-                    ->end()
-                ->end()
-            ->end()
         ;
+
+        $classes->scalarNode('model')->defaultValue($model)->cannotBeEmpty();
+        $classes->scalarNode('interface')->defaultValue($interface)->cannotBeEmpty();
+        $classes->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty();
+        $classes->scalarNode('factory')->defaultValue(Factory::class)->cannotBeEmpty();
+        $classes->scalarNode('form')->cannotBeEmpty();
+
+        $repositoryNode = $classes->scalarNode('repository')->cannotBeEmpty();
+        if (null !== $repository) {
+            $repositoryNode->defaultValue($repository);
+        }
     }
 }

@@ -7,6 +7,9 @@ namespace Setono\SyliusLoyaltyPlugin\Tests\DependencyInjection;
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
 use PHPUnit\Framework\TestCase;
 use Setono\SyliusLoyaltyPlugin\DependencyInjection\Configuration;
+use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyAccountRepository;
+use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyProgramRepository;
+use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyTransactionRepository;
 use Setono\SyliusLoyaltyPlugin\Model\DryRunResult;
 use Setono\SyliusLoyaltyPlugin\Model\DryRunResultInterface;
 use Setono\SyliusLoyaltyPlugin\Model\EarningRule;
@@ -46,9 +49,9 @@ final class ConfigurationTest extends TestCase
                 'cdn_base_url' => 'https://esm.sh',
             ],
             'resources' => [
-                'account' => self::resource(LoyaltyAccount::class, LoyaltyAccountInterface::class),
-                'program' => self::resource(LoyaltyProgram::class, LoyaltyProgramInterface::class),
-                'transaction' => self::resource(LoyaltyTransaction::class, LoyaltyTransactionInterface::class),
+                'account' => self::resource(LoyaltyAccount::class, LoyaltyAccountInterface::class, LoyaltyAccountRepository::class),
+                'program' => self::resource(LoyaltyProgram::class, LoyaltyProgramInterface::class, LoyaltyProgramRepository::class),
+                'transaction' => self::resource(LoyaltyTransaction::class, LoyaltyTransactionInterface::class, LoyaltyTransactionRepository::class),
                 'earning_rule' => self::resource(EarningRule::class, EarningRuleInterface::class),
                 'earning_rule_condition' => self::resource(EarningRuleCondition::class, EarningRuleConditionInterface::class),
                 'dry_run_result' => self::resource(DryRunResult::class, DryRunResultInterface::class),
@@ -59,19 +62,24 @@ final class ConfigurationTest extends TestCase
     /**
      * @param class-string $model
      * @param class-string $interface
+     * @param class-string|null $repository
      *
-     * @return array{classes: array{model: class-string, interface: class-string, controller: class-string, factory: class-string}}
+     * @return array{classes: array<string, class-string>}
      */
-    private static function resource(string $model, string $interface): array
+    private static function resource(string $model, string $interface, ?string $repository = null): array
     {
-        return [
-            'classes' => [
-                'model' => $model,
-                'interface' => $interface,
-                'controller' => ResourceController::class,
-                'factory' => Factory::class,
-            ],
+        $classes = [
+            'model' => $model,
+            'interface' => $interface,
+            'controller' => ResourceController::class,
+            'factory' => Factory::class,
         ];
+
+        if (null !== $repository) {
+            $classes['repository'] = $repository;
+        }
+
+        return ['classes' => $classes];
     }
 
     /**
