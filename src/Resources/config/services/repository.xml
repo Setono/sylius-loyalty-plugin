@@ -7,5 +7,6 @@
         <service id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyAccountRepositoryInterface" alias="setono_sylius_loyalty.repository.account"/>
         <service id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyProgramRepositoryInterface" alias="setono_sylius_loyalty.repository.program"/>
         <service id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyTransactionRepositoryInterface" alias="setono_sylius_loyalty.repository.transaction"/>
+        <service id="Setono\SyliusLoyaltyPlugin\Repository\EarningRuleRepositoryInterface" alias="setono_sylius_loyalty.repository.earning_rule"/>
     </services>
 </container>

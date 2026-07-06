@@ -7,6 +7,7 @@ namespace Setono\SyliusLoyaltyPlugin\Tests\DependencyInjection;
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
 use PHPUnit\Framework\TestCase;
 use Setono\SyliusLoyaltyPlugin\DependencyInjection\Configuration;
+use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\EarningRuleRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyAccountRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyProgramRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyTransactionRepository;
@@ -52,7 +53,7 @@ final class ConfigurationTest extends TestCase
                 'account' => self::resource(LoyaltyAccount::class, LoyaltyAccountInterface::class, LoyaltyAccountRepository::class),
                 'program' => self::resource(LoyaltyProgram::class, LoyaltyProgramInterface::class, LoyaltyProgramRepository::class),
                 'transaction' => self::resource(LoyaltyTransaction::class, LoyaltyTransactionInterface::class, LoyaltyTransactionRepository::class),
-                'earning_rule' => self::resource(EarningRule::class, EarningRuleInterface::class),
+                'earning_rule' => self::resource(EarningRule::class, EarningRuleInterface::class, EarningRuleRepository::class),
                 'earning_rule_condition' => self::resource(EarningRuleCondition::class, EarningRuleConditionInterface::class),
                 'dry_run_result' => self::resource(DryRunResult::class, DryRunResultInterface::class),
             ],

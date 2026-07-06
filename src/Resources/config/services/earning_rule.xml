@@ -8,6 +8,13 @@
         <service id="Setono\SyliusLoyaltyPlugin\EarningRule\Amount\AmountCalculatorRegistry"/>
         <service id="Setono\SyliusLoyaltyPlugin\EarningRule\Amount\AmountCalculatorRegistryInterface" alias="Setono\SyliusLoyaltyPlugin\EarningRule\Amount\AmountCalculatorRegistry"/>
 
+        <service id="Setono\SyliusLoyaltyPlugin\EarningRule\EarningRuleEvaluator">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\EarningRule\Checker\ConditionCheckerRegistryInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\EarningRule\Amount\AmountCalculatorRegistryInterface"/>
+            <argument type="service" id="logger"/>
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\EarningRule\EarningRuleEvaluatorInterface" alias="Setono\SyliusLoyaltyPlugin\EarningRule\EarningRuleEvaluator" public="true"/>
+
         <!-- Condition checkers -->
         <service id="Setono\SyliusLoyaltyPlugin\EarningRule\Checker\OrderTotalAtLeastConditionChecker">
             <tag name="setono_sylius_loyalty.earning_condition"/>
