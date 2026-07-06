@@ -36,6 +36,10 @@
         <service id="Setono\SyliusLoyaltyPlugin\EarningRule\Checker\DayOfWeekConditionChecker">
             <tag name="setono_sylius_loyalty.earning_condition"/>
         </service>
+        <service id="Setono\SyliusLoyaltyPlugin\EarningRule\Checker\ExpressionConditionChecker">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Expression\ExpressionEvaluatorInterface"/>
+            <tag name="setono_sylius_loyalty.earning_condition"/>
+        </service>
 
         <!-- Amount calculators -->
         <service id="Setono\SyliusLoyaltyPlugin\EarningRule\Amount\FixedAmountCalculator">
@@ -45,6 +49,11 @@
             <tag name="setono_sylius_loyalty.earning_amount"/>
         </service>
         <service id="Setono\SyliusLoyaltyPlugin\EarningRule\Amount\MultiplierAmountCalculator">
+            <tag name="setono_sylius_loyalty.earning_amount"/>
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\EarningRule\Amount\ExpressionAmountCalculator">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Expression\ExpressionEvaluatorInterface"/>
+            <argument type="service" id="logger"/>
             <tag name="setono_sylius_loyalty.earning_amount"/>
         </service>
     </services>

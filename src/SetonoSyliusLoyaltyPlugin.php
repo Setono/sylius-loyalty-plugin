@@ -7,6 +7,7 @@ namespace Setono\SyliusLoyaltyPlugin;
 use Setono\CompositeCompilerPass\CompositeCompilerPass;
 use Setono\SyliusLoyaltyPlugin\EarningRule\Amount\AmountCalculatorRegistry;
 use Setono\SyliusLoyaltyPlugin\EarningRule\Checker\ConditionCheckerRegistry;
+use Setono\SyliusLoyaltyPlugin\Expression\Function\ExpressionFunctionRegistry;
 use Sylius\Bundle\CoreBundle\Application\SyliusPluginTrait;
 use Sylius\Bundle\ResourceBundle\AbstractResourceBundle;
 use Sylius\Bundle\ResourceBundle\SyliusResourceBundle;
@@ -27,6 +28,10 @@ final class SetonoSyliusLoyaltyPlugin extends AbstractResourceBundle
         $container->addCompilerPass(new CompositeCompilerPass(
             AmountCalculatorRegistry::class,
             'setono_sylius_loyalty.earning_amount',
+        ));
+        $container->addCompilerPass(new CompositeCompilerPass(
+            ExpressionFunctionRegistry::class,
+            'setono_sylius_loyalty.expression_function',
         ));
     }
 
