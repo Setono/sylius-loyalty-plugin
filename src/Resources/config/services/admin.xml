@@ -49,6 +49,10 @@
             <argument>%setono_sylius_loyalty.manual_adjustment_reasons%</argument>
         </service>
 
+        <service id="Setono\SyliusLoyaltyPlugin\Controller\Action\Admin\LintExpressionAction" public="true">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Expression\ExpressionValidatorInterface"/>
+        </service>
+
         <service id="Setono\SyliusLoyaltyPlugin\Controller\Action\Admin\RuleTesterAction" public="true">
             <argument type="service" id="sylius.repository.order"/>
             <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\EarningRuleRepositoryInterface"/>

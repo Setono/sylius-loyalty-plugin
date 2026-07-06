@@ -23,5 +23,12 @@
             <argument>%setono_sylius_loyalty.model.program.class%</argument>
             <tag name="form.type"/>
         </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Form\Type\ExpressionType">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Expression\ExpressionCatalogInterface"/>
+            <argument type="service" id="router"/>
+            <argument>%setono_sylius_loyalty.expression_editor.cdn_base_url%</argument>
+            <tag name="form.type"/>
+        </service>
     </services>
 </container>

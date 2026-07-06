@@ -21,6 +21,12 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
         $this->prependWinzouStateMachineConfig($container);
         $this->prependSyliusUiConfig($container);
         $this->prependSyliusGridConfig($container);
+
+        if ($container->hasExtension('twig')) {
+            $container->prependExtensionConfig('twig', [
+                'form_themes' => ['@SetonoSyliusLoyaltyPlugin/Form/theme.html.twig'],
+            ]);
+        }
     }
 
     /**
