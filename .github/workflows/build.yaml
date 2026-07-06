@@ -248,6 +248,9 @@ jobs:
             -   name: "Validate Doctrine mapping"
                 run: "(cd tests/Application && bin/console doctrine:schema:validate -vvv)" # The verbose flag will show 'missing' SQL statements, if any
 
+            -   name: "Load fixtures"
+                run: "(cd tests/Application && bin/console sylius:fixtures:load default -n && bin/console sylius:fixtures:load loyalty -n)"
+
             -   name: "Run functional tests"
                 run: "vendor/bin/phpunit --testsuite functional"
     
@@ -295,7 +298,7 @@ jobs:
                 run: "(cd tests/Application && APP_ENV=test bin/console doctrine:database:create -n && APP_ENV=test bin/console doctrine:schema:create -n)"
 
             -   name: "Load fixtures"
-                run: "(cd tests/Application && APP_ENV=test bin/console sylius:fixtures:load default -n)"
+                run: "(cd tests/Application && APP_ENV=test bin/console sylius:fixtures:load default -n && APP_ENV=test bin/console sylius:fixtures:load loyalty -n)"
 
             -   name: "Install Playwright"
                 run: "(cd e2e && npm ci && npx playwright install --with-deps chromium)"
