@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Setono\SyliusLoyaltyPlugin\DependencyInjection;
 
+use Setono\SyliusLoyaltyPlugin\EarningRule\Amount\AmountCalculatorInterface;
+use Setono\SyliusLoyaltyPlugin\EarningRule\Checker\ConditionCheckerInterface;
 use Sylius\Bundle\ResourceBundle\DependencyInjection\Extension\AbstractResourceExtension;
 use Sylius\Bundle\ResourceBundle\SyliusResourceBundle;
 use Symfony\Component\Config\FileLocator;
@@ -39,5 +41,10 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension
         );
 
         $loader->load('services.xml');
+
+        $container->registerForAutoconfiguration(ConditionCheckerInterface::class)
+            ->addTag('setono_sylius_loyalty.earning_condition');
+        $container->registerForAutoconfiguration(AmountCalculatorInterface::class)
+            ->addTag('setono_sylius_loyalty.earning_amount');
     }
 }
