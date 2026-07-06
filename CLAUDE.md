@@ -7,8 +7,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 `setono/sylius-loyalty-plugin` is a loyalty plugin for Sylius 1.14 (PHP >= 8.1, Symfony ^6.4, Doctrine ORM, MySQL 8). It provides:
 
 - **Points** (Phase 1): event-driven earning on order/payment lifecycle and customer actions, redemption at checkout as a distributed discount adjustment, expiration, and clawback on cancellation/refund — all backed by a strictly **append-only ledger**.
-- **Tiers** (Phase 2): admin-created tiers with configurable qualification bases, earning multipliers, a tier-gated promotion rule checker, and shop progress indicators.
-- **Referrals** (Phase 3): referral codes with URL/cookie attribution, first-order qualification, and extensible fraud checks.
+- **Tiers** (Phase 2): admin-created tiers with configurable qualification bases, earning multipliers (applied after all rules, before rounding), a tier-gated promotion rule checker (`customer_loyalty_tier`), shop progress indicators with a top-tier celebration state, and variant-aware earn hints on product and cart pages (never-overstate filtering via condition evaluability metadata).
+- **Referrals** (Phase 3): lazy Crockford-base32 codes, `/r/{code}` landing + `?ref=` query-param attribution (30-day cookie, last click wins), pending referral at registration, first-post-attribution-order qualification at the award moment, extensible fraud checks, dual rewards via `earn_referral` (idempotent per account+referral), dual clawback on cancel/refund of the qualifying order.
 
 Guiding principles: points are a financial liability, so the ledger is the source of truth and balances are derived caches; all earning is idempotent by construction (DB-level unique constraints); everything is channel-aware; every meaningful action dispatches an event; extension points are tagged services or config-registered event classes. B2C only — no cashback, badges/challenges/leaderboards, B2B accounts, emails, or API Platform endpoints.
 
@@ -96,9 +96,9 @@ Every extension interface is registered for autoconfiguration — implementing t
 - **Earning triggers**: create an event class extending `Event\Trigger\EarningTriggerEvent`, register it under `setono_sylius_loyalty.triggers`, and fire it with a plain event dispatch. The subclass's public readonly properties become typed expression context. `sourceIdentifier` defaults to the trigger code ("once per account, ever"); repeatable triggers pass their own.
 - **Custom transaction types**: map `setono_sylius_loyalty.transaction_types` (discriminator value => class extending `CreditLoyaltyTransaction`/`DebitLoyaltyTransaction`).
 - **Channel resolution for triggers**: re-alias `Resolver\TriggerChannelResolverInterface`.
-- **Tier evaluation seam**: `Tier\TierEvaluatorInterface` (null implementation until Phase 2).
+- **Tier qualification bases**: implement `Tier\QualificationBasis\TierQualificationBasisInterface` (tag `setono_sylius_loyalty.tier_qualification_basis`); the tier form's basis select and unit hint update automatically.
 - **Partial-refund clawback**: call `Ledger\LoyaltyLedgerInterface::clawback(OrderInterface $order, int $points)` from any refund mechanism.
-- Planned: referral fraud checks (`.referral_fraud_check`, Phase 3), tier qualification bases (`.tier_qualification_basis`, Phase 2).
+- **Referral fraud checks**: implement `Referral\FraudCheck\ReferralFraudCheckInterface` (tag `setono_sylius_loyalty.referral_fraud_check`); any returned flag rejects the referral, admins can override.
 
 ## Bash Tools Recommendations
 

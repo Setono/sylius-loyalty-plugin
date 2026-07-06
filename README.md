@@ -122,6 +122,15 @@ setono_sylius_loyalty:
     # token instead of deleting everything (accounting continuity)
     retain_anonymized_ledger: false
 
+    referral:
+        # The query parameter recognized as a referral code on any shop URL
+        query_parameter: ref
+        # Opt-in registration-IP fraud check (stores a salted hash, purged after 90 days)
+        registration_ip_check: false
+        ip_hash_salt: '%kernel.secret%'
+        # Rewarded referrals per referrer per 30 days before the cap check flags
+        reward_cap: 10
+
     expression_editor:
         # The admin expression editor loads CodeMirror as version-pinned ESM
         # imports from this base URL. Point it at a self-hosted copy for
@@ -148,6 +157,7 @@ earning basis, rounding) live in the admin under **Marketing → Loyalty → Pro
 | `setono:sylius-loyalty:prune-dry-run-results --days=30` | daily | prunes the dry-run audit list |
 | `setono:sylius-loyalty:evaluate-tiers` | nightly | tier reconciliation: downgrades after the grace period |
 | `setono:sylius-loyalty:calculate-liability` | nightly, off-peak | snapshots the outstanding-liability dashboard widget |
+| `setono:sylius-loyalty:expire-referrals` | daily | expires stale pending referrals, purges old IP hashes |
 | `sylius:cancel-unpaid-orders` (Sylius core) | hourly | frees redemptions held by abandoned unpaid orders |
 
 Operational commands (run on demand): `verify-ledger`, `recalculate-balances` (report-only by default),
