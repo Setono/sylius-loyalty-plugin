@@ -74,9 +74,38 @@ setono_sylius_loyalty:
             retroactive_guest_points: Retroactive guest points
             retroactive_guest_points_help: Award points for pre-registration guest orders when the guest registers (no backfill for earlier registrations)
             rounding: Rounding
+            show_earnable_in_cart: Show the earn hint in the cart
+            show_earnable_on_product: Show the earn hint on product pages
+            tier_downgrade_grace_days: Tier downgrade grace (days)
+            tier_downgrade_grace_days_help: How long an account keeps its tier after falling below the threshold; 0 downgrades at the next nightly evaluation
+            tier_evaluation_window: Tier evaluation window
+            tier_window_calendar_year: Calendar year
+            tier_window_lifetime: Lifetime
+            tier_window_rolling_12_months: Rolling 12 months
             rounding_ceil: Ceiling
             rounding_floor: Floor
             rounding_round: Round
+        promotion_rule:
+            customer_loyalty_tier: Customer's loyalty tier is at least
+            minimum_tier: Minimum tier
+        tier:
+            benefits: Benefits
+            benefits_description: Benefits description
+            color: Badge color
+            earning_multiplier: Earning multiplier
+            earning_multiplier_help: Applied to every points earn while the account is in this tier (1 = no change)
+            position_help: Higher positions are higher tiers; the highest position is the top tier
+            qualification_basis: Qualification basis
+            threshold: Threshold
+            threshold_help: The unit depends on the basis (points, minor currency units, or orders)
+    tier_basis:
+        amount_spent: Amount spent
+        orders_count: Orders placed
+        points_earned: Points earned
+        unit:
+            currency: minor currency units
+            orders: orders
+            points: points
     trigger:
         customer_birthday: Customer birthday
         customer_registered: Customer registered
@@ -154,6 +183,9 @@ setono_sylius_loyalty:
         rule_tester_card_description: Evaluate rules against a recent order, optionally at a different date
         scope: Scope
         stat_accounts: Accounts
+        stat_active_accounts_90_days: Active accounts (90 days)
+        stat_liability: Outstanding points liability
+        stat_redemption_rate_90_days: Redemption rate (90 days)
         stat_earned_30_days: Points earned (30 days)
         stat_redeemed_30_days: Points redeemed (30 days)
         tester_applied: Applied
@@ -171,6 +203,9 @@ setono_sylius_loyalty:
         tester_order_not_found: No order with that number was found.
         tester_order_number: Order number
         tester_rules: Rule evaluations
+        tier: Tier
+        tiers: Tiers
+        tiers_card_description: Levels, thresholds, multipliers, and benefits
         trigger: Trigger
         use_max: Use max
         use_your_points: Use your points

@@ -26,6 +26,26 @@
         </div>
     </div>
 
+    <div class="ui three statistics" style="margin: 2em 0;">
+        <div class="ui statistic" data-test-stat-liability>
+            <div class="value">{{ stats.liabilityPoints ?? '—' }}</div>
+            <div class="label">
+                {{ 'setono_sylius_loyalty.ui.stat_liability'|trans }}
+                {% if stats.liabilityCalculatedAt %}
+                    <span class="ui tiny grey text">({{ stats.liabilityCalculatedAt|date('Y-m-d H:i') }})</span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="ui statistic" data-test-stat-redemption-rate>
+            <div class="value">{{ stats.redemptionRate90Days is not null ? stats.redemptionRate90Days ~ '%' : '—' }}</div>
+            <div class="label">{{ 'setono_sylius_loyalty.ui.stat_redemption_rate_90_days'|trans }}</div>
+        </div>
+        <div class="ui statistic" data-test-stat-active-accounts>
+            <div class="value">{{ stats.activeAccounts90Days }}</div>
+            <div class="label">{{ 'setono_sylius_loyalty.ui.stat_active_accounts_90_days'|trans }}</div>
+        </div>
+    </div>
+
     <div class="ui three stackable cards">
         <a class="ui card" href="{{ path('setono_sylius_loyalty_admin_account_index') }}" data-test-card-accounts>
             <div class="content">
@@ -37,6 +57,12 @@
             <div class="content">
                 <div class="header"><i class="percent icon"></i> {{ 'setono_sylius_loyalty.ui.earning_rules'|trans }}</div>
                 <div class="description">{{ 'setono_sylius_loyalty.ui.earning_rules_card_description'|trans }}</div>
+            </div>
+        </a>
+        <a class="ui card" href="{{ path('setono_sylius_loyalty_admin_tier_index') }}" data-test-card-tiers>
+            <div class="content">
+                <div class="header"><i class="trophy icon"></i> {{ 'setono_sylius_loyalty.ui.tiers'|trans }}</div>
+                <div class="description">{{ 'setono_sylius_loyalty.ui.tiers_card_description'|trans }}</div>
             </div>
         </a>
         <a class="ui card" href="{{ path('setono_sylius_loyalty_admin_program_index') }}" data-test-card-program>

@@ -20,6 +20,8 @@
         <field name="pointsExpiryDays" column="points_expiry_days" type="integer" nullable="true"/>
         <field name="clawbackPolicy" column="clawback_policy" type="string" length="32"/>
         <field name="retroactiveGuestPoints" column="retroactive_guest_points" type="boolean"/>
+        <field name="liabilityPoints" column="liability_points" type="integer" nullable="true"/>
+        <field name="liabilityCalculatedAt" column="liability_calculated_at" type="datetime_immutable" nullable="true"/>
         <field name="tierEvaluationWindow" column="tier_evaluation_window" type="string" length="32"/>
         <field name="tierDowngradeGraceDays" column="tier_downgrade_grace_days" type="integer"/>
         <field name="referralReferrerPoints" column="referral_referrer_points" type="integer"/>

@@ -89,6 +89,26 @@ final class LoyaltyProgramType extends AbstractType
                 'help' => 'setono_sylius_loyalty.form.program.retroactive_guest_points_help',
                 'required' => false,
             ])
+            ->add('tierEvaluationWindow', ChoiceType::class, [
+                'label' => 'setono_sylius_loyalty.form.program.tier_evaluation_window',
+                'choices' => [
+                    'setono_sylius_loyalty.form.program.tier_window_calendar_year' => LoyaltyProgramInterface::TIER_EVALUATION_WINDOW_CALENDAR_YEAR,
+                    'setono_sylius_loyalty.form.program.tier_window_rolling_12_months' => LoyaltyProgramInterface::TIER_EVALUATION_WINDOW_ROLLING_12_MONTHS,
+                    'setono_sylius_loyalty.form.program.tier_window_lifetime' => LoyaltyProgramInterface::TIER_EVALUATION_WINDOW_LIFETIME,
+                ],
+            ])
+            ->add('tierDowngradeGraceDays', IntegerType::class, [
+                'label' => 'setono_sylius_loyalty.form.program.tier_downgrade_grace_days',
+                'help' => 'setono_sylius_loyalty.form.program.tier_downgrade_grace_days_help',
+            ])
+            ->add('showEarnableOnProduct', CheckboxType::class, [
+                'label' => 'setono_sylius_loyalty.form.program.show_earnable_on_product',
+                'required' => false,
+            ])
+            ->add('showEarnableInCart', CheckboxType::class, [
+                'label' => 'setono_sylius_loyalty.form.program.show_earnable_in_cart',
+                'required' => false,
+            ])
         ;
     }
 

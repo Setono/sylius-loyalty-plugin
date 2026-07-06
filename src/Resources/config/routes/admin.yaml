@@ -45,6 +45,18 @@ setono_sylius_loyalty_admin_earning_rule:
         path: loyalty/earning-rules
     type: sylius.resource
 
+setono_sylius_loyalty_admin_tier:
+    resource: |
+        alias: setono_sylius_loyalty.tier
+        section: admin
+        except: ['show']
+        redirect: index
+        grid: setono_sylius_loyalty_admin_tier
+        templates: "@SyliusAdmin\\Crud"
+        permission: true
+        path: loyalty/tiers
+    type: sylius.resource
+
 setono_sylius_loyalty_admin_program_index:
     path: /loyalty/programs
     methods: [GET]

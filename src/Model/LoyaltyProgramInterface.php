@@ -103,6 +103,14 @@ interface LoyaltyProgramInterface extends ResourceInterface, ChannelAwareInterfa
 
     public function setRetroactiveGuestPoints(bool $retroactiveGuestPoints): void;
 
+    public function getLiabilityPoints(): ?int;
+
+    public function setLiabilityPoints(?int $liabilityPoints): void;
+
+    public function getLiabilityCalculatedAt(): ?\DateTimeImmutable;
+
+    public function setLiabilityCalculatedAt(?\DateTimeImmutable $liabilityCalculatedAt): void;
+
     public function getTierEvaluationWindow(): string;
 
     public function setTierEvaluationWindow(string $tierEvaluationWindow): void;

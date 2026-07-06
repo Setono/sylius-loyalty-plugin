@@ -9,6 +9,8 @@
         <service id="Setono\SyliusLoyaltyPlugin\Provider\Admin\DashboardStatsProvider">
             <argument type="service" id="doctrine.orm.entity_manager"/>
             <argument>%setono_sylius_loyalty.model.account.class%</argument>
+            <argument>%setono_sylius_loyalty.model.transaction.class%</argument>
+            <argument>%setono_sylius_loyalty.model.program.class%</argument>
         </service>
         <service id="Setono\SyliusLoyaltyPlugin\Provider\Admin\DashboardStatsProviderInterface" alias="Setono\SyliusLoyaltyPlugin\Provider\Admin\DashboardStatsProvider"/>
 

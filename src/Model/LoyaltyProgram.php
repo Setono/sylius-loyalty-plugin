@@ -34,6 +34,14 @@ class LoyaltyProgram implements LoyaltyProgramInterface
 
     protected bool $retroactiveGuestPoints = false;
 
+    /**
+     * The latest scheduled liability aggregation (sum of replay-derived open-lot remainders)
+     * for the channel; never computed live.
+     */
+    protected ?int $liabilityPoints = null;
+
+    protected ?\DateTimeImmutable $liabilityCalculatedAt = null;
+
     protected string $tierEvaluationWindow = self::TIER_EVALUATION_WINDOW_ROLLING_12_MONTHS;
 
     protected int $tierDowngradeGraceDays = 0;
@@ -173,6 +181,26 @@ class LoyaltyProgram implements LoyaltyProgramInterface
     public function setRetroactiveGuestPoints(bool $retroactiveGuestPoints): void
     {
         $this->retroactiveGuestPoints = $retroactiveGuestPoints;
+    }
+
+    public function getLiabilityPoints(): ?int
+    {
+        return $this->liabilityPoints;
+    }
+
+    public function setLiabilityPoints(?int $liabilityPoints): void
+    {
+        $this->liabilityPoints = $liabilityPoints;
+    }
+
+    public function getLiabilityCalculatedAt(): ?\DateTimeImmutable
+    {
+        return $this->liabilityCalculatedAt;
+    }
+
+    public function setLiabilityCalculatedAt(?\DateTimeImmutable $liabilityCalculatedAt): void
+    {
+        $this->liabilityCalculatedAt = $liabilityCalculatedAt;
     }
 
     public function getTierEvaluationWindow(): string

@@ -69,6 +69,11 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
                             'label' => 'setono_sylius_loyalty.ui.lifetime_earned',
                             'sortable' => 'lifetimeEarned',
                         ],
+                        'tier' => [
+                            'type' => 'string',
+                            'label' => 'setono_sylius_loyalty.ui.tier',
+                            'path' => 'tier.name',
+                        ],
                         'enabled' => [
                             'type' => 'twig',
                             'label' => 'sylius.ui.enabled',
@@ -150,6 +155,59 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
                         'enabled' => [
                             'type' => 'boolean',
                             'label' => 'sylius.ui.enabled',
+                        ],
+                    ],
+                    'actions' => [
+                        'main' => [
+                            'create' => ['type' => 'create'],
+                        ],
+                        'item' => [
+                            'update' => ['type' => 'update'],
+                            'delete' => ['type' => 'delete'],
+                        ],
+                    ],
+                ],
+                'setono_sylius_loyalty_admin_tier' => [
+                    'driver' => [
+                        'name' => 'doctrine/orm',
+                        'options' => ['class' => '%setono_sylius_loyalty.model.tier.class%'],
+                    ],
+                    'sorting' => ['position' => 'desc'],
+                    'fields' => [
+                        'name' => [
+                            'type' => 'string',
+                            'label' => 'sylius.ui.name',
+                            'sortable' => 'name',
+                        ],
+                        'code' => [
+                            'type' => 'string',
+                            'label' => 'sylius.ui.code',
+                            'sortable' => 'code',
+                        ],
+                        'channel' => [
+                            'type' => 'string',
+                            'label' => 'sylius.ui.channel',
+                            'path' => 'channel.code',
+                        ],
+                        'position' => [
+                            'type' => 'string',
+                            'label' => 'sylius.ui.position',
+                            'sortable' => 'position',
+                        ],
+                        'threshold' => [
+                            'type' => 'string',
+                            'label' => 'setono_sylius_loyalty.form.tier.threshold',
+                            'sortable' => 'threshold',
+                        ],
+                        'earningMultiplier' => [
+                            'type' => 'string',
+                            'label' => 'setono_sylius_loyalty.form.tier.earning_multiplier',
+                        ],
+                        'enabled' => [
+                            'type' => 'twig',
+                            'label' => 'sylius.ui.enabled',
+                            'sortable' => 'enabled',
+                            'options' => ['template' => '@SyliusUi/Grid/Field/yesNo.html.twig'],
                         ],
                     ],
                     'actions' => [

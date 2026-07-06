@@ -10,6 +10,11 @@
             {{ account.customer ? account.customer.email : 'setono_sylius_loyalty.ui.anonymized'|trans }}
             <div class="sub header">
                 {{ 'sylius.ui.channel'|trans }}: {{ account.channel ? account.channel.code : '—' }}
+                {% if account.tier %}
+                    <span class="ui horizontal label" data-test-account-tier {% if account.tier.color %}style="background-color: {{ account.tier.color }}; color: #fff;"{% endif %}>
+                        {{ account.tier.name }}
+                    </span>
+                {% endif %}
                 {% if not account.enabled %}
                     <span class="ui red horizontal label" data-test-account-disabled>{{ 'sylius.ui.disabled'|trans }}</span>
                 {% endif %}
