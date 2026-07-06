@@ -16,7 +16,7 @@ Enjoy!
 
 1. Run
     ```shell
-    composer create-project --prefer-source --no-install --remove-vcs setono/sylius-loyalty-plugin:1.14.x-dev ProjectName
+    composer create-project --prefer-source --no-install --remove-vcs setono/sylius-loyalty-plugin:dev-master ProjectName
     ``` 
     or just click the `Use this template` button at the right corner of this repository.
 2. Run
@@ -44,10 +44,10 @@ To be able to set up a plugin's database, remember to configure you database cre
 [ico-version]: https://poser.pugx.org/setono/sylius-loyalty-plugin/v/stable
 [ico-license]: https://poser.pugx.org/setono/sylius-loyalty-plugin/license
 [ico-github-actions]: https://github.com/Setono/SyliusLoyaltyPlugin/workflows/build/badge.svg
-[ico-code-coverage]: https://codecov.io/gh/Setono/SyliusLoyaltyPlugin/branch/1.12.x/graph/badge.svg
-[ico-infection]: https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2FSetono%2FSyliusPluginSkeleton%2F1.12.x
+[ico-code-coverage]: https://codecov.io/gh/Setono/SyliusLoyaltyPlugin/branch/master/graph/badge.svg
+[ico-infection]: https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2FSetono%2FSyliusLoyaltyPlugin%2Fmaster
 
 [link-packagist]: https://packagist.org/packages/setono/sylius-loyalty-plugin
 [link-github-actions]: https://github.com/Setono/SyliusLoyaltyPlugin/actions
 [link-code-coverage]: https://codecov.io/gh/Setono/SyliusLoyaltyPlugin
-[link-infection]: https://dashboard.stryker-mutator.io/reports/github.com/Setono/SyliusLoyaltyPlugin/1.12.x
+[link-infection]: https://dashboard.stryker-mutator.io/reports/github.com/Setono/SyliusLoyaltyPlugin/master
