@@ -11,10 +11,16 @@ use Sylius\Bundle\ResourceBundle\DependencyInjection\Extension\AbstractResourceE
 use Sylius\Bundle\ResourceBundle\SyliusResourceBundle;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
-final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension
+final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension implements PrependExtensionInterface
 {
+    public function prepend(ContainerBuilder $container): void
+    {
+        $this->prependWinzouStateMachineConfig($container);
+    }
+
     public function load(array $configs, ContainerBuilder $container): void
     {
         /**
@@ -49,5 +55,31 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension
             ->addTag('setono_sylius_loyalty.earning_amount');
         $container->registerForAutoconfiguration(ExpressionFunctionInterface::class)
             ->addTag('setono_sylius_loyalty.expression_function');
+    }
+
+    /**
+     * Registers the plugin's state machine callbacks on the winzou engine (still Sylius'
+     * default graph engine). The symfony/workflow counterparts are plain event listener tags;
+     * database-level idempotency makes registering both engines safe.
+     */
+    private function prependWinzouStateMachineConfig(ContainerBuilder $container): void
+    {
+        if (!$container->hasExtension('winzou_state_machine')) {
+            return;
+        }
+
+        $container->prependExtensionConfig('winzou_state_machine', [
+            'sylius_product_review' => [
+                'callbacks' => [
+                    'after' => [
+                        'setono_sylius_loyalty_dispatch_review_trigger' => [
+                            'on' => ['accept'],
+                            'do' => ['@Setono\SyliusLoyaltyPlugin\EventListener\DispatchProductReviewApprovedTrigger', 'dispatch'],
+                            'args' => ['object'],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
     }
 }

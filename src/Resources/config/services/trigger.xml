@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://symfony.com/schema/dic/services"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <!-- The RegisterEarningTriggersPass tags this listener once per registered trigger event class -->
+        <service id="Setono\SyliusLoyaltyPlugin\EventListener\EarningTriggerListener">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\EarningRule\ActionTriggerProcessorInterface"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\EarningRule\ActionTriggerProcessor">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Resolver\TriggerChannelResolverInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyAccountProviderInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProviderInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\EarningRuleRepositoryInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\EarningRule\EarningRuleEvaluatorInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\EarningRule\DryRunLoggerInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Ledger\LoyaltyLedgerInterface"/>
+            <argument type="service" id="logger"/>
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\EarningRule\ActionTriggerProcessorInterface" alias="Setono\SyliusLoyaltyPlugin\EarningRule\ActionTriggerProcessor"/>
+
+        <service id="Setono\SyliusLoyaltyPlugin\EarningRule\DryRunLogger">
+            <argument type="service" id="setono_sylius_loyalty.factory.dry_run_result"/>
+            <argument type="service" id="doctrine"/>
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\EarningRule\DryRunLoggerInterface" alias="Setono\SyliusLoyaltyPlugin\EarningRule\DryRunLogger"/>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Resolver\TriggerChannelResolver">
+            <argument type="service" id="sylius.context.channel"/>
+            <argument type="service" id="sylius.repository.channel"/>
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>%sylius.model.order.class%</argument>
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\Resolver\TriggerChannelResolverInterface" alias="Setono\SyliusLoyaltyPlugin\Resolver\TriggerChannelResolver"/>
+
+        <!-- Built-in trigger dispatchers -->
+        <service id="Setono\SyliusLoyaltyPlugin\EventListener\DispatchCustomerRegisteredTrigger">
+            <argument type="service" id="event_dispatcher"/>
+            <tag name="kernel.event_listener" event="sylius.customer.post_register" method="__invoke"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\EventListener\DispatchProductReviewApprovedTrigger">
+            <argument type="service" id="event_dispatcher"/>
+            <!-- The winzou callback counterpart is prepended by the extension -->
+            <tag name="kernel.event_listener" event="workflow.sylius_product_review.completed.accept" method="onWorkflowCompleted"/>
+        </service>
+    </services>
+</container>

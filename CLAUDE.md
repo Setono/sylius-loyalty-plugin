@@ -77,12 +77,23 @@ The plugin includes a Sylius test application in `tests/Application/`:
 - **Sylius Backend Credentials**: Username: `sylius`, Password: `sylius`
 
 ### Console Commands (shipped by the plugin)
-Documented here as they are implemented:
-- (none yet — Phase 1 will add `setono:sylius-loyalty:expire-points`, `verify-ledger`, `recalculate-balances`, `inspect-account`, `export-customer-data`, `trigger-birthdays`, `prune-dry-run-results`)
+- `setono:sylius-loyalty:trigger-birthdays` - fires the customer_birthday earning trigger for customers whose birthday is today (cron, daily; source identifier `birthday:<year>` makes re-runs no-ops)
+- `setono:sylius-loyalty:prune-dry-run-results [--days=30]` - prunes dry-run audit rows (cron, daily)
+- (Phase 1 will further add `setono:sylius-loyalty:expire-points`, `verify-ledger`, `recalculate-balances`, `inspect-account`, `export-customer-data`)
 
 ## Extension Points
 
-Documented here as they are implemented. Planned surface: earning condition types (`setono_sylius_loyalty.earning_condition`), amount types (`.earning_amount`), expression functions (`.expression_function`), referral fraud checks (`.referral_fraud_check`), tier qualification bases (`.tier_qualification_basis`), custom transaction types (`setono_sylius_loyalty.transaction_types` config + discriminator-map listener), and earning triggers (`setono_sylius_loyalty.triggers` config: event classes extending `EarningTriggerEvent`). Every extension interface is registered for autoconfiguration.
+Every extension interface is registered for autoconfiguration — implementing the interface is the entire integration surface.
+
+- **Earning condition types**: implement `EarningRule\Checker\ConditionCheckerInterface` (tag `setono_sylius_loyalty.earning_condition`).
+- **Amount types**: implement `EarningRule\Amount\AmountCalculatorInterface` (tag `setono_sylius_loyalty.earning_amount`).
+- **Expression functions**: implement `Expression\Function\ExpressionFunctionInterface` (tag `setono_sylius_loyalty.expression_function`); metadata feeds autocompletion and the reference panel automatically.
+- **Earning triggers**: create an event class extending `Event\Trigger\EarningTriggerEvent`, register it under `setono_sylius_loyalty.triggers`, and fire it with a plain event dispatch. The subclass's public readonly properties become typed expression context. `sourceIdentifier` defaults to the trigger code ("once per account, ever"); repeatable triggers pass their own.
+- **Custom transaction types**: map `setono_sylius_loyalty.transaction_types` (discriminator value => class extending `CreditLoyaltyTransaction`/`DebitLoyaltyTransaction`).
+- **Channel resolution for triggers**: re-alias `Resolver\TriggerChannelResolverInterface`.
+- **Tier evaluation seam**: `Tier\TierEvaluatorInterface` (null implementation until Phase 2).
+- **Partial-refund clawback**: call `Ledger\LoyaltyLedgerInterface::clawback(OrderInterface $order, int $points)` from any refund mechanism.
+- Planned: referral fraud checks (`.referral_fraud_check`, Phase 3), tier qualification bases (`.tier_qualification_basis`, Phase 2).
 
 ## Bash Tools Recommendations
 

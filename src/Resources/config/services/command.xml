@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://symfony.com/schema/dic/services"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="Setono\SyliusLoyaltyPlugin\Command\TriggerBirthdaysCommand">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="event_dispatcher"/>
+            <argument>%sylius.model.customer.class%</argument>
+            <tag name="console.command"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Command\PruneDryRunResultsCommand">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>%setono_sylius_loyalty.model.dry_run_result.class%</argument>
+            <tag name="console.command"/>
+        </service>
+    </services>
+</container>
