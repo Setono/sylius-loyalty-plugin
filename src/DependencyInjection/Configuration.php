@@ -8,6 +8,8 @@ use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccount;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgram;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgramInterface;
+use Setono\SyliusLoyaltyPlugin\Model\LoyaltyTransaction;
+use Setono\SyliusLoyaltyPlugin\Model\LoyaltyTransactionInterface;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
 use Sylius\Component\Resource\Factory\Factory;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
@@ -73,6 +75,7 @@ final class Configuration implements ConfigurationInterface
 
         $this->addResourceNode($resources, 'account', LoyaltyAccount::class, LoyaltyAccountInterface::class);
         $this->addResourceNode($resources, 'program', LoyaltyProgram::class, LoyaltyProgramInterface::class);
+        $this->addResourceNode($resources, 'transaction', LoyaltyTransaction::class, LoyaltyTransactionInterface::class);
     }
 
     /**

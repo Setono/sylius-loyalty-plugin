@@ -11,6 +11,8 @@ use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccount;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgram;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgramInterface;
+use Setono\SyliusLoyaltyPlugin\Model\LoyaltyTransaction;
+use Setono\SyliusLoyaltyPlugin\Model\LoyaltyTransactionInterface;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
 use Sylius\Component\Resource\Factory\Factory;
 
@@ -50,6 +52,14 @@ final class ConfigurationTest extends TestCase
                     'classes' => [
                         'model' => LoyaltyProgram::class,
                         'interface' => LoyaltyProgramInterface::class,
+                        'controller' => ResourceController::class,
+                        'factory' => Factory::class,
+                    ],
+                ],
+                'transaction' => [
+                    'classes' => [
+                        'model' => LoyaltyTransaction::class,
+                        'interface' => LoyaltyTransactionInterface::class,
                         'controller' => ResourceController::class,
                         'factory' => Factory::class,
                     ],
