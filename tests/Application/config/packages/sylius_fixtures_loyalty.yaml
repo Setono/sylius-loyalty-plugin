@@ -73,3 +73,21 @@ sylius_fixtures:
                                         points: 100
                                         reason: goodwill
                                         note: 'Below the redemption minimum'
+
+                            # Dedicated to the shop dashboard e2e spec — no other spec may
+                            # touch this account, so its history stays exact
+                            -   email: history@example.com
+                                channel: FASHION_WEB
+                                history:
+                                    -   type: manual_credit
+                                        points: 2000
+                                        reason: goodwill
+                                        note: 'Fixture seed'
+                                    -   type: earn_action
+                                        points: 300
+                                        source_identifier: 'fixture:history-expiring'
+                                        expires_at: '+10 days'
+                                    -   type: manual_debit
+                                        points: 150
+                                        reason: correction
+                                        note: 'Fixture debit'

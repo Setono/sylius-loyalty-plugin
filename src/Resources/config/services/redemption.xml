@@ -30,14 +30,16 @@
             <tag name="validator.constraint_validator"/>
         </service>
 
-        <service id="Setono\SyliusLoyaltyPlugin\EventListener\RedeemPointsListener">
+        <!-- Public: referenced by a winzou state-machine callback, which resolves it from the container at runtime -->
+        <service id="Setono\SyliusLoyaltyPlugin\EventListener\RedeemPointsListener" public="true">
             <argument type="service" id="Setono\SyliusLoyaltyPlugin\Redemption\AppliedPointsProviderInterface"/>
             <argument type="service" id="Setono\SyliusLoyaltyPlugin\Ledger\LoyaltyLedgerInterface"/>
             <!-- The winzou "before" callback counterpart is prepended by the extension -->
             <tag name="kernel.event_listener" event="workflow.sylius_order_checkout.transition.complete" method="onWorkflowTransition"/>
         </service>
 
-        <service id="Setono\SyliusLoyaltyPlugin\EventListener\RollbackRedemptionListener">
+        <!-- Public: referenced by a winzou state-machine callback, which resolves it from the container at runtime -->
+        <service id="Setono\SyliusLoyaltyPlugin\EventListener\RollbackRedemptionListener" public="true">
             <argument type="service" id="Setono\SyliusLoyaltyPlugin\Ledger\LoyaltyLedgerInterface"/>
             <!-- The winzou "after" callback counterpart is prepended by the extension -->
             <tag name="kernel.event_listener" event="workflow.sylius_order.completed.cancel" method="onWorkflowCompleted"/>

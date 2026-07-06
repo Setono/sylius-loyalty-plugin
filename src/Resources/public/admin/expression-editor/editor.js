@@ -41,6 +41,7 @@ export async function enhance(textarea) {
             createElLanguage(language.StreamLanguage),
             autocomplete.autocompletion({override: [createCompletionSource(catalog, trigger)]}),
             lint.linter(createLintSource(textarea.dataset.lintUrl, trigger), {delay: 500}),
+            lint.lintGutter(),
             codemirror.EditorView.updateListener.of((update) => {
                 if (update.docChanged) {
                     textarea.value = update.state.doc.toString();

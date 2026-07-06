@@ -39,7 +39,8 @@
             <tag name="kernel.event_listener" event="sylius.customer.post_register" method="__invoke"/>
         </service>
 
-        <service id="Setono\SyliusLoyaltyPlugin\EventListener\DispatchProductReviewApprovedTrigger">
+        <!-- Public: referenced by a winzou state-machine callback, which resolves it from the container at runtime -->
+        <service id="Setono\SyliusLoyaltyPlugin\EventListener\DispatchProductReviewApprovedTrigger" public="true">
             <argument type="service" id="event_dispatcher"/>
             <!-- The winzou callback counterpart is prepended by the extension -->
             <tag name="kernel.event_listener" event="workflow.sylius_product_review.completed.accept" method="onWorkflowCompleted"/>

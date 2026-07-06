@@ -20,7 +20,7 @@ export default defineConfig({
     reporter: process.env.CI ? [['list'], ['html', { open: 'never' }]] : 'list',
     timeout: 30_000,
     use: {
-        baseURL: 'http://127.0.0.1:8080',
+        baseURL: 'http://127.0.0.1:8082',
         trace: 'retain-on-failure',
         screenshot: 'only-on-failure',
         locale: 'en_US',
@@ -32,8 +32,11 @@ export default defineConfig({
         },
     ],
     webServer: {
-        command: 'php -S 127.0.0.1:8080 -t ../tests/Application/public',
-        url: 'http://127.0.0.1:8080',
+        // variables_order must include E so the APP_ENV env var survives into $_SERVER, where
+        // Symfony's Dotenv looks for it — without it the server silently runs the dev env.
+        // Port 8082 avoids colliding with a locally running dev server.
+        command: 'php -d variables_order=EGPCS -S 127.0.0.1:8082 -t ../tests/Application/public',
+        url: 'http://127.0.0.1:8082',
         reuseExistingServer: !process.env.CI,
         env: {
             APP_ENV: 'test',

@@ -29,7 +29,8 @@
             <tag name="messenger.message_handler"/>
         </service>
 
-        <service id="Setono\SyliusLoyaltyPlugin\EventListener\AwardOrderPointsListener">
+        <!-- Public: referenced by a winzou state-machine callback, which resolves it from the container at runtime -->
+        <service id="Setono\SyliusLoyaltyPlugin\EventListener\AwardOrderPointsListener" public="true">
             <argument type="service" id="messenger.default_bus"/>
             <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProviderInterface"/>
             <!-- The winzou callback counterparts are prepended by the extension -->
