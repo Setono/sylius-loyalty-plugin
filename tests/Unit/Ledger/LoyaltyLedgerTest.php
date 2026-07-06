@@ -73,7 +73,12 @@ final class LoyaltyLedgerTest extends TestCase
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
         $this->entityManager->getRepository(LoyaltyAccount::class)->willReturn($repository->reveal());
         $this->entityManager->wrapInTransaction(Argument::type('callable'))->will(
-            static fn (array $args): mixed => $args[0](),
+            static function (array $args): mixed {
+                $callback = $args[0];
+                \assert(is_callable($callback));
+
+                return $callback();
+            },
         );
         $persisted = &$this->persistedTransactions;
         $this->entityManager->persist(Argument::type(LoyaltyTransaction::class))->will(
@@ -100,7 +105,7 @@ final class LoyaltyLedgerTest extends TestCase
         });
 
         $expiresAt = new \DateTimeImmutable('+365 days');
-        $transaction = $this->ledger()->earnOrder($this->order(), 100, ['1' => 100], 10000, $expiresAt);
+        $transaction = $this->ledger()->earnOrder($this->order(), 100, ['rule:1' => 100], 10000, $expiresAt);
 
         self::assertInstanceOf(EarnOrderLoyaltyTransaction::class, $transaction);
         self::assertSame(100, $transaction->getPoints());
