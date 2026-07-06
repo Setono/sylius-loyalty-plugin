@@ -146,6 +146,8 @@ earning basis, rounding) live in the admin under **Marketing → Loyalty → Pro
 | `setono:sylius-loyalty:expire-points` | daily, off-peak | writes `expire` debits for lots past their expiry |
 | `setono:sylius-loyalty:trigger-birthdays` | daily | fires the `customer_birthday` trigger (idempotent per year) |
 | `setono:sylius-loyalty:prune-dry-run-results --days=30` | daily | prunes the dry-run audit list |
+| `setono:sylius-loyalty:evaluate-tiers` | nightly | tier reconciliation: downgrades after the grace period |
+| `setono:sylius-loyalty:calculate-liability` | nightly, off-peak | snapshots the outstanding-liability dashboard widget |
 | `sylius:cancel-unpaid-orders` (Sylius core) | hourly | frees redemptions held by abandoned unpaid orders |
 
 Operational commands (run on demand): `verify-ledger`, `recalculate-balances` (report-only by default),
@@ -164,6 +166,7 @@ Implementing the interface is the entire integration — every extension interfa
 - [Intercepting points with pre-events](docs/cookbook/intercepting-pre-events.md)
 - [Rendering the balance anywhere](docs/cookbook/rendering-the-balance.md)
 - [Clawback on partial refunds](docs/cookbook/partial-refund-clawback.md)
+- [Custom tier qualification basis](docs/cookbook/custom-tier-qualification-basis.md)
 
 ## Notes for specific setups
 
