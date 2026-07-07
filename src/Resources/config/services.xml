@@ -17,5 +17,10 @@
         </service>
         <service id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyAccountProviderInterface"
                  alias="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyAccountProvider" />
+
+        <service id="Setono\SyliusLoyaltyPlugin\Doctrine\ORM\Listener\LoyaltyTransactionDiscriminatorMapListener">
+            <argument>%sylius.resources%</argument>
+            <tag name="doctrine.event_listener" event="loadClassMetadata" />
+        </service>
     </services>
 </container>

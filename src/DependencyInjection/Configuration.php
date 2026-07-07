@@ -6,8 +6,17 @@ namespace Setono\SyliusLoyaltyPlugin\DependencyInjection;
 
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyAccountRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyProgramRepository;
+use Setono\SyliusLoyaltyPlugin\Model\ClawbackLoyaltyTransaction;
+use Setono\SyliusLoyaltyPlugin\Model\EarnActionLoyaltyTransaction;
+use Setono\SyliusLoyaltyPlugin\Model\EarnOrderLoyaltyTransaction;
+use Setono\SyliusLoyaltyPlugin\Model\ExpireLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccount;
+use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgram;
+use Setono\SyliusLoyaltyPlugin\Model\ManualCreditLoyaltyTransaction;
+use Setono\SyliusLoyaltyPlugin\Model\ManualDebitLoyaltyTransaction;
+use Setono\SyliusLoyaltyPlugin\Model\RedeemLoyaltyTransaction;
+use Setono\SyliusLoyaltyPlugin\Model\RedeemRollbackLoyaltyTransaction;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
 use Sylius\Resource\Factory\Factory;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
@@ -40,16 +49,58 @@ final class Configuration implements ConfigurationInterface
         ;
 
         $this->addResource($resources, 'program', LoyaltyProgram::class, LoyaltyProgramRepository::class);
-        $this->addResource($resources, 'account', LoyaltyAccount::class, LoyaltyAccountRepository::class);
+        // The account interface is registered so other entities (transactions, tiers, referrals)
+        // can reference LoyaltyAccountInterface in their mappings via a resolve_target_entity.
+        $this->addResource($resources, 'account', LoyaltyAccount::class, LoyaltyAccountRepository::class, LoyaltyAccountInterface::class);
+
+        // The concrete ledger transaction types. Registering them as resources feeds the
+        // discriminator-map listener (%sylius.resources%), so a project adds a transaction type by
+        // registering it here too. Their mappings are mapped-superclasses (like every Sylius model) so
+        // applications can override them; the resource bundle promotes them to the STI entities at
+        // runtime. Only the abstract root and intermediates stay entities — the root is the
+        // single-table entity, and the intermediates are foreign-key targets that need a table.
+        foreach ([
+            'earn_order' => EarnOrderLoyaltyTransaction::class,
+            'earn_action' => EarnActionLoyaltyTransaction::class,
+            'redeem_rollback' => RedeemRollbackLoyaltyTransaction::class,
+            'manual_credit' => ManualCreditLoyaltyTransaction::class,
+            'redeem' => RedeemLoyaltyTransaction::class,
+            'manual_debit' => ManualDebitLoyaltyTransaction::class,
+            'expire' => ExpireLoyaltyTransaction::class,
+            'clawback' => ClawbackLoyaltyTransaction::class,
+        ] as $name => $model) {
+            $this->addTransactionResource($resources, $name, $model);
+        }
+    }
+
+    /**
+     * @param class-string $model
+     */
+    private function addTransactionResource(NodeBuilder $resources, string $name, string $model): void
+    {
+        $resources
+            ->arrayNode($name)
+                ->addDefaultsIfNotSet()
+                ->children()
+                    ->arrayNode('classes')
+                        ->addDefaultsIfNotSet()
+                        ->children()
+                            ->scalarNode('model')->defaultValue($model)->cannotBeEmpty()->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
     }
 
     /**
      * @param class-string $model
      * @param class-string $repository
+     * @param class-string|null $interface
      */
-    private function addResource(NodeBuilder $resources, string $name, string $model, string $repository): void
+    private function addResource(NodeBuilder $resources, string $name, string $model, string $repository, ?string $interface = null): void
     {
-        $resources
+        $classes = $resources
             ->arrayNode($name)
                 ->addDefaultsIfNotSet()
                 ->children()
@@ -60,6 +111,13 @@ final class Configuration implements ConfigurationInterface
                             ->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
                             ->scalarNode('repository')->defaultValue($repository)->cannotBeEmpty()->end()
                             ->scalarNode('factory')->defaultValue(Factory::class)->cannotBeEmpty()->end()
+        ;
+
+        if (null !== $interface) {
+            $classes->scalarNode('interface')->defaultValue($interface)->cannotBeEmpty()->end();
+        }
+
+        $classes
                         ->end()
                     ->end()
                 ->end()
