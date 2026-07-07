@@ -10,9 +10,8 @@ use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface;
 use Setono\SyliusLoyaltyPlugin\Provider\LoyaltyAccountProviderInterface;
 use Setono\SyliusLoyaltyPlugin\Redemption\AppliedPointsProviderInterface;
 use Setono\SyliusLoyaltyPlugin\Tests\Application\Entity\Order;
-use Setono\SyliusLoyaltyPlugin\Tests\Functional\FunctionalTestCase;
+use Setono\SyliusLoyaltyPlugin\Tests\Functional\Earning\AwardOrderPointsTestCase;
 use Sylius\Component\Core\Model\ChannelInterface;
-use Sylius\Component\Core\Model\ChannelPricingInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
@@ -20,7 +19,7 @@ use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Order\Modifier\OrderItemQuantityModifierInterface;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
 
-final class RedemptionTest extends FunctionalTestCase
+final class RedemptionTest extends AwardOrderPointsTestCase
 {
     /**
      * @test
@@ -30,14 +29,18 @@ final class RedemptionTest extends FunctionalTestCase
         $container = self::getContainer();
         $entityManager = $this->entityManager();
 
-        // Any variant priced in a channel, straight from the fixtures
-        $channelPricing = $entityManager->getRepository(\Sylius\Component\Core\Model\ChannelPricing::class)->findOneBy([]);
-        \assert($channelPricing instanceof ChannelPricingInterface);
-        $variant = $channelPricing->getProductVariant();
+        // An isolated channel with an explicitly priced variant: no fixture promotions or tax
+        // rates can shift the totals, so the clamping math is exact on every Sylius version
+        $channel = $this->channel();
+        $variant = $entityManager->getRepository(\Sylius\Component\Core\Model\ProductVariant::class)->findOneBy([]);
         \assert($variant instanceof ProductVariantInterface);
-        $channel = $entityManager->getRepository(\Sylius\Component\Core\Model\Channel::class)
-            ->findOneBy(['code' => $channelPricing->getChannelCode()]);
-        \assert($channel instanceof ChannelInterface);
+
+        $channelPricing = new \Sylius\Component\Core\Model\ChannelPricing();
+        $channelPricing->setChannelCode($channel->getCode());
+        $channelPricing->setPrice(950);
+        $variant->addChannelPricing($channelPricing);
+        $entityManager->persist($channelPricing);
+        $entityManager->flush();
 
         // A customer with 1000 points
         $customer = $this->customer();
@@ -53,18 +56,13 @@ final class RedemptionTest extends FunctionalTestCase
         $processor = $container->get('sylius.order_processing.order_processor');
         \assert($processor instanceof OrderProcessorInterface);
 
-        // The cap base is the post-promotion items total before any redemption — capture it
-        // from a full processing run without a request, so the expectation matches the
-        // processor's own view regardless of fixture pricing
-        $processor->process($order);
-        $itemsTotalBeforeRedemption = $order->getItemsTotal();
-
         // A huge "Use max"-style request
         $order->setLoyaltyPointsRequested(100000);
         $processor->process($order);
 
-        // Default program: conversion 1pt = 1 minor unit, cap 50% of the items total
-        $expectedApplied = min(1000, (int) floor($itemsTotalBeforeRedemption * 0.5));
+        // Default program: conversion 1pt = 1 minor unit, cap 50% of the 19.00 items total
+        // (2 x 9.50) — the cap binds before the 1000-point balance does
+        $expectedApplied = 950;
 
         self::assertGreaterThan(0, $expectedApplied);
         self::assertSame(
@@ -99,21 +97,6 @@ final class RedemptionTest extends FunctionalTestCase
         self::assertSame(1000, $this->reloadAccount($account)->getLifetimeEarned());
 
         self::assertNull($ledger->rollbackRedeem($order));
-    }
-
-    private function customer(): CustomerInterface
-    {
-        $customerFactory = self::getContainer()->get('sylius.factory.customer');
-        \assert(is_object($customerFactory) && method_exists($customerFactory, 'createNew'));
-
-        $customer = $customerFactory->createNew();
-        \assert($customer instanceof CustomerInterface);
-        $customer->setEmail(sprintf('redemption-%s@example.com', uniqid()));
-
-        $this->entityManager()->persist($customer);
-        $this->entityManager()->flush();
-
-        return $customer;
     }
 
     private function cart(ChannelInterface $channel, CustomerInterface $customer, ProductVariantInterface $variant): Order

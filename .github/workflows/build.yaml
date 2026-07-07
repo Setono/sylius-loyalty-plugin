@@ -292,7 +292,7 @@ jobs:
                     node-version-file: "tests/Application/.nvmrc"
 
             -   name: "Build test application assets"
-                run: "(cd tests/Application && yarn install && yarn build)"
+                run: "(cd tests/Application && yarn install && yarn build && APP_ENV=test bin/console assets:install public)"
 
             -   name: "Create database and schema"
                 run: "(cd tests/Application && APP_ENV=test bin/console doctrine:database:create -n && APP_ENV=test bin/console doctrine:schema:create -n)"
