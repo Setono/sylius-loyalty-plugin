@@ -7,21 +7,22 @@ namespace Setono\SyliusLoyaltyPlugin\EventListener\Doctrine;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 
 /**
- * Merges custom transaction types (registered via the "setono_sylius_loyalty.transaction_types"
- * bundle config) into the loyalty transaction's Doctrine discriminator map, so plugin users can
- * add their own ledger transaction types without touching the plugin's mapping.
+ * Adds custom transaction types to the loyalty transaction's Doctrine discriminator map:
+ * any Sylius-registered resource model extending the transaction root is picked up
+ * automatically, with the discriminator value coming from the class's own
+ * getDiscriminator(). Plugin users add a type by subclassing and registering the class as a
+ * resource — no plugin-specific configuration.
  */
 final class DiscriminatorMapListener
 {
-    // todo: The %sylius.resources% should be injected here and the setono_sylius_loyalty.transaction_types should be removed
-    // todo: the discriminator could be a static method on the entity
     /**
      * @param class-string $transactionClass
-     * @param array<string, class-string> $transactionTypes
+     * @param array<string, array{classes?: array{model?: class-string}}> $resources the
+     *        %sylius.resources% parameter
      */
     public function __construct(
         private readonly string $transactionClass,
-        private readonly array $transactionTypes,
+        private readonly array $resources,
     ) {
     }
 
@@ -33,8 +34,21 @@ final class DiscriminatorMapListener
             return;
         }
 
-        foreach ($this->transactionTypes as $type => $class) {
-            $metadata->addDiscriminatorMapClass($type, $class);
+        foreach ($this->resources as $resource) {
+            $model = $resource['classes']['model'] ?? null;
+            if (null === $model || !is_subclass_of($model, $this->transactionClass)) {
+                continue;
+            }
+
+            $reflection = new \ReflectionClass($model);
+            if ($reflection->isAbstract() || in_array($model, $metadata->discriminatorMap, true)) {
+                continue;
+            }
+
+            /** @var callable(): string $discriminator */
+            $discriminator = [$model, 'getDiscriminator'];
+
+            $metadata->addDiscriminatorMapClass($discriminator(), $model);
         }
     }
 }

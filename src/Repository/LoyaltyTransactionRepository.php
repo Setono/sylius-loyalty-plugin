@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Setono\SyliusLoyaltyPlugin\Doctrine\ORM;
+namespace Setono\SyliusLoyaltyPlugin\Repository;
 
 use Setono\SyliusLoyaltyPlugin\Model\ClawbackLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\ClawbackLoyaltyTransactionInterface;
@@ -18,7 +18,6 @@ use Setono\SyliusLoyaltyPlugin\Model\RedeemLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\RedeemLoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\RedeemRollbackLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\ReferralInterface;
-use Setono\SyliusLoyaltyPlugin\Repository\LoyaltyTransactionRepositoryInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\OrderInterface;
 use Webmozart\Assert\Assert;

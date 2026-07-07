@@ -22,7 +22,7 @@ final class CustomerBirthdayTriggerEvent extends EarningTriggerEvent
         parent::__construct($customer, $channel, sprintf('birthday:%d', $year));
     }
 
-    public static function getTriggerCode(): string
+    public static function getCode(): string
     {
         return 'customer_birthday';
     }

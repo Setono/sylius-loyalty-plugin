@@ -53,4 +53,11 @@ abstract class LoyaltyTransaction implements LoyaltyTransactionInterface
     {
         $this->occurredAt = $occurredAt;
     }
+
+    /**
+     * The Doctrine discriminator value of this transaction type. Plugin-shipped types are
+     * declared in the XML mapping; custom types registered as Sylius resources are added to
+     * the discriminator map from this value.
+     */
+    abstract public static function getDiscriminator(): string;
 }

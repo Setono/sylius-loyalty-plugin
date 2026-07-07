@@ -32,8 +32,7 @@ abstract class EarningTriggerEvent
     ) {
     }
 
-    // todo: Should this be renamed to getCode()?
-    abstract public static function getTriggerCode(): string;
+    abstract public static function getCode(): string;
 
     /**
      * A translation key shown in the rule form's trigger select.
@@ -52,6 +51,6 @@ abstract class EarningTriggerEvent
 
     public function getSourceIdentifier(): string
     {
-        return $this->sourceIdentifier ?? static::getTriggerCode();
+        return $this->sourceIdentifier ?? static::getCode();
     }
 }

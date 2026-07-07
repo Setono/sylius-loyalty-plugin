@@ -87,7 +87,7 @@ final class NewsletterSubscribedTriggerEvent extends EarningTriggerEvent
         parent::__construct($customer, $channel);
     }
 
-    public static function getTriggerCode(): string
+    public static function getCode(): string
     {
         return 'newsletter_subscribed';
     }
@@ -100,7 +100,7 @@ final class NewsletterSubscribedTriggerEvent extends EarningTriggerEvent
 
 final class CollidingTriggerEvent extends EarningTriggerEvent
 {
-    public static function getTriggerCode(): string
+    public static function getCode(): string
     {
         return 'customer_registered';
     }

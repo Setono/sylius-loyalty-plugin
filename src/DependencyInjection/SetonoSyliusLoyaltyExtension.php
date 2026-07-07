@@ -368,7 +368,6 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
          *     resources: array<string, mixed>,
          *     manual_adjustment_reasons: list<string>,
          *     triggers: list<class-string>,
-         *     transaction_types: array<string, class-string>,
          *     expression_editor: array{cdn_base_url: string},
          *     referral: array{query_parameter: string, registration_ip_check: bool, ip_hash_salt: string, reward_cap: int},
          *     retain_anonymized_ledger: bool,
@@ -379,7 +378,6 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
 
         $container->setParameter('setono_sylius_loyalty.manual_adjustment_reasons', $config['manual_adjustment_reasons']);
         $container->setParameter('setono_sylius_loyalty.triggers', $config['triggers']);
-        $container->setParameter('setono_sylius_loyalty.transaction_types', $config['transaction_types']);
         $container->setParameter('setono_sylius_loyalty.expression_editor.cdn_base_url', $config['expression_editor']['cdn_base_url']);
         $container->setParameter('setono_sylius_loyalty.retain_anonymized_ledger', $config['retain_anonymized_ledger']);
         $container->setParameter('setono_sylius_loyalty.referral.query_parameter', $config['referral']['query_parameter']);

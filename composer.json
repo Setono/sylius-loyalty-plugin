@@ -22,6 +22,7 @@
         "psr/event-dispatcher": "^1.0",
         "psr/log": "^1.0 || ^2.0 || ^3.0",
         "setono/composite-compiler-pass": "^1.2",
+        "setono/doctrine-orm-trait": "^1.4",
         "sylius/core-bundle": "^1.14",
         "sylius/resource-bundle": "^1.11",
         "symfony/config": "^6.4",

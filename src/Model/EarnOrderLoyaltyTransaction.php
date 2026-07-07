@@ -33,4 +33,9 @@ class EarnOrderLoyaltyTransaction extends CreditLoyaltyTransaction implements Ea
     {
         $this->basisAmount = $basisAmount;
     }
+
+    public static function getDiscriminator(): string
+    {
+        return 'earn_order';
+    }
 }

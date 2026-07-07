@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Setono\SyliusLoyaltyPlugin\Doctrine\ORM;
+namespace Setono\SyliusLoyaltyPlugin\Repository;
 
 use Setono\SyliusLoyaltyPlugin\Model\EarnReferralLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface;
 use Setono\SyliusLoyaltyPlugin\Model\ReferralInterface;
-use Setono\SyliusLoyaltyPlugin\Repository\ReferralRepositoryInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Channel\Model\ChannelInterface;
 use Sylius\Component\Core\Model\CustomerInterface;

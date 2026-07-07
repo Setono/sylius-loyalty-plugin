@@ -4,12 +4,6 @@ declare(strict_types=1);
 
 namespace Setono\SyliusLoyaltyPlugin\DependencyInjection;
 
-use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\EarningRuleRepository;
-use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyAccountRepository;
-use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyProgramRepository;
-use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyTransactionRepository;
-use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\ReferralRepository;
-use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\TierRepository;
 use Setono\SyliusLoyaltyPlugin\Form\Type\EarningRuleConditionType;
 use Setono\SyliusLoyaltyPlugin\Form\Type\EarningRuleType;
 use Setono\SyliusLoyaltyPlugin\Form\Type\LoyaltyProgramType;
@@ -32,6 +26,12 @@ use Setono\SyliusLoyaltyPlugin\Model\Tier;
 use Setono\SyliusLoyaltyPlugin\Model\TierInterface;
 use Setono\SyliusLoyaltyPlugin\Model\TierTranslation;
 use Setono\SyliusLoyaltyPlugin\Model\TierTranslationInterface;
+use Setono\SyliusLoyaltyPlugin\Repository\EarningRuleRepository;
+use Setono\SyliusLoyaltyPlugin\Repository\LoyaltyAccountRepository;
+use Setono\SyliusLoyaltyPlugin\Repository\LoyaltyProgramRepository;
+use Setono\SyliusLoyaltyPlugin\Repository\LoyaltyTransactionRepository;
+use Setono\SyliusLoyaltyPlugin\Repository\ReferralRepository;
+use Setono\SyliusLoyaltyPlugin\Repository\TierRepository;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
 use Sylius\Component\Resource\Factory\Factory;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
@@ -58,12 +58,6 @@ final class Configuration implements ConfigurationInterface
                 ->end()
                 ->arrayNode('triggers')
                     ->info('Earning trigger event classes. Each class must extend Setono\SyliusLoyaltyPlugin\Event\Trigger\EarningTriggerEvent')
-                    ->defaultValue([])
-                    ->scalarPrototype()->cannotBeEmpty()->end()
-                ->end()
-                ->arrayNode('transaction_types')
-                    ->info('Custom loyalty transaction types added to the Doctrine discriminator map: discriminator value => transaction class')
-                    ->useAttributeAsKey('type')
                     ->defaultValue([])
                     ->scalarPrototype()->cannotBeEmpty()->end()
                 ->end()

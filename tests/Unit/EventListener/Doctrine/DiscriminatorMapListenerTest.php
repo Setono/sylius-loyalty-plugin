@@ -22,20 +22,37 @@ final class DiscriminatorMapListenerTest extends TestCase
     /**
      * @test
      */
-    public function it_adds_configured_types_to_the_discriminator_map(): void
+    public function it_adds_resource_registered_transaction_subclasses_to_the_discriminator_map(): void
     {
         $metadata = new ClassMetadata(LoyaltyTransaction::class);
         $metadata->setDiscriminatorMap(['earn_order' => EarnOrderLoyaltyTransaction::class]);
 
         $listener = new DiscriminatorMapListener(LoyaltyTransaction::class, [
-            'earn_badge' => ManualCreditLoyaltyTransaction::class,
+            'app.badge_transaction' => ['classes' => ['model' => ManualCreditLoyaltyTransaction::class]],
+            'sylius.product' => ['classes' => ['model' => LoyaltyAccount::class]],
         ]);
         $listener->loadClassMetadata($this->eventArgs($metadata));
 
         self::assertSame([
             'earn_order' => EarnOrderLoyaltyTransaction::class,
-            'earn_badge' => ManualCreditLoyaltyTransaction::class,
+            'manual_credit' => ManualCreditLoyaltyTransaction::class,
         ], $metadata->discriminatorMap);
+    }
+
+    /**
+     * @test
+     */
+    public function it_does_not_re_add_classes_already_in_the_map(): void
+    {
+        $metadata = new ClassMetadata(LoyaltyTransaction::class);
+        $metadata->setDiscriminatorMap(['earn_order' => EarnOrderLoyaltyTransaction::class]);
+
+        $listener = new DiscriminatorMapListener(LoyaltyTransaction::class, [
+            'setono_sylius_loyalty.transaction' => ['classes' => ['model' => EarnOrderLoyaltyTransaction::class]],
+        ]);
+        $listener->loadClassMetadata($this->eventArgs($metadata));
+
+        self::assertSame(['earn_order' => EarnOrderLoyaltyTransaction::class], $metadata->discriminatorMap);
     }
 
     /**
@@ -46,7 +63,7 @@ final class DiscriminatorMapListenerTest extends TestCase
         $metadata = new ClassMetadata(LoyaltyAccount::class);
 
         $listener = new DiscriminatorMapListener(LoyaltyTransaction::class, [
-            'earn_badge' => ManualCreditLoyaltyTransaction::class,
+            'app.badge_transaction' => ['classes' => ['model' => ManualCreditLoyaltyTransaction::class]],
         ]);
         $listener->loadClassMetadata($this->eventArgs($metadata));
 

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Setono\SyliusLoyaltyPlugin\Controller\Action\Admin;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface;
+use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,20 +22,18 @@ use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 final class ToggleAccountAction
 {
     /**
-     * @param class-string<LoyaltyAccountInterface> $accountClass
+     * @param RepositoryInterface<LoyaltyAccountInterface> $accountRepository
      */
     public function __construct(
-        // todo: Don't inject the entity manager. Either use the ORMTrait or inject the repository
-        private readonly EntityManagerInterface $entityManager,
+        private readonly RepositoryInterface $accountRepository,
         private readonly CsrfTokenManagerInterface $csrfTokenManager,
         private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly string $accountClass,
     ) {
     }
 
     public function __invoke(Request $request, int $id): Response
     {
-        $account = $this->entityManager->find($this->accountClass, $id);
+        $account = $this->accountRepository->find($id);
         if (!$account instanceof LoyaltyAccountInterface) {
             throw new NotFoundHttpException('Loyalty account not found');
         }
@@ -43,7 +41,7 @@ final class ToggleAccountAction
         $token = (string) $request->request->get('_csrf_token');
         if ($this->csrfTokenManager->isTokenValid(new CsrfToken('setono_sylius_loyalty_admin', $token))) {
             $account->setEnabled(!$account->isEnabled());
-            $this->entityManager->flush();
+            $this->accountRepository->add($account);
 
             $session = $request->getSession();
             if ($session instanceof Session) {

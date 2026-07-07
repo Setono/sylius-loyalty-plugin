@@ -59,8 +59,8 @@
         <service id="Setono\SyliusLoyaltyPlugin\Provider\Shop\TierProgressProviderInterface"
                  alias="Setono\SyliusLoyaltyPlugin\Provider\Shop\TierProgressProvider"/>
 
-        <service id="Setono\SyliusLoyaltyPlugin\Menu\ShopAccountMenuListener">
-            <tag name="kernel.event_listener" event="sylius.menu.shop.account" method="__invoke"/>
+        <service id="Setono\SyliusLoyaltyPlugin\EventSubscriber\ShopAccountMenuSubscriber">
+            <tag name="kernel.event_subscriber"/>
         </service>
 
         <service id="Setono\SyliusLoyaltyPlugin\Controller\Action\Shop\RemoveRedemptionAction" public="true">

@@ -19,4 +19,9 @@ class EarnActionLoyaltyTransaction extends CreditLoyaltyTransaction implements E
     {
         $this->sourceIdentifier = $sourceIdentifier;
     }
+
+    public static function getDiscriminator(): string
+    {
+        return 'earn_action';
+    }
 }

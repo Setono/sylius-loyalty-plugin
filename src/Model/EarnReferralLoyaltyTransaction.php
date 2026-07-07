@@ -17,4 +17,9 @@ class EarnReferralLoyaltyTransaction extends CreditLoyaltyTransaction implements
     {
         $this->referral = $referral;
     }
+
+    public static function getDiscriminator(): string
+    {
+        return 'earn_referral';
+    }
 }

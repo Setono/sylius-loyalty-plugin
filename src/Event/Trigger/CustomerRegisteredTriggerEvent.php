@@ -6,7 +6,7 @@ namespace Setono\SyliusLoyaltyPlugin\Event\Trigger;
 
 final class CustomerRegisteredTriggerEvent extends EarningTriggerEvent
 {
-    public static function getTriggerCode(): string
+    public static function getCode(): string
     {
         return 'customer_registered';
     }

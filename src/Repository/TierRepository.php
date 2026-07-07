@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Setono\SyliusLoyaltyPlugin\Doctrine\ORM;
+namespace Setono\SyliusLoyaltyPlugin\Repository;
 
 use Setono\SyliusLoyaltyPlugin\Model\TierInterface;
-use Setono\SyliusLoyaltyPlugin\Repository\TierRepositoryInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Channel\Model\ChannelInterface;
 

@@ -29,7 +29,7 @@ final class SocialShareTriggerEvent extends EarningTriggerEvent
         parent::__construct($customer, $channel, sprintf('social_share:%s', $network));
     }
 
-    public static function getTriggerCode(): string
+    public static function getCode(): string
     {
         return 'app_social_share';
     }

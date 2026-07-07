@@ -17,4 +17,9 @@ class RedeemRollbackLoyaltyTransaction extends CreditLoyaltyTransaction implemen
     {
         $this->redeem = $redeem;
     }
+
+    public static function getDiscriminator(): string
+    {
+        return 'redeem_rollback';
+    }
 }

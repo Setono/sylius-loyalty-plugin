@@ -17,4 +17,9 @@ class ExpireLoyaltyTransaction extends DebitLoyaltyTransaction implements Expire
     {
         $this->lot = $lot;
     }
+
+    public static function getDiscriminator(): string
+    {
+        return 'expire';
+    }
 }

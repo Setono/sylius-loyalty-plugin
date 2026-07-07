@@ -28,7 +28,6 @@ final class SetonoSyliusLoyaltyExtensionTest extends AbstractExtensionTestCase
             ['goodwill', 'correction', 'promotion', 'other'],
         );
         $this->assertContainerBuilderHasParameter('setono_sylius_loyalty.triggers', []);
-        $this->assertContainerBuilderHasParameter('setono_sylius_loyalty.transaction_types', []);
         $this->assertContainerBuilderHasParameter(
             'setono_sylius_loyalty.expression_editor.cdn_base_url',
             'https://esm.sh',

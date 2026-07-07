@@ -2,18 +2,25 @@
 
 declare(strict_types=1);
 
-namespace Setono\SyliusLoyaltyPlugin\Menu;
+namespace Setono\SyliusLoyaltyPlugin\EventSubscriber;
 
 use Sylius\Bundle\UiBundle\Menu\Event\MenuBuilderEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-// todo: Convert this to an event subscriber and put it inside src/EventSubscriber
 /**
  * The plugin's single admin menu entry: "Loyalty" under Marketing, opening the loyalty
  * dashboard from which everything else is reached.
  */
-final class AdminMenuListener
+final class AdminMenuSubscriber implements EventSubscriberInterface
 {
-    public function __invoke(MenuBuilderEvent $event): void
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'sylius.menu.admin.main' => 'addLoyaltyMenuItem',
+        ];
+    }
+
+    public function addLoyaltyMenuItem(MenuBuilderEvent $event): void
     {
         $marketing = $event->getMenu()->getChild('marketing');
         if (null === $marketing) {

@@ -107,7 +107,7 @@ final class ExpressionSandboxTest extends TestCase
     /**
      * @test
      */
-    public function it_evaluates_against_curated_views(): void
+    public function it_evaluates_against_entities_through_the_getter_bridge(): void
     {
         $customer = $this->prophesize(CustomerInterface::class);
         $customer->getEmail()->willReturn('jane@example.com');

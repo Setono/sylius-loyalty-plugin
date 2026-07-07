@@ -7,12 +7,6 @@ namespace Setono\SyliusLoyaltyPlugin\Tests\DependencyInjection;
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
 use PHPUnit\Framework\TestCase;
 use Setono\SyliusLoyaltyPlugin\DependencyInjection\Configuration;
-use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\EarningRuleRepository;
-use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyAccountRepository;
-use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyProgramRepository;
-use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyTransactionRepository;
-use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\ReferralRepository;
-use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\TierRepository;
 use Setono\SyliusLoyaltyPlugin\Form\Type\EarningRuleConditionType;
 use Setono\SyliusLoyaltyPlugin\Form\Type\EarningRuleType;
 use Setono\SyliusLoyaltyPlugin\Form\Type\LoyaltyProgramType;
@@ -35,6 +29,12 @@ use Setono\SyliusLoyaltyPlugin\Model\Tier;
 use Setono\SyliusLoyaltyPlugin\Model\TierInterface;
 use Setono\SyliusLoyaltyPlugin\Model\TierTranslation;
 use Setono\SyliusLoyaltyPlugin\Model\TierTranslationInterface;
+use Setono\SyliusLoyaltyPlugin\Repository\EarningRuleRepository;
+use Setono\SyliusLoyaltyPlugin\Repository\LoyaltyAccountRepository;
+use Setono\SyliusLoyaltyPlugin\Repository\LoyaltyProgramRepository;
+use Setono\SyliusLoyaltyPlugin\Repository\LoyaltyTransactionRepository;
+use Setono\SyliusLoyaltyPlugin\Repository\ReferralRepository;
+use Setono\SyliusLoyaltyPlugin\Repository\TierRepository;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
 use Sylius\Component\Resource\Factory\Factory;
 
@@ -57,7 +57,6 @@ final class ConfigurationTest extends TestCase
         ], [
             'manual_adjustment_reasons' => ['goodwill', 'correction', 'promotion', 'other'],
             'triggers' => [],
-            'transaction_types' => [],
             'expression_editor' => [
                 'cdn_base_url' => 'https://esm.sh',
             ],
@@ -140,17 +139,5 @@ final class ConfigurationTest extends TestCase
         ], [
             'triggers' => ['App\Event\NewsletterSubscribedTriggerEvent'],
         ], 'triggers');
-    }
-
-    /**
-     * @test
-     */
-    public function it_allows_registering_custom_transaction_types(): void
-    {
-        $this->assertProcessedConfigurationEquals([
-            ['transaction_types' => ['earn_badge' => 'App\Model\EarnBadgeLoyaltyTransaction']],
-        ], [
-            'transaction_types' => ['earn_badge' => 'App\Model\EarnBadgeLoyaltyTransaction'],
-        ], 'transaction_types');
     }
 }

@@ -4,7 +4,7 @@
     <services>
         <service id="Setono\SyliusLoyaltyPlugin\EventListener\Doctrine\DiscriminatorMapListener">
             <argument>%setono_sylius_loyalty.model.transaction.class%</argument>
-            <argument>%setono_sylius_loyalty.transaction_types%</argument>
+            <argument>%sylius.resources%</argument>
             <tag name="doctrine.event_listener" event="loadClassMetadata"/>
         </service>
     </services>

@@ -35,14 +35,14 @@ final class ActionTriggerProcessor implements ActionTriggerProcessorInterface
             // An expected data situation (e.g. a new customer in a multi-channel shop), not a bug
             $this->logger->warning(sprintf(
                 '[Loyalty] No channel could be resolved for the "%s" trigger (customer: %s); nothing was awarded',
-                $event::getTriggerCode(),
+                $event::getCode(),
                 (string) $event->getCustomer()->getEmail(),
             ));
 
             return null;
         }
 
-        $rules = $this->ruleRepository->findForEvaluation($channel, $event::getTriggerCode());
+        $rules = $this->ruleRepository->findForEvaluation($channel, $event::getCode());
         if ([] === $rules) {
             return null;
         }

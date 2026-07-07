@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Setono\SyliusLoyaltyPlugin\Model;
 
-// todo: Usually I extend the OrderInterface in Sylius core
+use Sylius\Component\Core\Model\OrderInterface;
+
 /**
  * Implemented by the host project's Order entity (together with LoyaltyOrderTrait) to enable
  * point redemption at checkout.
  */
-interface LoyaltyOrderInterface
+interface LoyaltyOrderInterface extends OrderInterface
 {
     /**
      * The customer's persisted intent: "spend N points on this order". The applied amount is

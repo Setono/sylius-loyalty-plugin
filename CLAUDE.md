@@ -94,7 +94,7 @@ Every extension interface is registered for autoconfiguration — implementing t
 - **Amount types**: implement `EarningRule\Amount\AmountCalculatorInterface` (tag `setono_sylius_loyalty.earning_amount`).
 - **Expression functions**: implement `Expression\Function\ExpressionFunctionInterface` (tag `setono_sylius_loyalty.expression_function`); metadata feeds autocompletion and the reference panel automatically.
 - **Earning triggers**: create an event class extending `Event\Trigger\EarningTriggerEvent`, register it under `setono_sylius_loyalty.triggers`, and fire it with a plain event dispatch. The subclass's public readonly properties become typed expression context. `sourceIdentifier` defaults to the trigger code ("once per account, ever"); repeatable triggers pass their own.
-- **Custom transaction types**: map `setono_sylius_loyalty.transaction_types` (discriminator value => class extending `CreditLoyaltyTransaction`/`DebitLoyaltyTransaction`).
+- **Custom transaction types**: subclass `CreditLoyaltyTransaction`/`DebitLoyaltyTransaction`, implement `getDiscriminator()`, and register the class as a Sylius resource — the discriminator map picks it up automatically.
 - **Channel resolution for triggers**: re-alias `Resolver\TriggerChannelResolverInterface`.
 - **Tier qualification bases**: implement `Tier\QualificationBasis\TierQualificationBasisInterface` (tag `setono_sylius_loyalty.tier_qualification_basis`); the tier form's basis select and unit hint update automatically.
 - **Partial-refund clawback**: call `Ledger\LoyaltyLedgerInterface::clawback(OrderInterface $order, int $points)` from any refund mechanism.

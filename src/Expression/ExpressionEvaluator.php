@@ -8,10 +8,6 @@ use Setono\SyliusLoyaltyPlugin\EarningRule\EarningContext;
 use Setono\SyliusLoyaltyPlugin\Exception\InvalidExpressionException;
 use Setono\SyliusLoyaltyPlugin\Expression\Function\ExpressionFunctionInterface;
 use Setono\SyliusLoyaltyPlugin\Expression\Function\ExpressionFunctionRegistryInterface;
-use Setono\SyliusLoyaltyPlugin\Expression\View\AccountView;
-use Setono\SyliusLoyaltyPlugin\Expression\View\ChannelView;
-use Setono\SyliusLoyaltyPlugin\Expression\View\CustomerView;
-use Setono\SyliusLoyaltyPlugin\Expression\View\OrderView;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\ExpressionLanguage\SyntaxError;
 
@@ -36,13 +32,16 @@ final class ExpressionEvaluator implements ExpressionEvaluatorInterface
         $this->validator->validate($expression);
 
         try {
+            // Expressions evaluate against the entities directly (rules are authored by
+            // administrators) through the generic getter bridge; the catalog whitelist is
+            // enforced at save and lint time by the validator
             return $this->expressionLanguage()->evaluate($expression, [
                 self::CONTEXT_VARIABLE => $context,
-                'order' => null === $context->order ? null : OrderView::fromOrder($context->order),
+                'order' => null === $context->order ? null : new EntityAccess($context->order),
                 'basis' => $basisOverride ?? $context->getBasis(),
-                'customer' => null === $context->customer ? null : CustomerView::fromCustomer($context->customer),
-                'account' => null === $context->account ? null : AccountView::fromAccount($context->account),
-                'channel' => ChannelView::fromChannel($context->channel),
+                'customer' => null === $context->customer ? null : new EntityAccess($context->customer),
+                'account' => null === $context->account ? null : new EntityAccess($context->account),
+                'channel' => new EntityAccess($context->channel),
                 'context' => (object) $context->context,
             ]);
         } catch (SyntaxError $e) {

@@ -2,8 +2,8 @@
 <container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://symfony.com/schema/dic/services"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-        <service id="Setono\SyliusLoyaltyPlugin\Menu\AdminMenuListener">
-            <tag name="kernel.event_listener" event="sylius.menu.admin.main" method="__invoke"/>
+        <service id="Setono\SyliusLoyaltyPlugin\EventSubscriber\AdminMenuSubscriber">
+            <tag name="kernel.event_subscriber"/>
         </service>
 
         <service id="Setono\SyliusLoyaltyPlugin\Provider\Admin\DashboardStatsProvider">
@@ -35,10 +35,9 @@
         </service>
 
         <service id="Setono\SyliusLoyaltyPlugin\Controller\Action\Admin\ToggleAccountAction" public="true">
-            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="setono_sylius_loyalty.repository.account"/>
             <argument type="service" id="security.csrf.token_manager"/>
             <argument type="service" id="router"/>
-            <argument>%setono_sylius_loyalty.model.account.class%</argument>
         </service>
 
         <service id="Setono\SyliusLoyaltyPlugin\Controller\Action\Admin\ManualAdjustmentAction" public="true">

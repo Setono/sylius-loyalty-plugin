@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Setono\SyliusLoyaltyPlugin\EarningRule;
 
 use Doctrine\Persistence\ManagerRegistry;
+use Setono\Doctrine\ORMTrait;
 use Setono\SyliusLoyaltyPlugin\Model\DryRunResultInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -13,13 +14,16 @@ use Webmozart\Assert\Assert;
 
 final class DryRunLogger implements DryRunLoggerInterface
 {
+    use ORMTrait;
+
     /**
      * @param FactoryInterface<DryRunResultInterface> $dryRunResultFactory
      */
     public function __construct(
         private readonly FactoryInterface $dryRunResultFactory,
-        private readonly ManagerRegistry $managerRegistry,
+        ManagerRegistry $managerRegistry,
     ) {
+        $this->managerRegistry = $managerRegistry;
     }
 
     public function log(
@@ -31,7 +35,7 @@ final class DryRunLogger implements DryRunLoggerInterface
             return;
         }
 
-        $manager = null;
+        $lastPersisted = null;
         foreach ($result->dryRunEvaluations as $evaluation) {
             if (!$evaluation->matched) {
                 continue;
@@ -51,12 +55,12 @@ final class DryRunLogger implements DryRunLoggerInterface
                 'failedConditions' => $evaluation->failedConditions,
             ]);
 
-            // todo use ORMTrait: https://github.com/Setono/doctrine-orm-trait/
-            $manager ??= $this->managerRegistry->getManagerForClass($dryRunResult::class);
-            Assert::notNull($manager);
-            $manager->persist($dryRunResult);
+            $this->getManager($dryRunResult)->persist($dryRunResult);
+            $lastPersisted = $dryRunResult;
         }
 
-        $manager?->flush();
+        if (null !== $lastPersisted) {
+            $this->getManager($lastPersisted)->flush();
+        }
     }
 }

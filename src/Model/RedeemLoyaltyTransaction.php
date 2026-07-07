@@ -19,4 +19,9 @@ class RedeemLoyaltyTransaction extends DebitLoyaltyTransaction implements Redeem
     {
         $this->order = $order;
     }
+
+    public static function getDiscriminator(): string
+    {
+        return 'redeem';
+    }
 }

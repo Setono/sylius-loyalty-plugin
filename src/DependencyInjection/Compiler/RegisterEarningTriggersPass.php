@@ -88,7 +88,7 @@ final class RegisterEarningTriggersPass implements CompilerPassInterface
             throw new InvalidTriggerException(sprintf('The configured trigger "%s" must not be abstract', $trigger));
         }
 
-        $code = $trigger::getTriggerCode();
+        $code = $trigger::getCode();
         if (isset($catalog[$code])) {
             throw new InvalidTriggerException(sprintf(
                 'The trigger code "%s" of "%s" collides with the already registered "%s"',

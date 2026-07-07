@@ -42,8 +42,8 @@ final class TriggerChannelResolver implements TriggerChannelResolverInterface
         try {
             return $this->channelContext->getChannel();
         } catch (ChannelNotFoundException) {
-            // todo: This is wrong. The channel context will eventually use the hostname to find a channel, so it would be able to do that in an admin context also
-            // not in a shop request
+            // The context could not resolve a channel for this request (e.g. CLI); fall
+            // through to the order-history and single-channel strategies
         }
 
         $channel = $this->latestOrderChannel($event);

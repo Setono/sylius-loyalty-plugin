@@ -31,4 +31,9 @@ class ClawbackLoyaltyTransaction extends DebitLoyaltyTransaction implements Claw
     {
         $this->earn = $earn;
     }
+
+    public static function getDiscriminator(): string
+    {
+        return 'clawback';
+    }
 }

@@ -7,4 +7,9 @@ namespace Setono\SyliusLoyaltyPlugin\Model;
 class ManualDebitLoyaltyTransaction extends DebitLoyaltyTransaction implements ManualDebitLoyaltyTransactionInterface
 {
     use ManualLoyaltyTransactionTrait;
+
+    public static function getDiscriminator(): string
+    {
+        return 'manual_debit';
+    }
 }

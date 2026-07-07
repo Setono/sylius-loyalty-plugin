@@ -24,6 +24,11 @@ class LegacyImportLoyaltyTransaction extends CreditLoyaltyTransaction
 {
     protected ?string $legacyReference = null;
 
+    public static function getDiscriminator(): string
+    {
+        return 'legacy_import';
+    }
+
     public function getLegacyReference(): ?string
     {
         return $this->legacyReference;
@@ -58,19 +63,22 @@ extra column must be nullable:
 (Attribute mapping works just as well if that is what your project uses.) Generate a migration
 with `doctrine:migrations:diff` — the plugin ships no migrations.
 
-## 3. Config registration
+## 3. Register the class as a resource
 
 ```yaml
-# config/packages/setono_sylius_loyalty.yaml
-setono_sylius_loyalty:
-    transaction_types:
-        legacy_import: App\Entity\Loyalty\LegacyImportLoyaltyTransaction
+# config/packages/sylius_resource.yaml
+sylius_resource:
+    resources:
+        app.legacy_import_loyalty_transaction:
+            classes:
+                model: App\Entity\Loyalty\LegacyImportLoyaltyTransaction
 ```
 
-The plugin merges the map into the discriminator map at metadata load time, so
-`legacy_import` becomes a valid `type` value alongside the built-ins (`earn_order`,
-`earn_action`, `redeem`, `redeem_rollback`, `expire`, `clawback`, `manual_credit`,
-`manual_debit`).
+The plugin scans the registered resources at metadata load time and adds every model
+extending the transaction root to the discriminator map under its own
+`getDiscriminator()` value, so `legacy_import` becomes a valid `type` value alongside the
+built-ins (`earn_order`, `earn_action`, `earn_referral`, `redeem`, `redeem_rollback`,
+`expire`, `clawback`, `manual_credit`, `manual_debit`).
 
 ## All writes still go through the ledger
 

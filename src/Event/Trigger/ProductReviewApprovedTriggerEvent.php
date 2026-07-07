@@ -17,7 +17,7 @@ final class ProductReviewApprovedTriggerEvent extends EarningTriggerEvent
         parent::__construct($customer, $channel, sprintf('review:%d', $reviewId));
     }
 
-    public static function getTriggerCode(): string
+    public static function getCode(): string
     {
         return 'product_review_approved';
     }

@@ -115,9 +115,6 @@ setono_sylius_loyalty:
     # Your own earning trigger event classes (see the cookbook)
     triggers: []
 
-    # Custom ledger transaction types: discriminator value => class
-    transaction_types: {}
-
     # On customer deletion, keep de-identified ledger rows linked to an opaque
     # token instead of deleting everything (accounting continuity)
     retain_anonymized_ledger: false
