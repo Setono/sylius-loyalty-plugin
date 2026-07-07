@@ -53,8 +53,12 @@ final class CustomerLoyaltyTierRuleChecker implements RuleCheckerInterface
         }
 
         $account = $this->accountRepository->findOneByCustomerAndChannel($customer, $channel);
-        $tier = $account?->getTier();
-        if (null === $tier || false === $account?->isEnabled()) {
+        if (null === $account || !$account->isEnabled()) {
+            return false;
+        }
+
+        $tier = $account->getTier();
+        if (null === $tier) {
             return false;
         }
 
