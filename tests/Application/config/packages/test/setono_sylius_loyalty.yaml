@@ -1,0 +1,6 @@
+# Public aliases so functional tests can fetch plugin services that do not yet have a production
+# consumer (and would otherwise be pruned as unused private services).
+services:
+    test.setono_sylius_loyalty.ledger:
+        alias: 'Setono\SyliusLoyaltyPlugin\Ledger\LoyaltyLedger'
+        public: true

@@ -47,6 +47,8 @@ Follow clean code principles and SOLID design patterns when working with this co
 - Keep methods and classes focused on a single responsibility
 - Favor composition over inheritance
 - Write code that is easy to test and extend
+- **Prefer public properties over getters/setters for plain data holders** (DTOs, events, value carriers). Reserve getters/setters for entities and classes with real invariants or behaviour. E.g. an event like `AwardingPoints` exposes `public int $points` rather than `getPoints()`/`setPoints()`.
+- **Inject an optional logger with the `LoggerAwareInterface` + `NullLogger` pattern**, not a nullable constructor argument: implement `Psr\Log\LoggerAwareInterface`, `use LoggerAwareTrait`, default `$this->logger` to a `NullLogger` in the constructor, and wire it with a `setLogger` call whose `logger` argument is `on-invalid="ignore"`.
 
 ### Testing Requirements
 - Write unit tests for all new functionality (if it makes sense)

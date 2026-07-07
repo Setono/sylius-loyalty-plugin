@@ -22,5 +22,15 @@
             <argument>%sylius.resources%</argument>
             <tag name="doctrine.event_listener" event="loadClassMetadata" />
         </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Ledger\LoyaltyLedger">
+            <argument type="service" id="doctrine" />
+            <argument type="service" id="event_dispatcher" />
+            <call method="setLogger">
+                <argument type="service" id="logger" on-invalid="ignore" />
+            </call>
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\Ledger\LoyaltyLedgerInterface"
+                 alias="Setono\SyliusLoyaltyPlugin\Ledger\LoyaltyLedger" />
     </services>
 </container>
