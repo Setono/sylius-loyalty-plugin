@@ -21,9 +21,4 @@ final class SetonoSyliusLoyaltyPlugin extends AbstractResourceBundle
             SyliusResourceBundle::DRIVER_DOCTRINE_ORM,
         ];
     }
-
-    protected function getModelNamespace(): string
-    {
-        return 'Setono\SyliusLoyaltyPlugin\Model';
-    }
 }

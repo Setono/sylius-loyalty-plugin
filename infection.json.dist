@@ -10,5 +10,7 @@
         "stryker": {
             "badge": "1.12.x"
         }
-    }
+    },
+    "minMsi": 0,
+    "minCoveredMsi": 0
 }
