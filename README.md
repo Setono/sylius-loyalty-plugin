@@ -6,13 +6,17 @@
 [![Code Coverage][ico-code-coverage]][link-code-coverage]
 [![Mutation testing][ico-infection]][link-infection]
 
-[Setono](https://setono.com) have made a bunch of [plugins for Sylius](https://github.com/Setono?q=plugin&sort=stargazers), and we have some guidelines
-which we try to follow when developing plugins. These guidelines are used in this repository, and it gives you a very
-solid base when developing plugins.
+A loyalty program for [Sylius](https://sylius.com) 1.14. The plugin is built around an **append-only
+points ledger** (points are a financial liability, so balances are derived from the ledger and never
+hand-edited) and is delivered in three phases: **points core + rule engine**, **tiers**, and
+**referrals**. It integrates natively with Sylius — ResourceBundle CRUD, GridBundle admin listings,
+the adjustment system for redemption, state-machine callbacks, and shop template events — and is
+channel-aware (one loyalty account per customer per channel).
 
-Enjoy! 
+> **Status:** under active development; no release is tagged yet. Detailed installation instructions
+> (order entity extension, schema diffing, cron commands) are added as the relevant features land.
 
-## Quickstart
+## Contributing / local development
 
 1. Run
     ```shell
