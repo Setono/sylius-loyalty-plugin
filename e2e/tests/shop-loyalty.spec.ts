@@ -37,7 +37,10 @@ test.describe('cart redemption', () => {
     test('applies a preset, uses max with clamping, and removes the redemption', async ({ page }) => {
         await loginShop(page, 'loyalty@example.com');
 
+        // Fixture prices are random; a fixed quantity keeps the items total comfortably above
+        // the 500-point redemption minimum so presets always render
         await page.goto('/en_US/products/sport-basic-white-t-shirt');
+        await page.locator('input[name="sylius_add_to_cart[cartItem][quantity]"]').fill('25');
         await page.locator('button:has-text("Add to cart")').click();
         await expect(page).toHaveURL(/\/cart\//);
 
