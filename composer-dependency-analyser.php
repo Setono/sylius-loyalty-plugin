@@ -4,6 +4,8 @@ use ShipMonk\ComposerDependencyAnalyser\Config\Configuration;
 use ShipMonk\ComposerDependencyAnalyser\Config\ErrorType;
 
 return (new Configuration())
+    // The monorepo dev setup and CI's split-package resolution disagree on which ignores apply
+    ->disableReportingUnmatchedIgnores()
     ->addPathToExclude(__DIR__ . '/tests')
     // The Sylius monorepo (sylius/sylius) is installed for development and `replace`s the split
     // packages this plugin actually depends on (sylius/core-bundle and its components), so class

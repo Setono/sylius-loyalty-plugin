@@ -14,6 +14,20 @@ const CODEMIRROR_VERSION = '6.0.1';
 
 async function loadCodeMirror(cdnBaseUrl) {
     const base = cdnBaseUrl.replace(/\/$/, '');
+
+    // A relative base means self-hosted files (strict-CSP/intranet setups, hermetic CI):
+    // plain .js shims instead of the CDN's versioned bare-specifier URLs
+    if (!/^https?:/.test(base)) {
+        const [codemirror, language, autocomplete, lint] = await Promise.all([
+            import(`${base}/codemirror.js`),
+            import(`${base}/codemirror-language.js`),
+            import(`${base}/codemirror-autocomplete.js`),
+            import(`${base}/codemirror-lint.js`),
+        ]);
+
+        return {codemirror, language, autocomplete, lint};
+    }
+
     const [codemirror, language, autocomplete, lint] = await Promise.all([
         import(`${base}/codemirror@${CODEMIRROR_VERSION}`),
         import(`${base}/@codemirror/language@6`),
@@ -37,6 +51,9 @@ export async function enhance(textarea) {
     const view = new codemirror.EditorView({
         doc: textarea.value,
         extensions: [
+            // The persistent way to keep a class on view.dom — CodeMirror recomputes the
+            // element's className on every update, wiping externally added classes
+            codemirror.EditorView.editorAttributes.of({class: 'setono-sylius-loyalty-expression-editor'}),
             codemirror.basicSetup,
             createElLanguage(language.StreamLanguage),
             autocomplete.autocompletion({override: [createCompletionSource(catalog, trigger)]}),
@@ -52,7 +69,6 @@ export async function enhance(textarea) {
 
     textarea.style.display = 'none';
     textarea.after(view.dom);
-    view.dom.classList.add('setono-sylius-loyalty-expression-editor');
     view.dom.style.cssText = 'border:1px solid rgba(34,36,38,.15);border-radius:.28em;background:#fff;min-height:3.5em;';
 
     renderReferencePanel(

@@ -48,16 +48,23 @@ final class RedemptionTest extends FunctionalTestCase
         \assert($ledger instanceof LoyaltyLedgerInterface);
         $ledger->manualCredit($account, 1000, 'goodwill', 'Redemption test seed');
 
-        // A cart with a huge "Use max"-style request
         $order = $this->cart($channel, $customer, $variant);
-        $order->setLoyaltyPointsRequested(100000);
 
         $processor = $container->get('sylius.order_processing.order_processor');
         \assert($processor instanceof OrderProcessorInterface);
+
+        // The cap base is the post-promotion items total before any redemption — capture it
+        // from a full processing run without a request, so the expectation matches the
+        // processor's own view regardless of fixture pricing
+        $processor->process($order);
+        $itemsTotalBeforeRedemption = $order->getItemsTotal();
+
+        // A huge "Use max"-style request
+        $order->setLoyaltyPointsRequested(100000);
         $processor->process($order);
 
         // Default program: conversion 1pt = 1 minor unit, cap 50% of the items total
-        $expectedApplied = min(1000, (int) floor($order->getItemsTotal() * 0.5));
+        $expectedApplied = min(1000, (int) floor($itemsTotalBeforeRedemption * 0.5));
 
         self::assertGreaterThan(0, $expectedApplied);
         self::assertSame(

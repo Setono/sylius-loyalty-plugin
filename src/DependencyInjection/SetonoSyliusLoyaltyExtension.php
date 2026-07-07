@@ -71,9 +71,10 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
                             'sortable' => 'lifetimeEarned',
                         ],
                         'tier' => [
-                            'type' => 'string',
+                            'type' => 'twig',
                             'label' => 'setono_sylius_loyalty.ui.tier',
-                            'path' => 'tier.name',
+                            'path' => 'tier',
+                            'options' => ['template' => '@SetonoSyliusLoyaltyPlugin/admin/grid/field/tier.html.twig'],
                         ],
                         'enabled' => [
                             'type' => 'twig',
@@ -255,6 +256,7 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
                         'override' => [
                             'type' => 'twig',
                             'label' => 'sylius.ui.actions',
+                            'path' => '.',
                             'options' => ['template' => '@SetonoSyliusLoyaltyPlugin/admin/referral/_override.html.twig'],
                         ],
                     ],

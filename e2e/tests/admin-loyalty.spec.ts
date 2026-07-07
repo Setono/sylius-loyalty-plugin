@@ -19,7 +19,9 @@ test.describe('admin loyalty', () => {
     test('the accounts grid links to the ledger inspector with healthy invariants', async ({ page }) => {
         await page.goto('/admin/loyalty/accounts');
 
-        const row = page.locator('tr', { hasText: 'loyalty@example.com' });
+        // history@example.com is read-only across the suite, so its ledger counts stay exact
+        // even on re-runs (the adjustment spec below appends rows to loyalty@example.com)
+        const row = page.locator('tr', { hasText: 'history@example.com' });
         await expect(row).toContainText('2150');
         await row.locator('a:has-text("Inspect")').click();
 
@@ -73,14 +75,22 @@ test.describe('admin loyalty', () => {
 
         await page.goto('/admin/loyalty/earning-rules/new');
 
-        // CodeMirror replaces the textarea (loaded as ESM from the CDN)
+        // CodeMirror replaces the textarea; wait for the editable surface itself, not just
+        // the wrapper, so the following DOM-level inserts never race the mount
         const editor = page.locator('.setono-sylius-loyalty-expression-editor').first();
-        await expect(editor).toBeVisible({ timeout: 45000 });
+        const content = page.locator('.setono-sylius-loyalty-expression-editor .cm-content').first();
+        await expect(content).toBeVisible({ timeout: 45000 });
 
         // Insert text through the browser's input pipeline (keyboard focus on CodeMirror's
-        // contenteditable is flaky headless; execCommand still triggers completion + linting)
+        // contenteditable is flaky headless; execCommand still triggers completion + linting).
+        // page.evaluate instead of locator.evaluate: the open completion tooltip re-renders
+        // the editor subtree, which can wedge the locator's element resolution mid-test.
         const insert = (text: string) =>
-            editor.locator('.cm-content').evaluate((content: HTMLElement, value: string) => {
+            page.evaluate((value) => {
+                const content = document.querySelector('.setono-sylius-loyalty-expression-editor .cm-content');
+                if (!(content instanceof HTMLElement)) {
+                    throw new Error('editor content not found');
+                }
                 content.focus();
                 document.execCommand('insertText', false, value);
             }, text);
@@ -102,7 +112,7 @@ test.describe('admin loyalty', () => {
         await reference.locator('summary').click();
         await expect(reference).toContainText('taxon_total');
         await reference.locator('a', { hasText: 'Weekend bonus' }).click();
-        await expect(editor.locator('.cm-content')).toContainText('day_of_week()');
+        await expect(page.locator('.setono-sylius-loyalty-expression-editor .cm-content').first()).toContainText('day_of_week()');
         });
     });
 });

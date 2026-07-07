@@ -1,1 +1,4 @@
-setono_sylius_loyalty: ~
+setono_sylius_loyalty:
+    expression_editor:
+        # Vendored snapshot so CI never depends on CDN reachability
+        cdn_base_url: '/vendor/codemirror'

@@ -180,7 +180,7 @@ Implementing the interface is the entire integration — every extension interfa
 
 - **Birthday trigger**: Sylius collects birthdays only if your registration/profile forms do — the trigger is a silent
   no-op for customers without one.
-- **Strict CSP / no CDN**: self-host the editor's ESM dependencies and set `expression_editor.cdn_base_url`.
+- **Strict CSP / no CDN**: self-host the editor's ESM dependencies and point `expression_editor.cdn_base_url` at them — a relative base makes the editor load plain `.js` shims (`codemirror.js`, `codemirror-language.js`, `codemirror-autocomplete.js`, `codemirror-lint.js`) instead of the CDN's versioned URLs. The plugin's test app ships such a snapshot under `tests/Application/public/vendor/codemirror/` you can copy.
 - **Async awarding**: `AwardOrderPoints` and `ClaimPastOrderPoints` are dispatched through Messenger (sync by
   default). Route them to any transport — awarding is idempotent, so redeliveries are safe.
 
