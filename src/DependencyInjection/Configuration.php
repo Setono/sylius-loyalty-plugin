@@ -6,7 +6,6 @@ namespace Setono\SyliusLoyaltyPlugin\DependencyInjection;
 
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyProgramRepository;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgram;
-use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgramInterface;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
 use Sylius\Resource\Factory\Factory;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
@@ -41,7 +40,6 @@ final class Configuration implements ConfigurationInterface
                                     ->addDefaultsIfNotSet()
                                     ->children()
                                         ->scalarNode('model')->defaultValue(LoyaltyProgram::class)->cannotBeEmpty()->end()
-                                        ->scalarNode('interface')->defaultValue(LoyaltyProgramInterface::class)->cannotBeEmpty()->end()
                                         ->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
                                         ->scalarNode('repository')->defaultValue(LoyaltyProgramRepository::class)->cannotBeEmpty()->end()
                                         ->scalarNode('factory')->defaultValue(Factory::class)->cannotBeEmpty()->end()

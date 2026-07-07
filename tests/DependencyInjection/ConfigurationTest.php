@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 use Setono\SyliusLoyaltyPlugin\DependencyInjection\Configuration;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyProgramRepository;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgram;
-use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgramInterface;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
 use Sylius\Resource\Factory\Factory;
 
@@ -27,7 +26,6 @@ final class ConfigurationTest extends TestCase
                 'program' => [
                     'classes' => [
                         'model' => LoyaltyProgram::class,
-                        'interface' => LoyaltyProgramInterface::class,
                         'controller' => ResourceController::class,
                         'repository' => LoyaltyProgramRepository::class,
                         'factory' => Factory::class,

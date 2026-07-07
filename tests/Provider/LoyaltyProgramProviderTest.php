@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Setono\SyliusLoyaltyPlugin\Tests\Provider;
 
-use Doctrine\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -30,15 +31,14 @@ final class LoyaltyProgramProviderTest extends TestCase
         $repository->findOneByChannel($channel)->willReturn($program);
 
         $factory = $this->prophesize(FactoryInterface::class);
-        $manager = $this->prophesize(ObjectManager::class);
+        $managerRegistry = $this->prophesize(ManagerRegistry::class);
 
-        $provider = new LoyaltyProgramProvider($factory->reveal(), $repository->reveal(), $manager->reveal());
+        $provider = new LoyaltyProgramProvider($factory->reveal(), $repository->reveal(), $managerRegistry->reveal());
 
         self::assertSame($program, $provider->getProgram($channel));
 
         $factory->createNew()->shouldNotHaveBeenCalled();
-        $manager->persist(Argument::any())->shouldNotHaveBeenCalled();
-        $manager->flush()->shouldNotHaveBeenCalled();
+        $managerRegistry->getManagerForClass(Argument::any())->shouldNotHaveBeenCalled();
     }
 
     /**
@@ -57,13 +57,15 @@ final class LoyaltyProgramProviderTest extends TestCase
         $factory = $this->prophesize(FactoryInterface::class);
         $factory->createNew()->willReturn($program->reveal());
 
-        $manager = $this->prophesize(ObjectManager::class);
+        $entityManager = $this->prophesize(EntityManagerInterface::class);
+        $managerRegistry = $this->prophesize(ManagerRegistry::class);
+        $managerRegistry->getManagerForClass(Argument::any())->willReturn($entityManager->reveal());
 
-        $provider = new LoyaltyProgramProvider($factory->reveal(), $repository->reveal(), $manager->reveal());
+        $provider = new LoyaltyProgramProvider($factory->reveal(), $repository->reveal(), $managerRegistry->reveal());
 
         self::assertSame($program->reveal(), $provider->getProgram($channel));
 
-        $manager->persist($program->reveal())->shouldHaveBeenCalled();
-        $manager->flush()->shouldHaveBeenCalled();
+        $entityManager->persist($program->reveal())->shouldHaveBeenCalled();
+        $entityManager->flush()->shouldHaveBeenCalled();
     }
 }

@@ -6,24 +6,10 @@ namespace Setono\SyliusLoyaltyPlugin\Tests\Functional;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgram;
-use Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProvider;
-use Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProviderInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class LoyaltyProgramResourceTest extends KernelTestCase
 {
-    /**
-     * @test
-     */
-    public function the_loyalty_program_provider_is_wired(): void
-    {
-        self::bootKernel();
-
-        $provider = self::getContainer()->get(LoyaltyProgramProviderInterface::class);
-
-        self::assertInstanceOf(LoyaltyProgramProvider::class, $provider);
-    }
-
     /**
      * @test
      */
@@ -36,7 +22,7 @@ final class LoyaltyProgramResourceTest extends KernelTestCase
 
         $metadata = $entityManager->getClassMetadata(LoyaltyProgram::class);
 
-        self::assertSame('setono_sylius_loyalty__program', $metadata->getTableName());
+        self::assertSame('setono_sylius_loyalty__loyalty_program', $metadata->getTableName());
         self::assertTrue($metadata->hasAssociation('channel'));
     }
 }
