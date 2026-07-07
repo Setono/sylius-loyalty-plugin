@@ -1,0 +1,233 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    form:
+        earning_rule:
+            add_condition: Legg til betingelse
+            amount_configuration: Beløpskonfigurasjon
+            amount_configuration_help: 'JSON, f.eks. {"points": 1, "per_amount": 100} for per beløp, {"points": 50} for fast, {"factor": 2} for multiplikator, {"expression": "floor(basis / 100)"} for uttrykk'
+            amount_expression: Beløpsuttrykk
+            amount_expression_help: Brukes når beløpstypen er "Uttrykk"; variabelen "basis" inneholder grunnlaget regelen gjør krav på, i minste enheter
+            amount_requires_order_trigger: Typene per beløp og multiplikator krever et ordregrunnlag og er kun tilgjengelige for den innebygde ordre-triggeren.
+            amount_type: Beløpstype
+            condition_configuration: Betingelseskonfigurasjon
+            condition_configuration_help: 'JSON, f.eks. {"amount": 5000} eller {"taxons": ["t_shirts"]}'
+            condition_expression: Betingelsesuttrykk
+            condition_expression_help: Brukes når betingelsestypen er "Uttrykk"; betingelsen er oppfylt når uttrykket evalueres som sant
+            condition_type: Betingelsestype
+            expression_required: Uttrykksmodus krever et uttrykk.
+            multiplier_is_order_scoped: Multiplikatorregler gjelder kun hele ordren; bruk uttrykksmodus for logikk på varelinjenivå.
+            scope_requires_order_trigger: Taxon- og produktavgrensninger krever ordrelinjer og er kun tilgjengelige for den innebygde ordre-triggeren.
+            conditions: Betingelser
+            conditions_match: Match av betingelser
+            conditions_match_all: Alle betingelser må være oppfylt
+            conditions_match_any: Minst én betingelse må være oppfylt
+            dry_run: Testkjøring
+            dry_run_help: Evaluer mot reell trafikk og logg til revisjonslisten hva som ville blitt tildelt, uten å skrive noen point
+            ends_at: Slutter
+            scope: Avgrensning
+            scope_configuration: Avgrensningskonfigurasjon
+            scope_configuration_help: 'JSON, f.eks. {"taxons": ["t_shirts"]} eller {"products": ["MUG"]}; la feltet stå tomt for hele ordren'
+            scope_help: Produkt- eller taxonavgrensede regler gjør eksklusivt krav på sine matchende varer; ordreavgrensede regler opptjener på resten
+            scope_order: Hele ordren
+            scope_product: Bestemte produkter
+            scope_taxon: Bestemte taxoner
+            stackable: Kan kombineres
+            stackable_help: Regler som kan kombineres og konkurrerer om samme grunnlag, gjelder alle og summeres; en regel som ikke kan kombineres, gjelder alene (høyeste prioritet vinner)
+            starts_at: Starter
+            trigger: Trigger
+            window_timezone_help: Angis og evalueres i applikasjonens konfigurerte tidssone
+        earning_rule.amount:
+            expression: Uttrykk
+            fixed: Faste point
+            multiplier: Multiplikator
+            per_amount: Point per beløp
+        earning_rule.condition:
+            cart_contains_taxon: Handlekurven inneholder taxon
+            customer_group: Kundegruppe
+            date_window: Datointervall
+            day_of_week: Ukedag
+            expression: Uttrykk
+            nth_order: N-te ordre
+            order_total_at_least: Ordretotal minst
+        invalid_json: Denne verdien er ikke gyldig JSON.
+        program:
+            award_moment_order_fulfilled: Når ordren er fullført
+            award_moment_payment_paid: Når betalingen er fullt betalt
+            award_order_points_at: Tidspunkt for tildeling av ordrepoint
+            award_order_points_at_help: Det ene tidspunktet i ordreforløpet der point tildeles — ett per program, aldri per regel
+            base_currency_help: Beløp angis i minste enheter av kanalens basisvaluta
+            clawback_policy: Tilbakeføringspolicy
+            clawback_policy_allow_negative: Tillat negativ saldo (inndrives fra fremtidig opptjening)
+            clawback_policy_clamp_to_zero: Begrens saldoen til null
+            earning_basis: Opptjeningsgrunnlag
+            earning_basis_help: Hva som teller med i opptjeningen; selve opptjeningssatsen defineres av opptjeningsregler
+            earning_basis_items_total: Varetotal (ekskl. frakt)
+            earning_basis_order_total: Ordretotal (inkl. frakt)
+            include_taxes: Inkluder mva. i grunnlaget
+            max_redeem_percent_of_order: Maks. innløsbar prosent av ordren
+            max_redeem_percent_of_order_help: Andelen av ordrens varetotal som kan dekkes av point (100 tillater helt gratis ordrer)
+            min_redeem_points: Minimum point per innløsning
+            points_expiry_days: Point utløper etter (dager)
+            points_expiry_days_help: La feltet stå tomt slik at point aldri utløper. Merk at utløp av oppspart verdi kan være underlagt forbrukerrettslige begrensninger i enkelte jurisdiksjoner
+            redemption_conversion_amount: '... er verdt dette beløpet (minste enheter)'
+            redemption_conversion_help: 'Innløsningskursen: så mange point...'
+            redemption_conversion_points: Pointenhet
+            retroactive_guest_points: Point for tidligere gjesteordrer
+            retroactive_guest_points_help: Tildel point for gjesteordrer lagt inn før registrering når gjesten registrerer seg (ingen etterbetaling for tidligere registreringer)
+            rounding: Avrunding
+            show_earnable_in_cart: Vis opptjeningshintet i handlekurven
+            show_earnable_on_product: Vis opptjeningshintet på produktsider
+            tier_downgrade_grace_days: Frist ved nivånedrykk (dager)
+            tier_downgrade_grace_days_help: Hvor lenge en konto beholder nivået sitt etter å ha falt under terskelen; 0 nedgraderer ved neste nattlige evaluering
+            tier_evaluation_window: Evalueringsvindu for nivåer
+            tier_window_calendar_year: Kalenderår
+            tier_window_lifetime: Levetid
+            tier_window_rolling_12_months: Rullerende 12 måneder
+            rounding_ceil: Rund opp
+            rounding_floor: Rund ned
+            rounding_round: Avrund
+        promotion_rule:
+            customer_loyalty_tier: Kundens lojalitetsnivå er minst
+            minimum_tier: Minimumsnivå
+        tier:
+            benefits: Fordeler
+            benefits_description: Beskrivelse av fordelene
+            color: Badgefarge
+            earning_multiplier: Opptjeningsmultiplikator
+            earning_multiplier_help: Brukes på all pointopptjening mens kontoen er på dette nivået (1 = ingen endring)
+            position_help: Høyere posisjoner er høyere nivåer; den høyeste posisjonen er toppnivået
+            qualification_basis: Kvalifiseringsgrunnlag
+            threshold: Terskel
+            threshold_help: Enheten avhenger av grunnlaget (point, minste valutaenheter eller ordrer)
+    tier_basis:
+        amount_spent: Beløp brukt
+        orders_count: Ordrer lagt inn
+        points_earned: Opptjente point
+        unit:
+            currency: minste valutaenheter
+            orders: ordrer
+            points: point
+    trigger:
+        customer_birthday: Kundens fødselsdag
+        customer_registered: Kunde registrert
+        order_eligible: Ordre (innebygd)
+        product_review_approved: Produktanmeldelse godkjent
+    ui:
+        account: Lojalitetskonto
+        account_inactive: Lojalitetskontoen din er for øyeblikket inaktiv — saldoen din er bevart, men opptjening og innløsning er satt på pause.
+        accounts: Lojalitetskontoer
+        accounts_card_description: Bla gjennom kontoer, inspiser hovedbøker, juster point
+        adjust: Juster
+        anonymized: Anonymisert
+        balance: Din pointsaldo
+        balance_label: Saldo
+        change_on_cart: Endre i handlekurven
+        consumptions: Forbrukt av
+        dashboard_subtitle: Point, opptjeningsregler og programinnstillinger
+        derived_balance: Sum i hovedboken
+        dry_run: Testkjøring
+        dry_run_results: Testkjøringsresultater
+        dry_run_results_card_description: Hva testkjøringsregler ville ha tildelt
+        earn_hint_cart: 'Denne ordren gir ~%points% point.'
+        earn_hint_product: 'Du tjener %points% point ved kjøp av dette produktet.'
+        earning_rate_hint: 'Opptjeningssatsen defineres av opptjeningsregler: en basisregel for hele ordren med typen per beløp er butikkens standardsats.'
+        earning_rules: Opptjeningsregler
+        earning_rules_card_description: Triggere, betingelser og beløp
+        edit_earning_rule: Rediger opptjeningsregel
+        edit_program: Rediger program
+        new_earning_rule: Ny opptjeningsregel
+        description: Beskrivelse
+        expired: Utløpt
+        expires: 'utløper %date%'
+        expires_at: Utløper
+        expiring_soon: '%points% point utløper før %date%.'
+        history: Transaksjonshistorikk
+        history_description:
+            clawback: 'Point tilbakeført for en kansellert eller refundert ordre'
+            earn_action: 'Point opptjent'
+            earn_order: 'Opptjent på ordre %order%'
+            earn_referral: 'Vervebelønning'
+            expire: 'Point utløpt'
+            manual_credit: 'Justering: %reason%'
+            manual_debit: 'Justering: %reason%'
+            redeem: 'Innløst på ordre %order%'
+            redeem_rollback: 'Point gjenopprettet fra en kansellert ordre'
+        history_empty: Ingen transaksjoner ennå — point du opptjener og bruker, vises her.
+        my_loyalty: Mitt lojalitetsprogram
+        running_balance: Saldo
+        inspect: Inspiser
+        invariants_hold: Alle hovedbokens invarianter holder.
+        invariants_violated: Hovedbokens invarianter er brutt — undersøk saken før du gjør manuelle korrigeringer.
+        ledger: Hovedbok
+        lifetime_earned: Opptjent totalt
+        lot: Lot
+        lots: Lots (avledet ved reavspilling)
+        loyalty: Lojalitet
+        manual_adjustment: Manuell justering
+        manual_reason:
+            correction: Korrigering
+            goodwill: Goodwill
+            other: Annet
+            promotion: Kampanje
+        never: aldri
+        note: Notat
+        points: Point
+        points_amount: '%points% point'
+        points_applied: '%points% point brukt'
+        points_redemption: Pointinnløsning
+        program: Program
+        program_card_description: Konvertering, utløp og policyer per kanal
+        reason: Årsak
+        refer_a_friend: Verv en venn
+        referee: Vervet
+        referral_explainer: Del lenken din — når en venn legger inn sin første ordre, tjener dere begge point.
+        referral_override: Godkjenn likevel
+        referral_stats: 'Du har %count% belønnede verving(er) som har gitt %points% point.'
+        referral_status:
+            expired: Utløpt
+            pending: Venter
+            qualified: Kvalifisert
+            rejected: Avvist
+            rewarded: Belønnet
+        referrals: Vervinger
+        referrals_card_description: Vervingsstatuser og overstyring av svindelsjekker
+        referrer: Verver
+        redemption_clamped: 'Forespørselen din om %requested% point er bare delvis brukt på denne ordren; den økes automatisk igjen når ordren tillater det.'
+        remaining: Gjenstående
+        remove_redemption: Fjern
+        rule: Regel
+        rule_tester: Regeltester
+        rule_tester_card_description: Evaluer regler mot en nylig ordre, eventuelt på en annen dato
+        scope: Avgrensning
+        share: Del
+        copied: Kopiert!
+        stat_accounts: Kontoer
+        stat_active_accounts_90_days: Aktive kontoer (90 dager)
+        stat_liability: Utestående pointforpliktelse
+        stat_redemption_rate_90_days: Innløsningsgrad (90 dager)
+        stat_earned_30_days: Point opptjent (30 dager)
+        stat_redeemed_30_days: Point innløst (30 dager)
+        tester_applied: Brukt
+        tester_claimed_basis: Krevd grunnlag
+        tester_claimed_by: Krevd av
+        tester_evaluate: Evaluer
+        tester_evaluate_at: Evaluer som om det var
+        tester_evaluate_at_help: Forhåndsvis planlagte regler før tidsvinduet deres åpner
+        tester_failed_conditions: Ikke-oppfylte betingelser
+        tester_final_award: 'Endelig tildeling: %points% point'
+        tester_invalid_date: Evalueringsdatoen er ugyldig.
+        tester_item_claims: Krav per varelinje
+        tester_matched: Matchet
+        tester_order_has_no_customer: Ordren har ingen kunde, så ingen regler kan evalueres.
+        tester_order_not_found: Ingen ordre med det nummeret ble funnet.
+        tester_order_number: Ordrenummer
+        tester_rules: Regelevalueringer
+        tier: Nivå
+        tier_progress: '%metric% / %threshold% til %tier%'
+        tier_top: Du har nådd det høyeste nivået — takk for at du er en av våre aller beste kunder!
+        tiers: Nivåer
+        tiers_card_description: Nivåer, terskler, multiplikatorer og fordeler
+        trigger: Trigger
+        use_max: Bruk maks.
+        your_code: Din kode
+        use_your_points: Bruk pointene dine

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://symfony.com/schema/dic/services"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="Setono\SyliusLoyaltyPlugin\EarningRule\Basis\EligibleBasisCalculator"/>
+        <service id="Setono\SyliusLoyaltyPlugin\EarningRule\Basis\EligibleBasisCalculatorInterface" alias="Setono\SyliusLoyaltyPlugin\EarningRule\Basis\EligibleBasisCalculator"/>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Message\Handler\AwardOrderPointsHandler">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProviderInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyAccountProviderInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\EarningRuleRepositoryInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\EarningRule\Basis\EligibleBasisCalculatorInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\EarningRule\EarningRuleEvaluatorInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\EarningRule\DryRunLoggerInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Ledger\LoyaltyLedgerInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Referral\ReferralQualifierInterface"/>
+            <argument type="service" id="logger"/>
+            <argument>%sylius.model.order.class%</argument>
+            <tag name="messenger.message_handler"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Message\Handler\ClaimPastOrderPointsHandler">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProviderInterface"/>
+            <argument type="service" id="messenger.default_bus"/>
+            <argument>%sylius.model.customer.class%</argument>
+            <argument>%sylius.model.channel.class%</argument>
+            <argument>%sylius.model.order.class%</argument>
+            <tag name="messenger.message_handler"/>
+        </service>
+
+        <!-- Public: referenced by a winzou state-machine callback, which resolves it from the container at runtime -->
+        <service id="Setono\SyliusLoyaltyPlugin\EventListener\AwardOrderPointsListener" public="true">
+            <argument type="service" id="messenger.default_bus"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProviderInterface"/>
+            <!-- The winzou callback counterparts are prepended by the extension -->
+            <tag name="kernel.event_listener" event="workflow.sylius_order_payment.completed.pay" method="onPaymentWorkflowCompleted"/>
+            <tag name="kernel.event_listener" event="workflow.sylius_order.completed.fulfill" method="onOrderWorkflowCompleted"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\EventListener\DispatchClaimPastOrderPointsListener">
+            <argument type="service" id="messenger.default_bus"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProviderInterface"/>
+            <argument type="service" id="sylius.context.channel"/>
+            <tag name="kernel.event_listener" event="sylius.customer.post_register" method="__invoke"/>
+        </service>
+    </services>
+</container>

@@ -1,0 +1,5 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    checkout:
+        account_disabled: Kanta-asiakastilisi ei ole käytössä, joten käytettyjä pisteitä ei voida lunastaa. Poista ne tilauksesta.
+        insufficient_balance: Pistesaldosi ei enää riitä käytettyyn lunastukseen. Muuta sitä ostoskorissa.

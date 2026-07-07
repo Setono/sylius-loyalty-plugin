@@ -1,1 +1,23 @@
-# TODO Add your shop routes here
+setono_sylius_loyalty_shop_referral_landing:
+    path: /r/{code}
+    methods: [GET]
+    defaults:
+        _controller: Setono\SyliusLoyaltyPlugin\Controller\Action\Shop\ReferralLandingAction
+
+setono_sylius_loyalty_shop_account_loyalty:
+    path: /account/loyalty
+    methods: [GET]
+    defaults:
+        _controller: Setono\SyliusLoyaltyPlugin\Controller\Action\Shop\LoyaltyDashboardAction
+
+setono_sylius_loyalty_shop_redemption_apply:
+    path: /cart/loyalty-redemption
+    methods: [POST]
+    defaults:
+        _controller: Setono\SyliusLoyaltyPlugin\Controller\Action\Shop\ApplyRedemptionAction
+
+setono_sylius_loyalty_shop_redemption_remove:
+    path: /cart/loyalty-redemption/remove
+    methods: [POST]
+    defaults:
+        _controller: Setono\SyliusLoyaltyPlugin\Controller\Action\Shop\RemoveRedemptionAction

@@ -1,0 +1,14 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    account_disabled: A hűségfiók letiltásra került.
+    account_enabled: A hűségfiók engedélyezésre került.
+    adjustment_applied: A kézi módosítás bekerült a főkönyvbe.
+    adjustment_invalid: A módosítás érvénytelen — a pontszám nem lehet nulla, a megjegyzés kötelező, és az indoknak a beállított kódok egyikének kell lennie.
+    redemption_applied: Pontjai felhasználásra kerültek a rendelésen.
+    redemption_invalid_points: Ennyi pont nem használható fel erre a rendelésre.
+    redemption_invalid_request: A kérést nem sikerült feldolgozni. Kérjük, próbálja újra.
+    redemption_not_available: A pontbeváltás jelenleg nem érhető el.
+    redemption_removed: A pontok eltávolításra kerültek a rendelésről.
+    referral_overridden: Az ajánlás jóvá lett hagyva és jutalmazva lett.
+    referral_override_invalid: A kérést nem sikerült feldolgozni. Kérjük, próbálja újra.
+    referral_override_not_rejected: Csak elutasított ajánlások bírálhatók felül.

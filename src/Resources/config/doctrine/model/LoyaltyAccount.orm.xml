@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <mapped-superclass name="Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccount" table="setono_sylius_loyalty__account">
+        <unique-constraints>
+            <unique-constraint columns="customer_id,channel_id" name="setono_sylius_loyalty__account_customer_channel"/>
+        </unique-constraints>
+
+        <id name="id" column="id" type="integer">
+            <generator strategy="AUTO"/>
+        </id>
+
+        <field name="enabled" type="boolean">
+            <options>
+                <option name="default">1</option>
+            </options>
+        </field>
+        <field name="balance" type="integer"/>
+        <field name="lifetimeEarned" column="lifetime_earned" type="integer"/>
+        <field name="referralCode" column="referral_code" type="string" length="16" unique="true" nullable="true"/>
+        <field name="anonymizedToken" column="anonymized_token" type="string" length="64" unique="true" nullable="true"/>
+        <field name="tierBelowThresholdSince" column="tier_below_threshold_since" type="datetime_immutable" nullable="true"/>
+        <field name="createdAt" column="created_at" type="datetime">
+            <gedmo:timestampable on="create"/>
+        </field>
+        <field name="updatedAt" column="updated_at" type="datetime" nullable="true">
+            <gedmo:timestampable on="update"/>
+        </field>
+
+        <many-to-one field="customer" target-entity="Sylius\Component\Core\Model\CustomerInterface">
+            <join-column name="customer_id" referenced-column-name="id" nullable="false" on-delete="CASCADE"/>
+        </many-to-one>
+
+        <many-to-one field="channel" target-entity="Sylius\Component\Channel\Model\ChannelInterface">
+            <join-column name="channel_id" referenced-column-name="id" nullable="false" on-delete="CASCADE"/>
+        </many-to-one>
+
+        <many-to-one field="tier" target-entity="Setono\SyliusLoyaltyPlugin\Model\TierInterface">
+            <join-column name="tier_id" referenced-column-name="id" nullable="true" on-delete="SET NULL"/>
+        </many-to-one>
+    </mapped-superclass>
+
+</doctrine-mapping>

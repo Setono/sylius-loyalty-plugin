@@ -1,0 +1,14 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    account_disabled: Kanta-asiakastili on poistettu käytöstä.
+    account_enabled: Kanta-asiakastili on otettu käyttöön.
+    adjustment_applied: Manuaalinen oikaisu on kirjattu kirjanpitoon.
+    adjustment_invalid: Oikaisu on virheellinen — pisteiden on oltava nollasta poikkeavat, huomautus on pakollinen ja syyn on oltava jokin määritetyistä koodeista.
+    redemption_applied: Pisteesi on käytetty tilaukseen.
+    redemption_invalid_points: Kyseistä pistemäärää ei voi käyttää tähän tilaukseen.
+    redemption_invalid_request: Pyyntöä ei voitu käsitellä. Yritä uudelleen.
+    redemption_not_available: Pisteiden lunastus ei ole juuri nyt käytettävissä.
+    redemption_removed: Pisteet on poistettu tilauksesta.
+    referral_overridden: Suosittelu on hyväksytty ja palkittu.
+    referral_override_invalid: Pyyntöä ei voitu käsitellä. Yritä uudelleen.
+    referral_override_not_rejected: Vain hylätyt suosittelut voidaan ohittaa.

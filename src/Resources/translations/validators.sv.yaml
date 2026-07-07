@@ -1,0 +1,5 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    checkout:
+        account_disabled: Ditt lojalitetskonto är inaktivt, så de tillämpade poängen kan inte lösas in. Ta bort dem från ordern.
+        insufficient_balance: Ditt poängsaldo täcker inte längre den tillämpade inlösen. Justera den i varukorgen.

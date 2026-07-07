@@ -1,0 +1,14 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    account_disabled: Věrnostní účet byl deaktivován.
+    account_enabled: Věrnostní účet byl aktivován.
+    adjustment_applied: Ruční úprava byla zapsána do knihy transakcí.
+    adjustment_invalid: Úprava je neplatná — body musí být nenulové, poznámka je povinná a důvod musí být jedním z nakonfigurovaných kódů.
+    redemption_applied: Vaše body byly uplatněny na objednávku.
+    redemption_invalid_points: Tento počet bodů nelze na tuto objednávku uplatnit.
+    redemption_invalid_request: Požadavek se nepodařilo zpracovat. Zkuste to prosím znovu.
+    redemption_not_available: Uplatnění bodů není momentálně k dispozici.
+    redemption_removed: Body byly z objednávky odebrány.
+    referral_overridden: Doporučení bylo schváleno a odměněno.
+    referral_override_invalid: Požadavek se nepodařilo zpracovat. Zkuste to prosím znovu.
+    referral_override_not_rejected: Ručně schválit lze pouze zamítnutá doporučení.

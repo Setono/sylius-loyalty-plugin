@@ -1,0 +1,13 @@
+setono_sylius_loyalty:
+    account_disabled: The loyalty account has been disabled.
+    account_enabled: The loyalty account has been enabled.
+    adjustment_applied: The manual adjustment has been written to the ledger.
+    adjustment_invalid: The adjustment is invalid — points must be non-zero, the note is mandatory, and the reason must be one of the configured codes.
+    redemption_applied: Your points have been applied to the order.
+    redemption_invalid_points: That number of points cannot be applied to this order.
+    redemption_invalid_request: The request could not be processed. Please try again.
+    redemption_not_available: Redeeming points is not available right now.
+    redemption_removed: The points have been removed from the order.
+    referral_overridden: The referral has been approved and rewarded.
+    referral_override_invalid: The request could not be processed. Please try again.
+    referral_override_not_rejected: Only rejected referrals can be overridden.

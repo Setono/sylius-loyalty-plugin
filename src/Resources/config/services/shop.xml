@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://symfony.com/schema/dic/services"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="Setono\SyliusLoyaltyPlugin\Provider\Shop\CartRedemptionViewProvider">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyAccountRepositoryInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProviderInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Redemption\PointsConverterInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Redemption\AppliedPointsProviderInterface"/>
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\Provider\Shop\CartRedemptionViewProviderInterface" alias="Setono\SyliusLoyaltyPlugin\Provider\Shop\CartRedemptionViewProvider"/>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Twig\LoyaltyExtension">
+            <tag name="twig.extension"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Twig\LoyaltyRuntime">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\Shop\CartRedemptionViewProviderInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyTransactionRepositoryInterface"/>
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Hint\EarnHintCalculatorInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProviderInterface"/>
+            <argument type="service" id="sylius.context.channel"/>
+            <argument type="service" id="sylius.context.customer"/>
+            <argument>%setono_sylius_loyalty.model.account.class%</argument>
+            <tag name="twig.runtime"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Controller\Action\Shop\ApplyRedemptionAction" public="true">
+            <argument type="service" id="sylius.context.cart"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyAccountRepositoryInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProviderInterface"/>
+            <argument type="service" id="sylius.order_processing.order_processor"/>
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="security.csrf.token_manager"/>
+            <argument type="service" id="router"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Controller\Action\Shop\LoyaltyDashboardAction" public="true">
+            <argument type="service" id="sylius.context.customer"/>
+            <argument type="service" id="sylius.context.channel"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyAccountRepositoryInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyTransactionRepositoryInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Ledger\LotReplayerInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\Shop\TierProgressProviderInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Referral\ReferralCodeGeneratorInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\ReferralRepositoryInterface"/>
+            <argument type="service" id="router"/>
+            <argument type="service" id="twig"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Provider\Shop\TierProgressProvider">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\TierRepositoryInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Tier\QualificationBasis\TierQualificationBasisRegistryInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProviderInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Tier\EvaluationWindowResolverInterface"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Provider\Shop\TierProgressProviderInterface"
+                 alias="Setono\SyliusLoyaltyPlugin\Provider\Shop\TierProgressProvider"/>
+
+        <service id="Setono\SyliusLoyaltyPlugin\EventSubscriber\ShopAccountMenuSubscriber">
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Controller\Action\Shop\RemoveRedemptionAction" public="true">
+            <argument type="service" id="sylius.context.cart"/>
+            <argument type="service" id="sylius.order_processing.order_processor"/>
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="security.csrf.token_manager"/>
+            <argument type="service" id="router"/>
+        </service>
+    </services>
+</container>

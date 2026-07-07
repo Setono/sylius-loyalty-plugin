@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Setono\SyliusLoyaltyPlugin\Model\LoyaltyTransaction"
+            table="setono_sylius_loyalty__transaction"
+            inheritance-type="SINGLE_TABLE">
+
+        <discriminator-column name="type" type="string" length="64"/>
+
+        <discriminator-map>
+            <discriminator-mapping value="earn_order" class="Setono\SyliusLoyaltyPlugin\Model\EarnOrderLoyaltyTransaction"/>
+            <discriminator-mapping value="earn_action" class="Setono\SyliusLoyaltyPlugin\Model\EarnActionLoyaltyTransaction"/>
+            <discriminator-mapping value="earn_referral" class="Setono\SyliusLoyaltyPlugin\Model\EarnReferralLoyaltyTransaction"/>
+            <discriminator-mapping value="redeem_rollback" class="Setono\SyliusLoyaltyPlugin\Model\RedeemRollbackLoyaltyTransaction"/>
+            <discriminator-mapping value="manual_credit" class="Setono\SyliusLoyaltyPlugin\Model\ManualCreditLoyaltyTransaction"/>
+            <discriminator-mapping value="redeem" class="Setono\SyliusLoyaltyPlugin\Model\RedeemLoyaltyTransaction"/>
+            <discriminator-mapping value="manual_debit" class="Setono\SyliusLoyaltyPlugin\Model\ManualDebitLoyaltyTransaction"/>
+            <discriminator-mapping value="expire" class="Setono\SyliusLoyaltyPlugin\Model\ExpireLoyaltyTransaction"/>
+            <discriminator-mapping value="clawback" class="Setono\SyliusLoyaltyPlugin\Model\ClawbackLoyaltyTransaction"/>
+        </discriminator-map>
+
+        <unique-constraints>
+            <!-- An order is awarded once and redeemed once per account ('type' is the discriminator column) -->
+            <unique-constraint columns="account_id,type,order_id" name="setono_sylius_loyalty__transaction_account_type_order"/>
+            <!-- Each credit is clawed back at most once -->
+            <unique-constraint columns="type,earn_id" name="setono_sylius_loyalty__transaction_type_earn"/>
+            <!-- Action awards are deduplicated per account by source identifier -->
+            <unique-constraint columns="account_id,type,source_identifier" name="setono_sylius_loyalty__transaction_account_type_source"/>
+            <!-- Each redemption is rolled back at most once -->
+            <unique-constraint columns="type,redeem_id" name="setono_sylius_loyalty__transaction_type_redeem"/>
+            <!-- Each referral rewards each party at most once -->
+            <unique-constraint columns="account_id,type,referral_id" name="setono_sylius_loyalty__transaction_account_type_referral"/>
+        </unique-constraints>
+
+        <indexes>
+            <!-- Replay order -->
+            <index columns="account_id,occurred_at,id" name="setono_sylius_loyalty__transaction_replay"/>
+            <!-- Expiry candidates -->
+            <index columns="account_id,expires_at" name="setono_sylius_loyalty__transaction_expiry"/>
+        </indexes>
+
+        <id name="id" column="id" type="integer">
+            <generator strategy="AUTO"/>
+        </id>
+
+        <field name="points" type="integer"/>
+        <field name="occurredAt" column="occurred_at" type="datetime_immutable"/>
+
+        <many-to-one field="account" target-entity="Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface">
+            <join-column name="account_id" referenced-column-name="id" nullable="false" on-delete="CASCADE"/>
+        </many-to-one>
+    </entity>
+
+</doctrine-mapping>

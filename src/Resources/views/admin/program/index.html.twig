@@ -1,0 +1,46 @@
+{% extends '@SyliusAdmin/layout.html.twig' %}
+
+{% block title %}{{ 'setono_sylius_loyalty.ui.program'|trans }} {{ parent() }}{% endblock %}
+
+{% block content %}
+    <h1 class="ui header">
+        <i class="circular setting icon"></i>
+        <div class="content">
+            {{ 'setono_sylius_loyalty.ui.program'|trans }}
+            <div class="sub header">{{ 'setono_sylius_loyalty.ui.program_card_description'|trans }}</div>
+        </div>
+    </h1>
+
+    <table class="ui celled table" data-test-programs>
+        <thead>
+            <tr>
+                <th>{{ 'sylius.ui.channel'|trans }}</th>
+                <th>{{ 'setono_sylius_loyalty.form.program.award_order_points_at'|trans }}</th>
+                <th>{{ 'setono_sylius_loyalty.form.program.redemption_conversion_points'|trans }}</th>
+                <th>{{ 'setono_sylius_loyalty.form.program.points_expiry_days'|trans }}</th>
+                <th>{{ 'sylius.ui.actions'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in programs %}
+                <tr>
+                    <td>{{ row.channel.name }} ({{ row.channel.code }})</td>
+                    <td>{{ row.program.awardOrderPointsAt }}</td>
+                    <td>{{ row.program.redemptionConversionPoints }} = {{ row.program.redemptionConversionAmount }}</td>
+                    <td>{{ row.program.pointsExpiryDays ?? 'setono_sylius_loyalty.ui.never'|trans }}</td>
+                    <td>
+                        <a class="ui labeled icon tiny button" href="{{ path('setono_sylius_loyalty_admin_program_update', {'id': row.program.id}) }}">
+                            <i class="pencil icon"></i>
+                            {{ 'sylius.ui.edit'|trans }}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="ui info message">
+        {{ 'setono_sylius_loyalty.ui.earning_rate_hint'|trans }}
+        <a href="{{ path('setono_sylius_loyalty_admin_earning_rule_index') }}">{{ 'setono_sylius_loyalty.ui.earning_rules'|trans }}</a>
+    </div>
+{% endblock %}

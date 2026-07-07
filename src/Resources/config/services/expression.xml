@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://symfony.com/schema/dic/services"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="Setono\SyliusLoyaltyPlugin\Expression\Function\ExpressionFunctionRegistry"/>
+        <service id="Setono\SyliusLoyaltyPlugin\Expression\Function\ExpressionFunctionRegistryInterface" alias="Setono\SyliusLoyaltyPlugin\Expression\Function\ExpressionFunctionRegistry"/>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Expression\ExpressionCatalog">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Expression\Function\ExpressionFunctionRegistryInterface"/>
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\Expression\ExpressionCatalogInterface" alias="Setono\SyliusLoyaltyPlugin\Expression\ExpressionCatalog"/>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Expression\ExpressionValidator">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Expression\ExpressionCatalogInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Expression\Function\ExpressionFunctionRegistryInterface"/>
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\Expression\ExpressionValidatorInterface" alias="Setono\SyliusLoyaltyPlugin\Expression\ExpressionValidator"/>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Expression\ExpressionEvaluator">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Expression\Function\ExpressionFunctionRegistryInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Expression\ExpressionValidatorInterface"/>
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\Expression\ExpressionEvaluatorInterface" alias="Setono\SyliusLoyaltyPlugin\Expression\ExpressionEvaluator"/>
+
+        <!-- Built-in expression functions -->
+        <service id="Setono\SyliusLoyaltyPlugin\Expression\Function\TaxonTotalFunction">
+            <tag name="setono_sylius_loyalty.expression_function"/>
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\Expression\Function\ProductTotalFunction">
+            <tag name="setono_sylius_loyalty.expression_function"/>
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\Expression\Function\ItemsOfTaxonFunction">
+            <tag name="setono_sylius_loyalty.expression_function"/>
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\Expression\Function\OrdersCountFunction">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>%sylius.model.order.class%</argument>
+            <tag name="setono_sylius_loyalty.expression_function"/>
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\Expression\Function\IsFirstOrderFunction">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Expression\Function\OrdersCountFunction"/>
+            <tag name="setono_sylius_loyalty.expression_function"/>
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\Expression\Function\DayOfWeekFunction">
+            <tag name="setono_sylius_loyalty.expression_function"/>
+        </service>
+
+        <!-- Basic math functions (ExpressionLanguage ships none) -->
+        <service id="setono_sylius_loyalty.expression_function.floor" class="Setono\SyliusLoyaltyPlugin\Expression\Function\MathFunction">
+            <argument>floor</argument>
+            <tag name="setono_sylius_loyalty.expression_function"/>
+        </service>
+        <service id="setono_sylius_loyalty.expression_function.ceil" class="Setono\SyliusLoyaltyPlugin\Expression\Function\MathFunction">
+            <argument>ceil</argument>
+            <tag name="setono_sylius_loyalty.expression_function"/>
+        </service>
+        <service id="setono_sylius_loyalty.expression_function.round" class="Setono\SyliusLoyaltyPlugin\Expression\Function\MathFunction">
+            <argument>round</argument>
+            <tag name="setono_sylius_loyalty.expression_function"/>
+        </service>
+        <service id="setono_sylius_loyalty.expression_function.abs" class="Setono\SyliusLoyaltyPlugin\Expression\Function\MathFunction">
+            <argument>abs</argument>
+            <tag name="setono_sylius_loyalty.expression_function"/>
+        </service>
+        <service id="setono_sylius_loyalty.expression_function.min" class="Setono\SyliusLoyaltyPlugin\Expression\Function\MathFunction">
+            <argument>min</argument>
+            <tag name="setono_sylius_loyalty.expression_function"/>
+        </service>
+        <service id="setono_sylius_loyalty.expression_function.max" class="Setono\SyliusLoyaltyPlugin\Expression\Function\MathFunction">
+            <argument>max</argument>
+            <tag name="setono_sylius_loyalty.expression_function"/>
+        </service>
+    </services>
+</container>

@@ -20,5 +20,19 @@ parameters:
         repositoryClass: Doctrine\ORM\EntityRepository
         objectManagerLoader: tests/PHPStan/object_manager.php
 
+    ignoreErrors:
+        # Plugin models deliberately type associations by Sylius interfaces so host projects can
+        # swap implementations; the object-manager loader resolves those interfaces to the test
+        # app's concrete classes, which phpstan-doctrine then reports as a type mismatch.
+        -
+            identifier: doctrine.associationType
+            path: src/Model/*
+
+        # The order trait is host-project API; its only in-repo usage is the test application's
+        # Order entity, which is excluded from analysis.
+        -
+            identifier: trait.unused
+            path: src/Model/LoyaltyOrderTrait.php
+
     reportUnmatchedIgnoredErrors: false
     treatPhpDocTypesAsCertain: false

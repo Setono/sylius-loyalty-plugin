@@ -1,0 +1,233 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    form:
+        earning_rule:
+            add_condition: Bedingung hinzufügen
+            amount_configuration: Betragskonfiguration
+            amount_configuration_help: 'JSON, z. B. {"points": 1, "per_amount": 100} für "pro Betrag", {"points": 50} für fest, {"factor": 2} für Multiplikator, {"expression": "floor(basis / 100)"} für Ausdruck'
+            amount_expression: Betragsausdruck
+            amount_expression_help: Wird verwendet, wenn der Betragstyp "Ausdruck" ist; die Variable "basis" enthält die von der Regel beanspruchte Basis in kleinsten Währungseinheiten
+            amount_requires_order_trigger: Die Typen "pro Betrag" und "Multiplikator" benötigen eine Bestellbasis und sind nur für den eingebauten Bestell-Trigger verfügbar.
+            amount_type: Betragstyp
+            condition_configuration: Bedingungskonfiguration
+            condition_configuration_help: 'JSON, z. B. {"amount": 5000} oder {"taxons": ["t_shirts"]}'
+            condition_expression: Bedingungsausdruck
+            condition_expression_help: Wird verwendet, wenn der Bedingungstyp "Ausdruck" ist; die Bedingung ist erfüllt, wenn der Ausdruck wahr ist
+            condition_type: Bedingungstyp
+            expression_required: Der Ausdrucksmodus benötigt einen Ausdruck.
+            multiplier_is_order_scoped: Multiplikatorregeln gelten nur für die gesamte Bestellung; verwenden Sie den Ausdrucksmodus für Logik auf Positionsebene.
+            scope_requires_order_trigger: Taxon- und Produktgeltungsbereiche benötigen Bestellpositionen und sind nur für den eingebauten Bestell-Trigger verfügbar.
+            conditions: Bedingungen
+            conditions_match: Bedingungsverknüpfung
+            conditions_match_all: Alle Bedingungen müssen erfüllt sein
+            conditions_match_any: Mindestens eine Bedingung muss erfüllt sein
+            dry_run: Testlauf
+            dry_run_help: Wertet gegen den Live-Traffic aus und protokolliert in der Audit-Liste, was vergeben worden wäre, ohne Punkte zu schreiben
+            ends_at: Endet am
+            scope: Geltungsbereich
+            scope_configuration: Geltungsbereichskonfiguration
+            scope_configuration_help: 'JSON, z. B. {"taxons": ["t_shirts"]} oder {"products": ["MUG"]}; leer lassen für den Bestellgeltungsbereich'
+            scope_help: Produkt- oder taxonbezogene Regeln beanspruchen ihre passenden Positionen exklusiv; bestellbezogene Regeln sammeln auf dem Rest
+            scope_order: Gesamte Bestellung
+            scope_product: Bestimmte Produkte
+            scope_taxon: Bestimmte Taxone
+            stackable: Kombinierbar
+            stackable_help: Kombinierbare Regeln, die um dieselbe Basis konkurrieren, gelten alle und werden summiert; eine nicht kombinierbare Regel gilt allein (höchste Priorität gewinnt)
+            starts_at: Beginnt am
+            trigger: Trigger
+            window_timezone_help: Wird in der konfigurierten Zeitzone der Anwendung eingegeben und ausgewertet
+        earning_rule.amount:
+            expression: Ausdruck
+            fixed: Feste Punkte
+            multiplier: Multiplikator
+            per_amount: Punkte pro Betrag
+        earning_rule.condition:
+            cart_contains_taxon: Warenkorb enthält Taxon
+            customer_group: Kundengruppe
+            date_window: Datumsfenster
+            day_of_week: Wochentag
+            expression: Ausdruck
+            nth_order: N-te Bestellung
+            order_total_at_least: Bestellsumme mindestens
+        invalid_json: Dieser Wert ist kein gültiges JSON.
+        program:
+            award_moment_order_fulfilled: Wenn die Bestellung abgeschlossen ist
+            award_moment_payment_paid: Wenn die Zahlung vollständig bezahlt ist
+            award_order_points_at: Zeitpunkt der Bestellpunktevergabe
+            award_order_points_at_help: Der eine Moment im Bestelllebenszyklus, in dem Punkte vergeben werden — einer pro Programm, nie pro Regel
+            base_currency_help: Beträge sind in kleinsten Währungseinheiten der Basiswährung des Kanals angegeben
+            clawback_policy: Rückbuchungsrichtlinie
+            clawback_policy_allow_negative: Negativen Saldo zulassen (wird mit künftigen Gutschriften verrechnet)
+            clawback_policy_clamp_to_zero: Saldo auf null begrenzen
+            earning_basis: Sammelbasis
+            earning_basis_help: Was für das Sammeln zählt; die Sammelrate selbst wird durch Sammelregeln definiert
+            earning_basis_items_total: Artikelsumme (ohne Versand)
+            earning_basis_order_total: Bestellsumme (inkl. Versand)
+            include_taxes: Steuern in die Basis einbeziehen
+            max_redeem_percent_of_order: Max. einlösbarer Prozentsatz der Bestellung
+            max_redeem_percent_of_order_help: Der Anteil der Artikelsumme der Bestellung, der mit Punkten gedeckt werden kann (100 erlaubt komplett kostenlose Bestellungen)
+            min_redeem_points: Mindestpunkte pro Einlösung
+            points_expiry_days: Punkte verfallen nach (Tagen)
+            points_expiry_days_help: Leer lassen, damit Punkte nie verfallen. Beachten Sie, dass der Verfall gespeicherter Werte in manchen Rechtsordnungen verbraucherrechtlichen Beschränkungen unterliegt
+            redemption_conversion_amount: '... sind diesen Betrag wert (kleinste Währungseinheiten)'
+            redemption_conversion_help: 'Der Einlösungskurs: so viele Punkte...'
+            redemption_conversion_points: Punkteeinheit
+            retroactive_guest_points: Rückwirkende Gastpunkte
+            retroactive_guest_points_help: Punkte für Gastbestellungen vor der Registrierung vergeben, wenn sich der Gast registriert (keine Nachbuchung für frühere Registrierungen)
+            rounding: Rundung
+            show_earnable_in_cart: Punktehinweis im Warenkorb anzeigen
+            show_earnable_on_product: Punktehinweis auf Produktseiten anzeigen
+            tier_downgrade_grace_days: Karenzzeit bei Stufenabstieg (Tage)
+            tier_downgrade_grace_days_help: Wie lange ein Konto seine Stufe behält, nachdem es unter den Schwellenwert gefallen ist; 0 stuft bei der nächsten nächtlichen Auswertung herab
+            tier_evaluation_window: Auswertungszeitraum für Stufen
+            tier_window_calendar_year: Kalenderjahr
+            tier_window_lifetime: Gesamte Laufzeit
+            tier_window_rolling_12_months: Rollierende 12 Monate
+            rounding_ceil: Aufrunden
+            rounding_floor: Abrunden
+            rounding_round: Kaufmännisch runden
+        promotion_rule:
+            customer_loyalty_tier: Treuestufe des Kunden ist mindestens
+            minimum_tier: Mindeststufe
+        tier:
+            benefits: Vorteile
+            benefits_description: Beschreibung der Vorteile
+            color: Badge-Farbe
+            earning_multiplier: Sammelmultiplikator
+            earning_multiplier_help: Wird auf jeden Punktegewinn angewendet, solange das Konto in dieser Stufe ist (1 = keine Änderung)
+            position_help: Höhere Positionen sind höhere Stufen; die höchste Position ist die Spitzenstufe
+            qualification_basis: Qualifikationsgrundlage
+            threshold: Schwellenwert
+            threshold_help: Die Einheit hängt von der Grundlage ab (Punkte, kleinste Währungseinheiten oder Bestellungen)
+    tier_basis:
+        amount_spent: Ausgegebener Betrag
+        orders_count: Aufgegebene Bestellungen
+        points_earned: Gesammelte Punkte
+        unit:
+            currency: kleinste Währungseinheiten
+            orders: Bestellungen
+            points: Punkte
+    trigger:
+        customer_birthday: Geburtstag des Kunden
+        customer_registered: Kunde registriert
+        order_eligible: Bestellung (eingebaut)
+        product_review_approved: Produktbewertung freigegeben
+    ui:
+        account: Treuekonto
+        account_inactive: Ihr Treuekonto ist derzeit inaktiv — Ihr Saldo bleibt erhalten, aber Sammeln und Einlösen sind pausiert.
+        accounts: Treuekonten
+        accounts_card_description: Konten durchsuchen, Ledger einsehen, Punkte anpassen
+        adjust: Anpassen
+        anonymized: Anonymisiert
+        balance: Ihr Punktestand
+        balance_label: Saldo
+        change_on_cart: Im Warenkorb ändern
+        consumptions: Verbraucht durch
+        dashboard_subtitle: Punkte, Sammelregeln und Programmeinstellungen
+        derived_balance: Ledger-Summe
+        dry_run: Testlauf
+        dry_run_results: Testlauf-Ergebnisse
+        dry_run_results_card_description: Was Testlauf-Regeln vergeben hätten
+        earn_hint_cart: 'Diese Bestellung bringt ~%points% Punkte.'
+        earn_hint_product: 'Beim Kauf dieses Produkts sammeln Sie %points% Punkte.'
+        earning_rate_hint: 'Die Sammelrate wird durch Sammelregeln definiert: Eine Basisregel für die gesamte Bestellung mit dem Typ "pro Betrag" ist die Standardrate des Shops.'
+        earning_rules: Sammelregeln
+        earning_rules_card_description: Trigger, Bedingungen und Beträge
+        edit_earning_rule: Sammelregel bearbeiten
+        edit_program: Programm bearbeiten
+        new_earning_rule: Neue Sammelregel
+        description: Beschreibung
+        expired: Verfallen
+        expires: 'verfällt am %date%'
+        expires_at: Verfällt am
+        expiring_soon: '%points% Punkte verfallen vor dem %date%.'
+        history: Buchungshistorie
+        history_description:
+            clawback: 'Punkte zurückgefordert für eine stornierte oder erstattete Bestellung'
+            earn_action: 'Punkte gesammelt'
+            earn_order: 'Gesammelt mit Bestellung %order%'
+            earn_referral: 'Empfehlungsprämie'
+            expire: 'Punkte verfallen'
+            manual_credit: 'Anpassung: %reason%'
+            manual_debit: 'Anpassung: %reason%'
+            redeem: 'Eingelöst bei Bestellung %order%'
+            redeem_rollback: 'Punkte aus einer stornierten Bestellung wiederhergestellt'
+        history_empty: Noch keine Buchungen — Punkte, die Sie sammeln und einlösen, erscheinen hier.
+        my_loyalty: Mein Treueprogramm
+        running_balance: Saldo
+        inspect: Einsehen
+        invariants_hold: Alle Ledger-Invarianten sind erfüllt.
+        invariants_violated: Ledger-Invarianten sind verletzt — untersuchen Sie dies, bevor Sie manuelle Korrekturen vornehmen.
+        ledger: Ledger
+        lifetime_earned: Insgesamt gesammelt
+        lot: Lot
+        lots: Lots (per Replay abgeleitet)
+        loyalty: Treueprogramm
+        manual_adjustment: Manuelle Anpassung
+        manual_reason:
+            correction: Korrektur
+            goodwill: Kulanz
+            other: Sonstiges
+            promotion: Aktion
+        never: nie
+        note: Notiz
+        points: Punkte
+        points_amount: '%points% Punkte'
+        points_applied: '%points% Punkte angewendet'
+        points_redemption: Punkteeinlösung
+        program: Programm
+        program_card_description: Umrechnung, Verfall und Richtlinien pro Kanal
+        reason: Grund
+        refer_a_friend: Freunde werben
+        referee: Geworbener
+        referral_explainer: Teilen Sie Ihren Link — wenn ein Freund seine erste Bestellung aufgibt, sammeln Sie beide Punkte.
+        referral_override: Trotzdem genehmigen
+        referral_stats: 'Sie haben %count% belohnte Empfehlung(en), die %points% Punkte eingebracht haben.'
+        referral_status:
+            expired: Abgelaufen
+            pending: Ausstehend
+            qualified: Qualifiziert
+            rejected: Abgelehnt
+            rewarded: Belohnt
+        referrals: Empfehlungen
+        referrals_card_description: Empfehlungsstatus und Übersteuerung von Betrugsprüfungen
+        referrer: Werber
+        redemption_clamped: 'Ihre Anforderung von %requested% Punkten wird auf diese Bestellung nur teilweise angewendet; sie wächst automatisch wieder an, sobald die Bestellung es zulässt.'
+        remaining: Verbleibend
+        remove_redemption: Entfernen
+        rule: Regel
+        rule_tester: Regel-Tester
+        rule_tester_card_description: Regeln gegen eine aktuelle Bestellung auswerten, optional zu einem anderen Datum
+        scope: Geltungsbereich
+        share: Teilen
+        copied: Kopiert!
+        stat_accounts: Konten
+        stat_active_accounts_90_days: Aktive Konten (90 Tage)
+        stat_liability: Ausstehende Punkteverbindlichkeit
+        stat_redemption_rate_90_days: Einlösequote (90 Tage)
+        stat_earned_30_days: Gesammelte Punkte (30 Tage)
+        stat_redeemed_30_days: Eingelöste Punkte (30 Tage)
+        tester_applied: Angewendet
+        tester_claimed_basis: Beanspruchte Basis
+        tester_claimed_by: Beansprucht durch
+        tester_evaluate: Auswerten
+        tester_evaluate_at: Auswerten, als wäre es
+        tester_evaluate_at_help: Geplante Regeln vor Öffnung ihres Zeitfensters in der Vorschau prüfen
+        tester_failed_conditions: Nicht erfüllte Bedingungen
+        tester_final_award: 'Endgültige Vergabe: %points% Punkte'
+        tester_invalid_date: Das Auswertungsdatum ist ungültig.
+        tester_item_claims: Ansprüche pro Position
+        tester_matched: Zutreffend
+        tester_order_has_no_customer: Die Bestellung hat keinen Kunden, daher können keine Regeln ausgewertet werden.
+        tester_order_not_found: Es wurde keine Bestellung mit dieser Nummer gefunden.
+        tester_order_number: Bestellnummer
+        tester_rules: Regelauswertungen
+        tier: Stufe
+        tier_progress: '%metric% / %threshold% bis %tier%'
+        tier_top: Sie haben die höchste Stufe erreicht — vielen Dank, dass Sie zu unseren allerbesten Kunden gehören!
+        tiers: Stufen
+        tiers_card_description: Stufen, Schwellenwerte, Multiplikatoren und Vorteile
+        trigger: Trigger
+        use_max: Maximum verwenden
+        your_code: Ihr Code
+        use_your_points: Punkte einlösen

@@ -1,7 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://symfony.com/schema/dic/services"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
-    <services>
-        <!-- Put your services here -->
-    </services>
+    <imports>
+        <import resource="services/admin.xml"/>
+        <import resource="services/command.xml"/>
+        <import resource="services/form.xml"/>
+        <import resource="services/doctrine.xml"/>
+        <import resource="services/earning_rule.xml"/>
+        <import resource="services/expression.xml"/>
+        <import resource="services/fixture.xml"/>
+        <import resource="services/promotion.xml"/>
+        <import resource="services/hint.xml"/>
+        <import resource="services/referral.xml"/>
+        <import resource="services/inspector.xml"/>
+        <import resource="services/listener.xml"/>
+        <import resource="services/ledger.xml"/>
+        <import resource="services/order_earning.xml"/>
+        <import resource="services/provider.xml"/>
+        <import resource="services/redemption.xml"/>
+        <import resource="services/repository.xml"/>
+        <import resource="services/shop.xml"/>
+        <import resource="services/tier.xml"/>
+        <import resource="services/trigger.xml"/>
+    </imports>
 </container>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://symfony.com/schema/dic/services"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <!-- The example factories are public API: host projects can reuse them in their own test apps -->
+        <service id="Setono\SyliusLoyaltyPlugin\Fixture\Factory\LoyaltyProgramExampleFactory" public="true">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProviderInterface"/>
+            <argument type="service" id="sylius.repository.channel"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Fixture\Factory\EarningRuleExampleFactory" public="true">
+            <argument type="service" id="setono_sylius_loyalty.factory.earning_rule"/>
+            <argument type="service" id="setono_sylius_loyalty.factory.earning_rule_condition"/>
+            <argument type="service" id="sylius.repository.channel"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Fixture\Factory\LoyaltyAccountExampleFactory" public="true">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyAccountProviderInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Ledger\LoyaltyLedgerInterface"/>
+            <argument type="service" id="sylius.factory.customer"/>
+            <argument type="service" id="sylius.factory.shop_user"/>
+            <argument type="service" id="sylius.repository.shop_user"/>
+            <argument type="service" id="sylius.repository.channel"/>
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Fixture\Factory\TierExampleFactory" public="true">
+            <argument type="service" id="setono_sylius_loyalty.factory.tier"/>
+            <argument type="service" id="sylius.repository.channel"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Fixture\TierFixture">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Fixture\Factory\TierExampleFactory"/>
+            <tag name="sylius_fixtures.fixture"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Fixture\LoyaltyProgramFixture">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Fixture\Factory\LoyaltyProgramExampleFactory"/>
+            <tag name="sylius_fixtures.fixture"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Fixture\EarningRuleFixture">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Fixture\Factory\EarningRuleExampleFactory"/>
+            <tag name="sylius_fixtures.fixture"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Fixture\LoyaltyAccountFixture">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Fixture\Factory\LoyaltyAccountExampleFactory"/>
+            <tag name="sylius_fixtures.fixture"/>
+        </service>
+    </services>
+</container>

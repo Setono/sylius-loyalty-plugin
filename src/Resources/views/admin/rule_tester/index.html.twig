@@ -1,0 +1,117 @@
+{% extends '@SyliusAdmin/layout.html.twig' %}
+
+{% block title %}{{ 'setono_sylius_loyalty.ui.rule_tester'|trans }} {{ parent() }}{% endblock %}
+
+{% block content %}
+    <h1 class="ui header">
+        <i class="circular lab icon"></i>
+        <div class="content">
+            {{ 'setono_sylius_loyalty.ui.rule_tester'|trans }}
+            <div class="sub header">{{ 'setono_sylius_loyalty.ui.rule_tester_card_description'|trans }}</div>
+        </div>
+    </h1>
+
+    <form method="get" class="ui form" data-test-tester-form>
+        <div class="three fields">
+            <div class="field">
+                <label>{{ 'setono_sylius_loyalty.ui.tester_order_number'|trans }}</label>
+                <input type="text" name="order" value="{{ orderNumber }}" placeholder="000000001">
+            </div>
+            <div class="field">
+                <label>{{ 'setono_sylius_loyalty.ui.tester_evaluate_at'|trans }}</label>
+                <input type="datetime-local" name="evaluate_at" value="{{ evaluateAt }}">
+                <small>{{ 'setono_sylius_loyalty.ui.tester_evaluate_at_help'|trans }}</small>
+            </div>
+            <div class="field">
+                <label>&nbsp;</label>
+                <button type="submit" class="ui primary button">{{ 'setono_sylius_loyalty.ui.tester_evaluate'|trans }}</button>
+            </div>
+        </div>
+    </form>
+
+    {% if error is not null %}
+        <div class="ui negative message" data-test-tester-error>{{ error|trans }}</div>
+    {% endif %}
+
+    {% if result is not null %}
+        <div class="ui positive message" data-test-tester-award>
+            <div class="header">
+                {{ 'setono_sylius_loyalty.ui.tester_final_award'|trans({'%points%': result.points}) }}
+            </div>
+        </div>
+
+        <h3 class="ui dividing header">{{ 'setono_sylius_loyalty.ui.tester_rules'|trans }}</h3>
+        <table class="ui celled table" data-test-tester-rules>
+            <thead>
+                <tr>
+                    <th>{{ 'setono_sylius_loyalty.ui.rule'|trans }}</th>
+                    <th>{{ 'setono_sylius_loyalty.ui.tester_matched'|trans }}</th>
+                    <th>{{ 'setono_sylius_loyalty.ui.tester_failed_conditions'|trans }}</th>
+                    <th>{{ 'setono_sylius_loyalty.ui.tester_claimed_basis'|trans }}</th>
+                    <th>{{ 'setono_sylius_loyalty.ui.points'|trans }}</th>
+                    <th>{{ 'setono_sylius_loyalty.ui.tester_applied'|trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for evaluation in result.ruleEvaluations %}
+                    <tr>
+                        <td>{{ evaluation.rule.name }}{% if evaluation.factor is not null %} <span class="ui purple horizontal label">×{{ evaluation.factor }}</span>{% endif %}</td>
+                        <td>{% if evaluation.matched %}<i class="green check icon"></i>{% else %}<i class="red close icon"></i>{% endif %}</td>
+                        <td>{{ evaluation.failedConditions|join(', ') }}</td>
+                        <td>{{ evaluation.claimedBasis }}</td>
+                        <td>{{ evaluation.points }}</td>
+                        <td>{% if evaluation.applied %}<i class="green check icon"></i>{% else %}<i class="grey minus icon"></i>{% endif %}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if result.dryRunEvaluations is not empty %}
+            <h3 class="ui dividing header">{{ 'setono_sylius_loyalty.ui.dry_run_results'|trans }}</h3>
+            <table class="ui celled table" data-test-tester-dry-runs>
+                <thead>
+                    <tr>
+                        <th>{{ 'setono_sylius_loyalty.ui.rule'|trans }}</th>
+                        <th>{{ 'setono_sylius_loyalty.ui.tester_matched'|trans }}</th>
+                        <th>{{ 'setono_sylius_loyalty.ui.points'|trans }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for evaluation in result.dryRunEvaluations %}
+                        <tr>
+                            <td>{{ evaluation.rule.name }}</td>
+                            <td>{% if evaluation.matched %}<i class="green check icon"></i>{% else %}<i class="red close icon"></i>{% endif %}</td>
+                            <td>{{ evaluation.points }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+
+        {% if order is not null %}
+            <h3 class="ui dividing header">{{ 'setono_sylius_loyalty.ui.tester_item_claims'|trans }}</h3>
+            <table class="ui celled table" data-test-tester-claims>
+                <thead>
+                    <tr>
+                        <th>{{ 'sylius.ui.item'|trans }}</th>
+                        <th>{{ 'setono_sylius_loyalty.ui.tester_claimed_by'|trans }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in order.items %}
+                        <tr>
+                            <td>{{ item.productName }} (#{{ item.id }})</td>
+                            <td>
+                                {% for evaluation in result.ruleEvaluations %}
+                                    {% if evaluation.applied and evaluation.claimedItems[item.id] is defined %}
+                                        <span class="ui basic label">{{ evaluation.rule.name }}: {{ evaluation.claimedItems[item.id] }}</span>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    {% endif %}
+{% endblock %}

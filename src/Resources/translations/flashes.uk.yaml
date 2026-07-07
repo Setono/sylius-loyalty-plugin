@@ -1,0 +1,14 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    account_disabled: Рахунок лояльності вимкнено.
+    account_enabled: Рахунок лояльності увімкнено.
+    adjustment_applied: Ручне коригування записано до журналу.
+    adjustment_invalid: Коригування некоректне — кількість балів має бути ненульовою, примітка обовʼязкова, а причина має бути одним із налаштованих кодів.
+    redemption_applied: Ваші бали застосовано до замовлення.
+    redemption_invalid_points: Таку кількість балів неможливо застосувати до цього замовлення.
+    redemption_invalid_request: Не вдалося обробити запит. Спробуйте ще раз.
+    redemption_not_available: Списання балів наразі недоступне.
+    redemption_removed: Бали прибрано із замовлення.
+    referral_overridden: Рекомендацію схвалено та винагороджено.
+    referral_override_invalid: Не вдалося обробити запит. Спробуйте ще раз.
+    referral_override_not_rejected: Вручну схвалити можна лише відхилені рекомендації.

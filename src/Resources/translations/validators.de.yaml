@@ -1,0 +1,5 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    checkout:
+        account_disabled: Ihr Treuekonto ist inaktiv, daher können die angewendeten Punkte nicht eingelöst werden. Bitte entfernen Sie sie aus der Bestellung.
+        insufficient_balance: Ihr Punktestand deckt die angewendete Einlösung nicht mehr. Bitte passen Sie sie im Warenkorb an.

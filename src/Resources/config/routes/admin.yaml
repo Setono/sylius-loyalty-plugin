@@ -1,1 +1,115 @@
-# TODO Add your admin routes here
+setono_sylius_loyalty_admin_dashboard:
+    path: /loyalty
+    methods: [GET]
+    defaults:
+        _controller: Setono\SyliusLoyaltyPlugin\Controller\Action\Admin\DashboardAction
+
+setono_sylius_loyalty_admin_account_index:
+    path: /loyalty/accounts
+    methods: [GET]
+    defaults:
+        _controller: setono_sylius_loyalty.controller.account::indexAction
+        _sylius:
+            section: admin
+            grid: setono_sylius_loyalty_admin_account
+            permission: true
+            template: "@SyliusAdmin/Crud/index.html.twig"
+
+setono_sylius_loyalty_admin_account_inspect:
+    path: /loyalty/accounts/{id}
+    methods: [GET]
+    defaults:
+        _controller: Setono\SyliusLoyaltyPlugin\Controller\Action\Admin\InspectAccountAction
+
+setono_sylius_loyalty_admin_account_toggle:
+    path: /loyalty/accounts/{id}/toggle
+    methods: [POST]
+    defaults:
+        _controller: Setono\SyliusLoyaltyPlugin\Controller\Action\Admin\ToggleAccountAction
+
+setono_sylius_loyalty_admin_account_adjust:
+    path: /loyalty/accounts/{id}/adjust
+    methods: [POST]
+    defaults:
+        _controller: Setono\SyliusLoyaltyPlugin\Controller\Action\Admin\ManualAdjustmentAction
+
+setono_sylius_loyalty_admin_earning_rule:
+    resource: |
+        alias: setono_sylius_loyalty.earning_rule
+        section: admin
+        except: ['show']
+        redirect: index
+        grid: setono_sylius_loyalty_admin_earning_rule
+        templates: "@SyliusAdmin\\Crud"
+        permission: true
+        path: loyalty/earning-rules
+    type: sylius.resource
+
+setono_sylius_loyalty_admin_tier:
+    resource: |
+        alias: setono_sylius_loyalty.tier
+        section: admin
+        except: ['show']
+        redirect: index
+        grid: setono_sylius_loyalty_admin_tier
+        templates: "@SyliusAdmin\\Crud"
+        permission: true
+        path: loyalty/tiers
+    type: sylius.resource
+
+setono_sylius_loyalty_admin_program_index:
+    path: /loyalty/programs
+    methods: [GET]
+    defaults:
+        _controller: Setono\SyliusLoyaltyPlugin\Controller\Action\Admin\ProgramIndexAction
+
+setono_sylius_loyalty_admin_program_update:
+    path: /loyalty/programs/{id}/edit
+    methods: [GET, PUT]
+    defaults:
+        _controller: setono_sylius_loyalty.controller.program::updateAction
+        _sylius:
+            section: admin
+            permission: true
+            template: "@SyliusAdmin/Crud/update.html.twig"
+            redirect: setono_sylius_loyalty_admin_program_index
+
+setono_sylius_loyalty_admin_dry_run_result_index:
+    path: /loyalty/dry-run-results
+    methods: [GET]
+    defaults:
+        _controller: setono_sylius_loyalty.controller.dry_run_result::indexAction
+        _sylius:
+            section: admin
+            grid: setono_sylius_loyalty_admin_dry_run_result
+            permission: true
+            template: "@SyliusAdmin/Crud/index.html.twig"
+
+setono_sylius_loyalty_admin_rule_tester:
+    path: /loyalty/rule-tester
+    methods: [GET, POST]
+    defaults:
+        _controller: Setono\SyliusLoyaltyPlugin\Controller\Action\Admin\RuleTesterAction
+
+setono_sylius_loyalty_admin_expression_lint:
+    path: /loyalty/expression-lint
+    methods: [POST]
+    defaults:
+        _controller: Setono\SyliusLoyaltyPlugin\Controller\Action\Admin\LintExpressionAction
+
+setono_sylius_loyalty_admin_referral_index:
+    path: /loyalty/referrals
+    methods: [GET]
+    defaults:
+        _controller: setono_sylius_loyalty.controller.referral::indexAction
+        _sylius:
+            section: admin
+            permission: true
+            grid: setono_sylius_loyalty_admin_referral
+            template: "@SyliusAdmin/Crud/index.html.twig"
+
+setono_sylius_loyalty_admin_referral_override:
+    path: /loyalty/referrals/{id}/override
+    methods: [POST]
+    defaults:
+        _controller: Setono\SyliusLoyaltyPlugin\Controller\Action\Admin\OverrideReferralAction

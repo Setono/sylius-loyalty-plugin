@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://symfony.com/schema/dic/services"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="Setono\SyliusLoyaltyPlugin\Ledger\LotReplayer"/>
+        <service id="Setono\SyliusLoyaltyPlugin\Ledger\LotReplayerInterface" alias="Setono\SyliusLoyaltyPlugin\Ledger\LotReplayer"/>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Ledger\LoyaltyLedger">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="doctrine"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyAccountProviderInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyTransactionRepositoryInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Ledger\LotReplayerInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProviderInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Tier\TierEvaluatorInterface"/>
+            <argument type="service" id="event_dispatcher"/>
+            <argument type="service" id="logger"/>
+            <argument>%setono_sylius_loyalty.model.account.class%</argument>
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\Ledger\LoyaltyLedgerInterface" alias="Setono\SyliusLoyaltyPlugin\Ledger\LoyaltyLedger" public="true"/>
+    </services>
+</container>

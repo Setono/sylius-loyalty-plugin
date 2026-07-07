@@ -193,7 +193,7 @@ jobs:
                     dependency-versions: "${{ matrix.dependencies }}"
 
             -   name: "Run phpunit"
-                run: "composer phpunit"
+                run: "vendor/bin/phpunit --testsuite unit"
 
     integration-tests:
         name: "Integration tests (PHP${{ matrix.php-version }} | Deps: ${{ matrix.dependencies }} | SF${{ matrix.symfony }})"
@@ -247,7 +247,75 @@ jobs:
 
             -   name: "Validate Doctrine mapping"
                 run: "(cd tests/Application && bin/console doctrine:schema:validate -vvv)" # The verbose flag will show 'missing' SQL statements, if any
+
+            -   name: "Load fixtures"
+                run: "(cd tests/Application && bin/console sylius:fixtures:load default -n && bin/console sylius:fixtures:load loyalty -n)"
+
+            -   name: "Run functional tests"
+                run: "vendor/bin/phpunit --testsuite functional"
     
+    e2e-tests:
+        name: "End-to-end tests (Playwright)"
+
+        runs-on: "ubuntu-latest"
+
+        strategy:
+            matrix:
+                php-version:
+                    - "8.3"
+
+                dependencies:
+                    - "highest"
+
+        steps:
+            -   name: "Start MySQL"
+                run: "sudo /etc/init.d/mysql start"
+
+            -   name: "Checkout"
+                uses: "actions/checkout@v5"
+
+            -   name: "Setup PHP, with composer and extensions"
+                uses: "shivammathur/setup-php@v2"
+                with:
+                    coverage: "none"
+                    extensions: "${{ env.PHP_EXTENSIONS }}"
+                    php-version: "${{ matrix.php-version }}"
+
+            -   name: "Install composer dependencies"
+                uses: "ramsey/composer-install@v3"
+                with:
+                    dependency-versions: "${{ matrix.dependencies }}"
+
+            -   name: "Setup node"
+                uses: "actions/setup-node@v4"
+                with:
+                    node-version-file: "tests/Application/.nvmrc"
+
+            -   name: "Build test application assets"
+                run: "(cd tests/Application && yarn install && yarn build && APP_ENV=test bin/console assets:install public)"
+
+            -   name: "Create database and schema"
+                run: "(cd tests/Application && APP_ENV=test bin/console doctrine:database:create -n && APP_ENV=test bin/console doctrine:schema:create -n)"
+
+            -   name: "Load fixtures"
+                run: "(cd tests/Application && APP_ENV=test bin/console sylius:fixtures:load default -n && APP_ENV=test bin/console sylius:fixtures:load loyalty -n)"
+
+            -   name: "Install Playwright"
+                run: "(cd e2e && npm ci && npx playwright install --with-deps chromium)"
+
+            -   name: "Run Playwright tests"
+                run: "(cd e2e && npx playwright test)"
+
+            -   name: "Upload Playwright report"
+                uses: "actions/upload-artifact@v4"
+                if: "failure()"
+                with:
+                    name: "playwright-report"
+                    path: |
+                        e2e/playwright-report
+                        e2e/test-results
+                    retention-days: 7
+
     mutation-tests:
         name: "Mutation tests"
 
@@ -312,7 +380,7 @@ jobs:
                     dependency-versions: "${{ matrix.dependencies }}"
 
             -   name: "Collect code coverage with pcov and phpunit/phpunit"
-                run: "vendor/bin/phpunit --coverage-clover=.build/logs/clover.xml"
+                run: "vendor/bin/phpunit --testsuite unit --coverage-clover=.build/logs/clover.xml"
 
             -   name: "Send code coverage report to Codecov.io"
                 uses: "codecov/codecov-action@v4"

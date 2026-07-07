@@ -1,0 +1,8 @@
+{% set points = setono_sylius_loyalty_cart_earn_hint(cart) %}
+
+{% if points is not null %}
+    <div class="ui basic segment" style="padding: .5em 0;" data-test-cart-earn-hint>
+        <i class="star yellow icon"></i>
+        {{ 'setono_sylius_loyalty.ui.earn_hint_cart'|trans({'%points%': points}) }}
+    </div>
+{% endif %}

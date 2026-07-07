@@ -1,0 +1,233 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    form:
+        earning_rule:
+            add_condition: Dodaj warunek
+            amount_configuration: Konfiguracja kwoty
+            amount_configuration_help: 'JSON, np. {"points": 1, "per_amount": 100} dla punktów za kwotę, {"points": 50} dla stałej liczby, {"factor": 2} dla mnożnika, {"expression": "floor(basis / 100)"} dla wyrażenia'
+            amount_expression: Wyrażenie kwoty
+            amount_expression_help: Używane, gdy typ kwoty to "Wyrażenie"; zmienna "basis" zawiera podstawę zajętą przez regułę w jednostkach mniejszych
+            amount_requires_order_trigger: Typy za kwotę i mnożnik wymagają podstawy zamówienia i są dostępne tylko dla wbudowanego wyzwalacza zamówienia.
+            amount_type: Typ kwoty
+            condition_configuration: Konfiguracja warunku
+            condition_configuration_help: 'JSON, np. {"amount": 5000} lub {"taxons": ["t_shirts"]}'
+            condition_expression: Wyrażenie warunku
+            condition_expression_help: Używane, gdy typ warunku to "Wyrażenie"; warunek jest spełniony, gdy wyrażenie jest prawdziwe
+            condition_type: Typ warunku
+            expression_required: Tryb wyrażenia wymaga wyrażenia.
+            multiplier_is_order_scoped: Reguły z mnożnikiem działają tylko na poziomie zamówienia; do logiki na poziomie pozycji użyj trybu wyrażenia.
+            scope_requires_order_trigger: Zakresy taksonu i produktu wymagają pozycji zamówienia i są dostępne tylko dla wbudowanego wyzwalacza zamówienia.
+            conditions: Warunki
+            conditions_match: Dopasowanie warunków
+            conditions_match_all: Wszystkie warunki muszą być spełnione
+            conditions_match_any: Co najmniej jeden warunek musi być spełniony
+            dry_run: Tryb testowy
+            dry_run_help: Oceniaj na rzeczywistym ruchu i zapisuj na liście audytu, co zostałoby przyznane, bez zapisywania żadnych punktów
+            ends_at: Kończy się
+            scope: Zakres
+            scope_configuration: Konfiguracja zakresu
+            scope_configuration_help: 'JSON, np. {"taxons": ["t_shirts"]} lub {"products": ["MUG"]}; pozostaw puste dla zakresu zamówienia'
+            scope_help: Reguły ograniczone do produktu lub taksonu zajmują na wyłączność pasujące pozycje; reguły na poziomie zamówienia naliczają punkty od reszty
+            scope_order: Całe zamówienie
+            scope_product: Wybrane produkty
+            scope_taxon: Wybrane taksony
+            stackable: Łączy się z innymi regułami
+            stackable_help: Reguły łączące się, które konkurują o tę samą podstawę, stosują się wszystkie i sumują; reguła niełącząca się stosuje się samodzielnie (wygrywa najwyższy priorytet)
+            starts_at: Zaczyna się
+            trigger: Wyzwalacz
+            window_timezone_help: Wprowadzane i oceniane w skonfigurowanej strefie czasowej aplikacji
+        earning_rule.amount:
+            expression: Wyrażenie
+            fixed: Stała liczba punktów
+            multiplier: Mnożnik
+            per_amount: Punkty za kwotę
+        earning_rule.condition:
+            cart_contains_taxon: Koszyk zawiera takson
+            customer_group: Grupa klientów
+            date_window: Przedział dat
+            day_of_week: Dzień tygodnia
+            expression: Wyrażenie
+            nth_order: N-te zamówienie
+            order_total_at_least: Suma zamówienia co najmniej
+        invalid_json: Ta wartość nie jest prawidłowym JSON-em.
+        program:
+            award_moment_order_fulfilled: Gdy zamówienie zostanie zrealizowane
+            award_moment_payment_paid: Gdy płatność zostanie w pełni opłacona
+            award_order_points_at: Przyznawaj punkty za zamówienie w momencie
+            award_order_points_at_help: Jedyny moment cyklu życia zamówienia, w którym przyznawane są punkty — jeden na program, nigdy na regułę
+            base_currency_help: Kwoty są w jednostkach mniejszych waluty bazowej kanału
+            clawback_policy: Polityka odbierania punktów
+            clawback_policy_allow_negative: Zezwalaj na ujemne saldo (odzyskiwane z przyszłych punktów)
+            clawback_policy_clamp_to_zero: Ogranicz saldo do zera
+            earning_basis: Podstawa naliczania
+            earning_basis_help: Co liczy się do naliczania punktów; samą stawkę naliczania określają reguły naliczania
+            earning_basis_items_total: Suma pozycji (bez wysyłki)
+            earning_basis_order_total: Suma zamówienia (z wysyłką)
+            include_taxes: Uwzględnij podatki w podstawie
+            max_redeem_percent_of_order: Maks. procent zamówienia do wymiany
+            max_redeem_percent_of_order_help: Część sumy pozycji zamówienia, którą można pokryć punktami (100 pozwala na całkowicie darmowe zamówienia)
+            min_redeem_points: Minimalna liczba punktów na wymianę
+            points_expiry_days: Punkty wygasają po (dniach)
+            points_expiry_days_help: Pozostaw puste, aby punkty nigdy nie wygasały. Pamiętaj, że wygasanie zgromadzonej wartości podlega w niektórych jurysdykcjach przepisom prawa konsumenckiego
+            redemption_conversion_amount: '... są warte tę kwotę (jednostki mniejsze)'
+            redemption_conversion_help: 'Przelicznik wymiany: tyle punktów...'
+            redemption_conversion_points: Jednostka punktów
+            retroactive_guest_points: Punkty wsteczne dla gości
+            retroactive_guest_points_help: Przyznawaj punkty za zamówienia złożone jako gość przed rejestracją, gdy gość się zarejestruje (bez naliczania wstecz dla wcześniejszych rejestracji)
+            rounding: Zaokrąglanie
+            show_earnable_in_cart: Pokazuj podpowiedź o punktach w koszyku
+            show_earnable_on_product: Pokazuj podpowiedź o punktach na stronach produktów
+            tier_downgrade_grace_days: Okres ochronny przed obniżeniem poziomu (dni)
+            tier_downgrade_grace_days_help: Jak długo konto zachowuje swój poziom po spadku poniżej progu; 0 obniża poziom przy najbliższej nocnej ocenie
+            tier_evaluation_window: Okno oceny poziomów
+            tier_window_calendar_year: Rok kalendarzowy
+            tier_window_lifetime: Cały okres
+            tier_window_rolling_12_months: Ostatnie 12 miesięcy (kroczące)
+            rounding_ceil: W górę
+            rounding_floor: W dół
+            rounding_round: Do najbliższej
+        promotion_rule:
+            customer_loyalty_tier: Poziom lojalnościowy klienta wynosi co najmniej
+            minimum_tier: Minimalny poziom
+        tier:
+            benefits: Korzyści
+            benefits_description: Opis korzyści
+            color: Kolor odznaki
+            earning_multiplier: Mnożnik naliczania
+            earning_multiplier_help: Stosowany do każdego naliczenia punktów, gdy konto jest na tym poziomie (1 = bez zmian)
+            position_help: Wyższe pozycje to wyższe poziomy; najwyższa pozycja to najwyższy poziom
+            qualification_basis: Podstawa kwalifikacji
+            threshold: Próg
+            threshold_help: Jednostka zależy od podstawy (punkty, jednostki mniejsze waluty lub zamówienia)
+    tier_basis:
+        amount_spent: Wydana kwota
+        orders_count: Złożone zamówienia
+        points_earned: Zdobyte punkty
+        unit:
+            currency: jednostki mniejsze waluty
+            orders: zamówienia
+            points: punkty
+    trigger:
+        customer_birthday: Urodziny klienta
+        customer_registered: Rejestracja klienta
+        order_eligible: Zamówienie (wbudowany)
+        product_review_approved: Zatwierdzona recenzja produktu
+    ui:
+        account: Konto lojalnościowe
+        account_inactive: Twoje konto lojalnościowe jest obecnie nieaktywne — saldo jest zachowane, ale zdobywanie i wymiana punktów są wstrzymane.
+        accounts: Konta lojalnościowe
+        accounts_card_description: Przeglądaj konta, sprawdzaj księgi, koryguj punkty
+        adjust: Koryguj
+        anonymized: Zanonimizowano
+        balance: Twoje saldo punktów
+        balance_label: Saldo
+        change_on_cart: Zmień w koszyku
+        consumptions: Zużyte przez
+        dashboard_subtitle: Punkty, reguły naliczania i ustawienia programu
+        derived_balance: Suma księgi
+        dry_run: Tryb testowy
+        dry_run_results: Wyniki trybu testowego
+        dry_run_results_card_description: Co przyznałyby reguły w trybie testowym
+        earn_hint_cart: 'To zamówienie da ~%points% punktów.'
+        earn_hint_product: 'Kupując ten produkt, zdobędziesz %points% punktów.'
+        earning_rate_hint: 'Stawkę naliczania określają reguły naliczania: podstawowa reguła na poziomie zamówienia z typem "punkty za kwotę" to domyślna stawka sklepu.'
+        earning_rules: Reguły naliczania
+        earning_rules_card_description: Wyzwalacze, warunki i kwoty
+        edit_earning_rule: Edytuj regułę naliczania
+        edit_program: Edytuj program
+        new_earning_rule: Nowa reguła naliczania
+        description: Opis
+        expired: Wygasłe
+        expires: 'wygasa %date%'
+        expires_at: Wygasa
+        expiring_soon: '%points% punktów wygaśnie przed %date%.'
+        history: Historia transakcji
+        history_description:
+            clawback: 'Punkty odebrane za anulowane lub zwrócone zamówienie'
+            earn_action: 'Punkty zdobyte'
+            earn_order: 'Zdobyte za zamówienie %order%'
+            earn_referral: 'Nagroda za polecenie'
+            expire: 'Punkty wygasły'
+            manual_credit: 'Korekta: %reason%'
+            manual_debit: 'Korekta: %reason%'
+            redeem: 'Wymienione przy zamówieniu %order%'
+            redeem_rollback: 'Punkty przywrócone z anulowanego zamówienia'
+        history_empty: Brak transakcji — punkty, które zdobędziesz i wydasz, pojawią się tutaj.
+        my_loyalty: Mój program lojalnościowy
+        running_balance: Saldo
+        inspect: Sprawdź
+        invariants_hold: Wszystkie niezmienniki księgi są zachowane.
+        invariants_violated: Niezmienniki księgi zostały naruszone — zbadaj sprawę przed wprowadzeniem ręcznych korekt.
+        ledger: Księga
+        lifetime_earned: Zdobyte łącznie
+        lot: Partia
+        lots: Partie (wyliczone z odtworzenia)
+        loyalty: Program lojalnościowy
+        manual_adjustment: Korekta ręczna
+        manual_reason:
+            correction: Korekta
+            goodwill: Gest dobrej woli
+            other: Inne
+            promotion: Promocja
+        never: nigdy
+        note: Notatka
+        points: Punkty
+        points_amount: '%points% punktów'
+        points_applied: 'Zastosowano %points% punktów'
+        points_redemption: Wymiana punktów
+        program: Program
+        program_card_description: Przelicznik, wygasanie i zasady dla każdego kanału
+        reason: Powód
+        refer_a_friend: Poleć znajomemu
+        referee: Polecony
+        referral_explainer: Udostępnij swój link — gdy znajomy złoży swoje pierwsze zamówienie, oboje zdobędziecie punkty.
+        referral_override: Zatwierdź mimo to
+        referral_stats: 'Masz %count% nagrodzonych poleceń, które dały %points% punktów.'
+        referral_status:
+            expired: Wygasłe
+            pending: Oczekujące
+            qualified: Zakwalifikowane
+            rejected: Odrzucone
+            rewarded: Nagrodzone
+        referrals: Polecenia
+        referrals_card_description: Statusy poleceń i obejścia kontroli antyfraudowych
+        referrer: Polecający
+        redemption_clamped: 'Twoje żądanie %requested% punktów jest zastosowane do tego zamówienia tylko częściowo; zwiększy się automatycznie, gdy zamówienie na to pozwoli.'
+        remaining: Pozostało
+        remove_redemption: Usuń
+        rule: Reguła
+        rule_tester: Tester reguł
+        rule_tester_card_description: Oceń reguły na niedawnym zamówieniu, opcjonalnie na inną datę
+        scope: Zakres
+        share: Udostępnij
+        copied: Skopiowano!
+        stat_accounts: Konta
+        stat_active_accounts_90_days: Aktywne konta (90 dni)
+        stat_liability: Zobowiązanie z tytułu punktów
+        stat_redemption_rate_90_days: Wskaźnik wymiany (90 dni)
+        stat_earned_30_days: Punkty zdobyte (30 dni)
+        stat_redeemed_30_days: Punkty wymienione (30 dni)
+        tester_applied: Zastosowano
+        tester_claimed_basis: Zajęta podstawa
+        tester_claimed_by: Zajęte przez
+        tester_evaluate: Oceń
+        tester_evaluate_at: Oceń tak, jakby było
+        tester_evaluate_at_help: Podejrzyj zaplanowane reguły, zanim otworzy się ich okno
+        tester_failed_conditions: Niespełnione warunki
+        tester_final_award: 'Ostateczne przyznanie: %points% punktów'
+        tester_invalid_date: Data oceny jest nieprawidłowa.
+        tester_item_claims: Zajęcia według pozycji
+        tester_matched: Dopasowano
+        tester_order_has_no_customer: Zamówienie nie ma klienta, więc nie można ocenić żadnych reguł.
+        tester_order_not_found: Nie znaleziono zamówienia o tym numerze.
+        tester_order_number: Numer zamówienia
+        tester_rules: Oceny reguł
+        tier: Poziom
+        tier_progress: '%metric% / %threshold% do %tier%'
+        tier_top: Masz już najwyższy poziom — dziękujemy, że należysz do grona naszych najlepszych klientów!
+        tiers: Poziomy
+        tiers_card_description: Poziomy, progi, mnożniki i korzyści
+        trigger: Wyzwalacz
+        use_max: Użyj maksimum
+        your_code: Twój kod
+        use_your_points: Wykorzystaj swoje punkty

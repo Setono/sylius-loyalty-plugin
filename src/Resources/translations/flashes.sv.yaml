@@ -1,0 +1,14 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    account_disabled: Lojalitetskontot har inaktiverats.
+    account_enabled: Lojalitetskontot har aktiverats.
+    adjustment_applied: Den manuella justeringen har skrivits till huvudboken.
+    adjustment_invalid: Justeringen är ogiltig — poängen måste vara skilda från noll, anteckningen är obligatorisk och orsaken måste vara en av de konfigurerade koderna.
+    redemption_applied: Dina poäng har tillämpats på ordern.
+    redemption_invalid_points: Det antalet poäng kan inte tillämpas på denna order.
+    redemption_invalid_request: Begäran kunde inte behandlas. Försök igen.
+    redemption_not_available: Inlösen av poäng är inte tillgänglig just nu.
+    redemption_removed: Poängen har tagits bort från ordern.
+    referral_overridden: Värvningen har godkänts och belönats.
+    referral_override_invalid: Begäran kunde inte behandlas. Försök igen.
+    referral_override_not_rejected: Endast avvisade värvningar kan åsidosättas.

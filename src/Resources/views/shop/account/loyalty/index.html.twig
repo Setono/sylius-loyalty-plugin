@@ -1,0 +1,115 @@
+{% extends '@SyliusShop/Account/layout.html.twig' %}
+
+{% block title %}{{ 'setono_sylius_loyalty.ui.my_loyalty'|trans }} | {{ parent() }}{% endblock %}
+
+{% block subcontent %}
+    <h1 class="ui header">
+        <i class="circular star icon"></i>
+        <div class="content">
+            {{ 'setono_sylius_loyalty.ui.my_loyalty'|trans }}
+        </div>
+    </h1>
+
+    {# Balance hero #}
+    <div class="ui center aligned segment" data-test-loyalty-hero>
+        <div class="ui huge statistic">
+            <div class="value">{{ account ? account.balance : 0 }}</div>
+            <div class="label">{{ 'setono_sylius_loyalty.ui.points'|trans }}</div>
+        </div>
+        {% if tierProgress is not null %}
+            <div style="margin-top: .5em;" data-test-loyalty-tier>
+                {% if tierProgress.current %}
+                    <span class="ui large horizontal label" data-test-tier-badge {% if tierProgress.current.color %}style="background-color: {{ tierProgress.current.color }}; color: #fff;"{% endif %}>
+                        <i class="trophy icon"></i> {{ tierProgress.current.name }}
+                    </span>
+                    {% if tierProgress.current.benefitsDescription %}
+                        <p class="ui small grey text">{{ tierProgress.current.benefitsDescription }}</p>
+                    {% endif %}
+                {% endif %}
+
+                {% if tierProgress.topTier %}
+                    <div class="ui positive message" data-test-tier-celebration>
+                        <i class="star icon"></i>
+                        {{ 'setono_sylius_loyalty.ui.tier_top'|trans }}
+                    </div>
+                {% elseif tierProgress.next %}
+                    <div style="max-width: 24em; margin: 1em auto 0;" data-test-tier-progress>
+                        <div class="ui small progress" data-percent="{{ tierProgress.percent }}">
+                            <div class="bar" style="width: {{ tierProgress.percent }}%; min-width: 0; background-color: {{ tierProgress.next.color ?: '#767676' }}; height: .5em; border-radius: .3em;"></div>
+                        </div>
+                        <span class="ui small text">
+                            {{ 'setono_sylius_loyalty.ui.tier_progress'|trans({'%metric%': tierProgress.metric, '%threshold%': tierProgress.threshold, '%tier%': tierProgress.next.name}) }}
+                        </span>
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+        {% if account is not null and not account.enabled %}
+            <div class="ui orange message" data-test-loyalty-inactive>
+                {{ 'setono_sylius_loyalty.ui.account_inactive'|trans }}
+            </div>
+        {% endif %}
+    </div>
+
+    {# Expiring-soon callout #}
+    {% if expiringSoon is not null %}
+        <div class="ui warning message" data-test-loyalty-expiring>
+            <i class="clock icon"></i>
+            {{ 'setono_sylius_loyalty.ui.expiring_soon'|trans({'%points%': expiringSoon.points, '%date%': expiringSoon.until|date('Y-m-d')}) }}
+        </div>
+    {% endif %}
+
+    {% include '@SetonoSyliusLoyaltyPlugin/shop/account/loyalty/_referral.html.twig' %}
+
+    {# Transaction history #}
+    <h3 class="ui dividing header">{{ 'setono_sylius_loyalty.ui.history'|trans }}</h3>
+    {% if rows is empty %}
+        <p data-test-loyalty-history-empty>{{ 'setono_sylius_loyalty.ui.history_empty'|trans }}</p>
+    {% else %}
+        <table class="ui very basic celled table" data-test-loyalty-history>
+            <thead>
+                <tr>
+                    <th>{{ 'sylius.ui.date'|trans }}</th>
+                    <th>{{ 'setono_sylius_loyalty.ui.description'|trans }}</th>
+                    <th class="right aligned">{{ 'setono_sylius_loyalty.ui.points'|trans }}</th>
+                    <th class="right aligned">{{ 'setono_sylius_loyalty.ui.running_balance'|trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rows %}
+                    {% set transaction = row.transaction %}
+                    {% set type = setono_sylius_loyalty_transaction_type(transaction) %}
+                    <tr>
+                        <td>{{ transaction.occurredAt|date('Y-m-d') }}</td>
+                        <td>
+                            {% if type in ['earn_order', 'redeem'] and transaction.order is not null %}
+                                {{ ('setono_sylius_loyalty.ui.history_description.' ~ type)|trans({'%order%': transaction.order.number}) }}
+                            {% elseif type in ['manual_credit', 'manual_debit'] %}
+                                {{ ('setono_sylius_loyalty.ui.history_description.' ~ type)|trans({'%reason%': ('setono_sylius_loyalty.ui.manual_reason.' ~ transaction.reason)|trans}) }}
+                            {% else %}
+                                {{ ('setono_sylius_loyalty.ui.history_description.' ~ type)|trans }}
+                            {% endif %}
+                            {% if transaction.points > 0 and transaction.expiresAt is defined and transaction.expiresAt is not null %}
+                                <span class="ui tiny grey text" data-test-expiry>
+                                    · {{ 'setono_sylius_loyalty.ui.expires'|trans({'%date%': transaction.expiresAt|date('Y-m-d')}) }}
+                                </span>
+                            {% endif %}
+                        </td>
+                        <td class="right aligned {{ transaction.points > 0 ? 'positive' : 'negative' }}">
+                            {{ transaction.points > 0 ? '+' : '' }}{{ transaction.points }}
+                        </td>
+                        <td class="right aligned">{{ row.runningBalance }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if pages > 1 %}
+            <div class="ui pagination menu" data-test-loyalty-pagination>
+                {% for p in 1..pages %}
+                    <a class="item {{ p == page ? 'active' : '' }}" href="{{ path('setono_sylius_loyalty_shop_account_loyalty', {'page': p}) }}">{{ p }}</a>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endif %}
+{% endblock %}

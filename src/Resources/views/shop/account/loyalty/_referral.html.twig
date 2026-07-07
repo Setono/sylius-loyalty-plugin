@@ -1,0 +1,38 @@
+{% if referral is not null %}
+    <h3 class="ui dividing header">{{ 'setono_sylius_loyalty.ui.refer_a_friend'|trans }}</h3>
+    <div class="ui segment" data-test-referral-block>
+        <p>{{ 'setono_sylius_loyalty.ui.referral_explainer'|trans }}</p>
+
+        <div class="ui action input" style="max-width: 30em;">
+            <input type="text" readonly value="{{ referral.shareUrl }}" id="setono-sylius-loyalty-share-url" data-test-referral-url>
+            <button type="button" class="ui teal button" id="setono-sylius-loyalty-share-button" data-test-referral-share>
+                {{ 'setono_sylius_loyalty.ui.share'|trans }}
+            </button>
+        </div>
+        <p class="ui small grey text" style="margin-top: .5em;">
+            {{ 'setono_sylius_loyalty.ui.your_code'|trans }}: <code data-test-referral-code>{{ referral.code }}</code>
+        </p>
+
+        {% if referral.stats.rewarded > 0 %}
+            <p data-test-referral-stats>
+                {{ 'setono_sylius_loyalty.ui.referral_stats'|trans({'%count%': referral.stats.rewarded, '%points%': referral.stats.pointsEarned}) }}
+            </p>
+        {% endif %}
+
+        <script>
+            (function () {
+                var button = document.getElementById('setono-sylius-loyalty-share-button');
+                var input = document.getElementById('setono-sylius-loyalty-share-url');
+                button.addEventListener('click', function () {
+                    if (navigator.share) {
+                        navigator.share({url: input.value});
+                    } else {
+                        input.select();
+                        navigator.clipboard ? navigator.clipboard.writeText(input.value) : document.execCommand('copy');
+                        button.textContent = {{ 'setono_sylius_loyalty.ui.copied'|trans|json_encode|raw }};
+                    }
+                });
+            })();
+        </script>
+    </div>
+{% endif %}

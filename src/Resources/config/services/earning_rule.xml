@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://symfony.com/schema/dic/services"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="Setono\SyliusLoyaltyPlugin\EarningRule\Checker\ConditionCheckerRegistry"/>
+        <service id="Setono\SyliusLoyaltyPlugin\EarningRule\Checker\ConditionCheckerRegistryInterface" alias="Setono\SyliusLoyaltyPlugin\EarningRule\Checker\ConditionCheckerRegistry"/>
+
+        <service id="Setono\SyliusLoyaltyPlugin\EarningRule\Amount\AmountCalculatorRegistry"/>
+        <service id="Setono\SyliusLoyaltyPlugin\EarningRule\Amount\AmountCalculatorRegistryInterface" alias="Setono\SyliusLoyaltyPlugin\EarningRule\Amount\AmountCalculatorRegistry"/>
+
+        <service id="Setono\SyliusLoyaltyPlugin\EarningRule\EarningRuleEvaluator">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\EarningRule\Checker\ConditionCheckerRegistryInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\EarningRule\Amount\AmountCalculatorRegistryInterface"/>
+            <argument type="service" id="logger"/>
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\EarningRule\EarningRuleEvaluatorInterface" alias="Setono\SyliusLoyaltyPlugin\EarningRule\EarningRuleEvaluator" public="true"/>
+
+        <!-- Condition checkers -->
+        <service id="Setono\SyliusLoyaltyPlugin\EarningRule\Checker\OrderTotalAtLeastConditionChecker">
+            <tag name="setono_sylius_loyalty.earning_condition"/>
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\EarningRule\Checker\CartContainsTaxonConditionChecker">
+            <tag name="setono_sylius_loyalty.earning_condition"/>
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\EarningRule\Checker\CustomerGroupConditionChecker">
+            <tag name="setono_sylius_loyalty.earning_condition"/>
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\EarningRule\Checker\NthOrderConditionChecker">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>%sylius.model.order.class%</argument>
+            <tag name="setono_sylius_loyalty.earning_condition"/>
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\EarningRule\Checker\DateWindowConditionChecker">
+            <tag name="setono_sylius_loyalty.earning_condition"/>
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\EarningRule\Checker\DayOfWeekConditionChecker">
+            <tag name="setono_sylius_loyalty.earning_condition"/>
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\EarningRule\Checker\ExpressionConditionChecker">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Expression\ExpressionEvaluatorInterface"/>
+            <tag name="setono_sylius_loyalty.earning_condition"/>
+        </service>
+
+        <!-- Amount calculators -->
+        <service id="Setono\SyliusLoyaltyPlugin\EarningRule\Amount\FixedAmountCalculator">
+            <tag name="setono_sylius_loyalty.earning_amount"/>
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\EarningRule\Amount\PerAmountCalculator">
+            <tag name="setono_sylius_loyalty.earning_amount"/>
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\EarningRule\Amount\MultiplierAmountCalculator">
+            <tag name="setono_sylius_loyalty.earning_amount"/>
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\EarningRule\Amount\ExpressionAmountCalculator">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Expression\ExpressionEvaluatorInterface"/>
+            <argument type="service" id="logger"/>
+            <tag name="setono_sylius_loyalty.earning_amount"/>
+        </service>
+    </services>
+</container>

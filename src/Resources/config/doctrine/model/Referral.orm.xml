@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <mapped-superclass name="Setono\SyliusLoyaltyPlugin\Model\Referral" table="setono_sylius_loyalty__referral">
+        <unique-constraints>
+            <!-- A customer can be referred once per channel; expiry does not reopen it -->
+            <unique-constraint columns="referee_customer_id,channel_id" name="unique_referral_referee_channel"/>
+        </unique-constraints>
+        <indexes>
+            <index columns="status" name="idx_referral_status"/>
+        </indexes>
+
+        <id name="id" type="integer">
+            <generator strategy="AUTO"/>
+        </id>
+
+        <field name="code" type="string" length="16" nullable="true"/>
+        <field name="status" type="string" length="16"/>
+        <field name="createdAt" column="created_at" type="datetime_immutable" nullable="true"/>
+        <field name="qualifiedAt" column="qualified_at" type="datetime_immutable" nullable="true"/>
+        <field name="fraudFlags" column="fraud_flags" type="json" nullable="true"/>
+        <field name="registrationIpHash" column="registration_ip_hash" type="string" length="64" nullable="true"/>
+
+        <many-to-one field="referrerAccount" target-entity="Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface">
+            <join-column name="referrer_account_id" referenced-column-name="id" nullable="false" on-delete="CASCADE"/>
+        </many-to-one>
+
+        <many-to-one field="refereeCustomer" target-entity="Sylius\Component\Core\Model\CustomerInterface">
+            <join-column name="referee_customer_id" referenced-column-name="id" nullable="false" on-delete="CASCADE"/>
+        </many-to-one>
+
+        <many-to-one field="channel" target-entity="Sylius\Component\Channel\Model\ChannelInterface">
+            <join-column name="channel_id" referenced-column-name="id" nullable="false" on-delete="CASCADE"/>
+        </many-to-one>
+
+        <many-to-one field="refereeFirstOrder" target-entity="Sylius\Component\Core\Model\OrderInterface">
+            <join-column name="referee_first_order_id" referenced-column-name="id" nullable="true" on-delete="SET NULL"/>
+        </many-to-one>
+    </mapped-superclass>
+</doctrine-mapping>

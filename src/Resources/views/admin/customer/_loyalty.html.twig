@@ -1,0 +1,49 @@
+{% set accounts = setono_sylius_loyalty_accounts(customer) %}
+
+{% if accounts is not empty %}
+    <div class="ui segment" data-test-customer-loyalty>
+        <h4 class="ui header">{{ 'setono_sylius_loyalty.ui.loyalty'|trans }}</h4>
+
+        {% for account in accounts %}
+            <div class="ui stackable grid" style="margin-bottom: 1em;">
+                <div class="four wide column">
+                    <div class="ui small statistic">
+                        <div class="value">{{ account.balance }}</div>
+                        <div class="label">
+                            {{ 'setono_sylius_loyalty.ui.balance_label'|trans }}
+                            ({{ account.channel ? account.channel.code : '—' }})
+                            {% if not account.enabled %}
+                                <span class="ui red horizontal label">{{ 'sylius.ui.disabled'|trans }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div>
+                        <a class="ui tiny button" href="{{ path('setono_sylius_loyalty_admin_account_inspect', {'id': account.id}) }}">
+                            {{ 'setono_sylius_loyalty.ui.inspect'|trans }}
+                        </a>
+                    </div>
+                </div>
+                <div class="twelve wide column">
+                    <table class="ui very compact small celled table">
+                        <thead>
+                            <tr>
+                                <th>{{ 'sylius.ui.type'|trans }}</th>
+                                <th>{{ 'setono_sylius_loyalty.ui.points'|trans }}</th>
+                                <th>{{ 'sylius.ui.date'|trans }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for transaction in setono_sylius_loyalty_latest_transactions(account, 25) %}
+                                <tr>
+                                    <td>{{ setono_sylius_loyalty_transaction_type(transaction) }}</td>
+                                    <td>{{ transaction.points }}</td>
+                                    <td>{{ transaction.occurredAt|date('Y-m-d H:i') }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}

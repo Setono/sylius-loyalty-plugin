@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://symfony.com/schema/dic/services"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="Setono\SyliusLoyaltyPlugin\EventSubscriber\AdminMenuSubscriber">
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Provider\Admin\DashboardStatsProvider">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>%setono_sylius_loyalty.model.account.class%</argument>
+            <argument>%setono_sylius_loyalty.model.transaction.class%</argument>
+            <argument>%setono_sylius_loyalty.model.program.class%</argument>
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\Provider\Admin\DashboardStatsProviderInterface" alias="Setono\SyliusLoyaltyPlugin\Provider\Admin\DashboardStatsProvider"/>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Controller\Action\Admin\DashboardAction" public="true">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\Admin\DashboardStatsProviderInterface"/>
+            <argument type="service" id="twig"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Controller\Action\Admin\ProgramIndexAction" public="true">
+            <argument type="service" id="sylius.repository.channel"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProviderInterface"/>
+            <argument type="service" id="twig"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Controller\Action\Admin\InspectAccountAction" public="true">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Inspector\AccountInspectorInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyTransactionRepositoryInterface"/>
+            <argument type="service" id="twig"/>
+            <argument>%setono_sylius_loyalty.model.account.class%</argument>
+            <argument>%setono_sylius_loyalty.manual_adjustment_reasons%</argument>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Controller\Action\Admin\ToggleAccountAction" public="true">
+            <argument type="service" id="setono_sylius_loyalty.repository.account"/>
+            <argument type="service" id="security.csrf.token_manager"/>
+            <argument type="service" id="router"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Controller\Action\Admin\ManualAdjustmentAction" public="true">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Ledger\LoyaltyLedgerInterface"/>
+            <argument type="service" id="security.helper"/>
+            <argument type="service" id="security.csrf.token_manager"/>
+            <argument type="service" id="router"/>
+            <argument>%setono_sylius_loyalty.model.account.class%</argument>
+            <argument>%setono_sylius_loyalty.manual_adjustment_reasons%</argument>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Controller\Action\Admin\OverrideReferralAction" public="true">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\ReferralRepositoryInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Referral\ReferralQualifierInterface"/>
+            <argument type="service" id="security.csrf.token_manager"/>
+            <argument type="service" id="router"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Controller\Action\Admin\LintExpressionAction" public="true">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Expression\ExpressionValidatorInterface"/>
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Controller\Action\Admin\RuleTesterAction" public="true">
+            <argument type="service" id="sylius.repository.order"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\EarningRuleRepositoryInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyAccountRepositoryInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProviderInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\EarningRule\Basis\EligibleBasisCalculatorInterface"/>
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\EarningRule\EarningRuleEvaluatorInterface"/>
+            <argument type="service" id="twig"/>
+        </service>
+    </services>
+</container>

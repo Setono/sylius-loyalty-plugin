@@ -1,0 +1,5 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    checkout:
+        account_disabled: Twoje konto lojalnościowe jest nieaktywne, więc zastosowanych punktów nie można wymienić. Usuń je z zamówienia.
+        insufficient_balance: Twoje saldo punktów nie pokrywa już zastosowanej wymiany. Skoryguj ją w koszyku.

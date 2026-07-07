@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <mapped-superclass name="Setono\SyliusLoyaltyPlugin\Model\EarningRule" table="setono_sylius_loyalty__earning_rule">
+        <id name="id" column="id" type="integer">
+            <generator strategy="AUTO"/>
+        </id>
+
+        <field name="name" type="string" nullable="true"/>
+        <field name="enabled" type="boolean">
+            <options>
+                <option name="default">1</option>
+            </options>
+        </field>
+        <field name="dryRun" column="dry_run" type="boolean"/>
+        <field name="priority" type="integer"/>
+        <field name="trigger" column="trigger_code" type="string" length="64"/>
+        <field name="scope" type="string" length="16"/>
+        <field name="scopeConfiguration" column="scope_configuration" type="json" nullable="true"/>
+        <field name="conditionsMatch" column="conditions_match" type="string" length="8"/>
+        <field name="amountType" column="amount_type" type="string" length="64" nullable="true"/>
+        <field name="amountConfiguration" column="amount_configuration" type="json" nullable="true"/>
+        <field name="startsAt" column="starts_at" type="datetime_immutable" nullable="true"/>
+        <field name="endsAt" column="ends_at" type="datetime_immutable" nullable="true"/>
+        <field name="stackable" type="boolean">
+            <options>
+                <option name="default">1</option>
+            </options>
+        </field>
+
+        <many-to-one field="channel" target-entity="Sylius\Component\Channel\Model\ChannelInterface">
+            <join-column name="channel_id" referenced-column-name="id" nullable="false" on-delete="CASCADE"/>
+        </many-to-one>
+
+        <one-to-many field="conditions" target-entity="Setono\SyliusLoyaltyPlugin\Model\EarningRuleConditionInterface" mapped-by="rule" orphan-removal="true">
+            <cascade>
+                <cascade-all/>
+            </cascade>
+            <order-by>
+                <order-by-field name="id"/>
+            </order-by>
+        </one-to-many>
+    </mapped-superclass>
+
+</doctrine-mapping>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://symfony.com/schema/dic/services"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <!-- The repository services themselves are registered by the resource registration;
+             these aliases let consumers depend on the repository interfaces -->
+        <service id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyAccountRepositoryInterface" alias="setono_sylius_loyalty.repository.account"/>
+        <service id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyProgramRepositoryInterface" alias="setono_sylius_loyalty.repository.program"/>
+        <service id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyTransactionRepositoryInterface" alias="setono_sylius_loyalty.repository.transaction"/>
+        <service id="Setono\SyliusLoyaltyPlugin\Repository\EarningRuleRepositoryInterface" alias="setono_sylius_loyalty.repository.earning_rule"/>
+    </services>
+</container>

@@ -1,0 +1,233 @@
+# Machine-translated from English — pending native review.
+setono_sylius_loyalty:
+    form:
+        earning_rule:
+            add_condition: Aggiungi condizione
+            amount_configuration: 'Configurazione dell''importo'
+            amount_configuration_help: 'JSON, ad es. {"points": 1, "per_amount": 100} per importo proporzionale, {"points": 50} per fisso, {"factor": 2} per moltiplicatore, {"expression": "floor(basis / 100)"} per espressione'
+            amount_expression: 'Espressione dell''importo'
+            amount_expression_help: Usata quando il tipo di importo è «Espressione»; la variabile «basis» contiene la base rivendicata dalla regola in unità minori
+            amount_requires_order_trigger: 'I tipi per importo e moltiplicatore richiedono una base d''ordine e sono disponibili solo per il trigger d''ordine integrato.'
+            amount_type: Tipo di importo
+            condition_configuration: Configurazione della condizione
+            condition_configuration_help: 'JSON, ad es. {"amount": 5000} o {"taxons": ["t_shirts"]}'
+            condition_expression: Espressione della condizione
+            condition_expression_help: 'Usata quando il tipo di condizione è «Espressione»; la condizione è soddisfatta quando l''espressione è vera'
+            condition_type: Tipo di condizione
+            expression_required: 'La modalità espressione richiede un''espressione.'
+            multiplier_is_order_scoped: 'Le regole moltiplicatore si applicano solo all''intero ordine; usa la modalità espressione per la logica a livello di articolo.'
+            scope_requires_order_trigger: 'Gli ambiti taxon e prodotto richiedono articoli d''ordine e sono disponibili solo per il trigger d''ordine integrato.'
+            conditions: Condizioni
+            conditions_match: Corrispondenza delle condizioni
+            conditions_match_all: Tutte le condizioni devono essere soddisfatte
+            conditions_match_any: Almeno una condizione deve essere soddisfatta
+            dry_run: Simulazione
+            dry_run_help: 'Valuta sul traffico reale e registra ciò che sarebbe stato assegnato nell''elenco di audit, senza accreditare alcun punto'
+            ends_at: Termina il
+            scope: Ambito
+            scope_configuration: 'Configurazione dell''ambito'
+            scope_configuration_help: 'JSON, ad es. {"taxons": ["t_shirts"]} o {"products": ["MUG"]}; lasciare vuoto per l''ambito ordine'
+            scope_help: Le regole limitate a prodotto o taxon rivendicano in esclusiva gli articoli corrispondenti; le regole a livello di ordine guadagnano sul resto
+            scope_order: Intero ordine
+            scope_product: Prodotti specifici
+            scope_taxon: Taxon specifici
+            stackable: Cumulabile
+            stackable_help: Le regole cumulabili in concorrenza per la stessa base si applicano tutte e si sommano; una regola non cumulabile si applica da sola (vince la priorità più alta)
+            starts_at: Inizia il
+            trigger: Trigger
+            window_timezone_help: 'Inserito e valutato nel fuso orario configurato dell''applicazione'
+        earning_rule.amount:
+            expression: Espressione
+            fixed: Punti fissi
+            multiplier: Moltiplicatore
+            per_amount: Punti per importo
+        earning_rule.condition:
+            cart_contains_taxon: Il carrello contiene un taxon
+            customer_group: Gruppo di clienti
+            date_window: Intervallo di date
+            day_of_week: Giorno della settimana
+            expression: Espressione
+            nth_order: Ennesimo ordine
+            order_total_at_least: Totale ordine di almeno
+        invalid_json: Questo valore non è un JSON valido.
+        program:
+            award_moment_order_fulfilled: 'Quando l''ordine è evaso'
+            award_moment_payment_paid: Quando il pagamento è interamente saldato
+            award_order_points_at: 'Assegna i punti dell''ordine al momento'
+            award_order_points_at_help: 'L''unico momento del ciclo di vita dell''ordine in cui i punti vengono assegnati — uno per programma, mai per regola'
+            base_currency_help: Gli importi sono in unità minori della valuta di base del canale
+            clawback_policy: Politica di recupero
+            clawback_policy_allow_negative: Consenti saldo negativo (recuperato dai guadagni futuri)
+            clawback_policy_clamp_to_zero: Limita il saldo a zero
+            earning_basis: Base di accumulo
+            earning_basis_help: 'Ciò che conta ai fini dell''accumulo; il tasso di accumulo è definito dalle regole di accumulo'
+            earning_basis_items_total: Totale articoli (spedizione esclusa)
+            earning_basis_order_total: Totale ordine (spedizione inclusa)
+            include_taxes: Includi le imposte nella base
+            max_redeem_percent_of_order: 'Percentuale max. riscattabile dell''ordine'
+            max_redeem_percent_of_order_help: 'La quota del totale articoli dell''ordine copribile con i punti (100 consente ordini interamente gratuiti)'
+            min_redeem_points: Punti minimi per riscatto
+            points_expiry_days: I punti scadono dopo (giorni)
+            points_expiry_days_help: Lasciare vuoto perché i punti non scadano mai. Nota che la scadenza del valore accumulato è soggetta a vincoli di legge sui consumatori in alcune giurisdizioni
+            redemption_conversion_amount: '... valgono questo importo (unità minori)'
+            redemption_conversion_help: 'La conversione di riscatto: questo numero di punti...'
+            redemption_conversion_points: Unità di punti
+            retroactive_guest_points: Punti ospite retroattivi
+            retroactive_guest_points_help: 'Assegna punti per gli ordini effettuati come ospite prima della registrazione quando l''ospite si registra (nessun recupero per registrazioni precedenti)'
+            rounding: Arrotondamento
+            show_earnable_in_cart: Mostra il suggerimento sui punti nel carrello
+            show_earnable_on_product: Mostra il suggerimento sui punti nelle pagine prodotto
+            tier_downgrade_grace_days: Tolleranza prima della retrocessione di livello (giorni)
+            tier_downgrade_grace_days_help: Per quanto tempo un account mantiene il proprio livello dopo essere sceso sotto la soglia; 0 retrocede alla successiva valutazione notturna
+            tier_evaluation_window: Finestra di valutazione dei livelli
+            tier_window_calendar_year: Anno solare
+            tier_window_lifetime: A vita
+            tier_window_rolling_12_months: 12 mesi mobili
+            rounding_ceil: Per eccesso
+            rounding_floor: Per difetto
+            rounding_round: Al più vicino
+        promotion_rule:
+            customer_loyalty_tier: Il livello fedeltà del cliente è almeno
+            minimum_tier: Livello minimo
+        tier:
+            benefits: Vantaggi
+            benefits_description: Descrizione dei vantaggi
+            color: Colore del badge
+            earning_multiplier: Moltiplicatore di accumulo
+            earning_multiplier_help: 'Applicato a ogni accumulo di punti finché l''account è in questo livello (1 = nessuna modifica)'
+            position_help: Le posizioni più alte sono livelli più alti; la posizione più alta è il livello massimo
+            qualification_basis: Base di qualificazione
+            threshold: Soglia
+            threshold_help: 'L''unità dipende dalla base (punti, unità minori di valuta o ordini)'
+    tier_basis:
+        amount_spent: Importo speso
+        orders_count: Ordini effettuati
+        points_earned: Punti guadagnati
+        unit:
+            currency: unità minori di valuta
+            orders: ordini
+            points: punti
+    trigger:
+        customer_birthday: Compleanno del cliente
+        customer_registered: Cliente registrato
+        order_eligible: Ordine (integrato)
+        product_review_approved: Recensione prodotto approvata
+    ui:
+        account: Account fedeltà
+        account_inactive: 'Il tuo account fedeltà è attualmente inattivo — il tuo saldo è conservato, ma l''accumulo e il riscatto sono sospesi.'
+        accounts: Account fedeltà
+        accounts_card_description: Sfoglia gli account, ispeziona i registri, regola i punti
+        adjust: Regola
+        anonymized: Anonimizzato
+        balance: Il tuo saldo punti
+        balance_label: Saldo
+        change_on_cart: Modifica nel carrello
+        consumptions: Consumato da
+        dashboard_subtitle: Punti, regole di accumulo e impostazioni del programma
+        derived_balance: Somma del registro
+        dry_run: Simulazione
+        dry_run_results: Risultati della simulazione
+        dry_run_results_card_description: Ciò che le regole in simulazione avrebbero assegnato
+        earn_hint_cart: 'Questo ordine fa guadagnare ~%points% punti.'
+        earn_hint_product: 'Guadagnerai %points% punti acquistando questo prodotto.'
+        earning_rate_hint: 'Il tasso di accumulo è definito dalle regole di accumulo: una regola base a livello di ordine con il tipo «punti per importo» è il tasso predefinito del negozio.'
+        earning_rules: Regole di accumulo
+        earning_rules_card_description: Trigger, condizioni e importi
+        edit_earning_rule: Modifica regola di accumulo
+        edit_program: Modifica programma
+        new_earning_rule: Nuova regola di accumulo
+        description: Descrizione
+        expired: Scaduto
+        expires: 'scade il %date%'
+        expires_at: Scade il
+        expiring_soon: '%points% punti scadono prima del %date%.'
+        history: Cronologia delle transazioni
+        history_description:
+            clawback: 'Punti recuperati per un ordine annullato o rimborsato'
+            earn_action: 'Punti guadagnati'
+            earn_order: 'Guadagnati sull''ordine %order%'
+            earn_referral: 'Premio per referral'
+            expire: 'Punti scaduti'
+            manual_credit: 'Rettifica: %reason%'
+            manual_debit: 'Rettifica: %reason%'
+            redeem: 'Riscattati sull''ordine %order%'
+            redeem_rollback: 'Punti ripristinati da un ordine annullato'
+        history_empty: Nessuna transazione al momento — i punti che guadagni e spendi appariranno qui.
+        my_loyalty: La mia fedeltà
+        running_balance: Saldo
+        inspect: Ispeziona
+        invariants_hold: Tutti gli invarianti del registro sono rispettati.
+        invariants_violated: Gli invarianti del registro sono violati — indaga prima di effettuare correzioni manuali.
+        ledger: Registro
+        lifetime_earned: Guadagnati in totale
+        lot: Lotto
+        lots: Lotti (derivati dal replay)
+        loyalty: Fedeltà
+        manual_adjustment: Rettifica manuale
+        manual_reason:
+            correction: Correzione
+            goodwill: Gesto di cortesia
+            other: Altro
+            promotion: Promozione
+        never: mai
+        note: Nota
+        points: Punti
+        points_amount: '%points% punti'
+        points_applied: '%points% punti applicati'
+        points_redemption: Riscatto punti
+        program: Programma
+        program_card_description: Conversione, scadenza e politiche per canale
+        reason: Motivo
+        refer_a_friend: Presenta un amico
+        referee: Invitato
+        referral_explainer: Condividi il tuo link — quando un amico effettua il suo primo ordine, guadagnate punti entrambi.
+        referral_override: Approva comunque
+        referral_stats: 'Hai %count% referral premiati, che hanno fruttato %points% punti.'
+        referral_status:
+            expired: Scaduto
+            pending: In attesa
+            qualified: Qualificato
+            rejected: Rifiutato
+            rewarded: Premiato
+        referrals: Referral
+        referrals_card_description: Stati dei referral e forzature antifrode
+        referrer: Presentatore
+        redemption_clamped: 'La tua richiesta di %requested% punti è applicata solo parzialmente a questo ordine; aumenterà di nuovo automaticamente quando l''ordine lo consentirà.'
+        remaining: Rimanenti
+        remove_redemption: Rimuovi
+        rule: Regola
+        rule_tester: Tester delle regole
+        rule_tester_card_description: Valuta le regole su un ordine recente, facoltativamente a una data diversa
+        scope: Ambito
+        share: Condividi
+        copied: Copiato!
+        stat_accounts: Account
+        stat_active_accounts_90_days: Account attivi (90 giorni)
+        stat_liability: Passività punti in essere
+        stat_redemption_rate_90_days: Tasso di riscatto (90 giorni)
+        stat_earned_30_days: Punti guadagnati (30 giorni)
+        stat_redeemed_30_days: Punti riscattati (30 giorni)
+        tester_applied: Applicato
+        tester_claimed_basis: Base rivendicata
+        tester_claimed_by: Rivendicato da
+        tester_evaluate: Valuta
+        tester_evaluate_at: Valuta come se fosse
+        tester_evaluate_at_help: 'Anteprima delle regole pianificate prima dell''apertura del loro periodo'
+        tester_failed_conditions: Condizioni non soddisfatte
+        tester_final_award: 'Assegnazione finale: %points% punti'
+        tester_invalid_date: La data di valutazione non è valida.
+        tester_item_claims: Rivendicazioni per articolo
+        tester_matched: Corrisponde
+        tester_order_has_no_customer: 'L''ordine non ha un cliente, quindi nessuna regola può essere valutata.'
+        tester_order_not_found: Nessun ordine trovato con quel numero.
+        tester_order_number: 'Numero d''ordine'
+        tester_rules: Valutazioni delle regole
+        tier: Livello
+        tier_progress: '%metric% / %threshold% per %tier%'
+        tier_top: Hai raggiunto il livello più alto — grazie per essere uno dei nostri migliori clienti!
+        tiers: Livelli
+        tiers_card_description: Livelli, soglie, moltiplicatori e vantaggi
+        trigger: Trigger
+        use_max: Usa il massimo
+        your_code: Il tuo codice
+        use_your_points: Usa i tuoi punti
