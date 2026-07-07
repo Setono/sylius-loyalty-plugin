@@ -2,6 +2,12 @@
 <container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://symfony.com/schema/dic/services"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-        <!-- Put your services here -->
+        <service id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProvider">
+            <argument type="service" id="setono_sylius_loyalty.factory.program" />
+            <argument type="service" id="setono_sylius_loyalty.repository.program" />
+            <argument type="service" id="doctrine" />
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProviderInterface"
+                 alias="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProvider" />
     </services>
 </container>

@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Setono\SyliusLoyaltyPlugin\DependencyInjection;
 
+use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyProgramRepository;
+use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgram;
+use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
+use Sylius\Resource\Factory\Factory;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -17,19 +21,35 @@ final class Configuration implements ConfigurationInterface
         /** @var ArrayNodeDefinition $rootNode */
         $rootNode = $treeBuilder->getRootNode();
 
-        $rootNode
+        $this->addResourcesSection($rootNode);
+
+        return $treeBuilder;
+    }
+
+    private function addResourcesSection(ArrayNodeDefinition $node): void
+    {
+        $node
             ->children()
                 ->arrayNode('resources')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        // Resource classes (model/interface/repository/factory/form) are
-                        // registered here as entities are introduced, following the standard
-                        // Sylius resource configuration so host projects can override them.
+                        ->arrayNode('program')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->arrayNode('classes')
+                                    ->addDefaultsIfNotSet()
+                                    ->children()
+                                        ->scalarNode('model')->defaultValue(LoyaltyProgram::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('repository')->defaultValue(LoyaltyProgramRepository::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('factory')->defaultValue(Factory::class)->cannotBeEmpty()->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
                     ->end()
                 ->end()
             ->end()
         ;
-
-        return $treeBuilder;
     }
 }

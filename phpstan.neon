@@ -22,3 +22,14 @@ parameters:
 
     reportUnmatchedIgnoredErrors: false
     treatPhpDocTypesAsCertain: false
+
+    ignoreErrors:
+        # phpstan-doctrine resolves interface-typed associations (e.g. ChannelInterface) to their
+        # concrete class through Doctrine's resolve_target_entities, then rejects the broader
+        # interface as the property type. This is a false positive for Sylius's interface-based
+        # model overrides — the whole point of typing associations against interfaces — so we ignore
+        # it. The mappings themselves are validated against the database by `doctrine:schema:validate`
+        # in CI.
+        -
+            identifier: doctrine.associationType
+            message: '#type mapping mismatch: property can contain .+ but database expects#'

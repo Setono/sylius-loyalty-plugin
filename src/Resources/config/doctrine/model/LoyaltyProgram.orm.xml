@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
+>
+    <entity name="Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgram" table="setono_sylius_loyalty__loyalty_program">
+        <id name="id" column="id" type="integer">
+            <generator strategy="AUTO" />
+        </id>
+
+        <many-to-one field="channel" target-entity="Sylius\Component\Channel\Model\ChannelInterface">
+            <join-column name="channel_id" referenced-column-name="id" nullable="false" unique="true" on-delete="CASCADE" />
+        </many-to-one>
+
+        <field name="awardOrderPointsAt" column="award_order_points_at" type="string" />
+        <field name="earningBasis" column="earning_basis" type="string" />
+        <field name="includeTaxes" column="include_taxes" type="boolean" />
+        <field name="rounding" column="rounding" type="string" />
+
+        <field name="redemptionConversionPoints" column="redemption_conversion_points" type="integer" />
+        <field name="redemptionConversionAmount" column="redemption_conversion_amount" type="integer" />
+        <field name="minRedeemPoints" column="min_redeem_points" type="integer" />
+        <field name="maxRedeemPercentOfOrder" column="max_redeem_percent_of_order" type="integer" />
+
+        <field name="pointsExpiryDays" column="points_expiry_days" type="integer" nullable="true" />
+        <field name="clawbackPolicy" column="clawback_policy" type="string" />
+        <field name="retroactiveGuestPoints" column="retroactive_guest_points" type="boolean" />
+
+        <field name="tierEvaluationWindow" column="tier_evaluation_window" type="string" />
+        <field name="tierDowngradeGraceDays" column="tier_downgrade_grace_days" type="integer" />
+
+        <field name="referralReferrerPoints" column="referral_referrer_points" type="integer" />
+        <field name="referralRefereePoints" column="referral_referee_points" type="integer" />
+        <field name="referralMinOrderTotal" column="referral_min_order_total" type="integer" />
+        <field name="referralPendingExpiryDays" column="referral_pending_expiry_days" type="integer" />
+
+        <field name="showEarnableOnProduct" column="show_earnable_on_product" type="boolean" />
+        <field name="showEarnableInCart" column="show_earnable_in_cart" type="boolean" />
+    </entity>
+</doctrine-mapping>
