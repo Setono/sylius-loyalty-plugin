@@ -7,7 +7,9 @@ namespace Setono\SyliusLoyaltyPlugin\Tests\DependencyInjection;
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
 use PHPUnit\Framework\TestCase;
 use Setono\SyliusLoyaltyPlugin\DependencyInjection\Configuration;
+use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyAccountRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyProgramRepository;
+use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccount;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgram;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
 use Sylius\Resource\Factory\Factory;
@@ -19,7 +21,7 @@ final class ConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function it_registers_the_loyalty_program_resource_with_defaults(): void
+    public function it_registers_the_resources_with_defaults(): void
     {
         $this->assertProcessedConfigurationEquals([[]], [
             'resources' => [
@@ -28,6 +30,14 @@ final class ConfigurationTest extends TestCase
                         'model' => LoyaltyProgram::class,
                         'controller' => ResourceController::class,
                         'repository' => LoyaltyProgramRepository::class,
+                        'factory' => Factory::class,
+                    ],
+                ],
+                'account' => [
+                    'classes' => [
+                        'model' => LoyaltyAccount::class,
+                        'controller' => ResourceController::class,
+                        'repository' => LoyaltyAccountRepository::class,
                         'factory' => Factory::class,
                     ],
                 ],

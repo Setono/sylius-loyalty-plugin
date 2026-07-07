@@ -9,5 +9,13 @@
         </service>
         <service id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProviderInterface"
                  alias="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProvider" />
+
+        <service id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyAccountProvider">
+            <argument type="service" id="setono_sylius_loyalty.factory.account" />
+            <argument type="service" id="setono_sylius_loyalty.repository.account" />
+            <argument type="service" id="doctrine" />
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyAccountProviderInterface"
+                 alias="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyAccountProvider" />
     </services>
 </container>
