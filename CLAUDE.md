@@ -4,7 +4,39 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-TODO
+`setono/sylius-loyalty-plugin` adds a **loyalty program** to a Sylius 1.14 store. It is built around
+an **append-only points ledger** — points are a financial liability, so balances are *derived* from
+the ledger and never hand-edited — and delivered in three phases:
+
+1. **Points core + rule engine** — earning (order & action triggers), a flexible earning-rule engine
+   (structured conditions/amounts plus a sandboxed expression mode), redemption at checkout, expiry,
+   and clawback.
+2. **Tiers** — admin-created tiers with pluggable qualification bases, progress indicators, and earn
+   hints.
+3. **Referrals** — referral links, qualification, rewards, and extensible fraud checks.
+
+The plugin integrates natively with Sylius (ResourceBundle CRUD, GridBundle admin listings, the
+adjustment system for redemption, state-machine callbacks, and template events for shop UI) and is
+channel-aware: a customer has one loyalty account per channel. Every meaningful action is an
+extension point — tagged services composed with `setono/composite-compiler-pass`, dispatched events,
+and overridable resources.
+
+> This file is the authoritative project reference: the original design spec is intentionally **not**
+> committed to the repository. Keep it current as features land.
+
+### Domain glossary
+
+- **Ledger** — the append-only list of `LoyaltyTransaction` rows (Doctrine single-table inheritance).
+  Rows are never updated or deleted; corrections are new compensating entries.
+- **Lot** — a credit transaction with an optional `expiresAt`. Points are consumed FIFO from lots.
+- **Replay** — re-deriving per-lot remaining balances by processing an account's ledger in order
+  (`LotReplayer`). Cheap because ledgers are per-account and small; cached balances mean balance
+  reads never replay.
+- **Clawback** — a debit that reverses points previously earned for an order that was later cancelled
+  or refunded.
+- **Requested vs applied points** — at checkout the customer records an intent to spend N points
+  (`loyaltyPointsRequested` on the order); the amount actually debited (`appliedPoints`) is clamped to
+  `min(requested, balance, cap)` on every order recalculation.
 
 ## Code Standards
 
@@ -37,7 +69,7 @@ Follow clean code principles and SOLID design patterns when working with this co
 Based on the `composer.json` scripts section:
 
 ### Code Quality & Testing
-- `composer analyse` - Run PHPStan static analysis (level 8)
+- `composer analyse` - Run PHPStan static analysis (level max)
 - `composer check-style` - Check code style with ECS (Easy Coding Standard)
 - `composer fix-style` - Fix code style issues automatically with ECS
 - `composer phpunit` - Run PHPUnit tests
@@ -52,9 +84,9 @@ PHPStan is configured in `phpstan.neon` with:
   - `phpstan/phpstan-doctrine` - Doctrine ORM integration
   - `phpstan/phpstan-phpunit` - PHPUnit test integration
   - `jangregor/phpstan-prophecy` - Prophecy mocking integration
-- **Symfony Integration**: Uses console application loader (`tests/console_application.php`)
-- **Doctrine Integration**: Uses object manager loader (`tests/object_manager.php`)
-- **Exclusions**: Test application directory and Configuration.php
+- **Symfony Integration**: Uses console application loader (`tests/PHPStan/console_application.php`)
+- **Doctrine Integration**: Uses object manager loader (`tests/PHPStan/object_manager.php`)
+- **Exclusions**: Test application directory (`tests/Application/*`)
 - **Baseline**: Generate with `composer analyse -- --generate-baseline` to track improvements
 
 ### Test Application
@@ -83,14 +115,13 @@ Examples:
 ## Architecture Overview
 
 ### Translations
-The plugin provides multilingual support through translation files in `src/Resources/translations/`:
+All customer- and admin-facing strings are translatable via `src/Resources/translations/`. Translation
+keys are added alongside the feature that introduces them; English is authored first and is
+authoritative, and the full 16-locale set (`en`, `da`, `sv`, `no`, `fi`, `de`, `fr`, `es`, `it`, `nl`,
+`pl`, `pt`, `cs`, `hu`, `ro`, `uk`) is filled in as part of the Phase 1 close-out. Generated (non-English)
+locale files carry a header comment marking them machine-translated pending native review.
 
-- **Translation Files**: Available in 10 languages (en, da, de, es, fr, it, nl, no, pl, sv)
 - **Translation Domains**:
-  - `messages.*` - General UI translations
-  - `flashes.*` - Flash message translations (success/error messages)
-
-Key translation keys:
-- `setono_sylius_loyalty.ui.*` - UI labels
-- `setono_sylius_loyalty.form.*` - Form field labels
-- `setono_sylius_loyalty.single_message` - A flash message
+  - `messages.*` - general UI labels (`setono_sylius_loyalty.ui.*`) and form labels
+    (`setono_sylius_loyalty.form.*`)
+  - `flashes.*` - flash messages (success/error)

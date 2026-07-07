@@ -19,10 +19,15 @@ final class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('option')
-                    ->info('This is an example configuration option')
-                    ->isRequired()
-                    ->cannotBeEmpty()
+                ->arrayNode('resources')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        // Resource classes (model/interface/repository/factory/form) are
+                        // registered here as entities are introduced, following the standard
+                        // Sylius resource configuration so host projects can override them.
+                    ->end()
+                ->end()
+            ->end()
         ;
 
         return $treeBuilder;
