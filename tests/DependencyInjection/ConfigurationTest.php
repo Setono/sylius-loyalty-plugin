@@ -7,6 +7,11 @@ namespace Setono\SyliusLoyaltyPlugin\Tests\DependencyInjection;
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
 use PHPUnit\Framework\TestCase;
 use Setono\SyliusLoyaltyPlugin\DependencyInjection\Configuration;
+use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyProgramRepository;
+use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgram;
+use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgramInterface;
+use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
+use Sylius\Resource\Factory\Factory;
 
 final class ConfigurationTest extends TestCase
 {
@@ -15,9 +20,21 @@ final class ConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function it_processes_an_empty_configuration_to_empty_resources(): void
+    public function it_registers_the_loyalty_program_resource_with_defaults(): void
     {
-        $this->assertProcessedConfigurationEquals([[]], ['resources' => []]);
+        $this->assertProcessedConfigurationEquals([[]], [
+            'resources' => [
+                'program' => [
+                    'classes' => [
+                        'model' => LoyaltyProgram::class,
+                        'interface' => LoyaltyProgramInterface::class,
+                        'controller' => ResourceController::class,
+                        'repository' => LoyaltyProgramRepository::class,
+                        'factory' => Factory::class,
+                    ],
+                ],
+            ],
+        ]);
     }
 
     protected function getConfiguration(): Configuration
