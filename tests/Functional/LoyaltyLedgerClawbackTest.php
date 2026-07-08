@@ -123,6 +123,44 @@ final class LoyaltyLedgerClawbackTest extends KernelTestCase
         self::assertCount(0, $this->manager->getRepository(ClawbackLoyaltyTransaction::class)->findBy(['account' => $account]));
     }
 
+    /**
+     * @test
+     */
+    public function a_listener_cannot_reverse_more_than_was_earned(): void
+    {
+        $this->eventDispatcher()->addListener(ClawingBackPoints::class, static function (ClawingBackPoints $event): void {
+            $event->points = 9999;
+        });
+
+        $account = $this->createAccount('clawback-overreach@example.com');
+        $order = $this->createOrder('clawback-overreach');
+        $this->ledger->earnForOrder($account, $order, 150);
+
+        $this->ledger->clawback($order, LoyaltyProgramInterface::CLAWBACK_POLICY_ALLOW_NEGATIVE);
+
+        self::assertSame(0, $this->reloadBalance($account));
+        self::assertSame(-150, $this->latestClawbackPoints($account));
+    }
+
+    /**
+     * @test
+     */
+    public function a_negative_listener_adjustment_is_clamped_and_never_credits(): void
+    {
+        $this->eventDispatcher()->addListener(ClawingBackPoints::class, static function (ClawingBackPoints $event): void {
+            $event->points = -50;
+        });
+
+        $account = $this->createAccount('clawback-negative-listener@example.com');
+        $order = $this->createOrder('clawback-negative-listener');
+        $this->ledger->earnForOrder($account, $order, 150);
+
+        $this->ledger->clawback($order);
+
+        self::assertSame(150, $this->reloadBalance($account));
+        self::assertSame(0, $this->latestClawbackPoints($account));
+    }
+
     private function spend(LoyaltyAccountInterface $account, int $amount): void
     {
         $debit = new ManualDebitLoyaltyTransaction();

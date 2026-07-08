@@ -124,22 +124,22 @@ final class LoyaltyLedger implements LoyaltyLedgerInterface, LoggerAwareInterfac
                 return;
             }
 
-            $debit = $earn->getPoints();
-            if (LoyaltyProgramInterface::CLAWBACK_POLICY_CLAMP_TO_ZERO === $clawbackPolicy) {
-                $debit = max(0, min($debit, $account->getBalance()));
-            }
-
-            $event = new ClawingBackPoints($account, $earn, $debit);
+            $event = new ClawingBackPoints($account, $earn, $this->clampClawback($earn->getPoints(), $earn, $account, $clawbackPolicy));
             $this->eventDispatcher->dispatch($event);
             if ($event->cancelled) {
                 return;
             }
 
+            // A listener may lower the debit (or cancel it), but the clamp is re-applied afterwards so it
+            // can never reverse more than was earned or, under clamp-to-zero, drive the balance negative —
+            // and a negative adjustment can never flip the debit into a credit.
+            $debit = $this->clampClawback($event->points, $earn, $account, $clawbackPolicy);
+
             $transaction = new ClawbackLoyaltyTransaction();
             $transaction->setAccount($account);
             $transaction->setOrder($order);
             $transaction->setEarn($earn);
-            $transaction->setPoints(-$event->points);
+            $transaction->setPoints(-$debit);
             $transaction->setOccurredAt(new \DateTimeImmutable());
 
             $manager->persist($transaction);
@@ -150,6 +150,21 @@ final class LoyaltyLedger implements LoyaltyLedgerInterface, LoggerAwareInterfac
 
             $this->eventDispatcher->dispatch(new PointsClawedBack($transaction));
         });
+    }
+
+    /**
+     * The debit a clawback may write: never negative, never more than the lot earned, and — under
+     * clamp-to-zero — never more than the current balance.
+     */
+    private function clampClawback(int $points, EarnOrderLoyaltyTransaction $earn, LoyaltyAccountInterface $account, string $clawbackPolicy): int
+    {
+        $points = max(0, min($points, $earn->getPoints()));
+
+        if (LoyaltyProgramInterface::CLAWBACK_POLICY_CLAMP_TO_ZERO === $clawbackPolicy) {
+            $points = min($points, $account->getBalance());
+        }
+
+        return $points;
     }
 
     /**
