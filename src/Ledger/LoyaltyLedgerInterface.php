@@ -56,4 +56,18 @@ interface LoyaltyLedgerInterface
      * Idempotent — a lot that already has an expire row is left untouched.
      */
     public function expire(LoyaltyAccountInterface $account, \DateTimeInterface $asOf): void;
+
+    /**
+     * Redeems points on an order at checkout: writes a RedeemLoyaltyTransaction debit, re-clamped to the
+     * available balance inside the lock so the ledger can never go negative. Idempotent — an order that
+     * has already been redeemed is skipped.
+     */
+    public function redeem(LoyaltyAccountInterface $account, OrderInterface $order, int $points): void;
+
+    /**
+     * Returns the points redeemed on an order that was cancelled: writes one
+     * RedeemRollbackLoyaltyTransaction credit per redeem entry, crediting the points back. Idempotent —
+     * a redeem that already has a rollback is skipped.
+     */
+    public function rollbackRedemption(OrderInterface $order): void;
 }

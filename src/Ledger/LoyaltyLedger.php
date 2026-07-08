@@ -15,6 +15,9 @@ use Setono\SyliusLoyaltyPlugin\Event\AwardingPoints;
 use Setono\SyliusLoyaltyPlugin\Event\ClawingBackPoints;
 use Setono\SyliusLoyaltyPlugin\Event\PointsClawedBack;
 use Setono\SyliusLoyaltyPlugin\Event\PointsEarned;
+use Setono\SyliusLoyaltyPlugin\Event\PointsRedeemed;
+use Setono\SyliusLoyaltyPlugin\Event\RedeemingPoints;
+use Setono\SyliusLoyaltyPlugin\Event\RedemptionRolledBack;
 use Setono\SyliusLoyaltyPlugin\Exception\AccountNotFoundException;
 use Setono\SyliusLoyaltyPlugin\Exception\RuntimeException;
 use Setono\SyliusLoyaltyPlugin\Model\ClawbackLoyaltyTransaction;
@@ -26,6 +29,7 @@ use Setono\SyliusLoyaltyPlugin\Model\ExpireLoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgramInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyTransaction;
+use Setono\SyliusLoyaltyPlugin\Model\RedeemLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\RedeemRollbackLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Replay\LotReplayer;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -218,6 +222,92 @@ final class LoyaltyLedger implements LoyaltyLedgerInterface, LoggerAwareInterfac
         }
 
         return $points;
+    }
+
+    public function redeem(LoyaltyAccountInterface $account, OrderInterface $order, int $points): void
+    {
+        $manager = $this->getManager($account);
+
+        $manager->wrapInTransaction(function (EntityManagerInterface $manager) use ($account, $order, $points): void {
+            $account = $this->lock($manager, $account);
+
+            // One redemption per order; the account lock makes this check race-free.
+            if (null !== $manager->getRepository(RedeemLoyaltyTransaction::class)->findOneBy(['account' => $account, 'order' => $order])) {
+                $this->logger?->info('Ignored a duplicate redemption (idempotent no-op).');
+
+                return;
+            }
+
+            $event = new RedeemingPoints($account, $order, max(0, min($points, $account->getBalance())));
+            $this->eventDispatcher->dispatch($event);
+            if ($event->cancelled) {
+                return;
+            }
+
+            // Re-clamp the (possibly listener-adjusted) amount so a redemption can never drive the balance
+            // negative.
+            $debit = max(0, min($event->points, $account->getBalance()));
+            if ($debit <= 0) {
+                return;
+            }
+
+            $transaction = new RedeemLoyaltyTransaction();
+            $transaction->setAccount($account);
+            $transaction->setOrder($order);
+            $transaction->setPoints(-$debit);
+            $transaction->setOccurredAt(new \DateTimeImmutable());
+
+            $manager->persist($transaction);
+            $manager->flush();
+
+            $this->recomputeCaches($manager, $account);
+            $manager->flush();
+
+            $this->eventDispatcher->dispatch(new PointsRedeemed($transaction));
+        });
+    }
+
+    public function rollbackRedemption(OrderInterface $order): void
+    {
+        $manager = $this->getManager(RedeemLoyaltyTransaction::class);
+
+        $redemptions = $manager->getRepository(RedeemLoyaltyTransaction::class)->findBy(['order' => $order]);
+        foreach ($redemptions as $redemption) {
+            $account = $redemption->getAccount();
+            if ($account instanceof LoyaltyAccountInterface) {
+                $this->rollbackRedeem($account, $redemption);
+            }
+        }
+    }
+
+    private function rollbackRedeem(LoyaltyAccountInterface $account, RedeemLoyaltyTransaction $redemption): void
+    {
+        $manager = $this->getManager($account);
+
+        $manager->wrapInTransaction(function (EntityManagerInterface $manager) use ($account, $redemption): void {
+            $account = $this->lock($manager, $account);
+
+            if (null !== $manager->getRepository(RedeemRollbackLoyaltyTransaction::class)->findOneBy(['redeem' => $redemption])) {
+                $this->logger?->info('Ignored a duplicate redemption rollback (idempotent no-op).');
+
+                return;
+            }
+
+            $transaction = new RedeemRollbackLoyaltyTransaction();
+            $transaction->setAccount($account);
+            $transaction->setRedeem($redemption);
+            // The redeem stored a debit (negative points); credit the same magnitude back.
+            $transaction->setPoints(-$redemption->getPoints());
+            $transaction->setOccurredAt(new \DateTimeImmutable());
+
+            $manager->persist($transaction);
+            $manager->flush();
+
+            $this->recomputeCaches($manager, $account);
+            $manager->flush();
+
+            $this->eventDispatcher->dispatch(new RedemptionRolledBack($transaction));
+        });
     }
 
     /**
