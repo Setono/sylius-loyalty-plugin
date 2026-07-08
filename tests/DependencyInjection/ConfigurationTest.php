@@ -7,6 +7,7 @@ namespace Setono\SyliusLoyaltyPlugin\Tests\DependencyInjection;
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
 use PHPUnit\Framework\TestCase;
 use Setono\SyliusLoyaltyPlugin\DependencyInjection\Configuration;
+use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\EarningRuleRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyAccountRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyProgramRepository;
 use Setono\SyliusLoyaltyPlugin\Model\ClawbackLoyaltyTransaction;
@@ -74,7 +75,7 @@ final class ConfigurationTest extends TestCase
                     'classes' => [
                         'model' => EarningRule::class,
                         'controller' => ResourceController::class,
-                        'repository' => EntityRepository::class,
+                        'repository' => EarningRuleRepository::class,
                         'factory' => Factory::class,
                         'interface' => EarningRuleInterface::class,
                     ],

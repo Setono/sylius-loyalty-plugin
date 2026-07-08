@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\SyliusLoyaltyPlugin\DependencyInjection;
 
+use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\EarningRuleRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyAccountRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyProgramRepository;
 use Setono\SyliusLoyaltyPlugin\Model\ClawbackLoyaltyTransaction;
@@ -61,7 +62,7 @@ final class Configuration implements ConfigurationInterface
         // The earning rule aggregate. Both are registered with their interface so the rule <-> condition
         // association resolves via resolve_target_entity. A custom rule repository lands with the
         // evaluation pipeline that needs its queries.
-        $this->addResource($resources, 'earning_rule', EarningRule::class, EntityRepository::class, EarningRuleInterface::class);
+        $this->addResource($resources, 'earning_rule', EarningRule::class, EarningRuleRepository::class, EarningRuleInterface::class);
         $this->addResource($resources, 'earning_rule_condition', EarningRuleCondition::class, EntityRepository::class, EarningRuleConditionInterface::class);
 
         // The concrete ledger transaction types. Registering them as resources feeds the
