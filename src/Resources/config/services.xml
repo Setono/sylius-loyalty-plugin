@@ -88,5 +88,11 @@
         </service>
         <service id="Setono\SyliusLoyaltyPlugin\Earning\OrderPointsAwarderInterface"
                  alias="Setono\SyliusLoyaltyPlugin\Earning\OrderPointsAwarder" />
+
+        <service id="Setono\SyliusLoyaltyPlugin\Message\Handler\AwardOrderPointsHandler">
+            <argument type="service" id="sylius.repository.order" />
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Earning\OrderPointsAwarderInterface" />
+            <tag name="messenger.message_handler" />
+        </service>
     </services>
 </container>
