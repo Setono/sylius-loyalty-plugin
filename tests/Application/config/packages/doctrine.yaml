@@ -10,5 +10,8 @@ doctrine:
         driver: 'pdo_mysql'
         server_version: '5.7'
         charset: UTF8
+        # Required for nested transactions: the ledger wraps writes in a transaction, and the DAMA
+        # test bundle wraps each functional test in an outer transaction it rolls back.
+        use_savepoints: true
 
         url: '%env(resolve:DATABASE_URL)%'
