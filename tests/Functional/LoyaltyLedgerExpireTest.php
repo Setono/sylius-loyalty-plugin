@@ -110,6 +110,65 @@ final class LoyaltyLedgerExpireTest extends KernelTestCase
         self::assertCount(1, $this->manager->getRepository(ExpireLoyaltyTransaction::class)->findBy(['account' => $account]));
     }
 
+    /**
+     * @test
+     */
+    public function it_never_expires_a_lot_without_an_expiry_date(): void
+    {
+        $account = $this->createAccount('expire-never@example.com');
+        $this->ledger->earnForAction($account, 'never', 150);
+
+        $this->ledger->expire($account, new \DateTimeImmutable('+10 years'));
+
+        self::assertSame(150, $this->reloadBalance($account));
+        self::assertCount(0, $this->manager->getRepository(ExpireLoyaltyTransaction::class)->findBy(['account' => $account]));
+    }
+
+    /**
+     * @test
+     */
+    public function it_expires_only_the_remaining_points_of_a_partially_consumed_lot(): void
+    {
+        $account = $this->createAccount('expire-partial@example.com');
+        $this->ledger->earnForAction($account, 'partial', 150, [], new \DateTimeImmutable('-1 day'));
+        $this->spend($account, 50);
+
+        $this->ledger->expire($account, new \DateTimeImmutable());
+
+        self::assertSame(0, $this->reloadBalance($account));
+        self::assertSame(-100, $this->latestExpirePoints($account));
+    }
+
+    /**
+     * @test
+     */
+    public function it_expires_every_lot_that_has_expired(): void
+    {
+        $account = $this->createAccount('expire-multiple@example.com');
+        $this->ledger->earnForAction($account, 'first', 100, [], new \DateTimeImmutable('-2 days'));
+        $this->ledger->earnForAction($account, 'second', 60, [], new \DateTimeImmutable('-1 day'));
+
+        $this->ledger->expire($account, new \DateTimeImmutable());
+
+        self::assertSame(0, $this->reloadBalance($account));
+        self::assertCount(2, $this->manager->getRepository(ExpireLoyaltyTransaction::class)->findBy(['account' => $account]));
+    }
+
+    /**
+     * @test
+     */
+    public function it_expires_a_lot_whose_expiry_is_exactly_the_reference_moment(): void
+    {
+        $account = $this->createAccount('expire-boundary@example.com');
+        $moment = new \DateTimeImmutable('2026-01-01 00:00:00');
+        $this->ledger->earnForAction($account, 'boundary', 150, [], $moment);
+
+        $this->ledger->expire($account, $moment);
+
+        self::assertSame(0, $this->reloadBalance($account));
+        self::assertSame(-150, $this->latestExpirePoints($account));
+    }
+
     private function spend(LoyaltyAccountInterface $account, int $amount): void
     {
         $debit = new ManualDebitLoyaltyTransaction();

@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 use Setono\SyliusLoyaltyPlugin\Command\ExpirePointsCommand;
 use Setono\SyliusLoyaltyPlugin\Ledger\LoyaltyLedgerInterface;
+use Setono\SyliusLoyaltyPlugin\Model\ExpireLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
@@ -59,6 +60,21 @@ final class ExpirePointsCommandTest extends KernelTestCase
         $this->manager->clear();
         self::assertSame(0, $this->balanceOf($expiredId));
         self::assertSame(80, $this->balanceOf($activeId));
+    }
+
+    /**
+     * @test
+     */
+    public function it_does_not_reprocess_an_account_whose_lots_are_already_expired(): void
+    {
+        $account = $this->createAccount('cmd-already-expired@example.com');
+        $this->ledger->earnForAction($account, 'gone', 100, [], new \DateTimeImmutable('-1 day'));
+        $this->ledger->expire($account, new \DateTimeImmutable());
+
+        (new CommandTester($this->command()))->execute([]);
+
+        // The candidate query excludes lots that already have an expire row, so no second row is written.
+        self::assertCount(1, $this->manager->getRepository(ExpireLoyaltyTransaction::class)->findBy(['account' => $account]));
     }
 
     private function command(): ExpirePointsCommand
