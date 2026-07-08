@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 trait OrderTrait
 {
-    #[ORM\Column(type: 'integer', options: ['default' => 0])]
+    #[ORM\Column(name: 'loyalty_points_requested', type: 'integer', options: ['default' => 0])]
     protected int $loyaltyPointsRequested = 0;
 
     public function getLoyaltyPointsRequested(): int
