@@ -45,7 +45,7 @@
         </service>
 
         <service id="Setono\SyliusLoyaltyPlugin\Rule\EarningConditionEvaluator">
-            <argument type="tagged_iterator" tag="setono_sylius_loyalty.earning_condition" />
+            <argument type="tagged_locator" tag="setono_sylius_loyalty.earning_condition" default-index-method="getType" />
         </service>
         <service id="Setono\SyliusLoyaltyPlugin\Rule\EarningConditionEvaluatorInterface"
                  alias="Setono\SyliusLoyaltyPlugin\Rule\EarningConditionEvaluator" />
@@ -59,7 +59,7 @@
         </service>
 
         <service id="Setono\SyliusLoyaltyPlugin\Rule\EarningAmountEvaluator">
-            <argument type="tagged_iterator" tag="setono_sylius_loyalty.earning_amount" />
+            <argument type="tagged_locator" tag="setono_sylius_loyalty.earning_amount" default-index-method="getType" />
         </service>
         <service id="Setono\SyliusLoyaltyPlugin\Rule\EarningAmountEvaluatorInterface"
                  alias="Setono\SyliusLoyaltyPlugin\Rule\EarningAmountEvaluator" />

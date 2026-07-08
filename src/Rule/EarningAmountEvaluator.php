@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\SyliusLoyaltyPlugin\Rule;
 
+use Psr\Container\ContainerInterface;
 use Setono\SyliusLoyaltyPlugin\Model\EarningRuleInterface;
 use Setono\SyliusLoyaltyPlugin\Rule\Amount\EarningAmountContext;
 use Setono\SyliusLoyaltyPlugin\Rule\Amount\EarningAmountInterface;
@@ -15,26 +16,25 @@ use Setono\SyliusLoyaltyPlugin\Rule\Amount\EarningAmountInterface;
  */
 final class EarningAmountEvaluator implements EarningAmountEvaluatorInterface
 {
-    /** @var array<string, EarningAmountInterface> */
-    private array $amounts = [];
-
     /**
-     * @param iterable<EarningAmountInterface> $amounts
+     * @param ContainerInterface $amounts a service locator of EarningAmountInterface keyed by type
      */
-    public function __construct(iterable $amounts)
-    {
-        foreach ($amounts as $amount) {
-            $this->amounts[$amount->getType()] = $amount;
-        }
+    public function __construct(
+        private readonly ContainerInterface $amounts,
+    ) {
     }
 
     public function calculate(EarningRuleInterface $rule, EarningAmountContext $context): int
     {
         $type = $rule->getAmountType();
-        if (null === $type || !isset($this->amounts[$type])) {
+        if (null === $type || !$this->amounts->has($type)) {
             return 0;
         }
 
-        return $this->amounts[$type]->calculate($context, $rule->getAmountConfiguration());
+        $amount = $this->amounts->get($type);
+
+        return $amount instanceof EarningAmountInterface
+            ? $amount->calculate($context, $rule->getAmountConfiguration())
+            : 0;
     }
 }

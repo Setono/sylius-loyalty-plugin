@@ -10,7 +10,7 @@ namespace Setono\SyliusLoyaltyPlugin\Rule\Amount;
  */
 final class FixedAmount implements EarningAmountInterface
 {
-    public function getType(): string
+    public static function getType(): string
     {
         return 'fixed';
     }

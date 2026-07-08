@@ -8,7 +8,7 @@ use Setono\SyliusLoyaltyPlugin\Rule\RuleEvaluationContext;
 
 final class OrderTotalAtLeastCondition implements EarningConditionInterface
 {
-    public function getType(): string
+    public static function getType(): string
     {
         return 'order_total_at_least';
     }
