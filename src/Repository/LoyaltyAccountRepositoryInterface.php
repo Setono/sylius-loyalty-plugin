@@ -17,11 +17,10 @@ interface LoyaltyAccountRepositoryInterface extends RepositoryInterface
     public function findOneByCustomerAndChannel(CustomerInterface $customer, ChannelInterface $channel): ?LoyaltyAccountInterface;
 
     /**
-     * The ids of the accounts holding at least one lot that has expired on or before $asOf and does not
-     * yet have an expire row — i.e. the accounts the expire-points command still needs to process. Ids
-     * (not entities) so a large ledger can be expired one locked account at a time without hydrating all.
+     * The accounts holding at least one lot that has expired on or before $asOf and does not yet have an
+     * expire row — i.e. the accounts the expire-points command still needs to process.
      *
-     * @return list<int>
+     * @return list<LoyaltyAccountInterface>
      */
-    public function findIdsWithLotsExpiringAtOrBefore(\DateTimeInterface $asOf): array;
+    public function findWithLotsExpiringAtOrBefore(\DateTimeInterface $asOf): array;
 }

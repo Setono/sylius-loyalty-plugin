@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Setono\SyliusLoyaltyPlugin\Command;
 
 use Setono\SyliusLoyaltyPlugin\Ledger\LoyaltyLedgerInterface;
-use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface;
 use Setono\SyliusLoyaltyPlugin\Repository\LoyaltyAccountRepositoryInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -31,16 +30,13 @@ final class ExpirePointsCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $asOf = new \DateTimeImmutable();
 
-        $ids = $this->accountRepository->findIdsWithLotsExpiringAtOrBefore($asOf);
+        $accounts = $this->accountRepository->findWithLotsExpiringAtOrBefore($asOf);
 
-        foreach ($ids as $id) {
-            $account = $this->accountRepository->find($id);
-            if ($account instanceof LoyaltyAccountInterface) {
-                $this->ledger->expire($account, $asOf);
-            }
+        foreach ($accounts as $account) {
+            $this->ledger->expire($account, $asOf);
         }
 
-        $io->success(sprintf('Expired points for %d account(s).', count($ids)));
+        $io->success(sprintf('Expired points for %d account(s).', count($accounts)));
 
         return Command::SUCCESS;
     }

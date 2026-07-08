@@ -23,27 +23,24 @@ class LoyaltyAccountRepository extends EntityRepository implements LoyaltyAccoun
         return $account;
     }
 
-    public function findIdsWithLotsExpiringAtOrBefore(\DateTimeInterface $asOf): array
+    public function findWithLotsExpiringAtOrBefore(\DateTimeInterface $asOf): array
     {
-        $ids = $this->getEntityManager()
-            ->createQuery(sprintf(
-                'SELECT DISTINCT IDENTITY(lot.account) FROM %s lot ' .
-                'WHERE lot.expiresAt IS NOT NULL AND lot.expiresAt <= :asOf ' .
-                'AND NOT EXISTS (SELECT expiration.id FROM %s expiration WHERE expiration.lot = lot)',
+        $accounts = $this->createQueryBuilder('account')
+            ->andWhere(sprintf(
+                'EXISTS (SELECT lot.id FROM %s lot WHERE lot.account = account ' .
+                'AND lot.expiresAt IS NOT NULL AND lot.expiresAt <= :asOf ' .
+                'AND NOT EXISTS (SELECT expiration.id FROM %s expiration WHERE expiration.lot = lot))',
                 CreditLoyaltyTransaction::class,
                 ExpireLoyaltyTransaction::class,
             ))
             ->setParameter('asOf', $asOf)
-            ->getSingleColumnResult()
+            ->getQuery()
+            ->getResult()
         ;
 
-        $accountIds = [];
-        /** @var mixed $id */
-        foreach ($ids as $id) {
-            Assert::integerish($id);
-            $accountIds[] = (int) $id;
-        }
+        Assert::isArray($accounts);
+        Assert::allIsInstanceOf($accounts, LoyaltyAccountInterface::class);
 
-        return $accountIds;
+        return array_values($accounts);
     }
 }
