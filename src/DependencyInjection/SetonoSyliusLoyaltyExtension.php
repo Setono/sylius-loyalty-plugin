@@ -6,10 +6,12 @@ namespace Setono\SyliusLoyaltyPlugin\DependencyInjection;
 
 use Setono\SyliusLoyaltyPlugin\Earning\Trigger\AwardOrderPointsStateMachineListener;
 use Setono\SyliusLoyaltyPlugin\Earning\Trigger\ClawbackOrderPointsStateMachineListener;
+use Setono\SyliusLoyaltyPlugin\Redemption\RedemptionStateMachineListener;
 use Setono\SyliusLoyaltyPlugin\Rule\Amount\EarningAmountInterface;
 use Setono\SyliusLoyaltyPlugin\Rule\Condition\EarningConditionInterface;
 use Sylius\Bundle\ResourceBundle\DependencyInjection\Extension\AbstractResourceExtension;
 use Sylius\Bundle\ResourceBundle\SyliusResourceBundle;
+use Sylius\Component\Core\OrderCheckoutTransitions;
 use Sylius\Component\Core\OrderPaymentTransitions;
 use Sylius\Component\Order\OrderTransitions;
 use Symfony\Component\Config\FileLocator;
@@ -80,6 +82,7 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
 
         $award = '@' . AwardOrderPointsStateMachineListener::class;
         $clawback = '@' . ClawbackOrderPointsStateMachineListener::class;
+        $redemption = '@' . RedemptionStateMachineListener::class;
 
         $container->prependExtensionConfig('winzou_state_machine', [
             OrderPaymentTransitions::GRAPH => [
@@ -98,6 +101,17 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
                     ],
                 ],
             ],
+            OrderCheckoutTransitions::GRAPH => [
+                'callbacks' => [
+                    'after' => [
+                        'setono_sylius_loyalty_redeem_order_points' => [
+                            'on' => [OrderCheckoutTransitions::TRANSITION_COMPLETE],
+                            'do' => [$redemption, 'onWinzouCheckoutCompleted'],
+                            'args' => ['object'],
+                        ],
+                    ],
+                ],
+            ],
             OrderTransitions::GRAPH => [
                 'callbacks' => [
                     'after' => [
@@ -109,6 +123,11 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
                         'setono_sylius_loyalty_clawback_order_points' => [
                             'on' => [OrderTransitions::TRANSITION_CANCEL],
                             'do' => [$clawback, 'onWinzouOrderCancelled'],
+                            'args' => ['object'],
+                        ],
+                        'setono_sylius_loyalty_rollback_redemption' => [
+                            'on' => [OrderTransitions::TRANSITION_CANCEL],
+                            'do' => [$redemption, 'onWinzouOrderCancelled'],
                             'args' => ['object'],
                         ],
                     ],

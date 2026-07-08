@@ -147,5 +147,20 @@
             <argument type="service" id="sylius.factory.adjustment" />
             <tag name="sylius.order_processor" priority="15" />
         </service>
+
+        <!-- Redemption trigger: debits the redeemed points synchronously when checkout completes and
+             returns them on cancellation. Both adapters (workflow tags here, winzou in the prepend). -->
+        <service id="Setono\SyliusLoyaltyPlugin\Redemption\OrderRedeemer">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyAccountProviderInterface" />
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Ledger\LoyaltyLedgerInterface" />
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\Redemption\OrderRedeemerInterface"
+                 alias="Setono\SyliusLoyaltyPlugin\Redemption\OrderRedeemer" />
+
+        <service id="Setono\SyliusLoyaltyPlugin\Redemption\RedemptionStateMachineListener" public="true">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Redemption\OrderRedeemerInterface" />
+            <tag name="kernel.event_listener" event="workflow.sylius_order_checkout.completed.complete" method="onWorkflowCheckoutCompleted" />
+            <tag name="kernel.event_listener" event="workflow.sylius_order.completed.cancel" method="onWorkflowOrderCancelled" />
+        </service>
     </services>
 </container>
