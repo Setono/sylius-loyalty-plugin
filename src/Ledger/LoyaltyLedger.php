@@ -21,10 +21,13 @@ use Setono\SyliusLoyaltyPlugin\Model\ClawbackLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\CreditLoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\EarnActionLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\EarnOrderLoyaltyTransaction;
+use Setono\SyliusLoyaltyPlugin\Model\ExpireLoyaltyTransaction;
+use Setono\SyliusLoyaltyPlugin\Model\ExpireLoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgramInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\RedeemRollbackLoyaltyTransaction;
+use Setono\SyliusLoyaltyPlugin\Replay\LotReplayer;
 use Sylius\Component\Core\Model\OrderInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
@@ -36,6 +39,7 @@ final class LoyaltyLedger implements LoyaltyLedgerInterface, LoggerAwareInterfac
     public function __construct(
         ManagerRegistry $managerRegistry,
         private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly LotReplayer $replayer,
     ) {
         $this->managerRegistry = $managerRegistry;
         $this->logger = new NullLogger();
@@ -149,6 +153,55 @@ final class LoyaltyLedger implements LoyaltyLedgerInterface, LoggerAwareInterfac
             $manager->flush();
 
             $this->eventDispatcher->dispatch(new PointsClawedBack($transaction));
+        });
+    }
+
+    public function expire(LoyaltyAccountInterface $account, \DateTimeInterface $asOf): void
+    {
+        $manager = $this->getManager($account);
+
+        $manager->wrapInTransaction(function (EntityManagerInterface $manager) use ($account, $asOf): void {
+            $account = $this->lock($manager, $account);
+
+            $transactions = $manager->getRepository(LoyaltyTransaction::class)->findBy(['account' => $account]);
+
+            // Lots that already have an expire row must not be expired again. The replay also zeroes them,
+            // so this guard is what keeps a fully-consumed expired lot from getting a duplicate close row.
+            $expiredLotIds = [];
+            foreach ($transactions as $transaction) {
+                if ($transaction instanceof ExpireLoyaltyTransactionInterface) {
+                    $lot = $transaction->getLot();
+                    if (null !== $lot) {
+                        $expiredLotIds[(int) $lot->getId()] = true;
+                    }
+                }
+            }
+
+            $wrote = false;
+            foreach ($this->replayer->replay($transactions)->getLots() as $lot) {
+                $credit = $lot->getCredit();
+                $expiresAt = $credit->getExpiresAt();
+                $creditId = $credit->getId();
+                if (null === $expiresAt || $expiresAt > $asOf || (null !== $creditId && isset($expiredLotIds[$creditId]))) {
+                    continue;
+                }
+
+                // One expire row per lot, debiting whatever it had left — a zero-point close row when the
+                // lot was already fully consumed, so the lot is never revisited on the next run.
+                $expiration = new ExpireLoyaltyTransaction();
+                $expiration->setAccount($account);
+                $expiration->setLot($credit);
+                $expiration->setPoints(-$lot->getRemaining());
+                $expiration->setOccurredAt(new \DateTimeImmutable());
+                $manager->persist($expiration);
+                $wrote = true;
+            }
+
+            if ($wrote) {
+                $manager->flush();
+                $this->recomputeCaches($manager, $account);
+                $manager->flush();
+            }
         });
     }
 
