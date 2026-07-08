@@ -57,12 +57,16 @@ final class SetonoSyliusLoyaltyExtensionTest extends TestCase
         self::assertIsString($encoded);
         self::assertStringContainsString('sylius_order_payment', $encoded);
         self::assertStringContainsString('sylius_order', $encoded);
+        self::assertStringContainsString('sylius_order_checkout', $encoded);
         self::assertStringContainsString('setono_sylius_loyalty_award_order_points', $encoded);
         self::assertStringContainsString('setono_sylius_loyalty_clawback_order_points', $encoded);
+        self::assertStringContainsString('setono_sylius_loyalty_redeem_order_points', $encoded);
+        self::assertStringContainsString('setono_sylius_loyalty_rollback_redemption', $encoded);
         self::assertStringContainsString('"on":["pay"]', $encoded);
         self::assertStringContainsString('"on":["fulfill"]', $encoded);
         self::assertStringContainsString('"on":["refund"]', $encoded);
         self::assertStringContainsString('"on":["cancel"]', $encoded);
+        self::assertStringContainsString('"on":["complete"]', $encoded);
     }
 
     private function winzouExtension(): ExtensionInterface
