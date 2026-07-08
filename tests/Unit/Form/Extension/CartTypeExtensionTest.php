@@ -39,6 +39,11 @@ final class CartTypeExtensionTest extends TestCase
      */
     public function it_extends_the_cart_type(): void
     {
-        self::assertContains(CartType::class, iterator_to_array(CartTypeExtension::getExtendedTypes()));
+        $extendedTypes = [];
+        foreach (CartTypeExtension::getExtendedTypes() as $type) {
+            $extendedTypes[] = $type;
+        }
+
+        self::assertContains(CartType::class, $extendedTypes);
     }
 }
