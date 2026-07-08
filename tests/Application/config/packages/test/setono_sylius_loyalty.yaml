@@ -4,3 +4,6 @@ services:
     test.setono_sylius_loyalty.ledger:
         alias: 'Setono\SyliusLoyaltyPlugin\Ledger\LoyaltyLedger'
         public: true
+    test.setono_sylius_loyalty.order_points_awarder:
+        alias: 'Setono\SyliusLoyaltyPlugin\Earning\OrderPointsAwarder'
+        public: true

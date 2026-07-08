@@ -19,7 +19,8 @@
         <field name="dryRun" column="dry_run" type="boolean" />
         <field name="priority" column="priority" type="integer" />
 
-        <field name="trigger" column="trigger" type="string" nullable="true" />
+        <!-- `trigger` is a reserved word in most databases, so the column is named explicitly -->
+        <field name="trigger" column="earning_trigger" type="string" nullable="true" />
 
         <field name="scope" column="scope" type="string" />
         <field name="scopeConfiguration" column="scope_configuration" type="json" />

@@ -76,5 +76,17 @@
         </service>
         <service id="Setono\SyliusLoyaltyPlugin\Rule\EarningCalculatorInterface"
                  alias="Setono\SyliusLoyaltyPlugin\Rule\EarningCalculator" />
+
+        <!-- Order earning pipeline -->
+        <service id="Setono\SyliusLoyaltyPlugin\Earning\OrderPointsAwarder">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyAccountProviderInterface" />
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProviderInterface" />
+            <argument type="service" id="setono_sylius_loyalty.repository.earning_rule" />
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Rule\EarningCalculatorInterface" />
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Rule\Basis\EarningBasisProviderInterface" />
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Ledger\LoyaltyLedgerInterface" />
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\Earning\OrderPointsAwarderInterface"
+                 alias="Setono\SyliusLoyaltyPlugin\Earning\OrderPointsAwarder" />
     </services>
 </container>
