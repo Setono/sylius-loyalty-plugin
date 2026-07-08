@@ -1,1 +1,5 @@
-# TODO Add your shop routes here
+setono_sylius_loyalty_shop_apply_redemption:
+    path: /loyalty/apply-redemption
+    methods: [POST]
+    defaults:
+        _controller: Setono\SyliusLoyaltyPlugin\Controller\Shop\ApplyRedemptionAction
