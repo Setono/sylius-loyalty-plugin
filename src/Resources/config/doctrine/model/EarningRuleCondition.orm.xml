@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
+>
+    <mapped-superclass name="Setono\SyliusLoyaltyPlugin\Model\EarningRuleCondition" table="setono_sylius_loyalty__earning_rule_condition">
+        <id name="id" column="id" type="integer">
+            <generator strategy="AUTO" />
+        </id>
+
+        <many-to-one field="rule" target-entity="Setono\SyliusLoyaltyPlugin\Model\EarningRuleInterface" inversed-by="conditions">
+            <join-column name="rule_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" />
+        </many-to-one>
+
+        <field name="type" column="type" type="string" nullable="true" />
+        <field name="configuration" column="configuration" type="json" />
+    </mapped-superclass>
+</doctrine-mapping>

@@ -11,6 +11,10 @@ use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyAccountRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyProgramRepository;
 use Setono\SyliusLoyaltyPlugin\Model\ClawbackLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\EarnActionLoyaltyTransaction;
+use Setono\SyliusLoyaltyPlugin\Model\EarningRule;
+use Setono\SyliusLoyaltyPlugin\Model\EarningRuleCondition;
+use Setono\SyliusLoyaltyPlugin\Model\EarningRuleConditionInterface;
+use Setono\SyliusLoyaltyPlugin\Model\EarningRuleInterface;
 use Setono\SyliusLoyaltyPlugin\Model\EarnOrderLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\ExpireLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccount;
@@ -21,6 +25,7 @@ use Setono\SyliusLoyaltyPlugin\Model\ManualDebitLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\RedeemLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\RedeemRollbackLoyaltyTransaction;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
+use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Resource\Factory\Factory;
 
 final class ConfigurationTest extends TestCase
@@ -63,6 +68,24 @@ final class ConfigurationTest extends TestCase
                         'repository' => LoyaltyAccountRepository::class,
                         'factory' => Factory::class,
                         'interface' => LoyaltyAccountInterface::class,
+                    ],
+                ],
+                'earning_rule' => [
+                    'classes' => [
+                        'model' => EarningRule::class,
+                        'controller' => ResourceController::class,
+                        'repository' => EntityRepository::class,
+                        'factory' => Factory::class,
+                        'interface' => EarningRuleInterface::class,
+                    ],
+                ],
+                'earning_rule_condition' => [
+                    'classes' => [
+                        'model' => EarningRuleCondition::class,
+                        'controller' => ResourceController::class,
+                        'repository' => EntityRepository::class,
+                        'factory' => Factory::class,
+                        'interface' => EarningRuleConditionInterface::class,
                     ],
                 ],
                 ...$transactions,

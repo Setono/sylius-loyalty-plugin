@@ -8,6 +8,10 @@ use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyAccountRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyProgramRepository;
 use Setono\SyliusLoyaltyPlugin\Model\ClawbackLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\EarnActionLoyaltyTransaction;
+use Setono\SyliusLoyaltyPlugin\Model\EarningRule;
+use Setono\SyliusLoyaltyPlugin\Model\EarningRuleCondition;
+use Setono\SyliusLoyaltyPlugin\Model\EarningRuleConditionInterface;
+use Setono\SyliusLoyaltyPlugin\Model\EarningRuleInterface;
 use Setono\SyliusLoyaltyPlugin\Model\EarnOrderLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\ExpireLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccount;
@@ -18,6 +22,7 @@ use Setono\SyliusLoyaltyPlugin\Model\ManualDebitLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\RedeemLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\RedeemRollbackLoyaltyTransaction;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
+use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Resource\Factory\Factory;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
@@ -52,6 +57,12 @@ final class Configuration implements ConfigurationInterface
         // The account interface is registered so other entities (transactions, tiers, referrals)
         // can reference LoyaltyAccountInterface in their mappings via a resolve_target_entity.
         $this->addResource($resources, 'account', LoyaltyAccount::class, LoyaltyAccountRepository::class, LoyaltyAccountInterface::class);
+
+        // The earning rule aggregate. Both are registered with their interface so the rule <-> condition
+        // association resolves via resolve_target_entity. A custom rule repository lands with the
+        // evaluation pipeline that needs its queries.
+        $this->addResource($resources, 'earning_rule', EarningRule::class, EntityRepository::class, EarningRuleInterface::class);
+        $this->addResource($resources, 'earning_rule_condition', EarningRuleCondition::class, EntityRepository::class, EarningRuleConditionInterface::class);
 
         // The concrete ledger transaction types. Registering them as resources feeds the
         // discriminator-map listener (%sylius.resources%), so a project adds a transaction type by
