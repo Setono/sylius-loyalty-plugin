@@ -43,7 +43,7 @@ final class SetonoSyliusLoyaltyExtensionTest extends TestCase
     /**
      * @test
      */
-    public function it_prepends_winzou_award_callbacks_for_the_pay_and_fulfill_transitions(): void
+    public function it_prepends_winzou_award_and_clawback_callbacks_for_the_relevant_transitions(): void
     {
         $container = new ContainerBuilder();
         $container->registerExtension($this->winzouExtension());
@@ -58,8 +58,11 @@ final class SetonoSyliusLoyaltyExtensionTest extends TestCase
         self::assertStringContainsString('sylius_order_payment', $encoded);
         self::assertStringContainsString('sylius_order', $encoded);
         self::assertStringContainsString('setono_sylius_loyalty_award_order_points', $encoded);
+        self::assertStringContainsString('setono_sylius_loyalty_clawback_order_points', $encoded);
         self::assertStringContainsString('"on":["pay"]', $encoded);
         self::assertStringContainsString('"on":["fulfill"]', $encoded);
+        self::assertStringContainsString('"on":["refund"]', $encoded);
+        self::assertStringContainsString('"on":["cancel"]', $encoded);
     }
 
     private function winzouExtension(): ExtensionInterface

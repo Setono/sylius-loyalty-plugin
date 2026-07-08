@@ -109,5 +109,20 @@
             <tag name="kernel.event_listener" event="workflow.sylius_order_payment.completed.pay" method="onWorkflowPaymentPaid" />
             <tag name="kernel.event_listener" event="workflow.sylius_order.completed.fulfill" method="onWorkflowOrderFulfilled" />
         </service>
+
+        <!-- Clawback trigger: reverses earned points on cancellation / refund. Same both-adapters wiring
+             as the award trigger (workflow tags here, winzou callbacks in the extension prepend). -->
+        <service id="Setono\SyliusLoyaltyPlugin\Message\Handler\ClawbackOrderPointsHandler">
+            <argument type="service" id="sylius.repository.order" />
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProviderInterface" />
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Ledger\LoyaltyLedgerInterface" />
+            <tag name="messenger.message_handler" bus="setono_sylius_loyalty.command_bus" />
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Earning\Trigger\ClawbackOrderPointsStateMachineListener" public="true">
+            <argument type="service" id="setono_sylius_loyalty.command_bus" />
+            <tag name="kernel.event_listener" event="workflow.sylius_order.completed.cancel" method="onWorkflowOrderCancelled" />
+            <tag name="kernel.event_listener" event="workflow.sylius_order_payment.completed.refund" method="onWorkflowPaymentRefunded" />
+        </service>
     </services>
 </container>
