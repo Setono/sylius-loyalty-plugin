@@ -12,13 +12,17 @@ use Psr\Log\LoggerAwareTrait;
 use Psr\Log\NullLogger;
 use Setono\Doctrine\ORMTrait;
 use Setono\SyliusLoyaltyPlugin\Event\AwardingPoints;
+use Setono\SyliusLoyaltyPlugin\Event\ClawingBackPoints;
+use Setono\SyliusLoyaltyPlugin\Event\PointsClawedBack;
 use Setono\SyliusLoyaltyPlugin\Event\PointsEarned;
 use Setono\SyliusLoyaltyPlugin\Exception\AccountNotFoundException;
 use Setono\SyliusLoyaltyPlugin\Exception\RuntimeException;
+use Setono\SyliusLoyaltyPlugin\Model\ClawbackLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\CreditLoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\EarnActionLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\EarnOrderLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface;
+use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgramInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\RedeemRollbackLoyaltyTransaction;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -85,6 +89,82 @@ final class LoyaltyLedger implements LoyaltyLedgerInterface, LoggerAwareInterfac
                 return $transaction;
             },
         );
+    }
+
+    public function clawback(
+        OrderInterface $order,
+        string $clawbackPolicy = LoyaltyProgramInterface::CLAWBACK_POLICY_CLAMP_TO_ZERO,
+    ): void {
+        $manager = $this->getManager(EarnOrderLoyaltyTransaction::class);
+
+        $earns = $manager->getRepository(EarnOrderLoyaltyTransaction::class)->findBy(['order' => $order]);
+        foreach ($earns as $earn) {
+            $account = $earn->getAccount();
+            if ($account instanceof LoyaltyAccountInterface) {
+                $this->clawbackEarn($account, $earn, $order, $clawbackPolicy);
+            }
+        }
+    }
+
+    private function clawbackEarn(
+        LoyaltyAccountInterface $account,
+        EarnOrderLoyaltyTransaction $earn,
+        OrderInterface $order,
+        string $clawbackPolicy,
+    ): void {
+        $manager = $this->getManager($account);
+
+        $manager->wrapInTransaction(function (EntityManagerInterface $manager) use ($account, $earn, $order, $clawbackPolicy): void {
+            $account = $this->lock($manager, $account);
+
+            // One clawback per earn; the account lock makes this check race-free.
+            if (null !== $manager->getRepository(ClawbackLoyaltyTransaction::class)->findOneBy(['earn' => $earn])) {
+                $this->logger?->info('Ignored a duplicate loyalty clawback (idempotent no-op).');
+
+                return;
+            }
+
+            $event = new ClawingBackPoints($account, $earn, $this->clampClawback($earn->getPoints(), $earn, $account, $clawbackPolicy));
+            $this->eventDispatcher->dispatch($event);
+            if ($event->cancelled) {
+                return;
+            }
+
+            // A listener may lower the debit (or cancel it), but the clamp is re-applied afterwards so it
+            // can never reverse more than was earned or, under clamp-to-zero, drive the balance negative —
+            // and a negative adjustment can never flip the debit into a credit.
+            $debit = $this->clampClawback($event->points, $earn, $account, $clawbackPolicy);
+
+            $transaction = new ClawbackLoyaltyTransaction();
+            $transaction->setAccount($account);
+            $transaction->setOrder($order);
+            $transaction->setEarn($earn);
+            $transaction->setPoints(-$debit);
+            $transaction->setOccurredAt(new \DateTimeImmutable());
+
+            $manager->persist($transaction);
+            $manager->flush();
+
+            $this->recomputeCaches($manager, $account);
+            $manager->flush();
+
+            $this->eventDispatcher->dispatch(new PointsClawedBack($transaction));
+        });
+    }
+
+    /**
+     * The debit a clawback may write: never negative, never more than the lot earned, and — under
+     * clamp-to-zero — never more than the current balance.
+     */
+    private function clampClawback(int $points, EarnOrderLoyaltyTransaction $earn, LoyaltyAccountInterface $account, string $clawbackPolicy): int
+    {
+        $points = max(0, min($points, $earn->getPoints()));
+
+        if (LoyaltyProgramInterface::CLAWBACK_POLICY_CLAMP_TO_ZERO === $clawbackPolicy) {
+            $points = min($points, $account->getBalance());
+        }
+
+        return $points;
     }
 
     /**

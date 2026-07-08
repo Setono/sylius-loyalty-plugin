@@ -26,5 +26,9 @@ jobs:
             -   name: "Install tool"
                 run: "composer global require roave/backward-compatibility-check"
 
+            # Nothing has been released yet, so backward-compatibility breaks are expected as the plugin's
+            # interfaces take shape. The check still runs and annotates every break for visibility, but it
+            # must not fail the build until the first tagged release, when this should become blocking again.
             -   name: "Check for BC breaks"
+                continue-on-error: true
                 run: "~/.composer/vendor/bin/roave-backward-compatibility-check --from=origin/${{ github.event.pull_request.base.ref }} --format=github-actions"
