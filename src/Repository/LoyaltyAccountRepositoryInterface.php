@@ -15,4 +15,12 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 interface LoyaltyAccountRepositoryInterface extends RepositoryInterface
 {
     public function findOneByCustomerAndChannel(CustomerInterface $customer, ChannelInterface $channel): ?LoyaltyAccountInterface;
+
+    /**
+     * The accounts holding at least one lot that has expired on or before $asOf and does not yet have an
+     * expire row — i.e. the accounts the expire-points command still needs to process.
+     *
+     * @return list<LoyaltyAccountInterface>
+     */
+    public function findWithLotsExpiringAtOrBefore(\DateTimeInterface $asOf): array;
 }

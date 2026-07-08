@@ -49,4 +49,11 @@ interface LoyaltyLedgerInterface
         OrderInterface $order,
         string $clawbackPolicy = LoyaltyProgramInterface::CLAWBACK_POLICY_CLAMP_TO_ZERO,
     ): void;
+
+    /**
+     * Expires the account's lots whose expiry date is on or before $asOf, writing one
+     * ExpireLoyaltyTransaction per lot (a zero-point close row when the lot was already consumed).
+     * Idempotent — a lot that already has an expire row is left untouched.
+     */
+    public function expire(LoyaltyAccountInterface $account, \DateTimeInterface $asOf): void;
 }
