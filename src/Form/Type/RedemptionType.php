@@ -20,6 +20,7 @@ final class RedemptionType extends AbstractType
         $builder->add('loyaltyPointsRequested', IntegerType::class, [
             'label' => 'setono_sylius_loyalty.form.redemption.points',
             'required' => false,
+            'empty_data' => '0',
         ]);
     }
 
