@@ -1,17 +1,17 @@
-{% if cart.customer is not null %}
+{% if cart.customer is not null and form.loyaltyPointsRequested is defined %}
+    <div class="ui hidden divider"></div>
+
     <div class="setono-sylius-loyalty-redemption" data-test-loyalty-redemption>
-        <form action="{{ path('setono_sylius_loyalty_shop_apply_redemption') }}" method="post" novalidate>
-            <label for="setono-sylius-loyalty-points">{{ 'setono_sylius_loyalty.form.redemption.points'|trans }}</label>
-            <input type="number"
-                   id="setono-sylius-loyalty-points"
-                   name="setono_sylius_loyalty_redemption[loyaltyPointsRequested]"
-                   value="{{ cart.loyaltyPointsRequested }}"
-                   min="0"
-                   data-test-loyalty-points />
-            <input type="hidden"
-                   name="setono_sylius_loyalty_redemption[_token]"
-                   value="{{ csrf_token('setono_sylius_loyalty_redemption') }}" />
-            <button type="submit" data-test-loyalty-apply>{{ 'setono_sylius_loyalty.ui.apply_points'|trans }}</button>
-        </form>
+        <div class="ui action input">
+            {{ form_widget(form.loyaltyPointsRequested, {'attr': {
+                'form': form.vars.id,
+                'min': 0,
+                'placeholder': 'setono_sylius_loyalty.form.redemption.points'|trans,
+                'data-test-loyalty-points': '',
+            }}) }}
+            <button type="submit" class="ui teal icon labeled button" form="{{ form.vars.id }}" data-test-loyalty-apply>
+                <i class="gem icon"></i> {{ 'setono_sylius_loyalty.ui.apply_points'|trans }}
+            </button>
+        </div>
     </div>
 {% endif %}

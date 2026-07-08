@@ -60,9 +60,11 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
             return;
         }
 
+        // Injected into the in-form cart event (which exposes `form`) so the field binds to the cart
+        // form via form.vars.id and is submitted with the cart-save flow.
         $container->prependExtensionConfig('sylius_ui', [
             'events' => [
-                'sylius.shop.cart.summary' => [
+                'sylius.shop.cart.summary.items' => [
                     'blocks' => [
                         'setono_sylius_loyalty_redemption' => [
                             'template' => '@SetonoSyliusLoyaltyPlugin/shop/cart/_redemption.html.twig',
