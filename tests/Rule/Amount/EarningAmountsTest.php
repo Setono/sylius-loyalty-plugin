@@ -56,4 +56,13 @@ final class EarningAmountsTest extends TestCase
         self::assertSame(0, $amount->calculate(new EarningAmountContext(5000), ['points' => 1, 'per' => 0]));
         self::assertSame(0, $amount->calculate(new EarningAmountContext(5000), ['points' => 1]));
     }
+
+    /**
+     * @test
+     */
+    public function each_amount_declares_its_type(): void
+    {
+        self::assertSame('fixed', FixedAmount::getType());
+        self::assertSame('per_amount', PerAmount::getType());
+    }
 }

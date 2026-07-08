@@ -13,6 +13,7 @@
         "doctrine/dbal": "^3.1",
         "doctrine/orm": "^2.8",
         "doctrine/persistence": "^3.1",
+        "psr/container": "^1.1 || ^2.0",
         "psr/log": "^1.0 || ^2.0 || ^3.0",
         "setono/doctrine-orm-trait": "^1.4",
         "sylius/core": "^1.0",

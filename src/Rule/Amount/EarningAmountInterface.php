@@ -13,9 +13,10 @@ namespace Setono\SyliusLoyaltyPlugin\Rule\Amount;
 interface EarningAmountInterface
 {
     /**
-     * The amount's type discriminator, matched against an EarningRule's amountType.
+     * The amount's type discriminator, matched against an EarningRule's amountType. Static so the
+     * container can index the tagged amounts by type without instantiating them.
      */
-    public function getType(): string;
+    public static function getType(): string;
 
     /**
      * @param array<string, mixed> $configuration the rule's amount configuration

@@ -102,6 +102,16 @@ final class EarningConditionsTest extends TestCase
         self::assertFalse($condition->isSatisfied($thursday, ['days' => []]));
     }
 
+    /**
+     * @test
+     */
+    public function each_condition_declares_its_type(): void
+    {
+        self::assertSame('order_total_at_least', OrderTotalAtLeastCondition::getType());
+        self::assertSame('date_window', DateWindowCondition::getType());
+        self::assertSame('day_of_week', DayOfWeekCondition::getType());
+    }
+
     private function contextWithOrderTotal(int $total): RuleEvaluationContext
     {
         $order = $this->prophesize(OrderInterface::class);

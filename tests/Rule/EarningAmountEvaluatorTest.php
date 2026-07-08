@@ -10,6 +10,7 @@ use Setono\SyliusLoyaltyPlugin\Rule\Amount\EarningAmountContext;
 use Setono\SyliusLoyaltyPlugin\Rule\Amount\FixedAmount;
 use Setono\SyliusLoyaltyPlugin\Rule\Amount\PerAmount;
 use Setono\SyliusLoyaltyPlugin\Rule\EarningAmountEvaluator;
+use Symfony\Component\DependencyInjection\ServiceLocator;
 
 final class EarningAmountEvaluatorTest extends TestCase
 {
@@ -17,7 +18,10 @@ final class EarningAmountEvaluatorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->evaluator = new EarningAmountEvaluator([new FixedAmount(), new PerAmount()]);
+        $this->evaluator = new EarningAmountEvaluator(new ServiceLocator([
+            'fixed' => static fn (): FixedAmount => new FixedAmount(),
+            'per_amount' => static fn (): PerAmount => new PerAmount(),
+        ]));
     }
 
     /**
@@ -48,5 +52,20 @@ final class EarningAmountEvaluatorTest extends TestCase
         $multiplier->setAmountType('multiplier');
         $multiplier->setAmountConfiguration(['multiplier' => 2]);
         self::assertSame(0, $this->evaluator->calculate($multiplier, new EarningAmountContext(1999)));
+    }
+
+    /**
+     * @test
+     */
+    public function a_locator_entry_that_is_not_an_amount_yields_zero(): void
+    {
+        $evaluator = new EarningAmountEvaluator(new ServiceLocator([
+            'weird' => static fn (): object => new \stdClass(),
+        ]));
+
+        $rule = new EarningRule();
+        $rule->setAmountType('weird');
+
+        self::assertSame(0, $evaluator->calculate($rule, new EarningAmountContext(1999)));
     }
 }

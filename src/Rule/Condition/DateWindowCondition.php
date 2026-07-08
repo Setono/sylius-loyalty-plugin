@@ -8,7 +8,7 @@ use Setono\SyliusLoyaltyPlugin\Rule\RuleEvaluationContext;
 
 final class DateWindowCondition implements EarningConditionInterface
 {
-    public function getType(): string
+    public static function getType(): string
     {
         return 'date_window';
     }

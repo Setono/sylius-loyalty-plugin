@@ -11,7 +11,7 @@ namespace Setono\SyliusLoyaltyPlugin\Rule\Amount;
  */
 final class PerAmount implements EarningAmountInterface
 {
-    public function getType(): string
+    public static function getType(): string
     {
         return 'per_amount';
     }

@@ -13,9 +13,10 @@ use Setono\SyliusLoyaltyPlugin\Rule\RuleEvaluationContext;
 interface EarningConditionInterface
 {
     /**
-     * The condition's type discriminator, matched against an EarningRuleCondition's type.
+     * The condition's type discriminator, matched against an EarningRuleCondition's type. Static so the
+     * container can index the tagged conditions by type without instantiating them.
      */
-    public function getType(): string;
+    public static function getType(): string;
 
     /**
      * @param array<string, mixed> $configuration the condition row's configuration

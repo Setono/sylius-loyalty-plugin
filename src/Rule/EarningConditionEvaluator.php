@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\SyliusLoyaltyPlugin\Rule;
 
+use Psr\Container\ContainerInterface;
 use Setono\SyliusLoyaltyPlugin\Model\EarningRuleConditionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\EarningRuleInterface;
 use Setono\SyliusLoyaltyPlugin\Rule\Condition\EarningConditionInterface;
@@ -15,17 +16,12 @@ use Setono\SyliusLoyaltyPlugin\Rule\Condition\EarningConditionInterface;
  */
 final class EarningConditionEvaluator implements EarningConditionEvaluatorInterface
 {
-    /** @var array<string, EarningConditionInterface> */
-    private array $conditions = [];
-
     /**
-     * @param iterable<EarningConditionInterface> $conditions
+     * @param ContainerInterface $conditions a service locator of EarningConditionInterface keyed by type
      */
-    public function __construct(iterable $conditions)
-    {
-        foreach ($conditions as $condition) {
-            $this->conditions[$condition->getType()] = $condition;
-        }
+    public function __construct(
+        private readonly ContainerInterface $conditions,
+    ) {
     }
 
     public function matches(EarningRuleInterface $rule, RuleEvaluationContext $context): bool
@@ -56,10 +52,13 @@ final class EarningConditionEvaluator implements EarningConditionEvaluatorInterf
     private function isSatisfied(EarningRuleConditionInterface $condition, RuleEvaluationContext $context): bool
     {
         $type = $condition->getType();
-        if (null === $type || !isset($this->conditions[$type])) {
+        if (null === $type || !$this->conditions->has($type)) {
             return false;
         }
 
-        return $this->conditions[$type]->isSatisfied($context, $condition->getConfiguration());
+        $service = $this->conditions->get($type);
+
+        return $service instanceof EarningConditionInterface &&
+            $service->isSatisfied($context, $condition->getConfiguration());
     }
 }
