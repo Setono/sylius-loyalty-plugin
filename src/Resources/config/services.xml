@@ -92,7 +92,22 @@
         <service id="Setono\SyliusLoyaltyPlugin\Message\Handler\AwardOrderPointsHandler">
             <argument type="service" id="sylius.repository.order" />
             <argument type="service" id="Setono\SyliusLoyaltyPlugin\Earning\OrderPointsAwarderInterface" />
-            <tag name="messenger.message_handler" />
+            <tag name="messenger.message_handler" bus="setono_sylius_loyalty.command_bus" />
+        </service>
+
+        <!-- Award trigger: hooks both state-machine adapters (workflow tags here; winzou callbacks are
+             registered by the extension's prepend). Each only fires under the app's active adapter. -->
+        <service id="Setono\SyliusLoyaltyPlugin\Earning\Trigger\AwardOrderPointsTrigger">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProviderInterface" />
+            <argument type="service" id="setono_sylius_loyalty.command_bus" />
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\Earning\Trigger\AwardOrderPointsTriggerInterface"
+                 alias="Setono\SyliusLoyaltyPlugin\Earning\Trigger\AwardOrderPointsTrigger" />
+
+        <service id="Setono\SyliusLoyaltyPlugin\Earning\Trigger\AwardOrderPointsStateMachineListener" public="true">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Earning\Trigger\AwardOrderPointsTriggerInterface" />
+            <tag name="kernel.event_listener" event="workflow.sylius_order_payment.completed.pay" method="onWorkflowPaymentPaid" />
+            <tag name="kernel.event_listener" event="workflow.sylius_order.completed.fulfill" method="onWorkflowOrderFulfilled" />
         </service>
     </services>
 </container>

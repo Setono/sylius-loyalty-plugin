@@ -65,7 +65,7 @@ final class AwardOrderPointsHandlerTest extends KernelTestCase
 
     private function bus(): MessageBusInterface
     {
-        $bus = self::getContainer()->get('sylius.command_bus');
+        $bus = self::getContainer()->get('setono_sylius_loyalty.command_bus');
         \assert($bus instanceof MessageBusInterface);
 
         return $bus;
