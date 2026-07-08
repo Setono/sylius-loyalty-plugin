@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\SyliusLoyaltyPlugin\DependencyInjection;
 
+use Setono\SyliusLoyaltyPlugin\Rule\Condition\EarningConditionInterface;
 use Sylius\Bundle\ResourceBundle\DependencyInjection\Extension\AbstractResourceExtension;
 use Sylius\Bundle\ResourceBundle\SyliusResourceBundle;
 use Symfony\Component\Config\FileLocator;
@@ -23,6 +24,11 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension
             $config['resources'],
             $container,
         );
+
+        // A project can add its own earning condition just by implementing the interface — the tag is
+        // applied automatically when the project has autoconfiguration enabled.
+        $container->registerForAutoconfiguration(EarningConditionInterface::class)
+            ->addTag('setono_sylius_loyalty.earning_condition');
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.xml');
