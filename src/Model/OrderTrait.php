@@ -6,7 +6,7 @@ namespace Setono\SyliusLoyaltyPlugin\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
-trait LoyaltyOrderTrait
+trait OrderTrait
 {
     #[ORM\Column(type: 'integer', options: ['default' => 0])]
     protected int $loyaltyPointsRequested = 0;

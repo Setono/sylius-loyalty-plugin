@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Setono\SyliusLoyaltyPlugin\Tests\Unit\Model;
 
 use PHPUnit\Framework\TestCase;
-use Setono\SyliusLoyaltyPlugin\Model\LoyaltyOrderTrait;
+use Setono\SyliusLoyaltyPlugin\Model\OrderTrait;
 
-final class LoyaltyOrderTraitTest extends TestCase
+final class OrderTraitTest extends TestCase
 {
     /**
      * @test
@@ -15,7 +15,7 @@ final class LoyaltyOrderTraitTest extends TestCase
     public function it_defaults_the_requested_points_to_zero(): void
     {
         $order = new class() {
-            use LoyaltyOrderTrait;
+            use OrderTrait;
         };
 
         self::assertSame(0, $order->getLoyaltyPointsRequested());
@@ -27,7 +27,7 @@ final class LoyaltyOrderTraitTest extends TestCase
     public function it_stores_the_requested_points(): void
     {
         $order = new class() {
-            use LoyaltyOrderTrait;
+            use OrderTrait;
         };
 
         $order->setLoyaltyPointsRequested(500);
@@ -41,7 +41,7 @@ final class LoyaltyOrderTraitTest extends TestCase
     public function it_clamps_a_negative_request_to_zero(): void
     {
         $order = new class() {
-            use LoyaltyOrderTrait;
+            use OrderTrait;
         };
 
         $order->setLoyaltyPointsRequested(-10);
