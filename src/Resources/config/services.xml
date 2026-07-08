@@ -49,5 +49,19 @@
         </service>
         <service id="Setono\SyliusLoyaltyPlugin\Rule\EarningConditionEvaluatorInterface"
                  alias="Setono\SyliusLoyaltyPlugin\Rule\EarningConditionEvaluator" />
+
+        <!-- Earning rule engine: base amounts -->
+        <service id="Setono\SyliusLoyaltyPlugin\Rule\Amount\FixedAmount">
+            <tag name="setono_sylius_loyalty.earning_amount" />
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\Rule\Amount\PerAmount">
+            <tag name="setono_sylius_loyalty.earning_amount" />
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Rule\EarningAmountEvaluator">
+            <argument type="tagged_iterator" tag="setono_sylius_loyalty.earning_amount" />
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\Rule\EarningAmountEvaluatorInterface"
+                 alias="Setono\SyliusLoyaltyPlugin\Rule\EarningAmountEvaluator" />
     </services>
 </container>
