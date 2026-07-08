@@ -133,5 +133,19 @@
             <tag name="kernel.event_listener" event="workflow.sylius_order.completed.cancel" method="onWorkflowOrderCancelled" />
             <tag name="kernel.event_listener" event="workflow.sylius_order_payment.completed.refund" method="onWorkflowPaymentRefunded" />
         </service>
+
+        <!-- Redemption: turns the requested points into an order adjustment. Priority 15 runs after
+             promotions (20) and before tax (10). -->
+        <service id="Setono\SyliusLoyaltyPlugin\Redemption\RedemptionCalculator" />
+        <service id="Setono\SyliusLoyaltyPlugin\Redemption\RedemptionCalculatorInterface"
+                 alias="Setono\SyliusLoyaltyPlugin\Redemption\RedemptionCalculator" />
+
+        <service id="Setono\SyliusLoyaltyPlugin\Redemption\RedemptionOrderProcessor">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyAccountProviderInterface" />
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProviderInterface" />
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Redemption\RedemptionCalculatorInterface" />
+            <argument type="service" id="sylius.factory.adjustment" />
+            <tag name="sylius.order_processor" priority="15" />
+        </service>
     </services>
 </container>
