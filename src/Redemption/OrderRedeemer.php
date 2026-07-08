@@ -25,7 +25,7 @@ final class OrderRedeemer implements OrderRedeemerInterface
             return;
         }
 
-        $points = $this->requestedPoints($order);
+        $points = RedemptionAdjustments::points($order);
         if ($points <= 0) {
             return;
         }
@@ -36,18 +36,5 @@ final class OrderRedeemer implements OrderRedeemerInterface
     public function rollback(OrderInterface $order): void
     {
         $this->ledger->rollbackRedemption($order);
-    }
-
-    private function requestedPoints(OrderInterface $order): int
-    {
-        $points = 0;
-        foreach ($order->getAdjustments(RedemptionOrderProcessor::ADJUSTMENT_TYPE) as $adjustment) {
-            $value = $adjustment->getDetails()['points'] ?? 0;
-            if (is_int($value)) {
-                $points += $value;
-            }
-        }
-
-        return $points;
     }
 }

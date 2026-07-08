@@ -25,6 +25,7 @@
         "symfony/dependency-injection": "^6.4",
         "symfony/event-dispatcher-contracts": "^3.0",
         "symfony/messenger": "^6.4",
+        "symfony/validator": "^6.4",
         "symfony/workflow": "^6.4",
         "webmozart/assert": "^1.12"
     },
