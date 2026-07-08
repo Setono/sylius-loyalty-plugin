@@ -63,5 +63,18 @@
         </service>
         <service id="Setono\SyliusLoyaltyPlugin\Rule\EarningAmountEvaluatorInterface"
                  alias="Setono\SyliusLoyaltyPlugin\Rule\EarningAmountEvaluator" />
+
+        <!-- Earning rule engine: basis + calculator -->
+        <service id="Setono\SyliusLoyaltyPlugin\Rule\Basis\EarningBasisProvider" />
+        <service id="Setono\SyliusLoyaltyPlugin\Rule\Basis\EarningBasisProviderInterface"
+                 alias="Setono\SyliusLoyaltyPlugin\Rule\Basis\EarningBasisProvider" />
+
+        <service id="Setono\SyliusLoyaltyPlugin\Rule\EarningCalculator">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Rule\Basis\EarningBasisProviderInterface" />
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Rule\EarningConditionEvaluatorInterface" />
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Rule\EarningAmountEvaluatorInterface" />
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\Rule\EarningCalculatorInterface"
+                 alias="Setono\SyliusLoyaltyPlugin\Rule\EarningCalculator" />
     </services>
 </container>
