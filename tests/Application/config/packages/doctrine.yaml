@@ -15,3 +15,13 @@ doctrine:
         use_savepoints: true
 
         url: '%env(resolve:DATABASE_URL)%'
+
+    orm:
+        auto_mapping: true
+        mappings:
+            App:
+                is_bundle: false
+                type: attribute
+                dir: '%kernel.project_dir%/Model'
+                prefix: 'Setono\SyliusLoyaltyPlugin\Tests\Application\Model'
+                alias: App

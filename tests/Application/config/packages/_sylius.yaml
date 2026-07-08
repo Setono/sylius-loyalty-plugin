@@ -13,3 +13,11 @@ sylius_shop:
 
 sylius_api:
     enabled: true
+
+# Apply the loyalty order extension (loyaltyPointsRequested) to the order, exactly as a consuming
+# application would when adding redemption to its checkout.
+sylius_order:
+    resources:
+        order:
+            classes:
+                model: Setono\SyliusLoyaltyPlugin\Tests\Application\Model\Order
