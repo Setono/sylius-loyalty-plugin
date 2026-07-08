@@ -162,5 +162,10 @@
             <tag name="kernel.event_listener" event="workflow.sylius_order_checkout.completed.complete" method="onWorkflowCheckoutCompleted" />
             <tag name="kernel.event_listener" event="workflow.sylius_order.completed.cancel" method="onWorkflowOrderCancelled" />
         </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Validator\Constraint\RedemptionIsValidValidator">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyAccountProviderInterface" />
+            <tag name="validator.constraint_validator" />
+        </service>
     </services>
 </container>

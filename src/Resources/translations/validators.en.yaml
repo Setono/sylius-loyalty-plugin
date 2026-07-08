@@ -1,0 +1,5 @@
+setono_sylius_loyalty:
+    order:
+        redemption:
+            insufficient_balance: 'Your loyalty balance no longer covers the points you asked to redeem. Please adjust the amount.'
+            account_disabled: 'Your loyalty account is disabled, so its points cannot be redeemed.'
