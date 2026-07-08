@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Setono\SyliusLoyaltyPlugin\DependencyInjection;
 
 use Setono\SyliusLoyaltyPlugin\Earning\Trigger\AwardOrderPointsStateMachineListener;
+use Setono\SyliusLoyaltyPlugin\Earning\Trigger\ClawbackOrderPointsStateMachineListener;
 use Setono\SyliusLoyaltyPlugin\Rule\Amount\EarningAmountInterface;
 use Setono\SyliusLoyaltyPlugin\Rule\Condition\EarningConditionInterface;
 use Sylius\Bundle\ResourceBundle\DependencyInjection\Extension\AbstractResourceExtension;
@@ -67,9 +68,9 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
     }
 
     /**
-     * Registers the winzou callbacks that fire the award trigger. The symfony/workflow counterparts are
-     * tagged in services.xml; both are always registered, and each only fires under the adapter the
-     * application applies transitions through (the ledger's idempotency covers any overlap).
+     * Registers the winzou callbacks that fire the award and clawback triggers. The symfony/workflow
+     * counterparts are tagged in services.xml; both are always registered, and each only fires under the
+     * adapter the application applies transitions through (the ledger's idempotency covers any overlap).
      */
     private function registerWinzouCallbacks(ContainerBuilder $container): void
     {
@@ -77,7 +78,8 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
             return;
         }
 
-        $listener = '@' . AwardOrderPointsStateMachineListener::class;
+        $award = '@' . AwardOrderPointsStateMachineListener::class;
+        $clawback = '@' . ClawbackOrderPointsStateMachineListener::class;
 
         $container->prependExtensionConfig('winzou_state_machine', [
             OrderPaymentTransitions::GRAPH => [
@@ -85,7 +87,12 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
                     'after' => [
                         'setono_sylius_loyalty_award_order_points' => [
                             'on' => [OrderPaymentTransitions::TRANSITION_PAY],
-                            'do' => [$listener, 'onWinzouPaymentPaid'],
+                            'do' => [$award, 'onWinzouPaymentPaid'],
+                            'args' => ['object'],
+                        ],
+                        'setono_sylius_loyalty_clawback_order_points' => [
+                            'on' => [OrderPaymentTransitions::TRANSITION_REFUND],
+                            'do' => [$clawback, 'onWinzouPaymentRefunded'],
                             'args' => ['object'],
                         ],
                     ],
@@ -96,7 +103,12 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
                     'after' => [
                         'setono_sylius_loyalty_award_order_points' => [
                             'on' => [OrderTransitions::TRANSITION_FULFILL],
-                            'do' => [$listener, 'onWinzouOrderFulfilled'],
+                            'do' => [$award, 'onWinzouOrderFulfilled'],
+                            'args' => ['object'],
+                        ],
+                        'setono_sylius_loyalty_clawback_order_points' => [
+                            'on' => [OrderTransitions::TRANSITION_CANCEL],
+                            'do' => [$clawback, 'onWinzouOrderCancelled'],
                             'args' => ['object'],
                         ],
                     ],
