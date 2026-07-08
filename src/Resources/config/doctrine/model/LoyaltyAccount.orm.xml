@@ -6,7 +6,7 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                                       http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
 >
-    <entity name="Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccount" table="setono_sylius_loyalty__loyalty_account">
+    <mapped-superclass name="Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccount" table="setono_sylius_loyalty__loyalty_account">
         <unique-constraints>
             <unique-constraint columns="customer_id,channel_id" name="setono_sylius_loyalty__account_customer_channel_idx" />
         </unique-constraints>
@@ -34,5 +34,5 @@
         <field name="updatedAt" column="updated_at" type="datetime" nullable="true">
             <gedmo:timestampable on="update" />
         </field>
-    </entity>
+    </mapped-superclass>
 </doctrine-mapping>
