@@ -9,6 +9,7 @@ use Doctrine\Persistence\ObjectRepository;
 use Setono\SyliusLoyaltyPlugin\Earning\ActionPointsAwarderInterface;
 use Setono\SyliusLoyaltyPlugin\Model\EarnActionLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\EarningRule;
+use Setono\SyliusLoyaltyPlugin\Model\EarningRuleCondition;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccount;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgram;
@@ -117,6 +118,61 @@ final class ActionPointsAwarderTest extends KernelTestCase
         $account = $this->accountFor($customer, $channel);
         self::assertNotNull($account);
         self::assertSame(0, $account->getBalance());
+    }
+
+    /**
+     * @test
+     */
+    public function it_skips_a_rule_whose_condition_does_not_match(): void
+    {
+        $channel = $this->createChannel('action-condition');
+        $customer = $this->createCustomer('action-condition@example.com');
+
+        $rule = new EarningRule();
+        $rule->setChannel($channel);
+        $rule->setEnabled(true);
+        $rule->setTrigger('customer_registered');
+        $rule->setAmountType('fixed');
+        $rule->setAmountConfiguration(['points' => 250]);
+        $condition = new EarningRuleCondition();
+        $condition->setType('date_window');
+        $condition->setConfiguration(['to' => '2000-01-01']);
+        $rule->addCondition($condition);
+        $this->manager->persist($rule);
+        $this->manager->flush();
+
+        $this->awarder->award($customer, $channel, 'customer_registered', 'customer_registered:6', new \DateTimeImmutable('2026-01-01'));
+
+        $this->manager->clear();
+
+        $account = $this->accountFor($customer, $channel);
+        self::assertTrue(null === $account || 0 === $account->getBalance());
+    }
+
+    /**
+     * @test
+     */
+    public function it_does_not_set_an_expiry_when_the_program_does_not_expire_points(): void
+    {
+        $channel = $this->createChannel('action-no-expiry');
+        $customer = $this->createCustomer('action-no-expiry@example.com');
+        $this->createFixedPointsRule($channel, 'customer_registered', 250);
+
+        $program = new LoyaltyProgram();
+        $program->setChannel($channel);
+        $program->setPointsExpiryDays(null);
+        $this->manager->persist($program);
+        $this->manager->flush();
+
+        $this->awarder->award($customer, $channel, 'customer_registered', 'customer_registered:7');
+
+        $this->manager->clear();
+
+        $account = $this->accountFor($customer, $channel);
+        self::assertNotNull($account);
+        $transaction = $this->manager->getRepository(EarnActionLoyaltyTransaction::class)->findOneBy(['account' => $account]);
+        self::assertInstanceOf(EarnActionLoyaltyTransaction::class, $transaction);
+        self::assertNull($transaction->getExpiresAt());
     }
 
     /**

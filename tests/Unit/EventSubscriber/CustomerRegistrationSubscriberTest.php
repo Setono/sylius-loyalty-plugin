@@ -63,6 +63,23 @@ final class CustomerRegistrationSubscriberTest extends TestCase
     /**
      * @test
      */
+    public function it_does_nothing_when_the_channel_is_not_a_core_channel(): void
+    {
+        $customer = $this->prophesize(CustomerInterface::class)->reveal();
+
+        $shopperContext = $this->prophesize(ShopperContextInterface::class);
+        $shopperContext->getChannel()->willReturn($this->prophesize(\Sylius\Component\Channel\Model\ChannelInterface::class)->reveal());
+
+        $awarder = $this->prophesize(ActionPointsAwarderInterface::class);
+        $awarder->award(\Prophecy\Argument::cetera())->shouldNotBeCalled();
+
+        $subscriber = new CustomerRegistrationSubscriber($awarder->reveal(), $shopperContext->reveal());
+        $subscriber->award(new GenericEvent($customer));
+    }
+
+    /**
+     * @test
+     */
     public function it_does_nothing_when_no_channel_is_available(): void
     {
         $customer = $this->prophesize(CustomerInterface::class)->reveal();
