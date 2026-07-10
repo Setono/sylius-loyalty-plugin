@@ -172,5 +172,22 @@
         <service id="Setono\SyliusLoyaltyPlugin\Form\Extension\CartTypeExtension">
             <tag name="form.type_extension" />
         </service>
+
+        <!-- Shop "My loyalty" account page: balance hero + ledger history. The transaction repository
+             is the Sylius resource repository (setono_sylius_loyalty.repository.transaction). -->
+        <service id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyTransactionRepositoryInterface"
+                 alias="setono_sylius_loyalty.repository.transaction" />
+
+        <service id="Setono\SyliusLoyaltyPlugin\Controller\Shop\ShowLoyaltyAccountAction" public="true">
+            <argument type="service" id="sylius.context.shopper" />
+            <argument type="service" id="setono_sylius_loyalty.repository.account" />
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyTransactionRepositoryInterface" />
+            <argument type="service" id="twig" />
+        </service>
+
+        <!-- Adds the "My loyalty" item to the shop account menu -->
+        <service id="Setono\SyliusLoyaltyPlugin\EventSubscriber\AccountMenuSubscriber">
+            <tag name="kernel.event_subscriber" />
+        </service>
     </services>
 </container>

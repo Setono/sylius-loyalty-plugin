@@ -1,0 +1,64 @@
+{% extends '@SyliusShop/Account/layout.html.twig' %}
+
+{% block title %}{{ 'setono_sylius_loyalty.ui.my_loyalty'|trans }} | {{ parent() }}{% endblock %}
+
+{% block breadcrumb %}
+    <div class="ui breadcrumb">
+        <a href="{{ path('sylius_shop_homepage') }}" class="section">{{ 'sylius.ui.home'|trans }}</a>
+        <div class="divider"> / </div>
+        <a href="{{ path('sylius_shop_account_dashboard') }}" class="section">{{ 'sylius.ui.my_account'|trans }}</a>
+        <div class="divider"> / </div>
+        <div class="active section">{{ 'setono_sylius_loyalty.ui.my_loyalty'|trans }}</div>
+    </div>
+{% endblock %}
+
+{% block subcontent %}
+    <h1 class="ui dividing header">{{ 'setono_sylius_loyalty.ui.my_loyalty'|trans }}</h1>
+
+    <div class="ui segment" {{ sylius_test_html_attribute('loyalty-balance') }}>
+        <div class="ui two statistics">
+            <div class="statistic">
+                <div class="value" {{ sylius_test_html_attribute('loyalty-balance-value') }}>{{ account ? account.balance : 0 }}</div>
+                <div class="label">{{ 'setono_sylius_loyalty.ui.current_balance'|trans }}</div>
+            </div>
+            <div class="statistic">
+                <div class="value">{{ account ? account.lifetimeEarned : 0 }}</div>
+                <div class="label">{{ 'setono_sylius_loyalty.ui.lifetime_earned'|trans }}</div>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="ui header">{{ 'setono_sylius_loyalty.ui.transaction_history'|trans }}</h2>
+
+    {% if transactions is empty %}
+        <div class="ui info message" {{ sylius_test_html_attribute('loyalty-history-empty') }}>
+            {{ 'setono_sylius_loyalty.ui.no_transactions'|trans }}
+        </div>
+    {% else %}
+        <table class="ui celled table" {{ sylius_test_html_attribute('loyalty-history') }}>
+            <thead>
+                <tr>
+                    <th>{{ 'setono_sylius_loyalty.ui.date'|trans }}</th>
+                    <th>{{ 'setono_sylius_loyalty.ui.type'|trans }}</th>
+                    <th class="right aligned">{{ 'setono_sylius_loyalty.ui.points'|trans }}</th>
+                    <th>{{ 'setono_sylius_loyalty.ui.expires'|trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in transactions %}
+                    <tr {{ sylius_test_html_attribute('loyalty-history-row') }}>
+                        <td>{{ transaction.occurredAt ? transaction.occurredAt|date('Y-m-d H:i') : '' }}</td>
+                        <td>{{ ('setono_sylius_loyalty.ui.transaction_type.' ~ transaction.type)|trans }}</td>
+                        <td class="right aligned">{{ transaction.points > 0 ? '+' }}{{ transaction.points }}</td>
+                        <td>{{ (transaction.expiresAt is defined and transaction.expiresAt) ? transaction.expiresAt|date('Y-m-d') : '—' }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% if total_transactions > history_limit %}
+            <p {{ sylius_test_html_attribute('loyalty-history-truncated') }}>
+                <small>{{ 'setono_sylius_loyalty.ui.showing_recent_transactions'|trans({'%count%': history_limit, '%total%': total_transactions}) }}</small>
+            </p>
+        {% endif %}
+    {% endif %}
+{% endblock %}
