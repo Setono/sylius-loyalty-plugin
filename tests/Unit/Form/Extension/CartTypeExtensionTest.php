@@ -53,4 +53,18 @@ final class CartTypeExtensionTest extends TypeTestCase
         self::assertTrue($form->isSynchronized());
         self::assertSame(0, $order->getLoyaltyPointsRequested());
     }
+
+    /**
+     * @test
+     */
+    public function it_extends_the_cart_type(): void
+    {
+        $extendedTypes = [];
+        foreach (CartTypeExtension::getExtendedTypes() as $type) {
+            $extendedTypes[] = $type;
+        }
+
+        self::assertContains(CartType::class, $extendedTypes);
+    }
 }
+
