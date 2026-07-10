@@ -7,6 +7,3 @@ services:
     test.setono_sylius_loyalty.order_points_awarder:
         alias: 'Setono\SyliusLoyaltyPlugin\Earning\OrderPointsAwarder'
         public: true
-    test.setono_sylius_loyalty.transaction_repository:
-        alias: 'setono_sylius_loyalty.repository.transaction'
-        public: true

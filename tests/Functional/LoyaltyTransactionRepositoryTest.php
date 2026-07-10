@@ -32,7 +32,7 @@ final class LoyaltyTransactionRepositoryTest extends KernelTestCase
         \assert($manager instanceof EntityManagerInterface);
         $this->manager = $manager;
 
-        $repository = self::getContainer()->get('test.setono_sylius_loyalty.transaction_repository');
+        $repository = self::getContainer()->get('setono_sylius_loyalty.repository.transaction');
         \assert($repository instanceof LoyaltyTransactionRepositoryInterface);
         $this->repository = $repository;
     }
