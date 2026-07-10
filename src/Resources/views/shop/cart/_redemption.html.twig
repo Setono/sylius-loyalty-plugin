@@ -1,15 +1,14 @@
 {% if cart.customer is not null and form.loyaltyPointsRequested is defined %}
     <div class="ui hidden divider"></div>
 
-    <div class="setono-sylius-loyalty-redemption" data-test-loyalty-redemption>
+    <div class="setono-sylius-loyalty-redemption" {{ sylius_test_html_attribute('loyalty-redemption') }}>
         <div class="ui action input">
-            {{ form_widget(form.loyaltyPointsRequested, {'attr': {
+            {{ form_widget(form.loyaltyPointsRequested, sylius_test_form_attribute('loyalty-points')|sylius_merge_recursive({'attr': {
                 'form': form.vars.id,
                 'min': 0,
                 'placeholder': 'setono_sylius_loyalty.form.redemption.points'|trans,
-                'data-test-loyalty-points': '',
-            }}) }}
-            <button type="submit" class="ui teal icon labeled button" form="{{ form.vars.id }}" data-test-loyalty-apply>
+            }})) }}
+            <button type="submit" class="ui teal icon labeled button" form="{{ form.vars.id }}" {{ sylius_test_html_attribute('loyalty-apply') }}>
                 <i class="gem icon"></i> {{ 'setono_sylius_loyalty.ui.apply_points'|trans }}
             </button>
         </div>

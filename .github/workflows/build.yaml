@@ -257,7 +257,8 @@ jobs:
         runs-on: "ubuntu-latest"
 
         env:
-            APP_ENV: "dev"
+            # The test env is what renders Sylius' data-test-* attributes used by the specs.
+            APP_ENV: "test"
 
         steps:
             -   name: "Start MySQL"

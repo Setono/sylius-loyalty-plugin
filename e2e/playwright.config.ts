@@ -18,9 +18,10 @@ export default defineConfig({
     webServer: process.env.E2E_NO_SERVER
         ? undefined
         : {
+              // The test env is what renders Sylius' data-test-* attributes (sylius_test_html_attribute).
               command: 'symfony server:start --port=8081 --no-tls',
               cwd: '../tests/Application',
-              env: { APP_ENV: 'dev' },
+              env: { APP_ENV: 'test' },
               url: baseURL,
               reuseExistingServer: !process.env.CI,
               timeout: 120_000,
