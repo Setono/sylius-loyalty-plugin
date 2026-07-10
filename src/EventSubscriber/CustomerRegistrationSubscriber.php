@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Setono\SyliusLoyaltyPlugin\EventSubscriber;
 
 use Setono\SyliusLoyaltyPlugin\Earning\ActionPointsAwarderInterface;
+use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Channel\Context\ChannelNotFoundException;
-use Sylius\Component\Core\Context\ShopperContextInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -22,7 +22,7 @@ final class CustomerRegistrationSubscriber implements EventSubscriberInterface
 
     public function __construct(
         private readonly ActionPointsAwarderInterface $awarder,
-        private readonly ShopperContextInterface $shopperContext,
+        private readonly ChannelContextInterface $channelContext,
     ) {
     }
 
@@ -41,7 +41,7 @@ final class CustomerRegistrationSubscriber implements EventSubscriberInterface
         }
 
         try {
-            $channel = $this->shopperContext->getChannel();
+            $channel = $this->channelContext->getChannel();
         } catch (ChannelNotFoundException) {
             return;
         }

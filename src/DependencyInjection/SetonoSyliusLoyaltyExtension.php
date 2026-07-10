@@ -7,6 +7,7 @@ namespace Setono\SyliusLoyaltyPlugin\DependencyInjection;
 use Setono\SyliusLoyaltyPlugin\Earning\Trigger\AwardOrderPointsStateMachineListener;
 use Setono\SyliusLoyaltyPlugin\Earning\Trigger\ClawbackOrderPointsStateMachineListener;
 use Setono\SyliusLoyaltyPlugin\Earning\Trigger\ReviewApprovedStateMachineListener;
+use Setono\SyliusLoyaltyPlugin\Earning\TriggerChannelResolverInterface;
 use Setono\SyliusLoyaltyPlugin\Redemption\RedemptionStateMachineListener;
 use Setono\SyliusLoyaltyPlugin\Rule\Amount\EarningAmountInterface;
 use Setono\SyliusLoyaltyPlugin\Rule\Condition\EarningConditionInterface;
@@ -41,6 +42,8 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
             ->addTag('setono_sylius_loyalty.earning_condition');
         $container->registerForAutoconfiguration(EarningAmountInterface::class)
             ->addTag('setono_sylius_loyalty.earning_amount');
+        $container->registerForAutoconfiguration(TriggerChannelResolverInterface::class)
+            ->addTag('setono_sylius_loyalty.trigger_channel_resolver');
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.xml');
