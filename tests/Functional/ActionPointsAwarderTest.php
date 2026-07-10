@@ -9,7 +9,9 @@ use Doctrine\Persistence\ObjectRepository;
 use Setono\SyliusLoyaltyPlugin\Earning\ActionPointsAwarderInterface;
 use Setono\SyliusLoyaltyPlugin\Model\EarnActionLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\EarningRule;
+use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccount;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface;
+use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgram;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Currency\Model\CurrencyInterface;
@@ -90,6 +92,57 @@ final class ActionPointsAwarderTest extends KernelTestCase
 
         $account = $this->accountFor($customer, $channel);
         self::assertTrue(null === $account || 0 === $account->getBalance());
+    }
+
+    /**
+     * @test
+     */
+    public function it_does_not_award_to_a_disabled_account(): void
+    {
+        $channel = $this->createChannel('action-disabled');
+        $customer = $this->createCustomer('action-disabled@example.com');
+        $this->createFixedPointsRule($channel, 'customer_registered', 250);
+
+        $account = new LoyaltyAccount();
+        $account->setCustomer($customer);
+        $account->setChannel($channel);
+        $account->setEnabled(false);
+        $this->manager->persist($account);
+        $this->manager->flush();
+
+        $this->awarder->award($customer, $channel, 'customer_registered', 'customer_registered:4');
+
+        $this->manager->clear();
+
+        $account = $this->accountFor($customer, $channel);
+        self::assertNotNull($account);
+        self::assertSame(0, $account->getBalance());
+    }
+
+    /**
+     * @test
+     */
+    public function it_sets_an_expiry_when_the_program_expires_points(): void
+    {
+        $channel = $this->createChannel('action-expiry');
+        $customer = $this->createCustomer('action-expiry@example.com');
+        $this->createFixedPointsRule($channel, 'customer_registered', 250);
+
+        $program = new LoyaltyProgram();
+        $program->setChannel($channel);
+        $program->setPointsExpiryDays(30);
+        $this->manager->persist($program);
+        $this->manager->flush();
+
+        $this->awarder->award($customer, $channel, 'customer_registered', 'customer_registered:5');
+
+        $this->manager->clear();
+
+        $account = $this->accountFor($customer, $channel);
+        self::assertNotNull($account);
+        $transaction = $this->manager->getRepository(EarnActionLoyaltyTransaction::class)->findOneBy(['account' => $account]);
+        self::assertInstanceOf(EarnActionLoyaltyTransaction::class, $transaction);
+        self::assertNotNull($transaction->getExpiresAt());
     }
 
     private function createFixedPointsRule(ChannelInterface $channel, string $trigger, int $points): void
