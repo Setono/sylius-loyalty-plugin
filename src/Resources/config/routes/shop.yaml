@@ -1,1 +1,5 @@
-# TODO Add your shop routes here
+setono_sylius_loyalty_shop_account_loyalty:
+    path: /account/loyalty
+    methods: [GET]
+    defaults:
+        _controller: Setono\SyliusLoyaltyPlugin\Controller\Shop\ShowLoyaltyAccountAction
