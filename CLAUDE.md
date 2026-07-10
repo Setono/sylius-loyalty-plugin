@@ -55,10 +55,10 @@ Follow clean code principles and SOLID design patterns when working with this co
 - Write unit tests for all new functionality (if it makes sense)
 - Follow the BDD-style naming convention for test methods (e.g., `it_should_do_something_when_condition_is_met`)
 - **MUST use Prophecy for mocking** - Use the `ProphecyTrait` and `$this->prophesize()` for all mocks, NOT PHPUnit's `$this->createMock()`
-- **Form testing** - Use Symfony's best practices for form testing as documented at https://symfony.com/doc/current/form/unit_testing.html
+- **Form testing (required for every form type)** - Follow Symfony's form unit-testing guidelines: https://symfony.com/doc/6.4/form/unit_testing.html
   - Extend `Symfony\Component\Form\Test\TypeTestCase` for form type tests
-  - Use `$this->factory->create()` to create form instances
-  - Test form submission, validation, and data transformation
+  - Use `$this->factory->create()` to build the form, then `$form->submit([...])` and assert `$form->isSynchronized()` plus the mapped model data
+  - Test submission, validation, and data transformation, including empty and edge-case input
 - Ensure tests are isolated and don't depend on external state
 - Test both happy path and edge cases
 

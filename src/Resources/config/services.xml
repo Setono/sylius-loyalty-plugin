@@ -167,5 +167,10 @@
             <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyAccountProviderInterface" />
             <tag name="validator.constraint_validator" />
         </service>
+
+        <!-- Shop redemption widget: adds the "spend points" field to the cart form (submitted with the cart-save flow) -->
+        <service id="Setono\SyliusLoyaltyPlugin\Form\Extension\CartTypeExtension">
+            <tag name="form.type_extension" />
+        </service>
     </services>
 </container>

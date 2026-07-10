@@ -1,0 +1,8 @@
+sylius_fixtures:
+    suites:
+        setono_loyalty:
+            fixtures:
+                setono_sylius_loyalty_balance:
+                    options:
+                        balances:
+                            - { customer: 'shop@example.com', channel: 'FASHION_WEB', points: 5000 }

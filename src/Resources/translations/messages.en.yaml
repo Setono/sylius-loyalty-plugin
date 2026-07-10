@@ -1,0 +1,8 @@
+setono_sylius_loyalty:
+    form:
+        redemption:
+            points: 'Loyalty points to spend'
+    ui:
+        apply_points: 'Apply points'
+    cart:
+        redemption_updated: 'Your loyalty points redemption has been updated.'
