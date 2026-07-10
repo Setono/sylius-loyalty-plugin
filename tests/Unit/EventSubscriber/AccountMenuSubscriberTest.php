@@ -2,17 +2,25 @@
 
 declare(strict_types=1);
 
-namespace Setono\SyliusLoyaltyPlugin\Tests\Unit\Menu;
+namespace Setono\SyliusLoyaltyPlugin\Tests\Unit\EventSubscriber;
 
 use Knp\Menu\ItemInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Setono\SyliusLoyaltyPlugin\Menu\AccountMenuListener;
+use Setono\SyliusLoyaltyPlugin\EventSubscriber\AccountMenuSubscriber;
 use Sylius\Bundle\UiBundle\Menu\Event\MenuBuilderEvent;
 
-final class AccountMenuListenerTest extends TestCase
+final class AccountMenuSubscriberTest extends TestCase
 {
     use ProphecyTrait;
+
+    /**
+     * @test
+     */
+    public function it_subscribes_to_the_shop_account_menu_event(): void
+    {
+        self::assertArrayHasKey('sylius.menu.shop.account', AccountMenuSubscriber::getSubscribedEvents());
+    }
 
     /**
      * @test
@@ -32,6 +40,6 @@ final class AccountMenuListenerTest extends TestCase
         $event = $this->prophesize(MenuBuilderEvent::class);
         $event->getMenu()->willReturn($menu);
 
-        (new AccountMenuListener())->addItems($event->reveal());
+        (new AccountMenuSubscriber())->addItems($event->reveal());
     }
 }

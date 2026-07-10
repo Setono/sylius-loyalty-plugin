@@ -6,8 +6,12 @@ namespace Setono\SyliusLoyaltyPlugin\Repository;
 
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyTransactionInterface;
+use Sylius\Component\Resource\Repository\RepositoryInterface;
 
-interface LoyaltyTransactionRepositoryInterface
+/**
+ * @extends RepositoryInterface<LoyaltyTransactionInterface>
+ */
+interface LoyaltyTransactionRepositoryInterface extends RepositoryInterface
 {
     /**
      * The account's most recent ledger rows, newest first (by occurrence, then id for a stable order).

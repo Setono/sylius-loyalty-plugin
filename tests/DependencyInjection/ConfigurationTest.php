@@ -10,6 +10,7 @@ use Setono\SyliusLoyaltyPlugin\DependencyInjection\Configuration;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\EarningRuleRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyAccountRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyProgramRepository;
+use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyTransactionRepository;
 use Setono\SyliusLoyaltyPlugin\Model\ClawbackLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\EarnActionLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\EarningRule;
@@ -21,6 +22,8 @@ use Setono\SyliusLoyaltyPlugin\Model\ExpireLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccount;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgram;
+use Setono\SyliusLoyaltyPlugin\Model\LoyaltyTransaction;
+use Setono\SyliusLoyaltyPlugin\Model\LoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\ManualCreditLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\ManualDebitLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\RedeemLoyaltyTransaction;
@@ -87,6 +90,15 @@ final class ConfigurationTest extends TestCase
                         'repository' => EntityRepository::class,
                         'factory' => Factory::class,
                         'interface' => EarningRuleConditionInterface::class,
+                    ],
+                ],
+                'transaction' => [
+                    'classes' => [
+                        'model' => LoyaltyTransaction::class,
+                        'controller' => ResourceController::class,
+                        'repository' => LoyaltyTransactionRepository::class,
+                        'factory' => Factory::class,
+                        'interface' => LoyaltyTransactionInterface::class,
                     ],
                 ],
                 ...$transactions,

@@ -173,12 +173,10 @@
             <tag name="form.type_extension" />
         </service>
 
-        <!-- Shop "My loyalty" account page: balance hero + ledger history -->
-        <service id="Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyTransactionRepository">
-            <argument type="service" id="doctrine" />
-        </service>
+        <!-- Shop "My loyalty" account page: balance hero + ledger history. The transaction repository
+             is the Sylius resource repository (setono_sylius_loyalty.repository.transaction). -->
         <service id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyTransactionRepositoryInterface"
-                 alias="Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyTransactionRepository" />
+                 alias="setono_sylius_loyalty.repository.transaction" />
 
         <service id="Setono\SyliusLoyaltyPlugin\Controller\Shop\ShowLoyaltyAccountAction" public="true">
             <argument type="service" id="sylius.context.shopper" />
@@ -188,8 +186,8 @@
         </service>
 
         <!-- Adds the "My loyalty" item to the shop account menu -->
-        <service id="Setono\SyliusLoyaltyPlugin\Menu\AccountMenuListener">
-            <tag name="kernel.event_listener" event="sylius.menu.shop.account" method="addItems" />
+        <service id="Setono\SyliusLoyaltyPlugin\EventSubscriber\AccountMenuSubscriber">
+            <tag name="kernel.event_subscriber" />
         </service>
     </services>
 </container>

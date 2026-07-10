@@ -2,12 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Setono\SyliusLoyaltyPlugin\Menu;
+namespace Setono\SyliusLoyaltyPlugin\EventSubscriber;
 
 use Sylius\Bundle\UiBundle\Menu\Event\MenuBuilderEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-final class AccountMenuListener
+final class AccountMenuSubscriber implements EventSubscriberInterface
 {
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'sylius.menu.shop.account' => 'addItems',
+        ];
+    }
+
     public function addItems(MenuBuilderEvent $event): void
     {
         $event->getMenu()

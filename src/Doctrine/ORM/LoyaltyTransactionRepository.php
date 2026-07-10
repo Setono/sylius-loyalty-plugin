@@ -4,28 +4,17 @@ declare(strict_types=1);
 
 namespace Setono\SyliusLoyaltyPlugin\Doctrine\ORM;
 
-use Doctrine\Persistence\ManagerRegistry;
-use Setono\Doctrine\ORMTrait;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface;
-use Setono\SyliusLoyaltyPlugin\Model\LoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Repository\LoyaltyTransactionRepositoryInterface;
+use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Webmozart\Assert\Assert;
 
-final class LoyaltyTransactionRepository implements LoyaltyTransactionRepositoryInterface
+class LoyaltyTransactionRepository extends EntityRepository implements LoyaltyTransactionRepositoryInterface
 {
-    use ORMTrait;
-
-    public function __construct(ManagerRegistry $managerRegistry)
-    {
-        $this->managerRegistry = $managerRegistry;
-    }
-
     public function findLatestByAccount(LoyaltyAccountInterface $account, int $limit): array
     {
-        $transactions = $this->getManager(LoyaltyTransaction::class)->createQueryBuilder()
-            ->select('t')
-            ->from(LoyaltyTransaction::class, 't')
+        $transactions = $this->createQueryBuilder('t')
             ->andWhere('t.account = :account')
             ->setParameter('account', $account)
             ->orderBy('t.occurredAt', 'DESC')
@@ -43,9 +32,8 @@ final class LoyaltyTransactionRepository implements LoyaltyTransactionRepository
 
     public function countByAccount(LoyaltyAccountInterface $account): int
     {
-        $count = $this->getManager(LoyaltyTransaction::class)->createQueryBuilder()
+        $count = $this->createQueryBuilder('t')
             ->select('COUNT(t.id)')
-            ->from(LoyaltyTransaction::class, 't')
             ->andWhere('t.account = :account')
             ->setParameter('account', $account)
             ->getQuery()

@@ -7,6 +7,7 @@ namespace Setono\SyliusLoyaltyPlugin\DependencyInjection;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\EarningRuleRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyAccountRepository;
 use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyProgramRepository;
+use Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyTransactionRepository;
 use Setono\SyliusLoyaltyPlugin\Model\ClawbackLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\EarnActionLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\EarningRule;
@@ -18,6 +19,8 @@ use Setono\SyliusLoyaltyPlugin\Model\ExpireLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccount;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgram;
+use Setono\SyliusLoyaltyPlugin\Model\LoyaltyTransaction;
+use Setono\SyliusLoyaltyPlugin\Model\LoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\ManualCreditLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\ManualDebitLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\RedeemLoyaltyTransaction;
@@ -64,6 +67,11 @@ final class Configuration implements ConfigurationInterface
         // evaluation pipeline that needs its queries.
         $this->addResource($resources, 'earning_rule', EarningRule::class, EarningRuleRepository::class, EarningRuleInterface::class);
         $this->addResource($resources, 'earning_rule_condition', EarningRuleCondition::class, EntityRepository::class, EarningRuleConditionInterface::class);
+
+        // The STI root, registered so its custom repository (ledger history queries) is a Sylius
+        // resource repository. The discriminator-map listener skips it because the model is abstract,
+        // and its factory is never used (the root can't be instantiated).
+        $this->addResource($resources, 'transaction', LoyaltyTransaction::class, LoyaltyTransactionRepository::class, LoyaltyTransactionInterface::class);
 
         // The concrete ledger transaction types. Registering them as resources feeds the
         // discriminator-map listener (%sylius.resources%), so a project adds a transaction type by

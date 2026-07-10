@@ -29,11 +29,13 @@ use Setono\SyliusLoyaltyPlugin\Model\ExpireLoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyProgramInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyTransaction;
+use Setono\SyliusLoyaltyPlugin\Model\LoyaltyTransactionInterface;
 use Setono\SyliusLoyaltyPlugin\Model\RedeemLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\RedeemRollbackLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Replay\LotReplayer;
 use Sylius\Component\Core\Model\OrderInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Webmozart\Assert\Assert;
 
 final class LoyaltyLedger implements LoyaltyLedgerInterface, LoggerAwareInterface
 {
@@ -168,6 +170,7 @@ final class LoyaltyLedger implements LoyaltyLedgerInterface, LoggerAwareInterfac
             $account = $this->lock($manager, $account);
 
             $transactions = $manager->getRepository(LoyaltyTransaction::class)->findBy(['account' => $account]);
+            Assert::allIsInstanceOf($transactions, LoyaltyTransactionInterface::class);
 
             // Lots that already have an expire row must not be expired again. The replay also zeroes them,
             // so this guard is what keeps a fully-consumed expired lot from getting a duplicate close row.

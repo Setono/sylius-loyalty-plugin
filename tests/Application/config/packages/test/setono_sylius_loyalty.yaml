@@ -8,5 +8,5 @@ services:
         alias: 'Setono\SyliusLoyaltyPlugin\Earning\OrderPointsAwarder'
         public: true
     test.setono_sylius_loyalty.transaction_repository:
-        alias: 'Setono\SyliusLoyaltyPlugin\Doctrine\ORM\LoyaltyTransactionRepository'
+        alias: 'setono_sylius_loyalty.repository.transaction'
         public: true
