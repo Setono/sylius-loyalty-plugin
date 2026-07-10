@@ -62,11 +62,14 @@ final class SetonoSyliusLoyaltyExtensionTest extends TestCase
         self::assertStringContainsString('setono_sylius_loyalty_clawback_order_points', $encoded);
         self::assertStringContainsString('setono_sylius_loyalty_redeem_order_points', $encoded);
         self::assertStringContainsString('setono_sylius_loyalty_rollback_redemption', $encoded);
+        self::assertStringContainsString('sylius_product_review', $encoded);
+        self::assertStringContainsString('setono_sylius_loyalty_award_review_points', $encoded);
         self::assertStringContainsString('"on":["pay"]', $encoded);
         self::assertStringContainsString('"on":["fulfill"]', $encoded);
         self::assertStringContainsString('"on":["refund"]', $encoded);
         self::assertStringContainsString('"on":["cancel"]', $encoded);
         self::assertStringContainsString('"on":["complete"]', $encoded);
+        self::assertStringContainsString('"on":["accept"]', $encoded);
     }
 
     /**

@@ -6,6 +6,7 @@ namespace Setono\SyliusLoyaltyPlugin\DependencyInjection;
 
 use Setono\SyliusLoyaltyPlugin\Earning\Trigger\AwardOrderPointsStateMachineListener;
 use Setono\SyliusLoyaltyPlugin\Earning\Trigger\ClawbackOrderPointsStateMachineListener;
+use Setono\SyliusLoyaltyPlugin\Earning\Trigger\ReviewApprovedStateMachineListener;
 use Setono\SyliusLoyaltyPlugin\Redemption\RedemptionStateMachineListener;
 use Setono\SyliusLoyaltyPlugin\Rule\Amount\EarningAmountInterface;
 use Setono\SyliusLoyaltyPlugin\Rule\Condition\EarningConditionInterface;
@@ -13,6 +14,7 @@ use Sylius\Bundle\ResourceBundle\DependencyInjection\Extension\AbstractResourceE
 use Sylius\Bundle\ResourceBundle\SyliusResourceBundle;
 use Sylius\Component\Core\OrderCheckoutTransitions;
 use Sylius\Component\Core\OrderPaymentTransitions;
+use Sylius\Component\Core\ProductReviewTransitions;
 use Sylius\Component\Order\OrderTransitions;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -108,6 +110,7 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
         $award = '@' . AwardOrderPointsStateMachineListener::class;
         $clawback = '@' . ClawbackOrderPointsStateMachineListener::class;
         $redemption = '@' . RedemptionStateMachineListener::class;
+        $reviewAward = '@' . ReviewApprovedStateMachineListener::class;
 
         $container->prependExtensionConfig('winzou_state_machine', [
             OrderPaymentTransitions::GRAPH => [
@@ -153,6 +156,17 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
                         'setono_sylius_loyalty_rollback_redemption' => [
                             'on' => [OrderTransitions::TRANSITION_CANCEL],
                             'do' => [$redemption, 'onWinzouOrderCancelled'],
+                            'args' => ['object'],
+                        ],
+                    ],
+                ],
+            ],
+            ProductReviewTransitions::GRAPH => [
+                'callbacks' => [
+                    'after' => [
+                        'setono_sylius_loyalty_award_review_points' => [
+                            'on' => [ProductReviewTransitions::TRANSITION_ACCEPT],
+                            'do' => [$reviewAward, 'onWinzouReviewAccepted'],
                             'args' => ['object'],
                         ],
                     ],

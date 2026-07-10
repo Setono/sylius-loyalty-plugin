@@ -23,6 +23,14 @@ class LoyaltyAccountRepository extends EntityRepository implements LoyaltyAccoun
         return $account;
     }
 
+    public function findByCustomer(CustomerInterface $customer): array
+    {
+        $accounts = $this->findBy(['customer' => $customer]);
+        Assert::allIsInstanceOf($accounts, LoyaltyAccountInterface::class);
+
+        return array_values($accounts);
+    }
+
     public function findWithLotsExpiringAtOrBefore(\DateTimeInterface $asOf): array
     {
         $accounts = $this->createQueryBuilder('account')
