@@ -30,7 +30,7 @@ final class DefaultTriggerChannelResolverTest extends KernelTestCase
         \assert($manager instanceof EntityManagerInterface);
         $this->manager = $manager;
 
-        $resolver = self::getContainer()->get('Setono\SyliusLoyaltyPlugin\Earning\DefaultTriggerChannelResolver');
+        $resolver = self::getContainer()->get(\Setono\SyliusLoyaltyPlugin\Earning\DefaultTriggerChannelResolver::class);
         \assert($resolver instanceof TriggerChannelResolverInterface);
         $this->resolver = $resolver;
     }
