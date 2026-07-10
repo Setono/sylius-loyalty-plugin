@@ -67,4 +67,3 @@ final class CartTypeExtensionTest extends TypeTestCase
         self::assertContains(CartType::class, $extendedTypes);
     }
 }
-
