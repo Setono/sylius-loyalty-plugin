@@ -33,7 +33,7 @@ final class OrderPointsAwarderTest extends KernelTestCase
         \assert($manager instanceof EntityManagerInterface);
         $this->manager = $manager;
 
-        $awarder = self::getContainer()->get('Setono\SyliusLoyaltyPlugin\Earning\OrderPointsAwarder');
+        $awarder = self::getContainer()->get(\Setono\SyliusLoyaltyPlugin\Earning\OrderPointsAwarder::class);
         \assert($awarder instanceof OrderPointsAwarderInterface);
         $this->awarder = $awarder;
     }

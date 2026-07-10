@@ -36,7 +36,7 @@ final class LoyaltyLedgerClawbackTest extends KernelTestCase
         \assert($manager instanceof EntityManagerInterface);
         $this->manager = $manager;
 
-        $ledger = self::getContainer()->get('Setono\SyliusLoyaltyPlugin\Ledger\LoyaltyLedger');
+        $ledger = self::getContainer()->get(\Setono\SyliusLoyaltyPlugin\Ledger\LoyaltyLedger::class);
         \assert($ledger instanceof LoyaltyLedgerInterface);
         $this->ledger = $ledger;
     }
