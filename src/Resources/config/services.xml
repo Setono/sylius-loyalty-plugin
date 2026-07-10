@@ -98,6 +98,25 @@
         <service id="Setono\SyliusLoyaltyPlugin\Earning\OrderPointsAwarderInterface"
                  alias="Setono\SyliusLoyaltyPlugin\Earning\OrderPointsAwarder" />
 
+        <!-- Action earning pipeline: evaluates the channel's rules for an action trigger (no order) -->
+        <service id="Setono\SyliusLoyaltyPlugin\Earning\ActionPointsAwarder">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyAccountProviderInterface" />
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\LoyaltyProgramProviderInterface" />
+            <argument type="service" id="setono_sylius_loyalty.repository.earning_rule" />
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Rule\EarningConditionEvaluatorInterface" />
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Rule\EarningAmountEvaluatorInterface" />
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Ledger\LoyaltyLedgerInterface" />
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\Earning\ActionPointsAwarderInterface"
+                 alias="Setono\SyliusLoyaltyPlugin\Earning\ActionPointsAwarder" />
+
+        <!-- Action trigger: awards the customer_registered rules (signup bonus) on registration -->
+        <service id="Setono\SyliusLoyaltyPlugin\EventSubscriber\CustomerRegistrationSubscriber">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Earning\ActionPointsAwarderInterface" />
+            <argument type="service" id="sylius.context.shopper" />
+            <tag name="kernel.event_subscriber" />
+        </service>
+
         <service id="Setono\SyliusLoyaltyPlugin\Message\Handler\AwardOrderPointsHandler">
             <argument type="service" id="sylius.repository.order" />
             <argument type="service" id="Setono\SyliusLoyaltyPlugin\Earning\OrderPointsAwarderInterface" />

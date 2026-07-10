@@ -16,6 +16,7 @@
         "psr/container": "^1.1 || ^2.0",
         "psr/log": "^1.0 || ^2.0 || ^3.0",
         "setono/doctrine-orm-trait": "^1.4",
+        "sylius/channel": "^1.0",
         "sylius/core": "^1.0",
         "sylius/core-bundle": "^1.0",
         "sylius/order": "^1.0",

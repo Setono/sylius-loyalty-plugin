@@ -33,7 +33,7 @@ final class ExpirePointsCommandTest extends KernelTestCase
         \assert($manager instanceof EntityManagerInterface);
         $this->manager = $manager;
 
-        $ledger = self::getContainer()->get('test.setono_sylius_loyalty.ledger');
+        $ledger = self::getContainer()->get(\Setono\SyliusLoyaltyPlugin\Ledger\LoyaltyLedger::class);
         \assert($ledger instanceof LoyaltyLedgerInterface);
         $this->ledger = $ledger;
     }
