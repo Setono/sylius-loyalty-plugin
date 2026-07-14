@@ -250,5 +250,12 @@
         <service id="Setono\SyliusLoyaltyPlugin\EventSubscriber\AccountMenuSubscriber">
             <tag name="kernel.event_subscriber" />
         </service>
+
+        <!-- Admin: the read-only accounts grid (reached from the loyalty dashboard) -->
+        <service id="Setono\SyliusLoyaltyPlugin\Grid\LoyaltyAccountGrid">
+            <argument>%setono_sylius_loyalty.model.account.class%</argument>
+            <argument>%sylius.model.channel.class%</argument>
+            <tag name="sylius.grid" />
+        </service>
     </services>
 </container>
