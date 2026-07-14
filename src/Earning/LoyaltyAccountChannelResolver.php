@@ -9,11 +9,9 @@ use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 
 /**
- * Resolves the channels where the customer already holds a loyalty account. For a single-channel store
- * this is the one channel; a customer with no account yet earns nothing from context-less triggers
- * (they earn once they have an account, e.g. after their first order).
+ * Resolves the channels where the customer already holds a loyalty account.
  */
-final class DefaultTriggerChannelResolver implements TriggerChannelResolverInterface
+final class LoyaltyAccountChannelResolver implements TriggerChannelResolverInterface
 {
     public function __construct(
         private readonly LoyaltyAccountRepositoryInterface $accountRepository,

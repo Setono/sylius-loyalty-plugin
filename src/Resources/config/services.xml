@@ -118,13 +118,21 @@
         </service>
 
         <!-- Resolves which channels a context-less action trigger awards on. A composite of every tagged
-             resolver; the default one contributes the customer's account channels. -->
+             resolver, de-duplicated by channel code; a project can tag its own. -->
         <service id="Setono\SyliusLoyaltyPlugin\Earning\CompositeTriggerChannelResolver" />
         <service id="Setono\SyliusLoyaltyPlugin\Earning\TriggerChannelResolverInterface"
                  alias="Setono\SyliusLoyaltyPlugin\Earning\CompositeTriggerChannelResolver" />
 
-        <service id="Setono\SyliusLoyaltyPlugin\Earning\DefaultTriggerChannelResolver">
+        <service id="Setono\SyliusLoyaltyPlugin\Earning\LoyaltyAccountChannelResolver">
             <argument type="service" id="setono_sylius_loyalty.repository.account" />
+            <tag name="setono_sylius_loyalty.trigger_channel_resolver" />
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\Earning\LastOrderChannelResolver">
+            <argument type="service" id="sylius.repository.order" />
+            <tag name="setono_sylius_loyalty.trigger_channel_resolver" />
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\Earning\SingleChannelResolver">
+            <argument type="service" id="sylius.repository.channel" />
             <tag name="setono_sylius_loyalty.trigger_channel_resolver" />
         </service>
 

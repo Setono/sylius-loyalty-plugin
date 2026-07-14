@@ -16,7 +16,7 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-final class DefaultTriggerChannelResolverTest extends KernelTestCase
+final class LoyaltyAccountChannelResolverTest extends KernelTestCase
 {
     private EntityManagerInterface $manager;
 
@@ -30,7 +30,7 @@ final class DefaultTriggerChannelResolverTest extends KernelTestCase
         \assert($manager instanceof EntityManagerInterface);
         $this->manager = $manager;
 
-        $resolver = self::getContainer()->get(\Setono\SyliusLoyaltyPlugin\Earning\DefaultTriggerChannelResolver::class);
+        $resolver = self::getContainer()->get(\Setono\SyliusLoyaltyPlugin\Earning\LoyaltyAccountChannelResolver::class);
         \assert($resolver instanceof TriggerChannelResolverInterface);
         $this->resolver = $resolver;
     }
