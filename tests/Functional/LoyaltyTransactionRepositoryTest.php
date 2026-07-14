@@ -60,6 +60,27 @@ final class LoyaltyTransactionRepositoryTest extends KernelTestCase
     /**
      * @test
      */
+    public function it_returns_the_full_ledger_oldest_first(): void
+    {
+        $account = $this->createAccount('history-full', 'full@example.com');
+        $this->createTransaction($account, 100, '2026-01-03 10:00:00');
+        $this->createTransaction($account, 200, '2026-01-01 10:00:00');
+        $this->createTransaction($account, 300, '2026-01-02 10:00:00');
+
+        $this->manager->clear();
+        $account = $this->reload($account);
+
+        $all = $this->repository->findByAccount($account);
+
+        self::assertCount(3, $all);
+        self::assertSame(200, $all[0]->getPoints());
+        self::assertSame(300, $all[1]->getPoints());
+        self::assertSame(100, $all[2]->getPoints());
+    }
+
+    /**
+     * @test
+     */
     public function it_counts_the_transactions_of_an_account(): void
     {
         $account = $this->createAccount('history-count', 'count@example.com');
@@ -80,6 +101,7 @@ final class LoyaltyTransactionRepositoryTest extends KernelTestCase
         $account = $this->createAccount('history-empty', 'empty@example.com');
 
         self::assertCount(0, $this->repository->findLatestByAccount($account, 50));
+        self::assertCount(0, $this->repository->findByAccount($account));
         self::assertSame(0, $this->repository->countByAccount($account));
     }
 

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Setono\SyliusLoyaltyPlugin\Grid;
 
+use Sylius\Bundle\GridBundle\Builder\Action\ShowAction;
+use Sylius\Bundle\GridBundle\Builder\ActionGroup\ItemActionGroup;
 use Sylius\Bundle\GridBundle\Builder\Field\DateTimeField;
 use Sylius\Bundle\GridBundle\Builder\Field\StringField;
 use Sylius\Bundle\GridBundle\Builder\Field\TwigField;
@@ -78,6 +80,16 @@ final class LoyaltyAccountGrid extends AbstractGrid implements ResourceAwareGrid
             )
             ->addFilter(
                 BooleanFilter::create('enabled'),
+            )
+            ->addActionGroup(
+                ItemActionGroup::create(
+                    ShowAction::create([
+                        'link' => [
+                            'route' => 'setono_sylius_loyalty_admin_account_show',
+                            'parameters' => ['id' => 'resource.id'],
+                        ],
+                    ]),
+                ),
             )
         ;
     }

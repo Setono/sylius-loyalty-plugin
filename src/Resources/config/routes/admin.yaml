@@ -9,3 +9,11 @@ setono_sylius_loyalty_admin_account:
             all:
                 subheader: setono_sylius_loyalty.ui.manage_loyalty_accounts
     type: sylius.resource
+
+setono_sylius_loyalty_admin_account_show:
+    path: /accounts/{id}
+    methods: [GET]
+    defaults:
+        _controller: Setono\SyliusLoyaltyPlugin\Controller\Admin\ShowLoyaltyAccountAction
+    requirements:
+        id: \d+

@@ -28,6 +28,22 @@ test.describe('admin loyalty accounts grid', () => {
         await expect(row).toContainText('Enabled');
     });
 
+    test('a row links through to the account ledger inspector', async ({ page }) => {
+        await loginAdmin(page);
+        await page.goto('/admin/loyalty/accounts/');
+        await page.waitForLoadState('networkidle');
+
+        const row = page.locator('table tbody tr', { hasText: SEEDED_ACCOUNT.email });
+        await row.locator('a[href*="/admin/loyalty/accounts/"]').first().click();
+        await page.waitForLoadState('networkidle');
+
+        // The ledger inspector shows the account summary, an invariant check and the ledger history.
+        await expect(page.locator('[data-test-loyalty-account]')).toBeVisible();
+        await expect(page.locator('[data-test-loyalty-balance-value]')).toContainText(SEEDED_ACCOUNT.balance);
+        await expect(page.locator('[data-test-loyalty-consistent]')).toBeVisible();
+        await expect(page.locator('[data-test-loyalty-history-row]').first()).toBeVisible();
+    });
+
     test('filtering by disabled state hides the seeded (enabled) account', async ({ page }) => {
         await loginAdmin(page);
         await page.goto('/admin/loyalty/accounts/');

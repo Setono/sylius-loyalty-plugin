@@ -1,0 +1,109 @@
+{% extends '@SyliusAdmin/layout.html.twig' %}
+
+{% import '@SyliusUi/Macro/labels.html.twig' as label %}
+
+{% block title %}{{ 'setono_sylius_loyalty.ui.loyalty_account'|trans }} #{{ account.id }} {{ parent() }}{% endblock %}
+
+{% block content %}
+    <div class="ui segment" {{ sylius_test_html_attribute('loyalty-account') }}>
+        <h1 class="ui header">
+            {{ 'setono_sylius_loyalty.ui.loyalty_account'|trans }} #{{ account.id }}
+            {{ label.status(account.enabled) }}
+        </h1>
+
+        <table class="ui definition table">
+            <tbody>
+                <tr>
+                    <td class="four wide">{{ 'sylius.ui.customer'|trans }}</td>
+                    <td>{{ account.customer ? account.customer.email : '—' }}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'sylius.ui.channel'|trans }}</td>
+                    <td>{{ account.channel ? account.channel.code : '—' }}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'setono_sylius_loyalty.ui.balance'|trans }}</td>
+                    <td {{ sylius_test_html_attribute('loyalty-balance-value') }}>{{ account.balance }}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'setono_sylius_loyalty.ui.lifetime_earned'|trans }}</td>
+                    <td>{{ account.lifetimeEarned }}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'setono_sylius_loyalty.ui.referral_code'|trans }}</td>
+                    <td>{{ account.referralCode ?? '—' }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    {% if consistent %}
+        <div class="ui success message" {{ sylius_test_html_attribute('loyalty-consistent') }}>
+            <i class="checkmark icon"></i>
+            {{ 'setono_sylius_loyalty.ui.ledger_consistent'|trans }}
+        </div>
+    {% else %}
+        <div class="ui error message" {{ sylius_test_html_attribute('loyalty-inconsistent') }}>
+            <i class="warning icon"></i>
+            {{ 'setono_sylius_loyalty.ui.ledger_inconsistent'|trans({'%replay%': replay_balance, '%cached%': account.balance}) }}
+        </div>
+    {% endif %}
+
+    <h2 class="ui header">{{ 'setono_sylius_loyalty.ui.open_lots'|trans }}</h2>
+    {% if open_lots is empty %}
+        <div class="ui info message" {{ sylius_test_html_attribute('loyalty-no-open-lots') }}>
+            {{ 'setono_sylius_loyalty.ui.no_open_lots'|trans }}
+        </div>
+    {% else %}
+        <table class="ui celled table" {{ sylius_test_html_attribute('loyalty-open-lots') }}>
+            <thead>
+                <tr>
+                    <th>{{ 'setono_sylius_loyalty.ui.date'|trans }}</th>
+                    <th>{{ 'setono_sylius_loyalty.ui.type'|trans }}</th>
+                    <th class="right aligned">{{ 'setono_sylius_loyalty.ui.remaining'|trans }}</th>
+                    <th class="right aligned">{{ 'setono_sylius_loyalty.ui.original'|trans }}</th>
+                    <th>{{ 'setono_sylius_loyalty.ui.expires'|trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for lot in open_lots %}
+                    <tr {{ sylius_test_html_attribute('loyalty-open-lot-row') }}>
+                        <td>{{ lot.credit.occurredAt ? lot.credit.occurredAt|date('Y-m-d H:i') : '' }}</td>
+                        <td>{{ ('setono_sylius_loyalty.ui.transaction_type.' ~ lot.credit.type)|trans }}</td>
+                        <td class="right aligned">{{ lot.remaining }}</td>
+                        <td class="right aligned">{{ lot.originalPoints }}</td>
+                        <td>{{ lot.expiresAt ? lot.expiresAt|date('Y-m-d') : '—' }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    <h2 class="ui header">{{ 'setono_sylius_loyalty.ui.transaction_history'|trans }}</h2>
+    {% if transactions is empty %}
+        <div class="ui info message" {{ sylius_test_html_attribute('loyalty-history-empty') }}>
+            {{ 'setono_sylius_loyalty.ui.no_transactions_admin'|trans }}
+        </div>
+    {% else %}
+        <table class="ui celled table" {{ sylius_test_html_attribute('loyalty-history') }}>
+            <thead>
+                <tr>
+                    <th>{{ 'setono_sylius_loyalty.ui.date'|trans }}</th>
+                    <th>{{ 'setono_sylius_loyalty.ui.type'|trans }}</th>
+                    <th class="right aligned">{{ 'setono_sylius_loyalty.ui.points'|trans }}</th>
+                    <th>{{ 'setono_sylius_loyalty.ui.expires'|trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in transactions %}
+                    <tr {{ sylius_test_html_attribute('loyalty-history-row') }}>
+                        <td>{{ transaction.occurredAt ? transaction.occurredAt|date('Y-m-d H:i') : '' }}</td>
+                        <td>{{ ('setono_sylius_loyalty.ui.transaction_type.' ~ transaction.type)|trans }}</td>
+                        <td class="right aligned">{{ transaction.points > 0 ? '+' }}{{ transaction.points }}</td>
+                        <td>{{ (transaction.expiresAt is defined and transaction.expiresAt) ? transaction.expiresAt|date('Y-m-d') : '—' }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

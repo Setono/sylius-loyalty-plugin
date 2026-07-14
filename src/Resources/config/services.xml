@@ -257,5 +257,13 @@
             <argument>%sylius.model.channel.class%</argument>
             <tag name="sylius.grid" />
         </service>
+
+        <!-- Admin ledger inspector: account summary + FIFO lot state + invariant check + full ledger -->
+        <service id="Setono\SyliusLoyaltyPlugin\Controller\Admin\ShowLoyaltyAccountAction" public="true">
+            <argument type="service" id="setono_sylius_loyalty.repository.account" />
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyTransactionRepositoryInterface" />
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Replay\LotReplayer" />
+            <argument type="service" id="twig" />
+        </service>
     </services>
 </container>

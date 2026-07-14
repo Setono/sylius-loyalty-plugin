@@ -20,5 +20,12 @@ interface LoyaltyTransactionRepositoryInterface extends RepositoryInterface
      */
     public function findLatestByAccount(LoyaltyAccountInterface $account, int $limit): array;
 
+    /**
+     * The account's complete ledger in chronological order (oldest first) — used by the ledger inspector.
+     *
+     * @return list<LoyaltyTransactionInterface>
+     */
+    public function findByAccount(LoyaltyAccountInterface $account): array;
+
     public function countByAccount(LoyaltyAccountInterface $account): int;
 }
