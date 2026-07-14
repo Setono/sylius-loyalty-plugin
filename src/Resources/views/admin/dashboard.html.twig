@@ -1,0 +1,33 @@
+{% extends '@SyliusAdmin/layout.html.twig' %}
+
+{% block title %}{{ 'setono_sylius_loyalty.ui.loyalty_dashboard'|trans }} {{ parent() }}{% endblock %}
+
+{% block content %}
+    <h1 class="ui header">{{ 'setono_sylius_loyalty.ui.loyalty_dashboard'|trans }}</h1>
+
+    <div class="ui four statistics" {{ sylius_test_html_attribute('loyalty-dashboard') }}>
+        <div class="statistic">
+            <div class="value" {{ sylius_test_html_attribute('loyalty-stat-accounts') }}>{{ account_count }}</div>
+            <div class="label">{{ 'setono_sylius_loyalty.ui.loyalty_accounts'|trans }}</div>
+        </div>
+        <div class="statistic">
+            <div class="value" {{ sylius_test_html_attribute('loyalty-stat-outstanding') }}>{{ outstanding_balance }}</div>
+            <div class="label">{{ 'setono_sylius_loyalty.ui.outstanding_points'|trans }}</div>
+        </div>
+        <div class="statistic">
+            <div class="value" {{ sylius_test_html_attribute('loyalty-stat-earned') }}>{{ earned }}</div>
+            <div class="label">{{ 'setono_sylius_loyalty.ui.earned_last_days'|trans({'%days%': window_days}) }}</div>
+        </div>
+        <div class="statistic">
+            <div class="value" {{ sylius_test_html_attribute('loyalty-stat-redeemed') }}>{{ redeemed }}</div>
+            <div class="label">{{ 'setono_sylius_loyalty.ui.redeemed_last_days'|trans({'%days%': window_days}) }}</div>
+        </div>
+    </div>
+
+    <div class="ui segment">
+        <a class="ui labeled icon button" href="{{ path('setono_sylius_loyalty_admin_account_index') }}" {{ sylius_test_html_attribute('loyalty-accounts-link') }}>
+            <i class="star icon"></i>
+            {{ 'setono_sylius_loyalty.ui.loyalty_accounts'|trans }}
+        </a>
+    </div>
+{% endblock %}

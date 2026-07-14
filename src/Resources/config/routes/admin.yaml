@@ -1,3 +1,9 @@
+setono_sylius_loyalty_admin_dashboard:
+    path: ""
+    methods: [GET]
+    defaults:
+        _controller: Setono\SyliusLoyaltyPlugin\Controller\Admin\DashboardAction
+
 setono_sylius_loyalty_admin_account:
     resource: |
         alias: setono_sylius_loyalty.account
