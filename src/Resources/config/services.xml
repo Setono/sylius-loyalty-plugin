@@ -264,5 +264,21 @@
             <argument type="service" id="Setono\SyliusLoyaltyPlugin\Gdpr\CustomerDataExporterInterface" />
             <tag name="console.command" />
         </service>
+
+        <!-- GDPR erasure: permanently removes a customer's accounts + full ledger -->
+        <service id="Setono\SyliusLoyaltyPlugin\Gdpr\LoyaltyDataEraser">
+            <argument type="service" id="doctrine" />
+            <argument type="service" id="setono_sylius_loyalty.repository.account" />
+            <argument>%setono_sylius_loyalty.model.account.class%</argument>
+            <argument>%setono_sylius_loyalty.model.transaction.class%</argument>
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\Gdpr\LoyaltyDataEraserInterface"
+                 alias="Setono\SyliusLoyaltyPlugin\Gdpr\LoyaltyDataEraser" />
+
+        <service id="Setono\SyliusLoyaltyPlugin\Command\EraseCustomerDataCommand">
+            <argument type="service" id="sylius.repository.customer" />
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Gdpr\LoyaltyDataEraserInterface" />
+            <tag name="console.command" />
+        </service>
     </services>
 </container>
