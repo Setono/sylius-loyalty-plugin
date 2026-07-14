@@ -7,7 +7,7 @@ namespace Setono\SyliusLoyaltyPlugin\Earning\Trigger;
 use Setono\SyliusLoyaltyPlugin\Earning\ActionPointsAwarderInterface;
 use Setono\SyliusLoyaltyPlugin\Earning\TriggerChannelResolverInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
-use Sylius\Component\Core\Model\ProductReviewInterface;
+use Sylius\Component\Review\Model\ReviewInterface;
 use Symfony\Component\Workflow\Event\CompletedEvent;
 
 /**
@@ -28,17 +28,17 @@ final class ReviewApprovedStateMachineListener
     public function onWorkflowReviewAccepted(CompletedEvent $event): void
     {
         $subject = $event->getSubject();
-        if ($subject instanceof ProductReviewInterface) {
+        if ($subject instanceof ReviewInterface) {
             $this->award($subject);
         }
     }
 
-    public function onWinzouReviewAccepted(ProductReviewInterface $review): void
+    public function onWinzouReviewAccepted(ReviewInterface $review): void
     {
         $this->award($review);
     }
 
-    private function award(ProductReviewInterface $review): void
+    private function award(ReviewInterface $review): void
     {
         $author = $review->getAuthor();
         if (!$author instanceof CustomerInterface) {

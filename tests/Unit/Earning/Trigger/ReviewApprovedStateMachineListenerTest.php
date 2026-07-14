@@ -12,7 +12,7 @@ use Setono\SyliusLoyaltyPlugin\Earning\Trigger\ReviewApprovedStateMachineListene
 use Setono\SyliusLoyaltyPlugin\Earning\TriggerChannelResolverInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
-use Sylius\Component\Core\Model\ProductReviewInterface;
+use Sylius\Component\Review\Model\ReviewInterface;
 use Symfony\Component\Workflow\Event\CompletedEvent;
 use Symfony\Component\Workflow\Marking;
 
@@ -61,7 +61,7 @@ final class ReviewApprovedStateMachineListenerTest extends TestCase
      */
     public function it_does_nothing_when_the_author_is_not_a_customer(): void
     {
-        $review = $this->prophesize(ProductReviewInterface::class);
+        $review = $this->prophesize(ReviewInterface::class);
         $review->getAuthor()->willReturn(null);
 
         $awarder = $this->prophesize(ActionPointsAwarderInterface::class);
@@ -76,7 +76,7 @@ final class ReviewApprovedStateMachineListenerTest extends TestCase
     }
 
     /**
-     * @return array{ReviewApprovedStateMachineListener, ProductReviewInterface}
+     * @return array{ReviewApprovedStateMachineListener, ReviewInterface}
      */
     private function listenerAwarding(): array
     {
@@ -85,7 +85,7 @@ final class ReviewApprovedStateMachineListenerTest extends TestCase
         $channel->getId()->willReturn(1);
         $channel = $channel->reveal();
 
-        $review = $this->prophesize(ProductReviewInterface::class);
+        $review = $this->prophesize(ReviewInterface::class);
         $review->getAuthor()->willReturn($customer);
         $review->getId()->willReturn(7);
 
