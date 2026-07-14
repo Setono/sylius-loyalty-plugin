@@ -144,6 +144,21 @@
             <tag name="kernel.event_listener" event="workflow.sylius_product_review.completed.accept" method="onWorkflowReviewAccepted" />
         </service>
 
+        <!-- Action trigger: awards the customer_birthday rules to today's birthday customers (a daily cron) -->
+        <service id="Setono\SyliusLoyaltyPlugin\Provider\BirthdayCustomerProvider">
+            <argument type="service" id="doctrine" />
+            <argument>%sylius.model.customer.class%</argument>
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\Provider\BirthdayCustomerProviderInterface"
+                 alias="Setono\SyliusLoyaltyPlugin\Provider\BirthdayCustomerProvider" />
+
+        <service id="Setono\SyliusLoyaltyPlugin\Command\AwardBirthdayPointsCommand">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Provider\BirthdayCustomerProviderInterface" />
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Earning\TriggerChannelResolverInterface" />
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Earning\ActionPointsAwarderInterface" />
+            <tag name="console.command" />
+        </service>
+
         <service id="Setono\SyliusLoyaltyPlugin\Message\Handler\AwardOrderPointsHandler">
             <argument type="service" id="sylius.repository.order" />
             <argument type="service" id="Setono\SyliusLoyaltyPlugin\Earning\OrderPointsAwarderInterface" />
