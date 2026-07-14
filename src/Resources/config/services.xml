@@ -113,8 +113,35 @@
         <!-- Action trigger: awards the customer_registered rules (signup bonus) on registration -->
         <service id="Setono\SyliusLoyaltyPlugin\EventSubscriber\CustomerRegistrationSubscriber">
             <argument type="service" id="Setono\SyliusLoyaltyPlugin\Earning\ActionPointsAwarderInterface" />
-            <argument type="service" id="sylius.context.shopper" />
+            <argument type="service" id="sylius.context.channel" />
             <tag name="kernel.event_subscriber" />
+        </service>
+
+        <!-- Resolves which channels a context-less action trigger awards on. A composite of every tagged
+             resolver, de-duplicated by channel code; a project can tag its own. -->
+        <service id="Setono\SyliusLoyaltyPlugin\Earning\CompositeTriggerChannelResolver" />
+        <service id="Setono\SyliusLoyaltyPlugin\Earning\TriggerChannelResolverInterface"
+                 alias="Setono\SyliusLoyaltyPlugin\Earning\CompositeTriggerChannelResolver" />
+
+        <service id="Setono\SyliusLoyaltyPlugin\Earning\LoyaltyAccountChannelResolver">
+            <argument type="service" id="setono_sylius_loyalty.repository.account" />
+            <tag name="setono_sylius_loyalty.trigger_channel_resolver" priority="30" />
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\Earning\LastOrderChannelResolver">
+            <argument type="service" id="sylius.repository.order" />
+            <tag name="setono_sylius_loyalty.trigger_channel_resolver" priority="20" />
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\Earning\SingleChannelResolver">
+            <argument type="service" id="sylius.repository.channel" />
+            <tag name="setono_sylius_loyalty.trigger_channel_resolver" priority="10" />
+        </service>
+
+        <!-- Action trigger: awards the product_review_approved rules when a review is accepted (both
+             adapters; workflow tag here, winzou callback via the extension's prepend) -->
+        <service id="Setono\SyliusLoyaltyPlugin\Earning\Trigger\ReviewApprovedStateMachineListener" public="true">
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Earning\ActionPointsAwarderInterface" />
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Earning\TriggerChannelResolverInterface" />
+            <tag name="kernel.event_listener" event="workflow.sylius_product_review.completed.accept" method="onWorkflowReviewAccepted" />
         </service>
 
         <service id="Setono\SyliusLoyaltyPlugin\Message\Handler\AwardOrderPointsHandler">

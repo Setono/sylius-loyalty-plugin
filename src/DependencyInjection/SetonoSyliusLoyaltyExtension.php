@@ -6,6 +6,8 @@ namespace Setono\SyliusLoyaltyPlugin\DependencyInjection;
 
 use Setono\SyliusLoyaltyPlugin\Earning\Trigger\AwardOrderPointsStateMachineListener;
 use Setono\SyliusLoyaltyPlugin\Earning\Trigger\ClawbackOrderPointsStateMachineListener;
+use Setono\SyliusLoyaltyPlugin\Earning\Trigger\ReviewApprovedStateMachineListener;
+use Setono\SyliusLoyaltyPlugin\Earning\TriggerChannelResolverInterface;
 use Setono\SyliusLoyaltyPlugin\Redemption\RedemptionStateMachineListener;
 use Setono\SyliusLoyaltyPlugin\Rule\Amount\EarningAmountInterface;
 use Setono\SyliusLoyaltyPlugin\Rule\Condition\EarningConditionInterface;
@@ -13,6 +15,7 @@ use Sylius\Bundle\ResourceBundle\DependencyInjection\Extension\AbstractResourceE
 use Sylius\Bundle\ResourceBundle\SyliusResourceBundle;
 use Sylius\Component\Core\OrderCheckoutTransitions;
 use Sylius\Component\Core\OrderPaymentTransitions;
+use Sylius\Component\Core\ProductReviewTransitions;
 use Sylius\Component\Order\OrderTransitions;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -39,6 +42,8 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
             ->addTag('setono_sylius_loyalty.earning_condition');
         $container->registerForAutoconfiguration(EarningAmountInterface::class)
             ->addTag('setono_sylius_loyalty.earning_amount');
+        $container->registerForAutoconfiguration(TriggerChannelResolverInterface::class)
+            ->addTag('setono_sylius_loyalty.trigger_channel_resolver');
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.xml');
@@ -108,6 +113,7 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
         $award = '@' . AwardOrderPointsStateMachineListener::class;
         $clawback = '@' . ClawbackOrderPointsStateMachineListener::class;
         $redemption = '@' . RedemptionStateMachineListener::class;
+        $reviewAward = '@' . ReviewApprovedStateMachineListener::class;
 
         $container->prependExtensionConfig('winzou_state_machine', [
             OrderPaymentTransitions::GRAPH => [
@@ -153,6 +159,17 @@ final class SetonoSyliusLoyaltyExtension extends AbstractResourceExtension imple
                         'setono_sylius_loyalty_rollback_redemption' => [
                             'on' => [OrderTransitions::TRANSITION_CANCEL],
                             'do' => [$redemption, 'onWinzouOrderCancelled'],
+                            'args' => ['object'],
+                        ],
+                    ],
+                ],
+            ],
+            ProductReviewTransitions::GRAPH => [
+                'callbacks' => [
+                    'after' => [
+                        'setono_sylius_loyalty_award_review_points' => [
+                            'on' => [ProductReviewTransitions::TRANSITION_ACCEPT],
+                            'do' => [$reviewAward, 'onWinzouReviewAccepted'],
                             'args' => ['object'],
                         ],
                     ],

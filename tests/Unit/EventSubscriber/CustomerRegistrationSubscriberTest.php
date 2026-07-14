@@ -8,8 +8,8 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Setono\SyliusLoyaltyPlugin\Earning\ActionPointsAwarderInterface;
 use Setono\SyliusLoyaltyPlugin\EventSubscriber\CustomerRegistrationSubscriber;
+use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Channel\Context\ChannelNotFoundException;
-use Sylius\Component\Core\Context\ShopperContextInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -35,13 +35,13 @@ final class CustomerRegistrationSubscriberTest extends TestCase
         $customer->getId()->willReturn(42);
         $channel = $this->prophesize(ChannelInterface::class)->reveal();
 
-        $shopperContext = $this->prophesize(ShopperContextInterface::class);
-        $shopperContext->getChannel()->willReturn($channel);
+        $channelContext = $this->prophesize(ChannelContextInterface::class);
+        $channelContext->getChannel()->willReturn($channel);
 
         $awarder = $this->prophesize(ActionPointsAwarderInterface::class);
         $awarder->award($customer->reveal(), $channel, 'customer_registered', 'customer_registered:42')->shouldBeCalled();
 
-        $subscriber = new CustomerRegistrationSubscriber($awarder->reveal(), $shopperContext->reveal());
+        $subscriber = new CustomerRegistrationSubscriber($awarder->reveal(), $channelContext->reveal());
         $subscriber->award(new GenericEvent($customer->reveal()));
     }
 
@@ -55,7 +55,7 @@ final class CustomerRegistrationSubscriberTest extends TestCase
 
         $subscriber = new CustomerRegistrationSubscriber(
             $awarder->reveal(),
-            $this->prophesize(ShopperContextInterface::class)->reveal(),
+            $this->prophesize(ChannelContextInterface::class)->reveal(),
         );
         $subscriber->award(new GenericEvent(new \stdClass()));
     }
@@ -67,13 +67,13 @@ final class CustomerRegistrationSubscriberTest extends TestCase
     {
         $customer = $this->prophesize(CustomerInterface::class)->reveal();
 
-        $shopperContext = $this->prophesize(ShopperContextInterface::class);
-        $shopperContext->getChannel()->willReturn($this->prophesize(\Sylius\Component\Channel\Model\ChannelInterface::class)->reveal());
+        $channelContext = $this->prophesize(ChannelContextInterface::class);
+        $channelContext->getChannel()->willReturn($this->prophesize(\Sylius\Component\Channel\Model\ChannelInterface::class)->reveal());
 
         $awarder = $this->prophesize(ActionPointsAwarderInterface::class);
         $awarder->award(\Prophecy\Argument::cetera())->shouldNotBeCalled();
 
-        $subscriber = new CustomerRegistrationSubscriber($awarder->reveal(), $shopperContext->reveal());
+        $subscriber = new CustomerRegistrationSubscriber($awarder->reveal(), $channelContext->reveal());
         $subscriber->award(new GenericEvent($customer));
     }
 
@@ -84,13 +84,13 @@ final class CustomerRegistrationSubscriberTest extends TestCase
     {
         $customer = $this->prophesize(CustomerInterface::class)->reveal();
 
-        $shopperContext = $this->prophesize(ShopperContextInterface::class);
-        $shopperContext->getChannel()->willThrow(new ChannelNotFoundException());
+        $channelContext = $this->prophesize(ChannelContextInterface::class);
+        $channelContext->getChannel()->willThrow(new ChannelNotFoundException());
 
         $awarder = $this->prophesize(ActionPointsAwarderInterface::class);
         $awarder->award(\Prophecy\Argument::cetera())->shouldNotBeCalled();
 
-        $subscriber = new CustomerRegistrationSubscriber($awarder->reveal(), $shopperContext->reveal());
+        $subscriber = new CustomerRegistrationSubscriber($awarder->reveal(), $channelContext->reveal());
         $subscriber->award(new GenericEvent($customer));
     }
 }
