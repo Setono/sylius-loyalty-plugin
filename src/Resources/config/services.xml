@@ -146,7 +146,8 @@
 
         <!-- Action trigger: awards the customer_birthday rules to today's birthday customers (a daily cron) -->
         <service id="Setono\SyliusLoyaltyPlugin\Provider\BirthdayCustomerProvider">
-            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="doctrine" />
+            <argument>%sylius.model.customer.class%</argument>
         </service>
         <service id="Setono\SyliusLoyaltyPlugin\Provider\BirthdayCustomerProviderInterface"
                  alias="Setono\SyliusLoyaltyPlugin\Provider\BirthdayCustomerProvider" />

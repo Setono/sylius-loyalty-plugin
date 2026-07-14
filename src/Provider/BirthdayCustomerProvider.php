@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Setono\SyliusLoyaltyPlugin\Provider;
 
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use Setono\Doctrine\ORMTrait;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Webmozart\Assert\Assert;
 
@@ -15,9 +16,16 @@ use Webmozart\Assert\Assert;
  */
 final class BirthdayCustomerProvider implements BirthdayCustomerProviderInterface
 {
+    use ORMTrait;
+
+    /**
+     * @param class-string<CustomerInterface> $customerClass
+     */
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
+        ManagerRegistry $managerRegistry,
+        private readonly string $customerClass,
     ) {
+        $this->managerRegistry = $managerRegistry;
     }
 
     public function getCustomersWithBirthday(\DateTimeInterface $date): iterable
@@ -25,7 +33,7 @@ final class BirthdayCustomerProvider implements BirthdayCustomerProviderInterfac
         $month = (int) $date->format('n');
         $day = (int) $date->format('j');
 
-        $query = $this->entityManager->getRepository(CustomerInterface::class)
+        $query = $this->getRepository($this->customerClass)
             ->createQueryBuilder('c')
             ->andWhere('c.birthday IS NOT NULL')
             ->getQuery()
