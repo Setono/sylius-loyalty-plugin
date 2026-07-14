@@ -250,5 +250,19 @@
         <service id="Setono\SyliusLoyaltyPlugin\EventSubscriber\AccountMenuSubscriber">
             <tag name="kernel.event_subscriber" />
         </service>
+
+        <!-- GDPR data access: dumps a customer's accounts + full ledger as JSON -->
+        <service id="Setono\SyliusLoyaltyPlugin\Gdpr\CustomerDataExporter">
+            <argument type="service" id="setono_sylius_loyalty.repository.account" />
+            <argument type="service" id="setono_sylius_loyalty.repository.transaction" />
+        </service>
+        <service id="Setono\SyliusLoyaltyPlugin\Gdpr\CustomerDataExporterInterface"
+                 alias="Setono\SyliusLoyaltyPlugin\Gdpr\CustomerDataExporter" />
+
+        <service id="Setono\SyliusLoyaltyPlugin\Command\ExportCustomerDataCommand">
+            <argument type="service" id="sylius.repository.customer" />
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Gdpr\CustomerDataExporterInterface" />
+            <tag name="console.command" />
+        </service>
     </services>
 </container>
