@@ -7,10 +7,12 @@ namespace Setono\SyliusLoyaltyPlugin\Earning;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\OrderCheckoutStates;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 
 /**
- * Resolves the channel of the customer's most recent order.
+ * Resolves the channel of the customer's most recent completed order (a cart carries a channel too, so
+ * we constrain to completed checkouts — an actual order the customer placed on that channel).
  */
 final class LastOrderChannelResolver implements TriggerChannelResolverInterface
 {
@@ -24,7 +26,11 @@ final class LastOrderChannelResolver implements TriggerChannelResolverInterface
 
     public function resolve(CustomerInterface $customer): iterable
     {
-        $orders = $this->orderRepository->findBy(['customer' => $customer], ['id' => 'DESC'], 1);
+        $orders = $this->orderRepository->findBy(
+            ['customer' => $customer, 'checkoutState' => OrderCheckoutStates::STATE_COMPLETED],
+            ['id' => 'DESC'],
+            1,
+        );
         $order = $orders[0] ?? null;
         if (!$order instanceof OrderInterface) {
             return;

@@ -10,6 +10,7 @@ use Setono\SyliusLoyaltyPlugin\Earning\LastOrderChannelResolver;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\OrderCheckoutStates;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 
 final class LastOrderChannelResolverTest extends TestCase
@@ -28,7 +29,7 @@ final class LastOrderChannelResolverTest extends TestCase
         $order->getChannel()->willReturn($channel);
 
         $repository = $this->prophesize(OrderRepositoryInterface::class);
-        $repository->findBy(['customer' => $customer], ['id' => 'DESC'], 1)->willReturn([$order->reveal()]);
+        $repository->findBy(['customer' => $customer, 'checkoutState' => OrderCheckoutStates::STATE_COMPLETED], ['id' => 'DESC'], 1)->willReturn([$order->reveal()]);
 
         $channels = [];
         foreach ((new LastOrderChannelResolver($repository->reveal()))->resolve($customer) as $resolved) {
@@ -46,7 +47,7 @@ final class LastOrderChannelResolverTest extends TestCase
         $customer = $this->prophesize(CustomerInterface::class)->reveal();
 
         $repository = $this->prophesize(OrderRepositoryInterface::class);
-        $repository->findBy(['customer' => $customer], ['id' => 'DESC'], 1)->willReturn([]);
+        $repository->findBy(['customer' => $customer, 'checkoutState' => OrderCheckoutStates::STATE_COMPLETED], ['id' => 'DESC'], 1)->willReturn([]);
 
         $channels = [];
         foreach ((new LastOrderChannelResolver($repository->reveal()))->resolve($customer) as $resolved) {

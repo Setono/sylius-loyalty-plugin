@@ -125,15 +125,15 @@
 
         <service id="Setono\SyliusLoyaltyPlugin\Earning\LoyaltyAccountChannelResolver">
             <argument type="service" id="setono_sylius_loyalty.repository.account" />
-            <tag name="setono_sylius_loyalty.trigger_channel_resolver" />
+            <tag name="setono_sylius_loyalty.trigger_channel_resolver" priority="30" />
         </service>
         <service id="Setono\SyliusLoyaltyPlugin\Earning\LastOrderChannelResolver">
             <argument type="service" id="sylius.repository.order" />
-            <tag name="setono_sylius_loyalty.trigger_channel_resolver" />
+            <tag name="setono_sylius_loyalty.trigger_channel_resolver" priority="20" />
         </service>
         <service id="Setono\SyliusLoyaltyPlugin\Earning\SingleChannelResolver">
             <argument type="service" id="sylius.repository.channel" />
-            <tag name="setono_sylius_loyalty.trigger_channel_resolver" />
+            <tag name="setono_sylius_loyalty.trigger_channel_resolver" priority="10" />
         </service>
 
         <!-- Action trigger: awards the product_review_approved rules when a review is accepted (both
