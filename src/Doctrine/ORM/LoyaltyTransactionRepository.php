@@ -30,6 +30,23 @@ class LoyaltyTransactionRepository extends EntityRepository implements LoyaltyTr
         return array_values($transactions);
     }
 
+    public function findByAccount(LoyaltyAccountInterface $account): array
+    {
+        $transactions = $this->createQueryBuilder('t')
+            ->andWhere('t.account = :account')
+            ->setParameter('account', $account)
+            ->orderBy('t.occurredAt', 'ASC')
+            ->addOrderBy('t.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+
+        Assert::isArray($transactions);
+        Assert::allIsInstanceOf($transactions, LoyaltyTransactionInterface::class);
+
+        return array_values($transactions);
+    }
+
     public function countByAccount(LoyaltyAccountInterface $account): int
     {
         $count = $this->createQueryBuilder('t')
