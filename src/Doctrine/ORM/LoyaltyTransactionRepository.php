@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Setono\SyliusLoyaltyPlugin\Doctrine\ORM;
 
+use Setono\SyliusLoyaltyPlugin\Model\EarnActionLoyaltyTransaction;
+use Setono\SyliusLoyaltyPlugin\Model\EarnOrderLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyAccountInterface;
 use Setono\SyliusLoyaltyPlugin\Model\LoyaltyTransactionInterface;
+use Setono\SyliusLoyaltyPlugin\Model\RedeemLoyaltyTransaction;
 use Setono\SyliusLoyaltyPlugin\Repository\LoyaltyTransactionRepositoryInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Webmozart\Assert\Assert;
@@ -60,5 +63,42 @@ class LoyaltyTransactionRepository extends EntityRepository implements LoyaltyTr
         Assert::integerish($count);
 
         return (int) $count;
+    }
+
+    public function sumEarnedSince(\DateTimeInterface $since): int
+    {
+        $qb = $this->createQueryBuilder('t');
+        $sum = $qb
+            ->select('COALESCE(SUM(t.points), 0)')
+            ->andWhere($qb->expr()->orX(
+                't INSTANCE OF ' . EarnOrderLoyaltyTransaction::class,
+                't INSTANCE OF ' . EarnActionLoyaltyTransaction::class,
+            ))
+            ->andWhere('t.occurredAt >= :since')
+            ->setParameter('since', $since)
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+
+        Assert::integerish($sum);
+
+        return (int) $sum;
+    }
+
+    public function sumRedeemedSince(\DateTimeInterface $since): int
+    {
+        $sum = $this->createQueryBuilder('t')
+            ->select('COALESCE(SUM(t.points), 0)')
+            ->andWhere('t INSTANCE OF ' . RedeemLoyaltyTransaction::class)
+            ->andWhere('t.occurredAt >= :since')
+            ->setParameter('since', $since)
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+
+        Assert::integerish($sum);
+
+        // Redemptions are stored as negative debits; report the redeemed amount as a positive number.
+        return -1 * (int) $sum;
     }
 }

@@ -258,6 +258,17 @@
             <tag name="sylius.grid" />
         </service>
 
+        <!-- Admin loyalty dashboard: Phase 1 stats + the single "Loyalty" Marketing menu entry -->
+        <service id="Setono\SyliusLoyaltyPlugin\EventSubscriber\AdminMenuSubscriber">
+            <tag name="kernel.event_subscriber" />
+        </service>
+
+        <service id="Setono\SyliusLoyaltyPlugin\Controller\Admin\DashboardAction" public="true">
+            <argument type="service" id="setono_sylius_loyalty.repository.account" />
+            <argument type="service" id="Setono\SyliusLoyaltyPlugin\Repository\LoyaltyTransactionRepositoryInterface" />
+            <argument type="service" id="twig" />
+        </service>
+
         <!-- Admin ledger inspector: account summary + FIFO lot state + invariant check + full ledger -->
         <service id="Setono\SyliusLoyaltyPlugin\Controller\Admin\ShowLoyaltyAccountAction" public="true">
             <argument type="service" id="setono_sylius_loyalty.repository.account" />

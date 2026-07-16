@@ -28,4 +28,14 @@ interface LoyaltyAccountRepositoryInterface extends RepositoryInterface
      * @return list<LoyaltyAccountInterface>
      */
     public function findWithLotsExpiringAtOrBefore(\DateTimeInterface $asOf): array;
+
+    /**
+     * The total number of loyalty accounts.
+     */
+    public function countAll(): int;
+
+    /**
+     * The sum of every account's cached balance — the program's outstanding points liability.
+     */
+    public function sumBalances(): int;
 }

@@ -51,4 +51,30 @@ class LoyaltyAccountRepository extends EntityRepository implements LoyaltyAccoun
 
         return array_values($accounts);
     }
+
+    public function countAll(): int
+    {
+        $count = $this->createQueryBuilder('account')
+            ->select('COUNT(account.id)')
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+
+        Assert::integerish($count);
+
+        return (int) $count;
+    }
+
+    public function sumBalances(): int
+    {
+        $sum = $this->createQueryBuilder('account')
+            ->select('COALESCE(SUM(account.balance), 0)')
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+
+        Assert::integerish($sum);
+
+        return (int) $sum;
+    }
 }

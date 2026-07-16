@@ -28,4 +28,14 @@ interface LoyaltyTransactionRepositoryInterface extends RepositoryInterface
     public function findByAccount(LoyaltyAccountInterface $account): array;
 
     public function countByAccount(LoyaltyAccountInterface $account): int;
+
+    /**
+     * The points earned (order + action credits) at or after $since — for admin reporting.
+     */
+    public function sumEarnedSince(\DateTimeInterface $since): int;
+
+    /**
+     * The points redeemed (as a positive number) at or after $since — for admin reporting.
+     */
+    public function sumRedeemedSince(\DateTimeInterface $since): int;
 }

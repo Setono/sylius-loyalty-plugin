@@ -5,8 +5,13 @@ setono_sylius_loyalty:
     ui:
         apply_points: 'Apply points'
         my_loyalty: 'My loyalty'
+        loyalty: 'Loyalty'
+        loyalty_dashboard: 'Loyalty dashboard'
         loyalty_accounts: 'Loyalty accounts'
         manage_loyalty_accounts: 'Manage loyalty accounts'
+        outstanding_points: 'Outstanding points'
+        earned_last_days: 'Earned (last %days% days)'
+        redeemed_last_days: 'Redeemed (last %days% days)'
         loyalty_account: 'Loyalty account'
         balance: 'Balance'
         current_balance: 'Current balance'
