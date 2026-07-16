@@ -13,8 +13,82 @@ hand-edited) and is delivered in three phases: **points core + rule engine**, **
 the adjustment system for redemption, state-machine callbacks, and shop template events — and is
 channel-aware (one loyalty account per customer per channel).
 
-> **Status:** under active development; no release is tagged yet. Detailed installation instructions
-> (order entity extension, schema diffing, cron commands) are added as the relevant features land.
+> **Status:** under active development; no release is tagged yet. Phase 1 (points core, rule engine,
+> redemption, expiry, clawback, and the first admin screens) is landing incrementally.
+
+## Installation
+
+1. Require the plugin:
+    ```bash
+    composer require setono/sylius-loyalty-plugin
+    ```
+
+2. Register the bundle in `config/bundles.php`:
+    ```php
+    Setono\SyliusLoyaltyPlugin\SetonoSyliusLoyaltyPlugin::class => ['all' => true],
+    ```
+
+3. Import the routing in `config/routes/setono_sylius_loyalty.yaml`:
+    ```yaml
+    setono_sylius_loyalty:
+        resource: "@SetonoSyliusLoyaltyPlugin/Resources/config/routes.yaml"
+    ```
+    This adds the admin screens (under `/admin/loyalty`) and the shop "My loyalty" page (under `/{_locale}`).
+
+4. **Extend the order for redemption.** Redemption records the points a customer wants to spend on the
+   order, so the order entity gets a `loyaltyPointsRequested` column. Add the trait and interface to your
+   order class:
+    ```php
+    // src/Entity/Order/Order.php
+    namespace App\Entity\Order;
+
+    use Doctrine\ORM\Mapping as ORM;
+    use Setono\SyliusLoyaltyPlugin\Model\OrderInterface as LoyaltyOrderInterface;
+    use Setono\SyliusLoyaltyPlugin\Model\OrderTrait as LoyaltyOrderTrait;
+    use Sylius\Component\Core\Model\Order as BaseOrder;
+
+    #[ORM\Entity]
+    #[ORM\Table(name: 'sylius_order')]
+    class Order extends BaseOrder implements LoyaltyOrderInterface
+    {
+        use LoyaltyOrderTrait;
+    }
+    ```
+    and point Sylius at it:
+    ```yaml
+    # config/packages/_sylius.yaml
+    sylius_order:
+        resources:
+            order:
+                classes:
+                    model: App\Entity\Order\Order
+    ```
+
+5. **Update the database schema.** The plugin ships Doctrine mappings but no migrations, so generate one
+   against your own schema and run it:
+    ```bash
+    bin/console doctrine:migrations:diff
+    bin/console doctrine:migrations:migrate
+    ```
+
+## Console commands
+
+Run these on a schedule (e.g. cron) to keep the ledger current:
+
+| Command | What it does | Suggested cadence |
+| --- | --- | --- |
+| `setono:loyalty:expire-points` | Writes an expire row for every lot whose expiry has passed | daily |
+| `setono:loyalty:award-birthday-points` | Awards the `customer_birthday` earning rules to customers whose birthday is today | daily |
+
+## Admin
+
+A single **Loyalty** entry under the **Marketing** menu opens the loyalty **dashboard** — account count,
+outstanding points liability, and points earned/redeemed in the last 30 days — from which you navigate to:
+
+- **Loyalty accounts** — a grid of accounts (customer, channel, balance, lifetime earned, status),
+  filterable by customer, channel and status. Each row opens a **ledger inspector**: the account summary,
+  the FIFO lot state, an invariant check that the cached balance matches the ledger replay, and the full
+  ledger history.
 
 ## Contributing / local development
 
