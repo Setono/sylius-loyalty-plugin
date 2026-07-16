@@ -5,6 +5,9 @@ setono_sylius_loyalty:
     ui:
         apply_points: 'Apply points'
         my_loyalty: 'My loyalty'
+        loyalty_accounts: 'Loyalty accounts'
+        manage_loyalty_accounts: 'Manage loyalty accounts'
+        balance: 'Balance'
         current_balance: 'Current balance'
         lifetime_earned: 'Lifetime earned'
         transaction_history: 'Transaction history'

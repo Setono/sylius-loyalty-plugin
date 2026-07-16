@@ -6,4 +6,4 @@ setono_sylius_loyalty_shop:
 
 setono_sylius_loyalty_admin:
     resource: "@SetonoSyliusLoyaltyPlugin/Resources/config/routes/admin.yaml"
-    prefix: /admin
+    prefix: /admin/loyalty
